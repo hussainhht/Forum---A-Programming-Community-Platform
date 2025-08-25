@@ -6,14 +6,8 @@ import (
 	"net/http"
 )
 
-type Post struct {
-	ID      int
-	Title   string
-	Content string
-	Author  string
-}
-
-func HomeHandler(w http.ResponseWriter, r *http.Request, tmpl *template.Template) {
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseGlob("templates/*.html"))
 	rows, err := database.DB.Query(`
             SELECT posts.id, posts.title, posts.content, users.username
             FROM posts
