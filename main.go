@@ -3,7 +3,6 @@ package main
 import (
 	"forum/database"
 	"forum/handlers"
-	"html/template"
 	"log"
 	"net/http"
 )
@@ -12,12 +11,8 @@ func main() {
 	// Initialize DB
 	database.InitDB()
 
-	tmpl := template.Must(template.ParseGlob("templates/*.html"))
-
 	// Routes
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		handlers.HomeHandler(w, r, tmpl)
-	})
+	http.HandleFunc("/", handlers.HomeHandler)
 
 	// Start server
 	log.Println("Server running at http://localhost:7777")
