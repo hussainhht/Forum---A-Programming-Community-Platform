@@ -19,8 +19,8 @@ func main() {
 
 
 	// Start server
-	log.Println("Server running at http://localhost:8080")
-	err := http.ListenAndServe(":8080", nil)
+	log.Println("Server running at http://localhost:7777")
+	err := http.ListenAndServe(":7777", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
