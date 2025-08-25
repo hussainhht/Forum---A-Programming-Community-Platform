@@ -1,45 +1,43 @@
 package handlers
 
 import (
-    "forum/database"
-    "html/template"
-    "net/http"
+	"forum/database"
+	"html/template"
+	"net/http"
 )
 
 type Post struct {
-    ID      int
-    Title   string
-    Content string
-    Author  string
+	ID      int
+	Title   string
+	Content string
+	Author  string
 }
 
-func HomeHandler(tmpl *template.Template) http.HandlerFunc {
-    return func(w http.ResponseWriter, r *http.Request) {
-        rows, err := database.DB.Query(`
+func HomeHandler(w http.ResponseWriter, r *http.Request, tmpl *template.Template) {
+	rows, err := database.DB.Query(`
             SELECT posts.id, posts.title, posts.content, users.username
             FROM posts
             JOIN users ON posts.user_id = users.id
             ORDER BY posts.id DESC
         `)
-        if err != nil {
-            http.Error(w, "Error fetching posts", http.StatusInternalServerError)
-            return
-        }
-        defer rows.Close()
+	if err != nil {
+		http.Error(w, "Error fetching posts", http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
 
-        var posts []Post
-        for rows.Next() {
-            var p Post
-            if err := rows.Scan(&p.ID, &p.Title, &p.Content, &p.Author); err != nil {
-                http.Error(w, "Error reading posts", http.StatusInternalServerError)
-                return
-            }
-            posts = append(posts, p)
-        }
+	var posts []Post
+	for rows.Next() {
+		var p Post
+		if err := rows.Scan(&p.ID, &p.Title, &p.Content, &p.Author); err != nil {
+			http.Error(w, "Error reading posts", http.StatusInternalServerError)
+			return
+		}
+		posts = append(posts, p)
+	}
 
-        err = tmpl.ExecuteTemplate(w, "home.html", posts)
-        if err != nil {
-            http.Error(w, err.Error(), http.StatusInternalServerError)
-        }
-    }
+	err = tmpl.ExecuteTemplate(w, "home.html", posts)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
