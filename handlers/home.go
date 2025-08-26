@@ -9,7 +9,9 @@ import (
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	// backend.InsertUser()
-
+	if r.URL.Path != "/" {
+		return
+	}
 	tmpl := template.Must(template.ParseGlob("templates/*.html"))
 	rows, err := database.DB.Query(`
             SELECT posts.id, posts.title, posts.content, users.username

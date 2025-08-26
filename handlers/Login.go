@@ -3,14 +3,21 @@ package handlers
 import (
 	"database/sql"
 	"fmt"
+	"html/template"
 	"net/http"
 	"strings"
 )
 
-func LoginHandler(w http.ResponseWriter, r *http.Request , db *sql.DB) {
+func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+
+	template, err := template.ParseFiles("./templates/login.html")
+	if err != nil {
+		http.Error(w, "Error loading template", http.StatusInternalServerError)
+		return
+	}
 
 	if r.Method == http.MethodGet {
-		http.ServeFile(w, r, "./temblats/login.html")
+		template.Execute(w, nil)
 		return
 	}
 
