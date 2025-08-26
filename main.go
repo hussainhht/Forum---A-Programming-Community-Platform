@@ -11,6 +11,7 @@ func main() {
 	// Initialize DB
 	database.InitDB()
 
+	handlers.ServeFiles()
 	// Routes
 	http.HandleFunc("/", handlers.HomeHandler)
 
