@@ -5,11 +5,16 @@ import (
 	"forum/handlers"
 	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
 	// Initialize DB
 	database.InitDB()
+	if err := database.ImportUsersCSV(database.DB, "users.csv"); err != nil {
+		log.Println("initial import error:", err)
+	}
+	database.AutoSyncCSVToDB("users.csv", 2*time.Second)
 
 	handlers.ServeFiles()
 	// Routes
@@ -23,6 +28,10 @@ func main() {
 
 	http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		handlers.RegisterHandler(w, r, database.DB)
+		if err := database.ExportUsersCSV(database.DB, "users.csv"); err != nil {
+			log.Println("export users.csv error:", err)
+		}
+
 	})
 
 	// Start server

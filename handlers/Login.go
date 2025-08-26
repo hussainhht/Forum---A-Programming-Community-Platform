@@ -6,6 +6,8 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -31,7 +33,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			email,
 		).Scan(&storedPassword)
 
-		if err != nil || password != storedPassword {
+		if err != nil {
+			http.Error(w, "Invalid email or password", http.StatusUnauthorized)
+			return
+		}
+
+		// compare plain password with the hash
+		compareErr := bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+		if compareErr != nil {
 			http.Error(w, "Invalid email or password", http.StatusUnauthorized)
 			return
 		}
