@@ -14,7 +14,8 @@ func Migrate() {
 	// Read migrations folder
 	files, err := os.ReadDir("./migrations")
 	if err != nil {
-		log.Fatal("Could not read migrations folder:", err)
+		log.Printf("Could not read migrations folder: %v", err)
+		return
 	}
 
 	// Collect .sql files
@@ -39,24 +40,28 @@ func Migrate() {
 				// Run it without checking history
 				sqlBytes, readErr := os.ReadFile(filepath.Join("./migrations", file))
 				if readErr != nil {
-					log.Fatalf("Failed to read migration %s: %v", file, readErr)
+					log.Printf("Failed to read migration %s: %v", file, readErr)
+					return
 				}
 				sqlText := string(sqlBytes)
 
 				_, execErr := DB.Exec(sqlText)
 				if execErr != nil {
-					log.Fatalf("Failed to execute migration %s: %v", file, execErr)
+					log.Printf("Failed to execute migration %s: %v", file, execErr)
+					return
 				}
 
 				fmt.Println("✅ Applied bootstrap migration:", file)
 				// Now insert it into the history table
 				_, insertErr := DB.Exec("INSERT INTO migration_history (filename) VALUES (?)", file)
 				if insertErr != nil {
-					log.Fatalf("Failed to update migration history for %s: %v", file, insertErr)
+					log.Printf("Failed to update migration history for %s: %v", file, insertErr)
+					return
 				}
 				continue
 			}
-			log.Fatal("Failed checking migration history:", err)
+			log.Printf("Failed checking migration history:", err)
+			return
 		}
 
 		if exists > 0 {
@@ -66,20 +71,23 @@ func Migrate() {
 		// Read SQL file
 		sqlBytes, err := os.ReadFile(filepath.Join("./migrations", file))
 		if err != nil {
-			log.Fatalf("Failed to read migration %s: %v", file, err)
+			log.Printf("Failed to read migration %s: %v", file, err)
+			return
 		}
 		sqlText := string(sqlBytes)
 
 		// Execute migration
 		_, err = DB.Exec(sqlText)
 		if err != nil {
-			log.Fatalf("Failed to execute migration %s: %v", file, err)
+			log.Printf("Failed to execute migration %s: %v", file, err)
+			return
 		}
 
 		// Record in migration history
 		_, err = DB.Exec("INSERT INTO migration_history (filename) VALUES (?)", file)
 		if err != nil {
-			log.Fatalf("Failed to update migration history for %s: %v", file, err)
+			log.Printf("Failed to update migration history for %s: %v", file, err)
+			return
 		}
 
 		fmt.Println("✅ Applied migration:", file)
