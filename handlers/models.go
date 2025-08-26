@@ -1,14 +1,40 @@
 package handlers
 
+import "time"
+
 type Post struct {
-	ID      int
-	Title   string
-	Content string
-	Author  string
+	ID         int
+	UserID     int // FK to User
+	CategoryID int // FK to Category
+	Title      string
+	Content    string
+	CreatedAt  time.Time
 }
 
 type User struct {
-	ID       int
-	Username string
-	Password string
+	ID        int
+	Username  string
+	Email     string
+	CreatedAt time.Time
+}
+
+type Comment struct {
+	ID        int
+	PostID    int // FK to Post
+	UserID    int // FK to User
+	Content   string
+	CreatedAt time.Time
+}
+
+type Reaction struct {
+	ID     int
+	PostID int  // FK to Post
+	UserID int  // FK to User
+	Type   bool // 0: dislike, 1: like
+}
+
+type Category struct {
+	ID         int
+	PostID     int // FK to Post
+	CategoryID int // FK to Category
 }

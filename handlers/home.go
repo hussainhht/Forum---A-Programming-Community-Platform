@@ -7,6 +7,7 @@ import (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	
 	tmpl := template.Must(template.ParseGlob("templates/*.html"))
 	rows, err := database.DB.Query(`
             SELECT posts.id, posts.title, posts.content, users.username
@@ -35,3 +36,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
+
+func ServeFiles() {
+	cssFS := http.FileServer(http.Dir("./static/css"))
+	http.Handle("/css/", http.StripPrefix("/css/", cssFS))
+}
+

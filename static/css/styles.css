@@ -1,0 +1,33 @@
+body {
+    font-family: conso;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+#mainContainer {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    background-color: rgb(232, 250, 246);
+    height: 100%;
+}
+
+.navbar-item {
+    margin-top: 12px;
+    text-decoration: none;
+    color: #333;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+}
