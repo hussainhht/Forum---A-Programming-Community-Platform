@@ -1,12 +1,14 @@
 package handlers
 
 import (
+	_ "forum/backend"
 	"forum/database"
 	"html/template"
 	"net/http"
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	// backend.InsertUser()
 
 	tmpl := template.Must(template.ParseGlob("templates/*.html"))
 	rows, err := database.DB.Query(`
@@ -35,10 +37,10 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+	
 }
 
 func ServeFiles() {
 	cssFS := http.FileServer(http.Dir("./static/css"))
 	http.Handle("/css/", http.StripPrefix("/css/", cssFS))
 }
-
