@@ -12,7 +12,6 @@ func IsValidPassword(pw string) bool {
 	if len(pw) < 8 {
 		return false
 	}
-	
 
 	var hasUpper, hasLower, hasDigit, hasSpecial bool
 	for _, ch := range pw {
