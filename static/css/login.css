@@ -8,6 +8,7 @@
   flex-direction: column;
   gap: 15px;
   margin: auto;
+  margin-top: 25vh;
 }
 
 .login-header {
