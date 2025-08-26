@@ -7,7 +7,7 @@ import (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	
+
 	tmpl := template.Must(template.ParseGlob("templates/*.html"))
 	rows, err := database.DB.Query(`
             SELECT posts.id, posts.title, posts.content, users.username
@@ -24,7 +24,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	var posts []Post
 	for rows.Next() {
 		var p Post
-		if err := rows.Scan(&p.ID, &p.Title, &p.Content, &p.Author); err != nil {
+		if err := rows.Scan(&p.ID, &p.Title, &p.Content); err != nil {
 			http.Error(w, "Error reading posts", http.StatusInternalServerError)
 			return
 		}
