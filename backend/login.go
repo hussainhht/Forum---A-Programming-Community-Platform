@@ -2,7 +2,6 @@ package backend
 
 import (
 	"database/sql"
-	"fmt"
 	"forum/database"
 	"html/template"
 	"net/http"
@@ -27,6 +26,8 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	}
 
 	if r.Method == http.MethodPost {
+
+	
 		email := strings.TrimSpace(strings.ToLower(r.FormValue("email")))
 		password := r.FormValue("password")
 
@@ -50,7 +51,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		}
 
 		// Delete any existing sessions for this user
-   	 	_, _ = db.Exec("DELETE FROM sessions WHERE user_id = ?", userID)
+		_, _ = db.Exec("DELETE FROM sessions WHERE user_id = ?", userID)
 
 		sessionID := GenerateSessionID()
 		// Pass an absolute expiration time instead of a duration
@@ -67,7 +68,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			MaxAge:   86400, // 1 day
 		})
 
-		fmt.Fprintf(w, "✅ Login successful! Welcome %s", email)
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 
 	}
 
