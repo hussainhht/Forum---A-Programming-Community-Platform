@@ -14,7 +14,12 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		return
 	}
-	tmpl := template.Must(template.ParseGlob("templates/*.html"))
+	tmpl , err:= template.ParseFiles("templates/home.html")
+	if err != nil {
+		http.Error(w, "Error loading template", http.StatusInternalServerError)
+		return
+	}
+
 	rows, err := database.DB.Query(`
             SELECT posts.id, posts.title, posts.content, users.username
             FROM posts
@@ -37,7 +42,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		posts = append(posts, p)
 	}
 
-	err = tmpl.ExecuteTemplate(w, "home.html", posts)
+	err = tmpl.Execute(w, posts)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
