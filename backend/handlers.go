@@ -3,7 +3,7 @@ package backend
 import (
 	"database/sql"
 	"fmt"
-	"forum/database"
+	// "forum/database"
 	"html/template"
 	"net/http"
 	"strings"
@@ -18,32 +18,32 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tmpl := template.Must(template.ParseGlob("templates/*.html"))
-	rows, err := database.DB.Query(`
-            SELECT posts.id, posts.title, posts.content, users.username
-            FROM posts
-            JOIN users ON posts.user_id = users.id
-            ORDER BY posts.id DESC
-        `)
-	if err != nil {
-		http.Error(w, "Error fetching posts", http.StatusInternalServerError)
-		return
-	}
-	defer rows.Close()
+	// rows, err := database.DB.Query(`
+    //         SELECT posts.id, posts.title, posts.content, users.username
+    //         FROM posts
+    //         JOIN users ON posts.user_id = users.id
+    //         ORDER BY posts.id DESC
+    //     `)
+	// if err != nil {
+	// 	http.Error(w, "Error fetching posts", http.StatusInternalServerError)
+	// 	return
+	// }
+	// defer rows.Close()
 
-	var posts []Post
-	for rows.Next() {
-		var p Post
-		if err := rows.Scan(&p.ID, &p.Title, &p.Content); err != nil {
-			http.Error(w, "Error reading posts", http.StatusInternalServerError)
-			return
-		}
-		posts = append(posts, p)
-	}
+	// var posts []Post
+	// for rows.Next() {
+	// 	var p Post
+	// 	if err := rows.Scan(&p.ID, &p.Title, &p.Content); err != nil {
+	// 		http.Error(w, "Error reading posts", http.StatusInternalServerError)
+	// 		return
+	// 	}
+	// 	posts = append(posts, p)
+	// }
 
-	err = tmpl.ExecuteTemplate(w, "home.html", posts)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	_ = tmpl.ExecuteTemplate(w, "home.html", nil)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// }
 
 }
 
