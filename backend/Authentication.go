@@ -1,8 +1,7 @@
-package handlers
+package backend
 
 import (
 	"regexp"
-	_ "strings"
 	"unicode"
 )
 

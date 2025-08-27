@@ -3,6 +3,8 @@ package database
 import (
 	"database/sql"
 	"log"
+	"time"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -24,6 +26,17 @@ func InitDB() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	Migrate()
+}
+
+func InsertPost(title, content string, userID int, categoryID int, createdAt time.Time) {
+	insertPost := `INSERT INTO posts (title, content, user_id, category_id, created_at) VALUES (?, ?, ?, ?, ?)`
+	_, err := DB.Exec(insertPost, title, content, userID, categoryID, createdAt)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func ReadPost() {
+
 }
