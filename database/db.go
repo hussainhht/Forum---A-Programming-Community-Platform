@@ -40,3 +40,4 @@ func InsertPost(title, content string, userID int, categoryID int, createdAt tim
 func ReadPost() {
 
 }
+

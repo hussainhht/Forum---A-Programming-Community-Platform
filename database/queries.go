@@ -1,7 +1,9 @@
 package database
 
 import (
+	"database/sql"
 	"errors"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
@@ -48,5 +50,28 @@ func InsertReaction(userID, postID int, reactionType string) error {
 	}
 	query := `INSERT INTO reactions (user_id, post_id, reaction_type) VALUES (?, ?, ?)`
 	_, err := DB.Exec(query, userID, postID, reactionType)
+	return err
+}
+
+func CreateSession(db *sql.DB, userID int, sessionID string, expiresAt time.Time) error {
+	query := `INSERT INTO sessions (id, user_id, expires_at) VALUES (?, ?, ?)`
+	_, err := db.Exec(query, sessionID, userID, expiresAt)
+	return err
+}
+
+func GetUserBySession(db *sql.DB, sessionID string) (int, error) {
+	var userID int
+	var expires string
+	err := db.QueryRow(`SELECT user_id, expires_at FROM sessions WHERE id = ?`, sessionID).
+		Scan(&userID, &expires)
+	if err != nil {
+		return 0, err
+	}
+	// TODO: Check if session is expired
+	return userID, nil
+}
+
+func DeleteSession(db *sql.DB, sessionID string) error {
+	_, err := db.Exec(`DELETE FROM sessions WHERE id = ?`, sessionID)
 	return err
 }
