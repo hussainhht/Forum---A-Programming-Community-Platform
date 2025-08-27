@@ -120,6 +120,12 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			return
 		}
 
+		ok := database.InsertUser(username, email, password)
+		if ok != nil {
+			http.Error(w, "Failed to create account", http.StatusInternalServerError)
+			return
+		}
+
 		// Insert new user into database
 		_, err = db.Exec(
 			"INSERT INTO users (username, email, password) VALUES (?, ?, ?)",

@@ -7,13 +7,6 @@ import (
 	"time"
 )
 
-// func InsertUser() {
-// 	insertUser := `INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, ?)`
-// 	_, err := database.DB.Exec(insertUser, "Bader", "emaillsdalsdal", "hashedpassword", "2023-10-01 10:00:00")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// }
 
 func InsertPost(title, content string, userID int, categoryID int, createdAt time.Time) {
 	insertPost := `INSERT INTO posts (title, content, user_id, category_id, created_at) VALUES (?, ?, ?, ?, ?)`
