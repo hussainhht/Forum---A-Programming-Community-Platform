@@ -49,6 +49,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			return
 		}
 
+		// Delete any existing sessions for this user
+   	 	_, _ = db.Exec("DELETE FROM sessions WHERE user_id = ?", userID)
+
 		sessionID := GenerateSessionID()
 		// Pass an absolute expiration time instead of a duration
 		if err = database.CreateSession(db, userID, sessionID, time.Now().Add(24*time.Hour)); err != nil {
