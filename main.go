@@ -5,16 +5,11 @@ import (
 	"forum/database"
 	"log"
 	"net/http"
-	"time"
 )
 
 func main() {
 	// Initialize DB
 	database.InitDB()
-	if err := database.ImportUsersCSV(database.DB, "users.csv"); err != nil {
-		log.Println("initial import error:", err)
-	}
-	database.AutoSyncCSVToDB("users.csv", 2*time.Second)
 
 	backend.ServeFiles()
 	// Routes
