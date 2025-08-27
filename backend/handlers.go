@@ -180,12 +180,18 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 	if r.Method == http.MethodPost {
 		// Handle form submission
-		// get session_id
-		sessionID := r.Context().Value("session_id").(string)
+		// get session_id from cookie
+		cookie, err := r.Cookie("session_id")
+		if err != nil {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+		sessionID := cookie.Value
+
 		// get user from sessionid in db
 		var userID int
-		err := db.QueryRow("SELECT user_id FROM sessions WHERE session_id = ?", sessionID).Scan(&userID)
-		if err != nil {
+		row := db.QueryRow("SELECT user_id FROM sessions WHERE session_id = ?", sessionID).Scan(&userID)
+		if row == nil {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
