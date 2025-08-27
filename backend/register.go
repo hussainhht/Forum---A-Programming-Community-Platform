@@ -2,7 +2,6 @@ package backend
 
 import (
 	"database/sql"
-	"fmt"
 	"forum/database"
 	"net/http"
 	"strings"
@@ -96,6 +95,6 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		}
 
 		// Success response
-		fmt.Fprintf(w, "✅ Registration successful! Welcome %s. You can now <a href='/login'>login here</a>.", username)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 	}
 }
