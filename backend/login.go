@@ -51,6 +51,8 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 		// Delete any existing sessions for this user
    	 	_, _ = db.Exec("DELETE FROM sessions WHERE user_id = ?", userID)
+		// Remove all records from the table called sessions where the column user_id matches a certain value
+		// table called sessions // column user_id // ? is a placeholder for the value userID
 
 		sessionID := GenerateSessionID()
 		// Pass an absolute expiration time instead of a duration
