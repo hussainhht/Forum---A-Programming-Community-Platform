@@ -27,7 +27,6 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 	if r.Method == http.MethodPost {
 
-	
 		email := strings.TrimSpace(strings.ToLower(r.FormValue("email")))
 		password := r.FormValue("password")
 
