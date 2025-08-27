@@ -62,7 +62,6 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-
 func CreatePostHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	template, err := template.ParseFiles("./templates/createpost.html")
 	if err != nil {
@@ -112,8 +111,8 @@ func CreatePostHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 		// get user from sessionid in db
 		var userID int
-		row := db.QueryRow("SELECT user_id FROM sessions WHERE session_id = ?", sessionID).Scan(&userID)
-		if row == nil {
+		queryErr := db.QueryRow("SELECT user_id FROM sessions WHERE session_id = ?", sessionID).Scan(&userID)
+		if queryErr != nil {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
