@@ -16,36 +16,17 @@
         <label for="content">Content:</label>
         <textarea id="content" name="content" required></textarea>
 
-        <label for="category">pick related categories:</label>
-        <div>
-            <input type="checkbox" id="html" name="category" value="1">
-            <label for="html">HTML</label>
+        <div class="categories-container">
+            <h3>Categories:</h3>
+            <div class="checkbox-group">
+                {{range .}}
+                <div class="checkbox-item">
+                    <input type="checkbox" name="category" id="category-{{.ID}}" value="{{.ID}}">
+                    <label for="category-{{.ID}}">{{.Name}}</label>
+                </div>
+                {{end}}
+            </div>
         </div>
-        <div>
-            <input type="checkbox" id="css" name="category" value="2">
-            <label for="css">CSS</label>
-        </div>
-        <div>
-            <input type="checkbox" id="java" name="category" value="3">
-            <label for="java">Java</label>
-        </div>
-        <div>
-            <input type="checkbox" id="python" name="category" value="4">
-            <label for="python">Python</label>
-        </div>
-        <div>
-            <input type="checkbox" id="javascript" name="category" value="5">
-            <label for="javascript">JavaScript</label>
-        </div>
-        <div>
-            <input type="checkbox" id="golang" name="category" value="6">
-            <label for="golang">Golang</label>
-        </div>
-        <div>
-            <input type="checkbox" id="cpp" name="category" value="7">
-            <label for="cpp">C++</label>
-        </div>
-
         <button type="submit">Create Post</button>
     </form>
 </body>
