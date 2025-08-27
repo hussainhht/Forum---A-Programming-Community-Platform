@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -171,4 +172,44 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 	}
 
+}
+
+func CreatePostHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	template, err := template.ParseFiles("./templates/createpost.html")
+	if err != nil {
+		http.Error(w, "Error loading template", http.StatusInternalServerError)
+		return
+	}
+
+	if r.Method == http.MethodGet {
+		template.Execute(w, nil)
+		return
+	}
+
+	if r.Method == http.MethodPost {
+		// Handle form submission
+		title := strings.TrimSpace(r.FormValue("title"))
+		content := strings.TrimSpace(r.FormValue("content"))
+		// categories := r.Form["category"]
+		createdAt := time.Now()
+
+		// Validate input
+		if title == "" || content == "" {
+			http.Error(w, "Title and content are required", http.StatusBadRequest)
+			return
+		}
+
+		// Insert post into database
+		_, err := db.Exec(
+			"INSERT INTO posts (title, content, created_at) VALUES (?, ?, ?)",
+			title, content, createdAt,
+		)
+		if err != nil {
+			http.Error(w, "Failed to create post", http.StatusInternalServerError)
+			return
+		}
+		fmt.Println("Post created successfully")
+		// Redirect to home page
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 }

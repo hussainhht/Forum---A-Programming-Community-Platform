@@ -8,7 +8,7 @@ import (
 
 func HandleRoutes() {
 	http.HandleFunc("/", HomeHandler)
-	
+
 	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		LoginHandler(w, r, database.DB)
 	})
@@ -21,4 +21,7 @@ func HandleRoutes() {
 
 	})
 
+	http.HandleFunc("/CreatePost", func(w http.ResponseWriter, r *http.Request) {
+		CreatePostHandler(w, r, database.DB)
+	})
 }

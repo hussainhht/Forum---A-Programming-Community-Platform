@@ -13,6 +13,7 @@ type Post struct {
 
 type User struct {
 	ID        int
+	SessionID string
 	Username  string
 	Email     string
 	Password  string
