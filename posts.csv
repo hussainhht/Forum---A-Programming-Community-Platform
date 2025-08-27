@@ -1,6 +1,0 @@
-id,user_id,title,content,created_at
-1,1,Welcome to Our Forum,This is the first post welcoming everyone to our new forum platform.,2025-08-25 10:00:00
-2,1,Forum Guidelines,Please read these guidelines before posting to ensure a positive community experience.,2025-08-25 11:30:00
-3,2,Introducing Myself,Hello everyone! I'm new here and wanted to introduce myself to the community.,2025-08-26 09:15:00
-4,3,Technical Discussion,What programming languages are you all using for your projects?,2025-08-26 14:20:00
-5,2,Feature Request,It would be great if we could add image uploads to posts.,2025-08-27 08:45:00

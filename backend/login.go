@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -27,7 +28,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 	if r.Method == http.MethodPost {
 		email := strings.TrimSpace(strings.ToLower(r.FormValue("email")))
-		// password := r.FormValue("password")
+		password := r.FormValue("password")
 
 		var (
 			userID         int
@@ -43,10 +44,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		}
 
 		// compare plain password with stored hash
-		// if bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password)) != nil {
-		// 	http.Error(w, "Invalid email or password", http.StatusUnauthorized)
-		// 	return
-		// }
+		if bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password)) != nil {
+			http.Error(w, "Invalid email or password", http.StatusUnauthorized)
+			return
+		}
 
 		sessionID := GenerateSessionID()
 		// Pass an absolute expiration time instead of a duration
