@@ -11,6 +11,19 @@ import (
 )
 
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
+ 
+	cookie, err := r.Cookie("session_id")
+	if err != nil || cookie.Value == "" {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return	
+	}
+
+	userID, err := database.GetUserBySession(database.DB, cookie.Value)
+	if err != nil || userID == 0 {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+	
 	if r.URL.Path != "/" {
 		return
 	}
