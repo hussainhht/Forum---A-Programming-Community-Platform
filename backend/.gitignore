@@ -1,14 +1,2 @@
-# Ignore the binary files
-*.exe
-*.dll
-*.so
-*.dylib
-
-# Ignore the vendor directory
-/vendor/
-
-# Ignore the .env file
-.env
-
-# Ignore the database file
+# Ignore only the forum database file
 forum.db
