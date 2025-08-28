@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-
 func InsertPost(title, content string, userID int, categoryID int, createdAt time.Time) {
 	insertPost := `INSERT INTO posts (title, content, user_id, category_id, created_at) VALUES (?, ?, ?, ?, ?)`
 	_, err := database.DB.Exec(insertPost, title, content, userID, categoryID, createdAt)

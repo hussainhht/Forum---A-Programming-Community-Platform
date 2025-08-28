@@ -12,7 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func (server *Server) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	template, err := template.ParseFiles("./templates/login.html")
 	if err != nil {

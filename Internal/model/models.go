@@ -1,4 +1,4 @@
-package backend
+package model
 
 import "time"
 
@@ -36,7 +36,6 @@ type Reaction struct {
 }
 
 type Category struct {
-	ID         int
-	PostID     int // FK to Post
-	CategoryID int // FK to Category
+	ID   int
+	Name string
 }

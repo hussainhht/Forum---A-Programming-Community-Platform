@@ -1,7 +1,6 @@
 package backend
 
 import (
-	"database/sql"
 	"fmt"
 	"forum/database"
 	"html/template"
@@ -10,12 +9,12 @@ import (
 	"time"
 )
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
- 
+func (server *Server) HomeHandler(w http.ResponseWriter, r *http.Request) {
+
 	cookie, err := r.Cookie("session_id")
 	if err != nil || cookie.Value == "" {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
-		return	
+		return
 	}
 
 	userID, err := database.GetUserBySession(database.DB, cookie.Value)
@@ -23,7 +22,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
-	
+
 	if r.URL.Path != "/" {
 		return
 	}
@@ -59,10 +58,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-
 }
 
-func CreatePostHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+func (server *Server) CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	template, err := template.ParseFiles("./templates/createpost.html")
 	if err != nil {
 		http.Error(w, "Error loading template", http.StatusInternalServerError)
