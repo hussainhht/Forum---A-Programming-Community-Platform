@@ -11,9 +11,9 @@
 <body>
     <div id="mainContainer">
         <nav class="mainContainer-child navbar">
-            <a class="navbar-item" href="/">Home</a> 
-            <a class="navbar-item" href="/login">Login</a> 
-            <a class="navbar-item" href="/register">Register</a> 
+            <a class="navbar-item" href="/">Home</a>
+            <a class="navbar-item" href="/login">Login</a>
+            <a class="navbar-item" href="/register">Register</a>
             <a class="navbar-item" href="/create-post">Create Post</a>
         </nav>
         <main class="mainContainer-child">
@@ -22,7 +22,7 @@
             <article>
                 <h2>{{.Title}}</h2>
                 <p>{{.Content}}</p>
-                <small>Posted by {{.Author}}</small>
+                <small>Posted by {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small>
             </article>
             <hr>
             {{else}}

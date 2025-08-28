@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"forum/Internal/model"
 	"forum/Internal/query"
 )
 
@@ -31,4 +32,9 @@ func (service *Service) CreatePost(sessionID, title, content string, categories 
 	}
 
 	return nil
+}
+
+// GetAllPosts retrieves all posts for display on home page
+func (s *Service) GetAllPosts() ([]model.Post, error) {
+	return query.GetAllPosts(s.DB)
 }

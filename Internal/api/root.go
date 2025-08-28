@@ -12,5 +12,13 @@ func (server *Server) GetRootHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl.Execute(w, nil)
+	// Get all posts from the service
+	posts, err := server.Service.GetAllPosts()
+	if err != nil {
+		http.Error(w, "Error fetching posts", http.StatusInternalServerError)
+		return
+	}
+
+	// Pass posts to the template
+	tmpl.Execute(w, posts)
 }

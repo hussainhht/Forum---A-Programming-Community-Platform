@@ -9,6 +9,7 @@ type Post struct {
 	Title      string
 	Content    string
 	CreatedAt  time.Time
+	Username   string // For display purposes (not stored in DB)
 }
 
 type User struct {
