@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{.Post.Title}} - Forum</title>
+</head>
+<body>
+    <!-- Check if user is logged in -->
+    {{if .IsLoggedIn}}
+        <p>Welcome! You are logged in.</p>
+    {{else}}
+        <p><a href="/login">Please log in</a></p>
+    {{end}}
+
+    <!-- Display the post -->
+    <div class="post">
+        <h1>{{.Post.Title}}</h1>
+        <p>{{.Post.Content}}</p>
+        <small>By: {{.Post.Username}} | {{.Post.CreatedAt.Format "Jan 2, 2006"}}</small>
+        
+        <!-- Like section -->
+        <div class="likes">
+            {{if .IsLoggedIn}}
+                <form action="/like" method="POST" style="display: inline;">
+                    <input type="hidden" name="post_id" value="{{.Post.ID}}">
+                    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                    <button type="submit">
+                        {{if .UserLiked}}❤️ Unlike{{else}}🤍 Like{{end}}
+                    </button>
+                </form>
+            {{end}}
+            <span>{{.LikeCount}} likes</span>
+        </div>
+    </div>
+
+    <!-- Comments section -->
+    <div class="comments">
+        <h3>Comments:</h3>
+        {{if .Comments}}
+            {{range .Comments}}
+            <div class="comment">
+                <strong>{{.Username}}:</strong> {{.Content}}
+                <small>({{.CreatedAt.Format "Jan 2, 15:04"}})</small>
+            </div>
+            {{end}}
+        {{else}}
+            <p>No comments yet.</p>
+        {{end}}
+        
+        <!-- Add comment form -->
+        {{if .IsLoggedIn}}
+        <form action="/comment" method="POST">
+            <input type="hidden" name="post_id" value="{{.Post.ID}}">
+            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+            <textarea name="content" placeholder="Add a comment..." required></textarea>
+            <button type="submit">Comment</button>
+        </form>
+        {{end}}
+    </div>
+</body>
+</html>

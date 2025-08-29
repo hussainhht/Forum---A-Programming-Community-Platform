@@ -27,3 +27,11 @@ func (service *Service) GetSessionIDFromCookie(r *http.Request) (string, error) 
 	}
 	return cookie.Value, nil
 }
+
+func (service *Service) GetUserIDFromSessionID(sessionID string) (int, error) {
+	user, err := query.SelectUserFromSession(service.DB, sessionID)
+	if err != nil || user == nil {
+		return 0, err
+	}
+	return user.ID, nil
+}

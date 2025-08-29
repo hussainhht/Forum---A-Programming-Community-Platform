@@ -14,6 +14,8 @@ var (
 		JOIN users u ON p.user_id = u.id
 		ORDER BY p.created_at DESC
 	`
+	InsertPostReactionQuery = "INSERT INTO post_reactions (post_id, user_id, reaction_type) VALUES (?, ?, ?)"
+	GetPostByIDQuery        = "SELECT id, title, content, created_at, user_id FROM posts WHERE id = ?"
 )
 
 func InsertPost(tx *sql.Tx, title, content string, categories []string, userID int) (int64, error) {
@@ -77,4 +79,24 @@ func GetAllPosts(db *sql.DB) ([]model.Post, error) {
 	}
 
 	return posts, nil
+}
+
+func GetPostByID(db *sql.DB, postID string) (*model.Post, error) {
+	row := db.QueryRow(GetPostByIDQuery, postID)
+
+	var post model.Post
+	if err := row.Scan(&post.ID, &post.Title, &post.Content, &post.CreatedAt, &post.UserID); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &post, nil
+}
+
+// InsertPostReaction inserts a reaction into the post table
+func InsertPostReaction(db *sql.DB, postID int, userID int, reactionType string) error {
+	_, err := db.Exec(InsertPostReactionQuery, postID, userID, reactionType)
+	return err
 }

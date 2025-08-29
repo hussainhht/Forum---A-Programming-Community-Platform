@@ -38,3 +38,24 @@ func (service *Service) CreatePost(sessionID, title, content string, categories 
 func (s *Service) GetAllPosts() ([]model.Post, error) {
 	return query.GetAllPosts(s.DB)
 }
+
+func (s *Service) GetPostByID(postID string) (*model.Post, error) {
+	var post *model.Post
+	var err error
+	post, err = query.GetPostByID(s.DB, postID)
+	if err != nil {
+		return nil, err
+	}
+	post.Username, err = query.GetUsernameByUserID(s.DB, post.UserID)
+	if err != nil {
+		return nil, err
+	}
+	return post, err
+}
+
+func (s *Service) PostReaction(postID int, userID int, reactionType string) error {
+	if reactionType != "like" && reactionType != "dislike" {
+		return fmt.Errorf("invalid reaction type: %s", reactionType)
+	}
+	return query.InsertPostReaction(s.DB, postID, userID, reactionType)
+}

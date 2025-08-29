@@ -17,8 +17,5 @@ func main() {
 	service := api.NewService(DB)
 	server := api.NewServer(7777, service)
 	fmt.Printf("Server running at http://localhost:%d", server.Port)
-	serverErr := server.Start()
-	if serverErr != nil {
-		log.Fatal(serverErr)
-	}
+	log.Fatal(server.Start())
 }

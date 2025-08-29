@@ -68,16 +68,16 @@ CREATE TABLE IF NOT EXISTS post_categories (
 
 CREATE TABLE IF NOT EXISTS post_reactions (
     user_id INTEGER NOT NULL,
-    post_id INTEGER,
+    post_id INTEGER NOT NULL,
     reaction_type TEXT CHECK(reaction_type IN ('like','dislike')) NOT NULL,
     PRIMARY key (user_id, post_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (post_id) REFERENCES posts(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS comments_reactions (
     user_id INTEGER NOT NULL,
-    comment_id INTEGER,
+    comment_id INTEGER NOT NULL,
     reaction_type TEXT CHECK(reaction_type IN ('like','dislike')) NOT NULL,
     PRIMARY key (user_id, comment_id),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,

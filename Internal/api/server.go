@@ -22,6 +22,7 @@ func (server *Server) Start() error {
 
 	router.HandleFunc("/", server.GetRootHandler)
 
+
 	router.HandleFunc("GET /register", server.GetRegisterHandler)
 	router.HandleFunc("POST /register", server.PostRegisterHandler)
 
@@ -30,6 +31,13 @@ func (server *Server) Start() error {
 
 	router.HandleFunc("GET /create-post", server.GetCreatePostHandler)
 	router.HandleFunc("POST /create-post", server.PostCreatePostHandler)
+
+	router.HandleFunc("GET /post/{id}", server.GetPostHandler)
+
+	router.HandleFunc("POST /post-reaction", server.PostReactionHandler)
+
+	router.HandleFunc("POST /comment-reaction", server.CommentReactionHandler)
+	// router.HandleFunc("POST /comment", server.PostCommentHandler)
 
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
 }

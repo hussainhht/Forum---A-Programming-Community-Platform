@@ -3,13 +3,12 @@ package model
 import "time"
 
 type Post struct {
-	ID         int
-	UserID     int // FK to User
-	CategoryID int // FK to Category
-	Title      string
-	Content    string
-	CreatedAt  time.Time
-	Username   string // For display purposes (not stored in DB)
+	ID        int
+	UserID    int // FK to User
+	Title     string
+	Content   string
+	CreatedAt time.Time
+	Username  string // For display purposes (not stored in DB)
 }
 
 type User struct {
@@ -39,4 +38,14 @@ type Reaction struct {
 type Category struct {
 	ID   int
 	Name string
+}
+
+type PageData struct {
+	IsLoggedIn bool       `json:"is_logged_in"`
+	CSRFToken  string     `json:"csrf_token"`
+	Post       *Post      `json:"post"`
+	Comments   []Comment  `json:"comments"`
+	LikeCount  int        `json:"like_count"`
+	UserLiked  bool       `json:"user_liked"`
+	Categories []Category `json:"categories"`
 }

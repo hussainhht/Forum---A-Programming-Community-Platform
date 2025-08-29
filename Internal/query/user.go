@@ -7,14 +7,15 @@ import (
 )
 
 var (
-	GetUserByEmailOrUsername = "SELECT id, username, email, password FROM users WHERE email = ? OR username = ? LIMIT 1"
-	selectUserWhereEmail     = "SELECT email FROM users WHERE email = ? LIMIT 1"
-	selectUserWhereUsername  = "SELECT username FROM users WHERE username = ? LIMIT 1"
-	insertUserQuery          = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
+	GetUserByEmailOrUsernameQuery = "SELECT id, username, email, password FROM users WHERE email = ? OR username = ? LIMIT 1"
+	SelectUserWhereEmailQuery     = "SELECT email FROM users WHERE email = ? LIMIT 1"
+	SelectUserWhereUsernameQuery  = "SELECT username FROM users WHERE username = ? LIMIT 1"
+	InsertUserQuery               = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
+	SelectUserWhereIDQuery        = "SELECT username FROM users WHERE id = ? LIMIT 1"
 )
 
 func InsertUser(DB *sql.DB, username, email, password string) error {
-	_, err := DB.Exec(insertUserQuery, username, email, password)
+	_, err := DB.Exec(InsertUserQuery, username, email, password)
 	if err != nil {
 		return fmt.Errorf("error inserting user: %v", err)
 	}
@@ -23,7 +24,7 @@ func InsertUser(DB *sql.DB, username, email, password string) error {
 
 func SelectUserWhereUsername(DB *sql.DB, username string) (string, error) {
 	var existingUsername string
-	err := DB.QueryRow(selectUserWhereUsername, username).Scan(&existingUsername)
+	err := DB.QueryRow(SelectUserWhereUsernameQuery, username).Scan(&existingUsername)
 	if err != nil {
 		return "", fmt.Errorf("error selecting user: %v", err)
 	}
@@ -32,7 +33,7 @@ func SelectUserWhereUsername(DB *sql.DB, username string) (string, error) {
 
 func SelectUserWhereEmail(DB *sql.DB, email string) (string, error) {
 	var existingEmail string
-	err := DB.QueryRow(selectUserWhereEmail, email).Scan(&existingEmail)
+	err := DB.QueryRow(SelectUserWhereEmailQuery, email).Scan(&existingEmail)
 	if err != nil {
 		return "", err
 	}
@@ -46,7 +47,7 @@ func GetUserByUsernameOrEmail(DB *sql.DB, identifier string) (model.User, error)
 		email    string
 		password string
 	)
-	err := DB.QueryRow(GetUserByEmailOrUsername, identifier, identifier).Scan(&userID, &username, &email, &password)
+	err := DB.QueryRow(GetUserByEmailOrUsernameQuery, identifier, identifier).Scan(&userID, &username, &email, &password)
 	if err != nil {
 		return model.User{}, fmt.Errorf("error selecting user: %v", err)
 	}
@@ -56,4 +57,13 @@ func GetUserByUsernameOrEmail(DB *sql.DB, identifier string) (model.User, error)
 		Email:    email,
 		Password: password,
 	}, nil
+}
+
+func GetUsernameByUserID(DB *sql.DB, userID int) (string, error) {
+	var username string
+	err := DB.QueryRow(SelectUserWhereIDQuery, userID).Scan(&username)
+	if err != nil {
+		return "", fmt.Errorf("error selecting username: %v", err)
+	}
+	return username, nil
 }
