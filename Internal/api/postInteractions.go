@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 )
@@ -30,7 +31,8 @@ func (server *Server) PostReactionHandler(w http.ResponseWriter, r *http.Request
 	// Call the service layer to handle the like action
 	err = server.Service.PostReaction(postID, userID, reactionType)
 	if err != nil {
-		http.Error(w, "Failed to like post", http.StatusInternalServerError)
+		fmt.Println(err)
+		http.Error(w, "Failed to react to post", http.StatusInternalServerError)
 		return
 	}
 

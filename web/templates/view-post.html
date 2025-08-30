@@ -20,11 +20,11 @@
         <!-- Like section -->
         <div class="likes">
             {{if .IsLoggedIn}}
-                <form action="/like" method="POST" style="display: inline;">
+                <form action="/post-reaction" method="POST" style="display: inline;">
                     <input type="hidden" name="post_id" value="{{.Post.ID}}">
-                    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                    <input type="submit" name="reaction_type" value="like">
+                    <input type="submit" name="reaction_type" value="dislike">
                     <button type="submit">
-                        {{if .UserLiked}}❤️ Unlike{{else}}🤍 Like{{end}}
                     </button>
                 </form>
             {{end}}
