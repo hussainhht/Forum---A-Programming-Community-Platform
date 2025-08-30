@@ -2,6 +2,7 @@ package api
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -22,6 +23,8 @@ func (server *Server) PostLoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	newSessionID, err := server.Service.LoginUser(emailOrUsername, password)
 	if err != nil {
+		//! remove this log
+		log.Printf("\nLogin failed for user %q: %v", emailOrUsername, err)
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
