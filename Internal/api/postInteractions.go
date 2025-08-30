@@ -28,13 +28,13 @@ func (server *Server) PostReactionHandler(w http.ResponseWriter, r *http.Request
 
 	reactionType := r.FormValue("reaction_type")
 
-	// Call the service layer to handle the like action
+	// Call the service layer to handle the reaction action
 	err = server.Service.PostReaction(postID, userID, reactionType)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Failed to react to post", http.StatusInternalServerError)
 		return
 	}
-
+	http.Redirect(w, r, fmt.Sprintf("/post/%d", postID), http.StatusSeeOther)
 	w.WriteHeader(http.StatusOK)
 }

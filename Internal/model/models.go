@@ -9,6 +9,13 @@ type Post struct {
 	Content   string
 	CreatedAt time.Time
 	Username  string // For display purposes (not stored in DB)
+	LikeCount int
+}
+
+type PostReaction struct {
+	PostID       int // FK to Post
+	UserID       int // FK to User
+	ReactionType string
 }
 
 type User struct {

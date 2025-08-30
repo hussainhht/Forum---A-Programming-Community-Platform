@@ -100,3 +100,33 @@ func InsertPostReaction(db *sql.DB, postID int, userID int, reactionType string)
 	_, err := db.Exec(InsertPostReactionQuery, postID, userID, reactionType)
 	return err
 }
+
+func GetPostReaction(db *sql.DB, postID int, userID int) (*model.PostReaction, error) {
+	row := db.QueryRow("SELECT reaction_type FROM post_reactions WHERE post_id = ? AND user_id = ?", postID, userID)
+
+	var reaction model.PostReaction
+	reaction.UserID = userID
+	reaction.PostID = postID
+	if err := row.Scan(&reaction.ReactionType); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &reaction, nil
+}
+
+func UpdatePostReaction(db *sql.DB, postID int, userID int, reactionType string) error {
+	_, err := db.Exec("UPDATE post_reactions SET reaction_type = ? WHERE post_id = ? AND user_id = ?", reactionType, postID, userID)
+	return err
+}
+
+func GetPostLikeCount(db *sql.DB, postID int) (int, error) {
+	var likeCount int
+	err := db.QueryRow("SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND reaction_type = ?", postID, "like").Scan(&likeCount)
+	if err != nil {
+		return 0, err
+	}
+	return likeCount, nil
+}

@@ -50,6 +50,12 @@ func (s *Service) GetPostByID(postID string) (*model.Post, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	post.LikeCount, err = query.GetPostLikeCount(s.DB, post.ID)
+	fmt.Println(post.LikeCount)
+	if err != nil {
+		return nil, err
+	}
 	return post, err
 }
 
@@ -57,5 +63,20 @@ func (s *Service) PostReaction(postID int, userID int, reactionType string) erro
 	if reactionType != "like" && reactionType != "dislike" {
 		return fmt.Errorf("invalid reaction type: %s", reactionType)
 	}
+
+	// check if user already interacted with the post
+	existingReaction, err := query.GetPostReaction(s.DB, postID, userID)
+	if err != nil {
+		return fmt.Errorf("failed to check existing reaction: %w", err)
+	}
+
+	if existingReaction != nil {
+		// If the reaction already exists, update it
+		if existingReaction.ReactionType == reactionType {
+			return nil // No change needed
+		}
+		return query.UpdatePostReaction(s.DB, postID, userID, reactionType)
+	}
+
 	return query.InsertPostReaction(s.DB, postID, userID, reactionType)
 }

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"forum/Internal/model"
 	"html/template"
 	"net/http"
@@ -26,7 +25,7 @@ func (server *Server) GetPostHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to load template", http.StatusInternalServerError)
 		return
 	}
-	fmt.Println(post)
+	// fmt.Println(post)
 	if err := tmpl.Execute(w, pageData); err != nil {
 		http.Error(w, "Failed to render template", http.StatusInternalServerError)
 		return
