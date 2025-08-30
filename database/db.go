@@ -2,42 +2,28 @@ package database
 
 import (
 	"database/sql"
-	"log"
-	"time"
+	"os"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var DB *sql.DB
 
-func InitDB() {
+func InitDB() (*sql.DB, error) {
 	var err error
 	DB, err = sql.Open("sqlite3", "./forum.db")
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	// Make sure migration_history table exists first
-	_, err = DB.Exec(`CREATE TABLE IF NOT EXISTS migration_history (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		filename TEXT NOT NULL UNIQUE,
-		applied_at DATETIME DEFAULT CURRENT_TIMESTAMP
-	);`)
+	schema, err := os.ReadFile("./database/db.sql")
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	Migrate()
-}
 
-func InsertPost(title, content string, userID int, categoryID int, createdAt time.Time) {
-	insertPost := `INSERT INTO posts (title, content, user_id, category_id, created_at) VALUES (?, ?, ?, ?, ?)`
-	_, err := DB.Exec(insertPost, title, content, userID, categoryID, createdAt)
+	_, err = DB.Exec(string(schema))
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
+	return DB, nil
 }
-
-func ReadPost() {
-
-}
-

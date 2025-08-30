@@ -1,23 +1,21 @@
 package main
 
 import (
-	"forum/backend"
+	"fmt"
+	"forum/Internal/api"
 	"forum/database"
 	"log"
-	"net/http"
 )
 
 func main() {
 	// Initialize DB
-	database.InitDB()
-
-	backend.ServeFiles()
-	// Routes
-	backend.HandleRoutes()
-	// Start server
-	log.Println("Server running at http://localhost:7777")
-	err := http.ListenAndServe(":7777", nil)
+	DB, err := database.InitDB()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	service := api.NewService(DB)
+	server := api.NewServer(7777, service)
+	fmt.Printf("Server running at http://localhost:%d", server.Port)
+	log.Fatal(server.Start())
 }
