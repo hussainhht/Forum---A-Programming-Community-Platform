@@ -191,3 +191,121 @@ article a:hover{ color: var(--benefit-teal-2); border-bottom-color: currentColor
     box-shadow: var(--shadow-lg);
   }
 }
+
+
+/* =========================
+   Create Post Page Styles
+   ========================= */
+
+/* Form wrapper */
+form {
+  background: var(--benefit-card);
+  padding: 28px clamp(16px, 3vw, 32px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  border: 1px solid color-mix(in lab, var(--benefit-navy) 8%, #fff);
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+/* Labels */
+form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: var(--benefit-text);
+}
+
+/* Inputs + Textareas */
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in lab, var(--benefit-navy) 12%, #ddd);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #fff;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  border-color: var(--benefit-teal);
+  box-shadow: var(--ring);
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Categories group */
+.categories-container {
+  padding: 16px;
+  background: var(--benefit-teal-soft);
+  border: 1px dashed color-mix(in lab, var(--benefit-teal) 40%, #fff);
+  border-radius: 12px;
+}
+
+.categories-container h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: var(--benefit-navy);
+  font-size: 16px;
+}
+
+.checkbox-group {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-item input[type="checkbox"] {
+  accent-color: var(--benefit-teal);
+  width: 18px;
+  height: 18px;
+}
+
+/* Button */
+button[type="submit"] {
+  background: var(--benefit-teal);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background .2s ease, transform .15s ease;
+  justify-self: start;
+}
+
+button[type="submit"]:hover {
+  background: var(--benefit-teal-2);
+  transform: translateY(-1px);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  form {
+    padding: 20px;
+  }
+  button[type="submit"] {
+    width: 100%;
+    justify-self: stretch;
+  }
+}
