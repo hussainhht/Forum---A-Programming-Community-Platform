@@ -86,9 +86,9 @@ func GetPostByID(db *sql.DB, postID string) (*model.Post, error) {
 
 	var post model.Post
 	if err := row.Scan(&post.ID, &post.Title, &post.Content, &post.CreatedAt, &post.UserID); err != nil {
-		if err == sql.ErrNoRows {
-			return nil, nil
-		}
+		// if err == sql.ErrNoRows {
+		// 	return nil, nil
+		// }
 		return nil, err
 	}
 

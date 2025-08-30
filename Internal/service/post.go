@@ -52,11 +52,14 @@ func (s *Service) GetPostByID(postID string) (*model.Post, error) {
 	}
 
 	post.LikeCount, err = query.GetPostLikeCount(s.DB, post.ID)
-	fmt.Println(post.LikeCount)
 	if err != nil {
 		return nil, err
 	}
-	return post, err
+	// post.Comments, err = s.GetCommentsByPostID(post.ID)
+	if err != nil {
+		return nil, err
+	}
+	return post, nil
 }
 
 func (s *Service) PostReaction(postID int, userID int, reactionType string) error {

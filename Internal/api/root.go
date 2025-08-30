@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func (server *Server) GetRootHandler(w http.ResponseWriter, r *http.Request) {
+func (server *Server) Get_RootHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, tmplErr := template.ParseFiles("./web/templates/home.html")
 	if tmplErr != nil {
 		http.Error(w, "Error loading template", http.StatusInternalServerError)

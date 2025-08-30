@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func (server *Server) PostReactionHandler(w http.ResponseWriter, r *http.Request) {
+func (server *Server) Post_ReactionHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	postID, err := strconv.Atoi(r.FormValue("post_id"))
 	if err != nil {
@@ -35,6 +35,7 @@ func (server *Server) PostReactionHandler(w http.ResponseWriter, r *http.Request
 		http.Error(w, "Failed to react to post", http.StatusInternalServerError)
 		return
 	}
+
 	http.Redirect(w, r, fmt.Sprintf("/post/%d", postID), http.StatusSeeOther)
 	w.WriteHeader(http.StatusOK)
 }
