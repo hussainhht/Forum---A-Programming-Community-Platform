@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func (server *Server) GetPostHandler(w http.ResponseWriter, r *http.Request) {
+func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 	// Handler logic for getting a single post
 	postID := r.URL.Path[len("/post/"):] // what is this doing
 
@@ -15,6 +15,7 @@ func (server *Server) GetPostHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Post not found", http.StatusNotFound)
 		return
 	}
+
 	pageData := model.PageData{
 		IsLoggedIn: true, // Replace with actual login check
 		Post:       post,

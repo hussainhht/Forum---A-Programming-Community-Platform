@@ -20,21 +20,22 @@ func (server *Server) Start() error {
 	fs := http.FileServer(http.Dir("web/static/"))
 	router.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	router.HandleFunc("/", server.GetRootHandler)
+	router.HandleFunc("/", server.Get_RootHandler)
 
+	router.HandleFunc("GET /register", server.Get_RegisterHandler)
+	router.HandleFunc("POST /register", server.Post_RegisterHandler)
 
-	router.HandleFunc("GET /register", server.GetRegisterHandler)
-	router.HandleFunc("POST /register", server.PostRegisterHandler)
+	router.HandleFunc("GET /login", server.Get_LoginHandler)
+	router.HandleFunc("POST /login", server.Post_LoginHandler)
 
-	router.HandleFunc("GET /login", server.GetLoginHandler)
-	router.HandleFunc("POST /login", server.PostLoginHandler)
+	router.HandleFunc("GET /create-post", server.Get_CreatePostHandler)
+	router.HandleFunc("POST /create-post", server.Post_CreatePostHandler)
 
-	router.HandleFunc("GET /create-post", server.GetCreatePostHandler)
-	router.HandleFunc("POST /create-post", server.PostCreatePostHandler)
+	router.HandleFunc("POST /create-comment", server.Post_CreateCommentHandler)
 
-	router.HandleFunc("GET /post/{id}", server.GetPostHandler)
+	router.HandleFunc("GET /post/{id}", server.Get_PostHandler)
 
-	router.HandleFunc("POST /post-reaction", server.PostReactionHandler)
+	router.HandleFunc("POST /post-reaction", server.Post_ReactionHandler)
 
 	router.HandleFunc("POST /comment-reaction", server.CommentReactionHandler)
 	// router.HandleFunc("POST /comment", server.PostCommentHandler)

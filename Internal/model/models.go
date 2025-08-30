@@ -10,6 +10,7 @@ type Post struct {
 	CreatedAt time.Time
 	Username  string // For display purposes (not stored in DB)
 	LikeCount int
+	Comments  []Comment 
 }
 
 type PostReaction struct {
@@ -51,7 +52,6 @@ type PageData struct {
 	IsLoggedIn bool       `json:"is_logged_in"`
 	CSRFToken  string     `json:"csrf_token"`
 	Post       *Post      `json:"post"`
-	Comments   []Comment  `json:"comments"`
 	LikeCount  int        `json:"like_count"`
 	UserLiked  bool       `json:"user_liked"`
 	Categories []Category `json:"categories"`

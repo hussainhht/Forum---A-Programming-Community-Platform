@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func (server *Server) GetCreatePostHandler(w http.ResponseWriter, r *http.Request) {
+func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, tmplErr := template.ParseFiles("./web/templates/create-post.html")
 	if tmplErr != nil {
 		http.Error(w, "Error loading template", http.StatusInternalServerError)
@@ -22,7 +22,7 @@ func (server *Server) GetCreatePostHandler(w http.ResponseWriter, r *http.Reques
 	tmpl.Execute(w, categories)
 }
 
-func (server *Server) PostCreatePostHandler(w http.ResponseWriter, r *http.Request) {
+func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	// check user authentication
 	cookie, err := r.Cookie("session_id")
 	if err != nil || cookie.Value == "" || !server.Service.IsValidSession(cookie.Value) {

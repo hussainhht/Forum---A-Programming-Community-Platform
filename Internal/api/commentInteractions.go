@@ -37,3 +37,36 @@ func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Requ
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	postID := r.FormValue("post_id")
+	if postID == "" {
+		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		return
+	}
+
+	// Get the session ID from the session
+	sessionID, err := server.Service.GetSessionIDFromCookie(r)
+	if err != nil {
+		http.Error(w, "Failed to get session ID", http.StatusUnauthorized)
+		return
+	}
+
+	userID, err := server.Service.GetUserIDFromSessionID(sessionID)
+	if err != nil {
+		http.Error(w, "Failed to get user ID", http.StatusUnauthorized)
+		return
+	}
+
+	content := r.FormValue("content")
+
+	// Call the service layer to create the comment
+	err = server.Service.CreateComment(postID, userID, content)
+	if err != nil {
+		http.Error(w, "Failed to create comment", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+}
