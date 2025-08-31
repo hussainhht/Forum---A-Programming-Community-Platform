@@ -1,1 +1,4 @@
+
+# Ignore only the forum database files
+
 *.db

@@ -6,6 +6,14 @@ import (
 	"strings"
 )
 
+type RegisterPageData struct {
+	Error string
+	Form  struct {
+		Username string
+		Email    string
+	}
+}
+
 func (server *Server) Get_RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, tmplErr := template.ParseFiles("./web/templates/register.html")
 	if tmplErr != nil {
@@ -19,7 +27,7 @@ func (server *Server) Get_RegisterHandler(w http.ResponseWriter, r *http.Request
 func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse form data
 	if err := r.ParseForm(); err != nil {
-		server.Service.HandleError(w, http.StatusBadRequest)
+		renderRegister(w, "Failed to parse form", r)
 		return
 	}
 
@@ -30,11 +38,24 @@ func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Reques
 	confirmPassword := r.FormValue("confirmPassword")
 
 	if err := server.Service.RegisterUser(username, email, password, confirmPassword); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
+		renderRegister(w, err.Error(), r)
 		return
 	}
-
 	// Success response
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 
+}
+
+func renderRegister(w http.ResponseWriter, errMsg string, r *http.Request) {
+
+	tmpl, _ := template.ParseFiles("./web/templates/register.html")
+
+	data := RegisterPageData{
+		Error: errMsg,
+	}
+	
+	data.Form.Username = r.FormValue("username")
+	data.Form.Email = r.FormValue("email")
+	_ = tmpl.Execute(w, data)
 }

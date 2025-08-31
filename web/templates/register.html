@@ -16,7 +16,8 @@
             <form method="POST" action="/register">
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required minlength="3" maxlength="20">
+                    <input type="text" id="username" name="username" required
+                        minlength="3" maxlength="20">
                 </div>
 
                 <div class="form-group">
@@ -26,12 +27,14 @@
 
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required minlength="8">
+                    <input type="password" id="password" name="password"
+                        required minlength="8">
                 </div>
 
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <input type="password" id="confirmPassword"
+                        name="confirmPassword" required>
                 </div>
 
                 <div class="form-actions">
@@ -39,7 +42,14 @@
                 </div>
 
                 <div class="form-footer">
-                    <p>Already have an account? <a href="/login">Login here</a>.</p>
+                    <p>Already have an account? <a href="/login">Login
+                            here</a>.</p>
+                </div>
+                
+                <div class="error-messages">
+                    {{if .Error}}
+                    <p class="error">{{.Error}}</p>
+                    {{end}}
                 </div>
             </form>
         </div>
