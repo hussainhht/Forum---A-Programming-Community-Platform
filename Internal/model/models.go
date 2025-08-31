@@ -51,10 +51,11 @@ type Category struct {
 }
 
 type PageData struct {
-	IsLoggedIn bool       `json:"is_logged_in"`
-	CSRFToken  string     `json:"csrf_token"`
-	Post       *Post      `json:"post"`
-	LikeCount  int        `json:"like_count"`
-	UserLiked  bool       `json:"user_liked"`
-	Categories []Category `json:"categories"`
+	IsLoggedIn bool
+	CSRFToken  string
+	Post       *Post
+	Posts	  []Post
+	LikeCount  int
+	UserLiked  bool
+	Categories []Category
 }

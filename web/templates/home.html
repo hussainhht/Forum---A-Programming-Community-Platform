@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum Home</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Forum Home</title>
+        <link rel="stylesheet" href="/static/css/styles.css">
+    </head>
 
-<body>
-    <div id="mainContainer">
-        <nav class="mainContainer-child navbar">
-            <a class="navbar-item" href="/">Home</a>
-            <a class="navbar-item" href="/login">Login</a>
-            <a class="navbar-item" href="/register">Register</a>
-            <a class="navbar-item" href="/create-post">Create Post</a>
-            <a class="navbar-item" href="/logout">Logout</a>
-        </nav>
-        <main class="mainContainer-child">
-            <h1>Welcome to the Forum</h1>
-            {{range .}}
-            <article>
-                <h2>{{.Title}}</h2>
-                <p>{{.Content}}</p>
-                <small>Posted by {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small>
-            </article>
-            <hr>
-            {{else}}
-            <p>No posts yet!</p>
-            {{end}}
-        </main>
-    </div>
-</body>
+    <body>
+        <div id="mainContainer">
+            <nav class="mainContainer-child navbar">
+                <a class="navbar-item" href="/">Home</a>
+                {{if not .IsLoggedIn}}
+                <a class="navbar-item" href="/login">Login</a>
+                <a class="navbar-item" href="/register">Register</a>
+                {{end}}
+                {{if .IsLoggedIn}}
+                <a class="navbar-item" href="/create-post">Create Post</a>
+                <a class="navbar-item" href="/logout">Logout</a>
+                {{end}}
+            </nav>
+            <main class="mainContainer-child">
+                <h1>Welcome to the Forum</h1>
+                {{range .Posts}}
+                <a class="post-card" href="/post/{{.ID}}">
+
+                    <h2>{{.Title}}</h2>
+                    <p>{{.Content}}</p>
+                    <small>Posted by {{.Username}} on {{.CreatedAt.Format
+                        "2006-01-02 15:04"}}</small>
+                </a>
+                <hr>
+                {{else}}
+                <p>No posts yet!</p>
+                {{end}}
+            </main>
+        </div>
+    </body>
 
 </html>

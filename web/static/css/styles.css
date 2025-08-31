@@ -32,6 +32,14 @@ body{
   background: linear-gradient(180deg, var(--benefit-bg), #fff 40%);
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:active {
+  color: inherit;
+}
+
 /* 3) Layout */
 #mainContainer{
   max-width: var(--container);
@@ -96,7 +104,9 @@ main{
   gap: 18px;
 }
 
-article{
+.post-card{
+  text-decoration: none;
+
   background: var(--benefit-card);
   border-radius: var(--radius);
   padding: clamp(14px, 2.2vw, 20px);
@@ -107,7 +117,7 @@ article{
 }
 
 /* Accent bar on top */
-article::before{
+.post-card::before{
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
@@ -115,17 +125,17 @@ article::before{
   background: linear-gradient(90deg, var(--benefit-teal), color-mix(in lab, var(--benefit-teal) 30%, var(--benefit-navy)));
 }
 
-article h2{
+.post-card h2{
   margin: 8px 0 6px;
   font-size: clamp(18px, 2.6vw, 22px);
 }
 
-article p{
+.post-card p{
   margin: 0 0 8px;
   color: var(--benefit-text);
 }
 
-article small{
+.post-card small{
   color: var(--benefit-text-muted);
 }
 
@@ -153,13 +163,13 @@ main > p{
 }
 
 /* 8) Links in content */
-article a{
+.post-card a{
   color: var(--benefit-teal);
   text-decoration: none;
   border-bottom: 1px solid color-mix(in lab, var(--benefit-teal) 40%, transparent);
   transition: .18s ease;
 }
-article a:hover{ color: var(--benefit-teal-2); border-bottom-color: currentColor; }
+.post-card a:hover{ color: var(--benefit-teal-2); border-bottom-color: currentColor; }
 
 /* 9) Focus Ring */
 :where(a, button, [tabindex]){
@@ -185,8 +195,8 @@ article a:hover{ color: var(--benefit-teal-2); border-bottom-color: currentColor
 
 /* 11) Subtle float-on-hover for cards */
 @media (hover:hover){
-  article{ transition: transform .18s ease, box-shadow .18s ease; }
-  article:hover{
+  .post-card{ transition: transform .18s ease, box-shadow .18s ease; }
+  .post-card:hover{
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
   }

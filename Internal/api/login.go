@@ -29,6 +29,7 @@ func (server *Server) Post_LoginHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
+
 	http.SetCookie(w, &http.Cookie{
 		Name:     "session_id",
 		Value:    newSessionID,
