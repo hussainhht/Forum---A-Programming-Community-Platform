@@ -77,3 +77,18 @@
   border: 1px solid #f5c6cb;
   font-size: 14px;
 }
+
+
+/* ===== Coding/Cyber Animated Background ===== */
+/* === خلفية نفس الصورة بالضبط + حركة خفيفة === */
+html, body { height: 100%; }
+
+body{
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
+    url('static/img/bg-tech.png') no-repeat center center fixed;
+  background-size: cover;
+  background-color: #0b1420;
+}

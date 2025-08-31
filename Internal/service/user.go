@@ -48,7 +48,7 @@ func (service *Service) RegisterUser(username, email, password, confirmPassword 
 	}
 
 	// Validate email format
-	if !service.isValidEmail(email) {
+	if !service.IsValidEmail(email) {
 		return fmt.Errorf("invalid email format")
 	}
 
