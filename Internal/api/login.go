@@ -47,6 +47,6 @@ func (server *Server) Post_LoginHandler(w http.ResponseWriter, r *http.Request) 
 		Expires:  time.Now().Add(24 * time.Hour), // 1 day
 		SameSite: http.SameSiteLaxMode,
 	})
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 
 }
