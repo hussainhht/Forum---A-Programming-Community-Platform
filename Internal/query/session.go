@@ -8,9 +8,9 @@ import (
 )
 
 var (
-	deleteSessionQuery = "DELETE FROM sessions WHERE user_id = ?"
-	createSessionQuery = "INSERT INTO sessions (user_id, session_id, expires_at) VALUES (?, ?, ?)"
-	selectUserFromSessionQuery    = "SELECT u.id, u.username FROM users u INNER JOIN sessions s ON u.id = s.user_id WHERE s.session_id = ?"
+	deleteSessionQuery         = "DELETE FROM sessions WHERE user_id = ?"
+	createSessionQuery         = "INSERT INTO sessions (user_id, session_id, expires_at) VALUES (?, ?, ?)"
+	selectUserFromSessionQuery = "SELECT user_id FROM sessions WHERE session_id = ?"
 )
 
 func RemoveSession(db *sql.DB, userID int) error {
@@ -31,10 +31,10 @@ func CreateSession(db *sql.DB, userID int, sessionID string, expiresAt time.Time
 
 func SelectUserFromSession(db *sql.DB, sessionID string) (*model.User, error) {
 	var user model.User
-	err := db.QueryRow(selectUserFromSessionQuery, sessionID).Scan(&user.ID, &user.Username)
+	err := db.QueryRow(selectUserFromSessionQuery, sessionID).Scan(&user.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, nil
+			return nil, fmt.Errorf("user not found, session not valid")
 		}
 		return nil, fmt.Errorf("error selecting user from session: %v", err)
 	}

@@ -34,6 +34,8 @@ type Comment struct {
 	UserID    int // FK to User
 	Content   string
 	CreatedAt time.Time
+	Username  string // For display purposes (not stored in DB)
+	
 }
 
 type Reaction struct {

@@ -22,7 +22,7 @@ func (server *Server) Post_ReactionHandler(w http.ResponseWriter, r *http.Reques
 	}
 	userID, err := server.Service.GetUserIDFromSessionID(sessionID)
 	if err != nil {
-		http.Error(w, "Failed to get user ID", http.StatusUnauthorized)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
 

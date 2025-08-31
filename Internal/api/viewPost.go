@@ -8,7 +8,7 @@ import (
 
 func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 	// Handler logic for getting a single post
-	postID := r.URL.Path[len("/post/"):] // what is this doing
+	postID := r.PathValue("id") // Extract ID from URL pattern /post/{id}
 
 	post, err := server.Service.GetPostByID(postID)
 	if err != nil {

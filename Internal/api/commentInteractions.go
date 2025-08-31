@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 )
@@ -22,7 +23,7 @@ func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Requ
 
 	userID, err := server.Service.GetUserIDFromSessionID(sessionID)
 	if err != nil {
-		http.Error(w, "Failed to get user ID", http.StatusUnauthorized)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
 
@@ -55,7 +56,7 @@ func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.R
 
 	userID, err := server.Service.GetUserIDFromSessionID(sessionID)
 	if err != nil {
-		http.Error(w, "Failed to get user ID", http.StatusUnauthorized)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
 
@@ -64,9 +65,9 @@ func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.R
 	// Call the service layer to create the comment
 	err = server.Service.CreateComment(postID, userID, content)
 	if err != nil {
-		http.Error(w, "Failed to create comment", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	http.Redirect(w, r, fmt.Sprintf("/post/%s", postID), http.StatusSeeOther)
 	w.WriteHeader(http.StatusCreated)
 }

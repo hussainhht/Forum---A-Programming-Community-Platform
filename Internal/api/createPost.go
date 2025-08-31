@@ -25,8 +25,13 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	// check user authentication
 	cookie, err := r.Cookie("session_id")
-	if err != nil || cookie.Value == "" || !server.Service.IsValidSession(cookie.Value) {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+	if err != nil || cookie.Value == "" {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+	valid := server.Service.IsValidSession(cookie.Value)
+	if !valid {
+		http.Error(w, "invalid session", http.StatusUnauthorized)
 		return
 	}
 

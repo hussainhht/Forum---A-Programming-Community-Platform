@@ -38,7 +38,8 @@
         {{if .Post.Comments}}
             {{range .Post.Comments}}
             <div class="comment">
-                <strong>{{.Username}}:</strong> {{.Content}}
+                <strong>{{.Username}}</strong> {{.Content}}
+                <!-- I have to get the comment username  -->
                 <small>({{.CreatedAt.Format "Jan 2, 15:04"}})</small>
             </div>
             {{end}}
