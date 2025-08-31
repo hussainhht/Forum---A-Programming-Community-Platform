@@ -10,7 +10,7 @@ type Post struct {
 	CreatedAt time.Time
 	Username  string // For display purposes (not stored in DB)
 	LikeCount int
-	Comments  []Comment 
+	Comments  []Comment
 }
 
 type PostReaction struct {
@@ -51,14 +51,14 @@ type Category struct {
 }
 
 type PageData struct {
-	IsLoggedIn bool
-	CSRFToken  string
-	Post       *Post
-	Posts	  []Post
-	LikeCount  int
-	UserLiked  bool
-	Categories []Category
-	ErrorMsg   string
-	ErrorCode  int
+	IsLoggedIn         bool
+	CSRFToken          string
+	Post               *Post
+	Posts              []Post
+	LikeCount          int
+	UserLiked          bool
+	Categories         []Category
+	SelectedCategories []string
+	ErrorMsg           string
+	ErrorCode          int
 }
-

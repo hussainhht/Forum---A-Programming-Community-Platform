@@ -23,18 +23,41 @@
             </nav>
             <main class="mainContainer-child">
                 <h1>Welcome to the Forum</h1>
-                {{range .Posts}}
-                <a class="post-card" href="/post/{{.ID}}">
+                
+                <!-- Category Filter Section -->
+                <div class="category-filter">
+                    <h3>Filter by Categories</h3>
+                    <form method="GET" action="/">
+                        <div class="category-checkboxes">
+                            {{range .Categories}}
+                            <label class="category-checkbox">
+                                <input type="checkbox" name="category" value="{{.ID}}" 
+                                       {{if contains $.SelectedCategories .ID}}checked{{end}}>
+                                <span class="checkmark">{{.Name}}</span>
+                            </label>
+                            {{end}}
+                        </div>
+                        <div class="filter-buttons">
+                            <button type="submit" class="filter-btn">Apply Filter</button>
+                            <a href="/" class="clear-btn">Clear All</a>
+                        </div>
+                    </form>
+                </div>
 
-                    <h2>{{.Title}}</h2>
-                    <p>{{.Content}}</p>
-                    <small>Posted by {{.Username}} on {{.CreatedAt.Format
-                        "2006-01-02 15:04"}}</small>
-                </a>
-                <hr>
-                {{else}}
-                <p>No posts yet!</p>
-                {{end}}
+                <!-- Posts Section -->
+                <div class="posts-section">
+                    {{range .Posts}}
+                    <a class="post-card" href="/post/{{.ID}}">
+                        <h2>{{.Title}}</h2>
+                        <p>{{.Content}}</p>
+                        <small>Posted by {{.Username}} on {{.CreatedAt.Format
+                            "2006-01-02 15:04"}}</small>
+                    </a>
+                    <hr>
+                    {{else}}
+                    <p>No posts found for the selected categories.</p>
+                    {{end}}
+                </div>
             </main>
         </div>
     </body>

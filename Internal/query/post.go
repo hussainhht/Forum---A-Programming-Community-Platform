@@ -14,6 +14,12 @@ var (
 		JOIN users u ON p.user_id = u.id
 		ORDER BY p.created_at DESC
 	`
+	GetPostsByCategoriesQuery = `
+		SELECT DISTINCT p.id, p.title, p.content, p.created_at, u.username, p.user_id
+		FROM posts p
+		JOIN users u ON p.user_id = u.id
+		JOIN post_categories pc ON p.id = pc.post_id
+		WHERE pc.category_id IN (`
 	InsertPostReactionQuery = "INSERT INTO post_reactions (post_id, user_id, reaction_type) VALUES (?, ?, ?)"
 	GetPostByIDQuery        = "SELECT id, title, content, created_at, user_id FROM posts WHERE id = ?"
 )
@@ -52,6 +58,59 @@ func InsertPost(tx *sql.Tx, title, content string, categories []string, userID i
 // GetAllPosts retrieves all posts with their authors
 func GetAllPosts(db *sql.DB) ([]model.Post, error) {
 	rows, err := db.Query(GetAllPostsQuery)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var posts []model.Post
+	for rows.Next() {
+		var post model.Post
+		err := rows.Scan(
+			&post.ID,
+			&post.Title,
+			&post.Content,
+			&post.CreatedAt,
+			&post.Username,
+			&post.UserID,
+		)
+		if err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return posts, nil
+}
+
+// GetPostsByCategories retrieves posts filtered by selected category IDs
+func GetPostsByCategories(db *sql.DB, categoryIDs []string) ([]model.Post, error) {
+	if len(categoryIDs) == 0 {
+		return GetAllPosts(db)
+	}
+
+	// Build the query with placeholders
+	placeholders := ""
+	for i := range categoryIDs {
+		if i > 0 {
+			placeholders += ","
+		}
+		placeholders += "?"
+	}
+
+	query := GetPostsByCategoriesQuery + placeholders + ") ORDER BY p.created_at DESC"
+
+	// Convert string slice to interface slice for query args
+	args := make([]interface{}, len(categoryIDs))
+	for i, id := range categoryIDs {
+		args[i] = id
+	}
+
+	rows, err := db.Query(query, args...)
 	if err != nil {
 		return nil, err
 	}
