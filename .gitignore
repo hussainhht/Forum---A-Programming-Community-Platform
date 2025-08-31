@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-# Ignore only the forum database file
-=======
-
->>>>>>> b6b4b849185b6fbd0abcc80103bf7a93f5395be6
 *.db
 ./CMD
