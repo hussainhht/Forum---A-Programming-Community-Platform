@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func (server *Server) Get_LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,14 +39,14 @@ func (server *Server) Post_LoginHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-
 	http.SetCookie(w, &http.Cookie{
 		Name:     "session_id",
 		Value:    newSessionID,
 		Path:     "/",
 		HttpOnly: true,
-		MaxAge:   86400, // 1 day
+		Expires:  time.Now().Add(24 * time.Hour), // 1 day
+		SameSite: http.SameSiteLaxMode,
 	})
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 
 }
