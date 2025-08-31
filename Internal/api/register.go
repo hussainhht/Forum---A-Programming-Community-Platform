@@ -9,7 +9,7 @@ import (
 func (server *Server) Get_RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, tmplErr := template.ParseFiles("./web/templates/register.html")
 	if tmplErr != nil {
-		http.Error(w, "Error loading template", http.StatusInternalServerError)
+		server.Service.HandleError(w, http.StatusInternalServerError)
 		return
 	}
 
@@ -19,7 +19,7 @@ func (server *Server) Get_RegisterHandler(w http.ResponseWriter, r *http.Request
 func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse form data
 	if err := r.ParseForm(); err != nil {
-		http.Error(w, "Failed to parse form", http.StatusBadRequest)
+		server.Service.HandleError(w, http.StatusBadRequest)
 		return
 	}
 

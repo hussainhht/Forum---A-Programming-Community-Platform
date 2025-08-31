@@ -2,7 +2,6 @@ package api
 
 import (
 	"net/http"
-	query "forum/Internal/query"
 )
 
 func (server *Server) LogoutHandler(w http.ResponseWriter, r *http.Request) {
@@ -14,12 +13,9 @@ func (server *Server) LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Remove session from DB
-	sessionID := cookie.Value
-	userID, _ := server.Service.GetUserIDFromSessionID(sessionID)
-	if userID != 0 {
-		_ = query.RemoveSession(server.Service.DB, userID)
-	}
 
+	sessionID := cookie.Value
+	server.Service.LogoutUser(sessionID)
 	// Delete cookie
 	http.SetCookie(w, &http.Cookie{
 		Name:   "session_id",

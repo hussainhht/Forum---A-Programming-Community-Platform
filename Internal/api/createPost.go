@@ -6,6 +6,17 @@ import (
 )
 
 func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
+	// check if user is authorized
+	cookie, err := r.Cookie("session_id")
+	if err != nil {
+		server.Service.HandleError(w, http.StatusUnauthorized)
+		return
+	}
+	if !server.Service.IsValidSession(cookie.Value) {
+		server.Service.HandleError(w, http.StatusUnauthorized)
+		return
+	}
+
 	tmpl, tmplErr := template.ParseFiles("./web/templates/create-post.html")
 	if tmplErr != nil {
 		http.Error(w, "Error loading template", http.StatusInternalServerError)

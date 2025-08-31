@@ -8,12 +8,16 @@ import (
 
 func (server *Server) Get_RootHandler(w http.ResponseWriter, r *http.Request) {
 
+	if r.URL.Path != "/" {
+		server.Service.HandleError(w, http.StatusNotFound)
+		return
+	}
+
 	sessionIDCookie, _ := r.Cookie("session_id")
-	
 
 	tmpl, tmplErr := template.ParseFiles("./web/templates/home.html")
 	if tmplErr != nil {
-		http.Error(w, "Error loading template", http.StatusInternalServerError)
+		server.Service.HandleError(w, http.StatusInternalServerError)
 		return
 	}
 

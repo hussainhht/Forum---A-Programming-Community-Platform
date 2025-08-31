@@ -17,12 +17,12 @@ func (server *Server) Post_ReactionHandler(w http.ResponseWriter, r *http.Reques
 	// Get the session ID from the session
 	sessionID, err := server.Service.GetSessionIDFromCookie(r)
 	if err != nil {
-		http.Error(w, "Failed to get session ID", http.StatusUnauthorized)
+		server.Service.HandleError(w, http.StatusUnauthorized)
 		return
 	}
 	userID, err := server.Service.GetUserIDFromSessionID(sessionID)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
+		server.Service.HandleError(w, http.StatusUnauthorized)
 		return
 	}
 

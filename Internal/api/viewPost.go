@@ -12,7 +12,7 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 
 	post, err := server.Service.GetPostByID(postID)
 	if err != nil {
-		http.Error(w, "Post not found", http.StatusNotFound)
+		server.Service.HandleError(w, http.StatusNotFound)
 		return
 	}
 
@@ -23,10 +23,10 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 	// Render the post using a template
 	tmpl, tmplErr := template.ParseFiles("./web/templates/view-post.html")
 	if tmplErr != nil {
-		http.Error(w, "Failed to load template", http.StatusInternalServerError)
+		server.Service.HandleError(w, http.StatusInternalServerError)
 		return
 	}
-	// fmt.Println(post)
+	// fmt.Println(post). 
 	if err := tmpl.Execute(w, pageData); err != nil {
 		http.Error(w, "Failed to render template", http.StatusInternalServerError)
 		return

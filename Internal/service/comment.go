@@ -48,7 +48,5 @@ func (service *Service) CreateComment(postID string, userID int, content string)
 	if err != nil {
 		return fmt.Errorf("invalid post ID: %w", err)
 	}
-
-
 	return query.InsertComment(service.DB, postIDInt, userID, content)
 }

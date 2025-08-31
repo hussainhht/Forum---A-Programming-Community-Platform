@@ -35,7 +35,7 @@ type Comment struct {
 	Content   string
 	CreatedAt time.Time
 	Username  string // For display purposes (not stored in DB)
-	
+
 }
 
 type Reaction struct {
@@ -58,4 +58,6 @@ type PageData struct {
 	LikeCount  int
 	UserLiked  bool
 	Categories []Category
+	ErrorMsg   string
+	ErrorCode  int
 }

@@ -3,11 +3,37 @@ package service
 import (
 	"fmt"
 	"forum/Internal/query"
-	"regexp"
-	"unicode"
+	"time"
 
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
+
+func (service *Service) LoginUser(emailOrUsername, password string) (string, error) {
+
+	existingUser, err := query.GetUserByUsernameOrEmail(service.DB, emailOrUsername)
+	if err != nil {
+		return "", err
+	}
+	storedPassword := existingUser.Password
+	// compare plain password with stored hash
+	err = bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+	if err != nil {
+		return "", fmt.Errorf("invalid credentials: %v", err)
+	}
+
+	// remove any existing sessions for this user
+	_ = query.RemoveSession(service.DB, existingUser.ID)
+
+	newSessionID := uuid.New().String()
+
+	// create a new session
+	if err := query.CreateSession(service.DB, existingUser.ID, newSessionID, time.Now().Add(24*time.Hour)); err != nil {
+		return "", err
+	}
+
+	return newSessionID, nil
+}
 
 func (service *Service) RegisterUser(username, email, password, confirmPassword string) error {
 
@@ -22,12 +48,12 @@ func (service *Service) RegisterUser(username, email, password, confirmPassword 
 	}
 
 	// Validate email format
-	if !service.IsValidEmail(email) {
+	if !service.isValidEmail(email) {
 		return fmt.Errorf("invalid email format")
 	}
 
 	// Validate password
-	if !service.IsValidPassword(password) {
+	if !service.isValidPassword(password) {
 		return fmt.Errorf("password must be at least 8 characters and contain uppercase, lowercase, digit, and special character")
 	}
 
@@ -56,38 +82,10 @@ func (service *Service) RegisterUser(username, email, password, confirmPassword 
 	return nil
 }
 
-func hashPassword(password string) string {
-	// use bcrypt to hash the password
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		return ""
-	}
-	return string(hash)
-}
-
-var emailRX = regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[A-Za-z]{2,}$`)
-
-func (service *Service) IsValidPassword(pw string) bool {
-	if len(pw) < 8 {
-		return false
+func (service *Service) LogoutUser(session_id string) {
+	userID, _ := service.GetUserIDFromSessionID(session_id)
+	if userID != 0 {
+		_ = query.RemoveSession(service.DB, userID)
 	}
 
-	var hasUpper, hasLower, hasDigit, hasSpecial bool
-	for _, ch := range pw {
-		switch {
-		case unicode.IsUpper(ch):
-			hasUpper = true
-		case unicode.IsLower(ch):
-			hasLower = true
-		case unicode.IsDigit(ch):
-			hasDigit = true
-		case regexp.MustCompile(`[!@#\$%\^&\*]`).MatchString(string(ch)):
-			hasSpecial = true
-		}
-	}
-	return hasUpper && hasLower && hasDigit && hasSpecial
-}
-
-func (service *Service) IsValidEmail(email string) bool {
-	return emailRX.MatchString(email)
 }
