@@ -67,3 +67,13 @@
 .form-footer a:hover {
   text-decoration: underline;
 }
+
+.error-box{
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fdecea;
+  color: #b00020;
+  border: 1px solid #f5c6cb;
+  font-size: 14px;
+}

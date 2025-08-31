@@ -1,51 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="/static/css/login.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="/static/css/login.css">
+    </head>
 
-<body>
-    <div class="login-container">
-        <div class="login-header">
-            <h2>Login</h2>
+    <body>
+        <div class="login-container">
+            <div class="login-header">
+                <h2>Login</h2>
+            </div>
+
+            <form method="POST" action="/login">
+                <div class="form-group">
+                    <label for="emailORUsername">Email or Username:</label>
+                    <input type="text" id="emailORUsername"
+                        name="emailORUsername" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password"
+                        required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit">Login</button>
+                </div>
+
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="/register">Register
+                            here</a>.</p>
+                </div>
+
+                {{if .Error}}
+                <div class="error-box">{{.Error}}</div>
+                {{end}}
+
+            </form>
         </div>
 
-        <form method="POST" action="/login">
-            <div class="form-group">
-                <label for="emailORUsername">Email or Username:</label>
-                <input type="text" id="emailORUsername" name="emailORUsername" required>
-            </div>
+    </body>
 
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit">Login</button>
-            </div>
-
-            <div class="form-footer">
-                <p>Don't have an account? <a href="/register">Register here</a>.</p>
-            </div>
-
-            <div class="error-messages">
-                {{if .Error}}
-                <p class="error">{{.Error}}</p>
-                {{end}}
-            </div>
-            
-        </form>
-    </div>
-
-</body>
-
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> efc96592fbe84d8dfa6cecee572ae721d68674ad
