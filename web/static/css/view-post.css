@@ -1,0 +1,118 @@
+/* ===== View Post (scoped) ===== */
+:root{
+  --benefit-navy: hsl(218 60% 16%);
+  --benefit-navy-2: hsl(218 52% 22%);
+  --benefit-teal: hsl(178 65% 40%);
+  --benefit-teal-2: hsl(178 70% 34%);
+  --benefit-teal-soft: hsl(178 45% 92%);
+  --benefit-bg: hsl(210 20% 98%);
+  --benefit-card: #fff;
+  --benefit-text: hsl(220 15% 18%);
+  --benefit-text-muted: hsl(220 10% 45%);
+  --radius: 14px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.08);
+  --shadow-md: 0 6px 18px rgba(10, 31, 68, .12);
+  --ring: 0 0 0 2px color-mix(in lab, var(--benefit-teal) 30%, transparent);
+}
+
+.vp{
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--benefit-text);
+  background: linear-gradient(180deg, var(--benefit-bg), #fff 40%);
+  min-height: 100dvh;
+}
+
+.vp a{ color: var(--benefit-teal); text-decoration: none; }
+.vp a:hover{ color: var(--benefit-teal-2); }
+
+.vp-welcome{
+  max-width: 960px; margin: 12px auto 0; padding: 6px 10px; color: var(--benefit-text-muted);
+}
+
+.vp-container{
+  max-width: 960px;
+  margin: 16px auto;
+  padding: clamp(12px, 2vw, 20px);
+  display: grid;
+  gap: 18px;
+}
+
+/* Post */
+.vp-post{
+  background: var(--benefit-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid color-mix(in lab, var(--benefit-navy) 6%, #fff);
+  padding: clamp(16px, 2.4vw, 24px);
+  position: relative;
+}
+.vp-post::before{
+  content:""; position:absolute; inset:0 0 auto 0; height:4px;
+  background: linear-gradient(90deg, var(--benefit-teal), color-mix(in lab, var(--benefit-teal) 30%, var(--benefit-navy)));
+}
+.vp-title{
+  margin: 4px 0 8px;
+  font-size: clamp(24px, 3.6vw, 36px);
+  line-height: 1.15;
+  background: linear-gradient(90deg, var(--benefit-teal), color-mix(in lab, var(--benefit-teal) 40%, #fff));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.vp-content{ margin: 8px 0 12px; }
+.vp-meta{ color: var(--benefit-text-muted); }
+
+/* Likes */
+.vp-likes{
+  display:flex; align-items:center; gap:12px; margin-top: 10px;
+}
+.vp-like-form{ display:flex; gap:8px; }
+.vp-like-count{ color: var(--benefit-text-muted); }
+
+.vp-btn{
+  background: var(--benefit-teal);
+  color:#fff; font-weight:600; border:none; border-radius:10px;
+  padding:10px 14px; cursor:pointer; transition:.18s ease;
+}
+.vp-btn:hover{ background: var(--benefit-teal-2); transform: translateY(-1px); }
+.vp-btn:focus-visible{ outline:none; box-shadow: var(--ring); }
+.vp-dislike{ background: color-mix(in lab, var(--benefit-navy) 15%, #dfe8ec); color: var(--benefit-navy); }
+.vp-dislike:hover{ background: color-mix(in lab, var(--benefit-navy) 25%, #dfe8ec); }
+
+/* Comments */
+.vp-comments{
+  background: var(--benefit-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid color-mix(in lab, var(--benefit-navy) 6%, #fff);
+  padding: clamp(16px, 2.4vw, 24px);
+}
+.vp-comments h3{ margin: 0 0 10px; }
+.vp-empty{
+  margin: 8px 0 0;
+  padding: 12px 14px;
+  background: var(--benefit-teal-soft);
+  border: 1px dashed color-mix(in lab, var(--benefit-teal) 35%, #fff);
+  border-radius: 10px;
+  color: color-mix(in lab, var(--benefit-navy) 60%, var(--benefit-teal));
+}
+.vp-comment{
+  border: 1px solid color-mix(in lab, var(--benefit-navy) 10%, #fff);
+  border-radius: 10px;
+  padding: 10px 12px; margin: 10px 0;
+  background: #fff;
+}
+.vp-comment-head{ display:flex; gap:8px; align-items:center; }
+.vp-comment-user{ color: var(--benefit-navy); }
+.vp-comment-date{ color: var(--benefit-text-muted); }
+.vp-comment-text{ margin: 6px 0 0; }
+
+/* Comment form */
+.vp-comment-form{ display:grid; gap:10px; margin-top:12px; }
+.vp-comment-form textarea{
+  width:100%; min-height:110px; resize: vertical;
+  padding: 10px 12px; border-radius:10px;
+  border:1px solid color-mix(in lab, var(--benefit-navy) 12%, #ddd);
+  font: inherit; background:#fff;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.vp-comment-form textarea:focus{ border-color: var(--benefit-teal); box-shadow: var(--ring); outline:none; }
