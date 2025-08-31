@@ -39,6 +39,11 @@ func (s *Service) GetAllPosts() ([]model.Post, error) {
 	return query.GetAllPosts(s.DB)
 }
 
+// GetPostsByCategories retrieves posts filtered by selected categories
+func (s *Service) GetPostsByCategories(categoryIDs []string) ([]model.Post, error) {
+	return query.GetPostsByCategories(s.DB, categoryIDs)
+}
+
 func (s *Service) GetPostByID(postID string) (*model.Post, error) {
 	var post *model.Post
 	var err error
