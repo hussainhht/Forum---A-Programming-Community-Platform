@@ -40,6 +40,9 @@ func (server *Server) Start() error {
 	router.HandleFunc("POST /comment-reaction", server.CommentReactionHandler)
 	// router.HandleFunc("POST /comment", server.PostCommentHandler)
 
+	router.HandleFunc("GET /logout", server.LogoutHandler)
+
+
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
 }
 
