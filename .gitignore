@@ -1,5 +1,2 @@
-<<<<<<< HEAD
-# Ignore only the forum database file
-=======
->>>>>>> f960cdb17ec0e3698faba6434ae67019b00cc773
+
 *.db
