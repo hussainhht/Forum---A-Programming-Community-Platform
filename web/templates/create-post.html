@@ -13,22 +13,28 @@
     <form action="/create-post" method="POST">
         <label for="title">Title:</label>
         <input type="text" id="title" name="title" required>
+        
         <label for="content">Content:</label>
         <textarea id="content" name="content" required></textarea>
 
         <div class="categories-container">
             <h3>Categories:</h3>
             <div class="checkbox-group">
-                {{range .}}
+                {{range .Categories}}
                 <div class="checkbox-item">
                     <input type="checkbox" name="category" id="category-{{.ID}}" value="{{.ID}}">
                     <label for="category-{{.ID}}">{{.Name}}</label>
                 </div>
                 {{end}}
             </div>
+
+            <button type="submit">Create Post</button>
         </div>
-        <button type="submit">Create Post</button>
     </form>
+
+    {{if .Error}}
+    <div class="error-box">{{.Error}}</div>
+    {{end}}
 </body>
 
 </html>

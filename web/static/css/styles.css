@@ -150,7 +150,16 @@ hr{
     color-mix(in lab, var(--benefit-navy) 10%, #fff) 82%,
     transparent 100%);
   opacity: .8;
+}.error-box{
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fdecea;
+  color: #b00020;
+  border: 1px solid #f5c6cb;
+  font-size: 14px;
 }
+
 
 /* 7) Empty state */
 main > p{
@@ -544,4 +553,15 @@ button[type="submit"]:active {
   .filter-btn, .clear-btn {
     width: 100%;
   }
+}
+
+
+.error-box{
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fdecea;
+  color: #b00020;
+  border: 1px solid #f5c6cb;
+  font-size: 14px;
 }
