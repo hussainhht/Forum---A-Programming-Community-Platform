@@ -8,6 +8,7 @@ import (
 
 func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 	// Handler logic for getting a single post
+
 	postID := r.PathValue("id") // Extract ID from URL pattern /post/{id}
 
 	post, err := server.Service.GetPostByID(postID)
@@ -16,8 +17,16 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	isLoggedIn := false
+
+	if cookie, err := r.Cookie("session_id"); err == nil {
+		if server.Service.IsValidSession(cookie.Value) {
+			isLoggedIn = true
+		}
+	}
+
 	pageData := model.PageData{
-		IsLoggedIn: true, // Replace with actual login check
+		IsLoggedIn: isLoggedIn,
 		Post:       post,
 	}
 	// Render the post using a template
@@ -26,7 +35,7 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 		server.Service.HandleError(w, http.StatusInternalServerError)
 		return
 	}
-	// fmt.Println(post). 
+	// fmt.Println(post).
 	if err := tmpl.Execute(w, pageData); err != nil {
 		http.Error(w, "Failed to render template", http.StatusInternalServerError)
 		return

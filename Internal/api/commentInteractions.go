@@ -6,7 +6,12 @@ import (
 	"strconv"
 )
 
+
 func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Request) {
+
+	// Check if user is authorized
+
+
 	r.ParseForm()
 	commentID, err := strconv.Atoi(r.FormValue("comment_id"))
 	if err != nil {
@@ -71,3 +76,4 @@ func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.R
 	http.Redirect(w, r, fmt.Sprintf("/post/%s", postID), http.StatusSeeOther)
 	w.WriteHeader(http.StatusCreated)
 }
+
