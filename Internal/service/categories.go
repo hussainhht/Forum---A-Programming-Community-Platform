@@ -1,7 +1,11 @@
 package service
 
-import "forum/Internal/model"
-
+import (
+	"fmt"
+	"forum/Internal/model"
+	"forum/Internal/query"
+	"strconv"
+)
 
 func (service *Service) GetCategories() ([]model.Category, error) {
 	rows, err := service.DB.Query("SELECT id, name FROM categories")
@@ -20,4 +24,22 @@ func (service *Service) GetCategories() ([]model.Category, error) {
 	}
 
 	return categories, nil
+}
+
+func (service *Service) validateCategories(categories []string) error {
+	for _, v := range categories {
+		cat, err := strconv.Atoi(v)
+		if err != nil {
+			return fmt.Errorf("invalid category ID: %s", v)
+		}
+		q, err := query.SelectCategoryByID(service.DB, cat)
+		if err != nil {
+			return fmt.Errorf("failed to select category: %s", v)
+		}
+		if q == nil {
+			return fmt.Errorf("invalid category ID: %s", v)
+		}
+	}
+
+	return nil
 }

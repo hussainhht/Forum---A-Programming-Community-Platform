@@ -14,6 +14,10 @@ func (service *Service) CreatePost(sessionID, title, content string, categories 
 	if err != nil {
 		return fmt.Errorf("failed to get user ID from session: %w", err)
 	}
+	err = service.validateCategories(categories)
+	if err != nil {
+		return fmt.Errorf("failed to validate categories: %w", err)
+	}
 
 	tx, err := DB.Begin()
 	if err != nil {

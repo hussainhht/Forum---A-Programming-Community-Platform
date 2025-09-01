@@ -140,6 +140,20 @@ func GetPostsByCategories(db *sql.DB, categoryIDs []string) ([]model.Post, error
 	return posts, nil
 }
 
+func SelectCategoryByID(db *sql.DB, categoryID int) (*model.Category, error) {
+	row := db.QueryRow("SELECT id, name FROM categories WHERE id = ?", categoryID)
+
+	var category model.Category
+	if err := row.Scan(&category.ID, &category.Name); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &category, nil
+}
+
 func GetPostByID(db *sql.DB, postID string) (*model.Post, error) {
 	row := db.QueryRow(GetPostByIDQuery, postID)
 
