@@ -66,16 +66,16 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 
 	// Get all categories
 	allCategories, _ := server.Service.GetCategories()
-	selectedCategories := []m.Category{}
+	//? selectedCategories := []m.Category{}
 	categorySet := make(map[string]struct{})
 	for _, c := range categories {
 		categorySet[c] = struct{}{}
 	}
-	for _, cat := range allCategories {
-		if _, ok := categorySet[cat.Name]; ok {
-			selectedCategories = append(selectedCategories, cat)
-		}
-	}
+	// for _, cat := range allCategories {
+	// 	if _, ok := categorySet[cat.Name]; ok {
+	// 		selectedCategories = append(selectedCategories, cat)
+	// 	}
+	// }
 
 	// validate input
 	if title == "" || content == "" {
