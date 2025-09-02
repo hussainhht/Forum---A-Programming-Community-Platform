@@ -37,6 +37,12 @@ func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Reques
 		renderRegister(w, "Username is too long,(the maximum length is 50 characters)", r)
 		return
 	}
+
+	if strings.Contains(username, " ") {
+		renderRegister(w, "Username must not contain spaces", r)
+		return
+	}
+
 	email := strings.TrimSpace(strings.ToLower(r.FormValue("email")))
 	if len(email) > 100 {
 		renderRegister(w, "Email is too long,(the maximum length is 50 characters)", r)
