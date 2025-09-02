@@ -39,7 +39,7 @@ func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Reques
 	}
 	email := strings.TrimSpace(strings.ToLower(r.FormValue("email")))
 	if len(email) > 100 {
-		renderRegister(w, "Email is too long,(the maximum length is 100 characters)", r)
+		renderRegister(w, "Email is too long,(the maximum length is 50 characters)", r)
 		return
 	}
 	password := r.FormValue("password")
