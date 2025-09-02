@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post - Pseudo</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            background: hsl(210 20% 98%);
+            margin: 0;
+            padding: 20px;
+            color: hsl(220 15% 18%);
+        }
+        h1 { text-align: center; margin-bottom: 20px; }
+
+        .post-form {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 6px 18px rgba(10,31,68,.12);
+        }
+
+        .post-form input[type="text"],
+        .post-form select,
+        .post-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border: 1px solid hsl(218 52% 22%);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .post-form button {
+            background: hsl(178 65% 40%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-right: 6px;
+            cursor: pointer;
+        }
+
+        .post-form button:hover {
+            background: hsl(178 70% 34%);
+        }
+
+        .blocks-container {
+            margin-top: 20px;
+        }
+
+        .block {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid hsl(218 52% 22%);
+        }
+
+        .block.code {
+            background: #f4f4f4;
+            font-family: monospace;
+        }
+
+        .block.text {
+            background: #fff;
+        }
+
+        .block-buttons {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Create a New Post (Pseudo)</h1>
+
+<div class="post-form">
+    <label>Post Title</label>
+    <input type="text" placeholder="Enter your title">
+
+    <label>Block Type</label>
+    <select>
+        <option value="text">Text</option>
+        <option value="code">Code</option>
+    </select>
+
+    <label>Block Content</label>
+    <textarea placeholder="Write your content here..."></textarea>
+
+    <div class="block-buttons">
+        <button>Add Block</button>
+        <button>Delete Last Block</button>
+    </div>
+
+    <div class="blocks-container">
+        <!-- Example blocks -->
+        <div class="block text">This is a text block example</div>
+        <div class="block code">fmt.Println("Hello World")</div>
+    </div>
+
+    <button style="width:100%; margin-top:10px;">Submit Post</button>
+</div>
+
+</body>
+</html>

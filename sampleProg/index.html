@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Code Forum</title>
+  <title>Create Post - Code Forum</title>
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
@@ -20,17 +20,40 @@
       </button>
     </div>
 
-    <form method="POST" class="form">
+    <!-- Post title -->
+    <form method="POST" class="form" action="/add-block">
+      <input type="text" name="title" placeholder="Post Title" value="{{.TempPost.Title}}" required>
+      
+      <!-- Categories -->
+      <div class="radio-group">
+        {{range .Categories}}
+          <label>
+            <input type="checkbox" name="category" value="{{.ID}}"
+              {{if contains $.TempPost.SelectedCategories .ID}}checked{{end}}>
+            {{.Name}}
+          </label>
+        {{end}}
+      </div>
+
+      <!-- Add block controls -->
       <div class="radio-group">
         <label><input type="radio" name="type" value="code" checked> Code</label>
         <label><input type="radio" name="type" value="text"> Text</label>
       </div>
       <textarea name="content" rows="6" cols="60" placeholder="Write your block here..."></textarea><br>
-      <button type="submit" class="submit-button">Add Block</button>
+      <div style="display:flex; gap:8px;">
+        <button type="submit" class="submit-button">Add Block</button>
+      </div>
     </form>
 
+    <!-- Delete last block -->
+    <form method="POST" action="/delete-last-block" style="margin-top:8px;">
+      <button type="submit" class="submit-button" style="background:#ff5a5f;">Delete Last Block</button>
+    </form>
+
+    <!-- Preview of blocks -->
     <div id="pre">
-      {{range .}}
+      {{range .TempPost.Blocks}}
         {{if eq .Type "code"}}
           <div class="code-string">{{.Content}}</div>
         {{else}}
@@ -38,6 +61,11 @@
         {{end}}
       {{end}}
     </div>
+
+    <!-- Final submit post -->
+    <form method="POST" action="/submit-post" style="margin-top:12px;">
+      <button type="submit" class="submit-button">Submit Post</button>
+    </form>
   </div>
 </body>
 </html>

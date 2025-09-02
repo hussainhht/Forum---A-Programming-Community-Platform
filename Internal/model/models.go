@@ -2,11 +2,22 @@ package model
 
 import "time"
 
+type Block struct {
+	Type    string `json:"type"` // "text" or "code"
+	Content string `json:"content"`
+}
+
+type TempPost struct {
+    Title              string
+    Blocks             []Block
+    SelectedCategories []int
+}
+
 type Post struct {
 	ID        int
 	UserID    int // FK to User
 	Title     string
-	Content   string
+	Content   []Block `json:"content"`
 	CreatedAt time.Time
 	Username  string // For display purposes (not stored in DB)
 	LikeCount int
