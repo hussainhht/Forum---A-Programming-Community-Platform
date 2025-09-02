@@ -2,10 +2,10 @@
 
 :root {
   --card-bg: #eeeeee;
-  --text: #00f7ff9f;
+  --text: #fcfdfd9f;
   --muted: #8f8f8f;
-  --accent: rgba(19, 128, 136, 0.336);
-  --shadow: 0 8px 20px rgba(46, 83, 117, 0.2);
+  --accent: linear-gradient(90deg, #00f7ff, #0088ff);
+  --shadow: 0 0 10px rgba(0, 247, 255, 0.6);
   --radius: 10px;
   --glass-bg: rgba(49, 45, 45, 0.068);
   /* transparent white background */
@@ -60,7 +60,7 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(105, 250, 238, 0.3);
 
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
@@ -74,6 +74,9 @@ body {
   color: var(--text);
   font-weight: 700;
   letter-spacing: .3px;
+  text-shadow: 0 0 10px rgba(235, 235, 235, 0.8),
+    0 0 20px rgba(215, 219, 219, 0.6);
+    
 }
 
 @media (max-width: 480px) {
@@ -88,63 +91,61 @@ body {
 
 /* ===== Floating Inputs ===== */
 .inputbox {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
   position: relative;
   width: 100%;
-  margin-top: 6px;
+  color: #fff;
 }
 
 .inputbox input {
-  position: relative;
   width: 100%;
-  padding: 20px 10px 10px;
-  background: transparent;
-  outline: none;
+  height: 45px;
   border: none;
-  box-shadow: none;
-  color: var(--text);
-  font-size: 1rem;
-  letter-spacing: .05em;
-  transition: .5s;
-  z-index: 10;
+  outline: none;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #fff;
+  background: transparent;
+  box-shadow:
+    3px 3px 10px rgba(0,0,0,1),
+    -1px -1px 6px rgba(255, 255, 255, 0.4);
+  transition: 0.3s ease;
 }
 
 .inputbox span {
+  font-size: 15px;
+  padding-left: 10px;
   position: absolute;
-  left: 10px;
-  top: 10%;
-  padding: 20px 10px 10px;
-  font-size: 1rem;
-  color: var(--muted);
-  letter-spacing: .05em;
-  transition: .5s;
-  pointer-events: none;
-}
-
-.inputbox i {
-  position: absolute;
+  top: 13px;
   left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--accent);
-  border-radius: 4px;
-  transition: .5s;
+  color: #aaa;
   pointer-events: none;
-  z-index: 9;
+  transition: 0.3s;
 }
 
-.inputbox input:focus~span,
-.inputbox input:valid~span {
-  color: var(--accent);
-  transform: translateX(-10px) translateY(-34px);
-  font-size: .75em;
+/* focus state */
+.inputbox input:focus {
+  border: 2px solid transparent;
+  box-shadow:
+    3px 3px 10px rgba(0,0,0,1),
+    -1px -1px 6px rgba(255, 255, 255, 0.4),
+    inset 3px 3px 10px rgba(0,0,0,1),
+    inset -1px -1px 6px rgba(255, 255, 255, 0.4);
 }
 
-.inputbox input:focus~i,
-.inputbox input:valid~i {
-  height: 44px;
+/* floating label effect */
+.inputbox input:focus ~ span,
+.inputbox input:valid ~ span {
+  transform: translateY(-20px);
+  font-size: 13px;
+  padding-left: 2px;
+  color: var(--accent, #00f7ff); /* accent color */
 }
 
+/* ------------------------------------------------------------ */
 
 .form-actions {
   margin-top: 6px;
@@ -213,8 +214,8 @@ body {
   margin-bottom: 20px;
   font-size: 2.2rem;
 
-  text-shadow: 0 0 10px rgba(20, 239, 255, 0.8),
-    0 0 20px rgba(20, 247, 255, 0.6);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(248, 248, 248, 0.6);
 
 
 
