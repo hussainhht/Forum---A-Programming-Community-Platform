@@ -87,7 +87,7 @@ body{
   min-height: 100vh;
   background:
     linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
-    url('static/img/bg-tech.png') no-repeat center center fixed;
+    url('../img/bg-tech.png') no-repeat center center fixed;
   background-size: cover;
   background-color: #0b1420;
 }
