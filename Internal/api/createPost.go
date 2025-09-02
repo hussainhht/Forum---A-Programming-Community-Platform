@@ -60,7 +60,16 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 
 	// Get form values
 	title := r.FormValue("title")
+
+	if len(title) > 200 {
+		renderCreatePost(w, CreatePostPageData{Error: "Title is too long,(the maximum length is 200 characters)"}, "Title is too long")
+		return
+	}
 	content := r.FormValue("content")
+	if len(content) > 1000 {
+		renderCreatePost(w, CreatePostPageData{Error: "Content is too long,(the maximum length is 1000 characters)"}, "Content is too long")
+		return
+	}
 	categories := r.Form["category"]
 
 

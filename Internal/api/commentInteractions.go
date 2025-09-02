@@ -66,6 +66,10 @@ func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.R
 	}
 
 	content := r.FormValue("content")
+	if len(content) > 1000 {
+		http.Error(w, "Comment content is too long", http.StatusBadRequest)
+		return
+	}
 
 	// Call the service layer to create the comment
 	err = server.Service.CreateComment(postID, userID, content)
