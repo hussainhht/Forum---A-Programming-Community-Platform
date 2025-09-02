@@ -7,8 +7,11 @@ import (
 )
 
 type CreatePostPageData struct {
-	Error      string
-	Categories []m.Category
+	Error              string
+	Categories         []m.Category
+	Title              string
+	SelectedCategories []int
+	TempBlocks         []m.Block  // stores blocks before submission
 }
 
 func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
