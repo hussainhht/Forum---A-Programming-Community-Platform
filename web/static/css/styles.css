@@ -1,14 +1,8 @@
-/* =========================
-   Forum – Benefit-inspired theme
-   ========================= */
-
-/* 1) Design Tokens */
 :root{
-  /* Palette (inspired by BENEFIT vibe) */
-  --benefit-navy: hsl(218 60% 16%);   /* deep navy */
-  --benefit-navy-2: hsl(218 52% 22%); /* hover/depth */
-  --benefit-teal: hsl(178 65% 40%);   /* primary accent (BenefitPay-ish) */
-  --benefit-teal-2: hsl(178 70% 34%); /* hover/darker */
+  --benefit-navy: hsl(218 60% 16%);
+  --benefit-navy-2: hsl(218 52% 22%);
+  --benefit-teal: hsl(178 65% 40%);
+  --benefit-teal-2: hsl(178 70% 34%);
   --benefit-teal-soft: hsl(178 45% 92%);
   --benefit-bg: hsl(210 20% 98%);
   --benefit-card: #fff;
@@ -22,7 +16,6 @@
   --container: 1120px;
 }
 
-/* 2) Reset-ish */
 *{ box-sizing: border-box; }
 html,body{ height:100%; }
 body{
@@ -40,7 +33,6 @@ a:active {
   color: inherit;
 }
 
-/* 3) Layout */
 #mainContainer{
   max-width: var(--container);
   margin-inline:auto;
@@ -51,7 +43,6 @@ a:active {
 
 .mainContainer-child{ width: 100%; }
 
-/* 4) Navbar */
 .navbar{
   position: sticky;
   top: 0;
@@ -70,7 +61,6 @@ a:active {
 
 .navbar-item{
   color: #e6f7f6;
-  text-decoration: none;
   font-weight: 600;
   padding: 10px 14px;
   border-radius: 10px;
@@ -85,7 +75,6 @@ a:active {
   outline: none;
 }
 
-/* 5) Page Title */
 main h1{
   margin: 4px 0 10px;
   font-size: clamp(26px, 3.8vw, 40px);
@@ -95,18 +84,15 @@ main h1{
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 0 rgba(0,0,0,0); /* crisp gradient text */
+  text-shadow: 0 0 0 rgba(0,0,0,0);
 }
 
-/* 6) Posts list */
 main{
   display:grid;
   gap: 18px;
 }
 
 .post-card{
-  text-decoration: none;
-
   background: var(--benefit-card);
   border-radius: var(--radius);
   padding: clamp(14px, 2.2vw, 20px);
@@ -116,7 +102,6 @@ main{
   overflow: clip;
 }
 
-/* Accent bar on top */
 .post-card::before{
   content: "";
   position: absolute;
@@ -133,13 +118,14 @@ main{
 .post-card p{
   margin: 0 0 8px;
   color: var(--benefit-text);
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .post-card small{
   color: var(--benefit-text-muted);
 }
 
-/* Divider */
 hr{
   border: none;
   height:1px;
@@ -150,7 +136,9 @@ hr{
     color-mix(in lab, var(--benefit-navy) 10%, #fff) 82%,
     transparent 100%);
   opacity: .8;
-}.error-box{
+}
+
+.error-box{
   margin: 0 0 12px;
   padding: 10px 12px;
   border-radius: 8px;
@@ -160,8 +148,6 @@ hr{
   font-size: 14px;
 }
 
-
-/* 7) Empty state */
 main > p{
   margin: 8px 0 0;
   padding: 14px 16px;
@@ -171,16 +157,13 @@ main > p{
   border-radius: 12px;
 }
 
-/* 8) Links in content */
 .post-card a{
   color: var(--benefit-teal);
-  text-decoration: none;
   border-bottom: 1px solid color-mix(in lab, var(--benefit-teal) 40%, transparent);
   transition: .18s ease;
 }
 .post-card a:hover{ color: var(--benefit-teal-2); border-bottom-color: currentColor; }
 
-/* 9) Focus Ring */
 :where(a, button, [tabindex]){
   outline: none;
 }
@@ -189,20 +172,17 @@ main > p{
   border-radius: 10px;
 }
 
-/* 10) Responsive */
 @media (min-width: 720px){
   main{
     grid-template-columns: 1fr;
   }
 }
 @media (min-width: 900px){
-  /* two columns look nice when there are many posts */
   main{
     grid-template-columns: 1fr 1fr;
   }
 }
 
-/* 11) Subtle float-on-hover for cards */
 @media (hover:hover){
   .post-card{ transition: transform .18s ease, box-shadow .18s ease; }
   .post-card:hover{
@@ -211,12 +191,6 @@ main > p{
   }
 }
 
-
-/* =========================
-   Create Post Page Styles
-   ========================= */
-
-/* Form wrapper */
 form {
   background: var(--benefit-card);
   padding: 28px clamp(16px, 3vw, 32px);
@@ -229,7 +203,6 @@ form {
   margin-inline: auto;
 }
 
-/* Labels */
 form label {
   font-weight: 600;
   margin-bottom: 6px;
@@ -237,7 +210,6 @@ form label {
   color: var(--benefit-text);
 }
 
-/* Inputs + Textareas */
 input[type="text"],
 textarea {
   width: 100%;
@@ -262,7 +234,6 @@ textarea {
   min-height: 120px;
 }
 
-/* Categories group */
 .categories-container {
   padding: 16px;
   background: var(--benefit-teal-soft);
@@ -295,7 +266,6 @@ textarea {
   height: 18px;
 }
 
-/* Button */
 button[type="submit"] {
   background: var(--benefit-teal);
   color: #fff;
@@ -318,7 +288,6 @@ button[type="submit"]:active {
   transform: translateY(0);
 }
 
-/* Responsive tweaks */
 @media (max-width: 600px) {
   form {
     padding: 20px;
@@ -328,27 +297,6 @@ button[type="submit"]:active {
     justify-self: stretch;
   }
 }
-
-
-
-
-
-
-
-
-
------------- for checking later ------------
-
-
-
-
-
-
-
-
-/* =========================
-   Category Filter Styles
-   ========================= */
 
 .category-filter {
   background: var(--benefit-card);
@@ -444,10 +392,6 @@ button[type="submit"]:active {
   gap: 18px;
 }
 
-/* =========================
-   Category Filter Styles
-   ========================= */
-
 .category-filter {
   background: var(--benefit-card);
   padding: 20px;
@@ -540,7 +484,6 @@ button[type="submit"]:active {
   gap: 18px;
 }
 
-/* Responsive adjustments for filter */
 @media (max-width: 600px) {
   .category-checkboxes {
     grid-template-columns: 1fr;
@@ -554,7 +497,6 @@ button[type="submit"]:active {
     width: 100%;
   }
 }
-
 
 .error-box{
   margin: 0 0 12px;

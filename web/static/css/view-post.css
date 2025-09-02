@@ -1,4 +1,3 @@
-/* ===== View Post (scoped) ===== */
 :root{
   --benefit-navy: hsl(218 60% 16%);
   --benefit-navy-2: hsl(218 52% 22%);
@@ -38,7 +37,6 @@
   gap: 18px;
 }
 
-/* Post */
 .vp-post{
   background: var(--benefit-card);
   border-radius: var(--radius);
@@ -58,10 +56,13 @@
   background: linear-gradient(90deg, var(--benefit-teal), color-mix(in lab, var(--benefit-teal) 40%, #fff));
   -webkit-background-clip:text; background-clip:text; color:transparent;
 }
-.vp-content{ margin: 8px 0 12px; }
+.vp-content{ 
+  margin: 8px 0 12px; 
+  white-space: pre-wrap; 
+  word-break: break-word; 
+}
 .vp-meta{ color: var(--benefit-text-muted); }
 
-/* Likes */
 .vp-likes{
   display:flex; align-items:center; gap:12px; margin-top: 10px;
 }
@@ -78,7 +79,6 @@
 .vp-dislike{ background: color-mix(in lab, var(--benefit-navy) 15%, #dfe8ec); color: var(--benefit-navy); }
 .vp-dislike:hover{ background: color-mix(in lab, var(--benefit-navy) 25%, #dfe8ec); }
 
-/* Comments */
 .vp-comments{
   background: var(--benefit-card);
   border-radius: var(--radius);
@@ -104,9 +104,12 @@
 .vp-comment-head{ display:flex; gap:8px; align-items:center; }
 .vp-comment-user{ color: var(--benefit-navy); }
 .vp-comment-date{ color: var(--benefit-text-muted); }
-.vp-comment-text{ margin: 6px 0 0; }
+.vp-comment-text{ 
+  margin: 6px 0 0; 
+  white-space: pre-wrap; 
+  word-break: break-word; 
+}
 
-/* Comment form */
 .vp-comment-form{ display:grid; gap:10px; margin-top:12px; }
 .vp-comment-form textarea{
   width:100%; min-height:110px; resize: vertical;
@@ -115,4 +118,4 @@
   font: inherit; background:#fff;
   transition: border-color .18s ease, box-shadow .18s ease;
 }
-.vp-comment-form textarea:focus{ border-color: var(--benefit-teal); box-shadow: var(--ring); outline:none; }
+.vp-comment-form textarea:focus{ border-color: var(--benefit-teal); box-shadow: var(--ring); outline:none; } 
