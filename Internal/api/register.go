@@ -33,8 +33,20 @@ func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Reques
 
 	// Get form values
 	username := strings.TrimSpace(r.FormValue("username"))
+	if len(username) > 50 {
+		renderRegister(w, "Username is too long,(the maximum length is 50 characters)", r)
+		return
+	}
 	email := strings.TrimSpace(strings.ToLower(r.FormValue("email")))
+	if len(email) > 100 {
+		renderRegister(w, "Email is too long,(the maximum length is 100 characters)", r)
+		return
+	}
 	password := r.FormValue("password")
+	if len(password) > 80 {
+		renderRegister(w, "the password must be max 80 characters long", r)
+		return
+	}
 	confirmPassword := r.FormValue("confirmPassword")
 
 	if err := server.Service.RegisterUser(username, email, password, confirmPassword); err != nil {
