@@ -1,62 +1,177 @@
+/* ! variables */
+
+:root {
+  --card-bg: #eeeeee;
+  --text: #00f7ff9f;
+  --muted: #8f8f8f;
+  --accent: rgba(19, 128, 136, 0.336);
+  --shadow: 0 8px 20px rgba(46, 83, 117, 0.2);
+  --radius: 10px;
+  --glass-bg: rgba(49, 45, 45, 0.068);
+  /* transparent white background */
+  --glass-border: rgba(255, 255, 255, 0.3);
+  /* light border for glass effect */
+  --glass-blur: 20px;
+  /* blur strength */
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  /* center horizontally */
+  align-items: center;
+  /* center vertically */
+  background:
+    linear-gradient(rgba(0, 0, 0, .35), rgba(0, 0, 0, .35)),
+    url('../img/bg-tech.png') no-repeat center center fixed;
+  background-size: cover;
+  background-color: #0b1420;
+}
+
+
+.main-card {
+  width: 1000px;
+  border-radius: 40px;
+  padding: 45px 40px;
+  display: flex;
+
+
+  background: var(--glass-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  justify-content: center;
+}
+
 .login-container {
-  background: #fff;
-  padding: 30px 40px;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  width: 350px;
+  width: 500px;
+  border-radius: 20px;
+  padding: 60px 40px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin: auto;
-  margin-top: 25vh;
+  gap: 40px;
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .login-header {
   text-align: center;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.login-header h2 {
+  margin: 0 0 4px;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: .3px;
 }
 
-.form-group label {
-  font-weight: bold;
-  color: #555;
+@media (max-width: 480px) {
+  .login-container {
+    width: 100%;
+    margin: 10px 16px;
+    /* space from edges */
+    padding: 32px 12px;
+    /* adjust padding */
+  }
 }
 
-.form-group input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
+/* ===== Floating Inputs ===== */
+.inputbox {
+  position: relative;
+  width: 100%;
+  margin-top: 6px;
 }
+
+.inputbox input {
+  position: relative;
+  width: 100%;
+  padding: 20px 10px 10px;
+  background: transparent;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  color: var(--text);
+  font-size: 1rem;
+  letter-spacing: .05em;
+  transition: .5s;
+  z-index: 10;
+}
+
+.inputbox span {
+  position: absolute;
+  left: 10px;
+  top: 10%;
+  padding: 20px 10px 10px;
+  font-size: 1rem;
+  color: var(--muted);
+  letter-spacing: .05em;
+  transition: .5s;
+  pointer-events: none;
+}
+
+.inputbox i {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: .5s;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.inputbox input:focus~span,
+.inputbox input:valid~span {
+  color: var(--accent);
+  transform: translateX(-10px) translateY(-34px);
+  font-size: .75em;
+}
+
+.inputbox input:focus~i,
+.inputbox input:valid~i {
+  height: 44px;
+}
+
 
 .form-actions {
+  margin-top: 6px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
 .form-actions button {
-  padding: 10px;
-  background: #4a90e2;
-  color: white;
-  border: none;
-  border-radius: 6px;
+  padding: 12px 14px;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: .25s;
 }
 
 .form-actions button:hover {
-  background: #357ABD;
+  background: rgba(5, 102, 126, 0.589);
 }
 
 .form-footer {
   text-align: center;
   font-size: 14px;
+  color: var(--muted);
 }
 
 .form-footer a {
@@ -68,26 +183,40 @@
   text-decoration: underline;
 }
 
-.error-box{
+.error-box {
   margin: 0 0 12px;
   padding: 10px 12px;
   border-radius: 8px;
-  background: #fdecea;
+  background: var(--glass-bg);
   color: #b00020;
-  border: 1px solid #f5c6cb;
+  border: 1px solid #3d0006;
   font-size: 14px;
 }
 
 
+/* ! ---------------logos---------------------- */
+.logos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-html, body { height: 100%; }
+.logos img {
+  max-width: 60%;
+  height: auto;
+}
 
-body{
-  margin: 0;
-  min-height: 100vh;
-  background:
-    linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
-    url('../img/bg-tech.png') no-repeat center center fixed;
-  background-size: cover;
-  background-color: #0b1420;
+.welcome h1 {
+  color: var(--text);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2.2rem;
+
+  text-shadow: 0 0 10px rgba(20, 239, 255, 0.8),
+    0 0 20px rgba(20, 247, 255, 0.6);
+
+
+
+
 }
