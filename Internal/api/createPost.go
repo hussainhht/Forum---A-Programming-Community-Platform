@@ -14,6 +14,9 @@ type CreatePostPageData struct {
 	TempBlocks         []m.Block  // stores blocks before submission
 }
 
+var tempPosts = map[string][]m.Block{} // map[sessionID][]Block
+
+
 func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	// check if user is authorized
 	cookie, err := r.Cookie("session_id")
@@ -43,80 +46,88 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 }
 
 func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
-	// check user authentication
 	cookie, err := r.Cookie("session_id")
-	if err != nil || cookie.Value == "" {
+	if err != nil || cookie.Value == "" || !server.Service.IsValidSession(cookie.Value) {
 		server.Service.HandleError(w, http.StatusUnauthorized)
 		return
 	}
-	valid := server.Service.IsValidSession(cookie.Value)
-	if !valid {
-		server.Service.HandleError(w, http.StatusUnauthorized)
-		return
-	}
+	sessionID := cookie.Value
 
-	// Parse form data
 	if err := r.ParseForm(); err != nil {
 		server.Service.HandleError(w, http.StatusBadRequest)
 		return
 	}
 
-	// Get form values
-	title := r.FormValue("title")
+	action := r.FormValue("action") // "add-block", "remove-block", or "submit-post"
 
-	if len(title) > 200 {
-		renderCreatePost(w, CreatePostPageData{Error: "Title is too long,(the maximum length is 200 characters)"}, "Title is too long")
+	// Load temp blocks for this session
+	blocks := tempPosts[sessionID]
+
+	switch action {
+
+	case "add-block":
+		blockType := r.FormValue("type")
+		content := r.FormValue("content")
+		if content != "" && (blockType == "code" || blockType == "text") {
+			blocks = append(blocks, m.Block{Type: blockType, Content: content})
+		}
+
+	case "remove-block":
+		if len(blocks) > 0 {
+			blocks = blocks[:len(blocks)-1]
+		}
+
+	case "submit-post":
+		title := r.FormValue("title")
+		selectedCats := r.Form["category"]
+		if title == "" || len(blocks) == 0 || len(selectedCats) == 0 {
+			allCats, _ := server.Service.GetCategories()
+			renderCreatePost(w, CreatePostPageData{
+				Error:      "Title, at least one block, and at least one category are required",
+				Categories: allCats,
+				TempBlocks: blocks,
+				Title:      title,
+			}, "")
+			return
+		}
+
+		// Convert selectedCats (string IDs) to []int
+		var catIDs []int
+		for _, s := range selectedCats {
+			if id, err := strconv.Atoi(s); err == nil {
+				catIDs = append(catIDs, id)
+			}
+		}
+
+		if err := server.Service.CreatePost(sessionID, title, catIDs, blocks); err != nil {
+			allCats, _ := server.Service.GetCategories()
+			renderCreatePost(w, CreatePostPageData{
+				Error:      "Failed to create post",
+				Categories: allCats,
+				TempBlocks: blocks,
+				Title:      title,
+			}, "")
+			return
+		}
+
+		// Clear temp blocks on success
+		tempPosts[sessionID] = nil
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
-	content := r.FormValue("content")
-	if len(content) > 1000 {
-		renderCreatePost(w, CreatePostPageData{Error: "Content is too long,(the maximum length is 1000 characters)"}, "Content is too long")
-		return
-	}
-	categories := r.Form["category"]
 
+	// Update temp blocks
+	tempPosts[sessionID] = blocks
 
-	// Get all categories
-	allCategories, _ := server.Service.GetCategories()
-	//? selectedCategories := []m.Category{}
-	categorySet := make(map[string]struct{})
-	for _, c := range categories {
-		categorySet[c] = struct{}{}
-	}
-	// for _, cat := range allCategories {
-	// 	if _, ok := categorySet[cat.Name]; ok {
-	// 		selectedCategories = append(selectedCategories, cat)
-	// 	}
-	// }
-
-	// validate input
-	if title == "" || content == "" {
-		
-		renderCreatePost(w, CreatePostPageData{Categories: allCategories}, "Title and content are required")
-		return
-	}
-
-	if len(categories) == 0 {
-		renderCreatePost(w, CreatePostPageData{Categories: allCategories, Error: "At least one category is required"}, "At least one category is required")
-		return
-	}
-
-	sessionID, err := server.Service.GetSessionIDFromCookie(r)
-	if err != nil {
-		renderCreatePost(w, CreatePostPageData{Categories: allCategories,
-			Error: "you must be logged in to create a post"}, "you must be logged in to create a post")
-		return
-	}
-
-	if err := server.Service.CreatePost(sessionID, title, content, categories); err != nil {
-		renderCreatePost(w, CreatePostPageData{Categories: allCategories,
-			Error: "the post could not be created"}, "the post could not be created")
-		return
-	}
-
-	// Success response
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	// Render page with current temp blocks
+	allCats, _ := server.Service.GetCategories()
+	renderCreatePost(w, CreatePostPageData{
+		Categories: allCats,
+		TempBlocks: blocks,
+		Title:      r.FormValue("title"),
+	}, "")
 }
+
 
 // Common renderer
 func renderCreatePost(w http.ResponseWriter, data CreatePostPageData, errMessage string) {
