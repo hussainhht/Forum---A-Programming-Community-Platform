@@ -45,6 +45,7 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 
 }
 
+
 func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	// Check user authentication
 	cookie, err := r.Cookie("session_id")
@@ -128,6 +129,7 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 		Title:      r.FormValue("title"),
 	}, "")
 }
+
 
 
 // Common renderer
