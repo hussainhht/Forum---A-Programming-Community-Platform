@@ -1,51 +1,57 @@
 package api
 
 import (
-	m "forum/Internal/model"
+	"encoding/json"
+	"forum/Internal/model"
 	"html/template"
 	"net/http"
+	"strconv"
+	m "forum/Internal/model"
 )
 
+// CreatePostPageData holds the data for rendering the create post page
 type CreatePostPageData struct {
 	Error              string
-	Categories         []m.Category
-	Title              string
+	Categories         []model.Category
 	SelectedCategories []int
-	TempBlocks         []m.Block  // stores blocks before submission
+	Title              string
+	TempBlocks         []model.Block
 }
 
-var tempPosts = map[string][]m.Block{} // map[sessionID][]Block
-
-
+// GET handler for creating a post
 func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
-	// check if user is authorized
 	cookie, err := r.Cookie("session_id")
-	if err != nil {
+	if err != nil || !server.Service.IsValidSession(cookie.Value) {
 		server.Service.HandleError(w, http.StatusUnauthorized)
 		return
 	}
-	if !server.Service.IsValidSession(cookie.Value) {
-		server.Service.HandleError(w, http.StatusUnauthorized)
-		return
+	sessionID := cookie.Value
+
+	// Initialize TempBlocks for this session
+	if _, ok := server.TempBlocks[sessionID]; !ok {
+		server.TempBlocks[sessionID] = []model.Block{}
 	}
 
-	// Get categories to display in the form
+	// Get categories
 	categories, err := server.Service.GetCategories()
 	if err != nil {
 		http.Error(w, "Error loading categories", http.StatusInternalServerError)
 		return
 	}
-	categoriesData := CreatePostPageData{
-		Categories: categories,
-		Error:      "",
+
+	data := CreatePostPageData{
+		Title:              "",
+		Categories:         categories,
+		SelectedCategories: []int{},
+		TempBlocks:         server.TempBlocks[sessionID],
+		Error:              "",
 	}
 
-	renderCreatePost(w, categoriesData, "")
-
-
+	tmpl := template.Must(template.ParseFiles("./web/templates/create-post.html"))
+	_ = tmpl.Execute(w, data)
 }
 
-
+// POST handler for creating a post
 func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("session_id")
 	if err != nil || cookie.Value == "" || !server.Service.IsValidSession(cookie.Value) {
@@ -54,88 +60,138 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 	}
 	sessionID := cookie.Value
 
+	// Initialize TempBlocks if missing
+	if _, ok := server.TempBlocks[sessionID]; !ok {
+		server.TempBlocks[sessionID] = []model.Block{}
+	}
+
 	if err := r.ParseForm(); err != nil {
 		server.Service.HandleError(w, http.StatusBadRequest)
 		return
 	}
 
-	action := r.FormValue("action") // "add-block", "remove-block", or "submit-post"
+	action := r.FormValue("action")
+	title := r.FormValue("title")
+	blockType := r.FormValue("type")
+	content := r.FormValue("content")
+	categories := r.Form["category"]
 
-	// Load temp blocks for this session
-	blocks := tempPosts[sessionID]
+	// Convert categories to []int
+	var catIDs []int
+	for _, c := range categories {
+		id, _ := strconv.Atoi(c)
+		catIDs = append(catIDs, id)
+	}
+
+	tempBlocks := server.TempBlocks[sessionID]
 
 	switch action {
-
 	case "add-block":
-		blockType := r.FormValue("type")
-		content := r.FormValue("content")
 		if content != "" && (blockType == "code" || blockType == "text") {
-			blocks = append(blocks, m.Block{Type: blockType, Content: content})
+			tempBlocks = append(tempBlocks, model.Block{
+				Type:    blockType,
+				Content: content,
+			})
+			server.TempBlocks[sessionID] = tempBlocks
 		}
+		renderCreatePost(w, server, title, catIDs, tempBlocks, "")
+		return
 
 	case "remove-block":
-		if len(blocks) > 0 {
-			blocks = blocks[:len(blocks)-1]
+		if len(tempBlocks) > 0 {
+			tempBlocks = tempBlocks[:len(tempBlocks)-1]
+			server.TempBlocks[sessionID] = tempBlocks
 		}
+		renderCreatePost(w, server, title, catIDs, tempBlocks, "")
+		return
 
 	case "submit-post":
-		title := r.FormValue("title")
-		selectedCats := r.Form["category"]
-		if title == "" || len(blocks) == 0 || len(selectedCats) == 0 {
-			allCats, _ := server.Service.GetCategories()
-			renderCreatePost(w, CreatePostPageData{
-				Error:      "Title, at least one block, and at least one category are required",
-				Categories: allCats,
-				TempBlocks: blocks,
-				Title:      title,
-			}, "")
+		if title == "" || len(tempBlocks) == 0 || len(catIDs) == 0 {
+			renderCreatePost(w, server, title, catIDs, tempBlocks, "Title, categories, and blocks are required")
 			return
 		}
 
-		// Convert selectedCats (string IDs) to []int
-		var catIDs []int
-		for _, s := range selectedCats {
-			if id, err := strconv.Atoi(s); err == nil {
-				catIDs = append(catIDs, id)
-			}
-		}
-
-		if err := server.Service.CreatePost(sessionID, title, catIDs, blocks); err != nil {
-			allCats, _ := server.Service.GetCategories()
-			renderCreatePost(w, CreatePostPageData{
-				Error:      "Failed to create post",
-				Categories: allCats,
-				TempBlocks: blocks,
-				Title:      title,
-			}, "")
+		// Convert blocks to JSON
+		blocksJSON, err := json.Marshal(tempBlocks)
+		if err != nil {
+			renderCreatePost(w, server, title, catIDs, tempBlocks, "Failed to encode blocks")
 			return
 		}
 
-		// Clear temp blocks on success
-		tempPosts[sessionID] = nil
+		// Convert catIDs to []string
+		catIDsStr := []string{}
+		for _, id := range catIDs {
+			catIDsStr = append(catIDsStr, strconv.Itoa(id))
+		}
+
+		// Call service to create post
+		if err := server.Service.CreatePost(sessionID, title, string(blocksJSON), catIDsStr); err != nil {
+			renderCreatePost(w, server, title, catIDs, tempBlocks, "Failed to create post")
+			return
+		}
+
+		// Clear temp blocks
+		server.TempBlocks[sessionID] = []model.Block{}
+
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+
+	default:
+		renderCreatePost(w, server, title, catIDs, tempBlocks, "")
+		return
+	}
+}
+
+
+// Common renderer for Create Post page
+func renderCreatePost(
+	w http.ResponseWriter,
+	server *Server,
+	title string,
+	selectedCats []int,
+	tempBlocks []m.Block,
+	errMsg string,
+) {
+	// Fetch all categories from service
+	categories, err := server.Service.GetCategories()
+	if err != nil {
+		http.Error(w, "Error loading categories", http.StatusInternalServerError)
 		return
 	}
 
-	// Update temp blocks
-	tempPosts[sessionID] = blocks
-
-	// Render page with current temp blocks
-	allCats, _ := server.Service.GetCategories()
-	renderCreatePost(w, CreatePostPageData{
-		Categories: allCats,
-		TempBlocks: blocks,
-		Title:      r.FormValue("title"),
-	}, "")
-}
-
-
-
-// Common renderer
-func renderCreatePost(w http.ResponseWriter, data CreatePostPageData, errMessage string) {
-	tmpl, _ := template.ParseFiles("./web/templates/create-post.html")
-	if errMessage != "" {
-		data.Error = errMessage
+	// Prepare page data for template
+	data := CreatePostPageData{
+		Title:              title,
+		Categories:         categories,
+		SelectedCategories: selectedCats,
+		TempBlocks:         tempBlocks,
+		Error:              errMsg,
 	}
-	_ = tmpl.Execute(w, data)
+
+	// Create template with FuncMap for "contains"
+	tmpl := template.New("create-post.html").Funcs(template.FuncMap{
+		"contains": func(slice []int, val int) bool {
+			for _, s := range slice {
+				if s == val {
+					return true
+				}
+			}
+			return false
+		},
+	})
+
+	// Parse the template file
+	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html")
+	if err != nil {
+		http.Error(w, "Error parsing template", http.StatusInternalServerError)
+		return
+	}
+
+	// Execute template
+	if err := tmpl.Execute(w, data); err != nil {
+		http.Error(w, "Error rendering page", http.StatusInternalServerError)
+		return
+	}
 }
+
+
