@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Register</title>
-        <link rel="stylesheet" href="./static/css/login.css">
-    </head>
-    <body>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <link rel="stylesheet" href="/web/static/css/login.css">
+</head>
+
+<body>
+
+    <div class="main-card">
+
+        <div class="logos">
+            <div class="welcome">
+                <h1>Welcome To Coding Forum</h1>
+            </div>
+            <img src="/static/img/logos.png" alt="Logo">
+        </div>
 
         <div class="login-container">
             <div class="login-header">
@@ -18,27 +29,29 @@
             {{end}}
 
             <form method="POST" action="/register">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required
-                        minlength="3" maxlength="20">
+
+                <div class="inputbox">
+                    <input type="text" id="username" name="username" required minlength="3" maxlength="20">
+                    <span>Username</span>
+                    <i></i>
                 </div>
 
-                <div class="form-group">
-                    <label for="email">Email:</label>
+                <div class="inputbox">
                     <input type="email" id="email" name="email" required>
+                    <span>Email</span>
+                    <i></i>
                 </div>
 
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password"
-                        required minlength="8">
+                <div class="inputbox">
+                    <input type="password" id="password" name="password" required minlength="8">
+                    <span>Password</span>
+                    <i></i>
                 </div>
 
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password:</label>
-                    <input type="password" id="confirmPassword"
-                        name="confirmPassword" required>
+                <div class="inputbox">
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <span>Confirm Password</span>
+                    <i></i>
                 </div>
 
                 <div class="form-actions">
@@ -46,12 +59,13 @@
                 </div>
 
                 <div class="form-footer">
-                    <p>Already have an account? <a href="/login">Login
-                            here</a>.</p>
+                    <p>Already have an account? <a href="/login">Login here</a>.</p>
                 </div>
 
             </form>
         </div>
 
-    </body>
+    </div>
+
+</body>
 </html>

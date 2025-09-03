@@ -34,8 +34,8 @@ func (server *Server) Start() error {
 	router := http.NewServeMux()
 
 	// Serve static files (CSS, images)
-	fs := http.FileServer(http.Dir("web/static/"))
-	router.Handle("/static/", http.StripPrefix("/static/", fs))
+	fs := http.FileServer(http.Dir("./web"))
+	router.Handle("/web/", http.StripPrefix("/web/", fs))
 
 	// Root
 	router.HandleFunc("/", server.Get_RootHandler)
