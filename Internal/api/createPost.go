@@ -48,15 +48,11 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	// Check user authentication
 	cookie, err := r.Cookie("session_id")
-	if err != nil || cookie.Value == "" {
+	if err != nil || cookie.Value == "" || !server.Service.IsValidSession(cookie.Value) {
 		server.Service.HandleError(w, http.StatusUnauthorized)
 		return
 	}
-	valid := server.Service.IsValidSession(cookie.Value)
-	if !valid {
-		server.Service.HandleError(w, http.StatusUnauthorized)
-		return
-	}
+	sessionID := cookie.Value
 
 	// Parse form data
 	if err := r.ParseForm(); err != nil {
@@ -64,12 +60,10 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	// Get form values
-	title := r.FormValue("title")
-	action := r.FormValue("action") // "add-block", "remove-block", "submit-post"
+	action := r.FormValue("action") // "add-block", "remove-block", or "submit-post"
 
-	// Initialize blocks in request scope (temporary)
-	var blocks []m.Block
+	// Load temp blocks for this session
+	blocks := tempPosts[sessionID]
 
 	switch action {
 	case "add-block":
@@ -85,61 +79,53 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 		}
 
 	case "submit-post":
-		if len(title) > 200 {
+		title := r.FormValue("title")
+		selectedCats := r.Form["category"]
+		if title == "" || len(blocks) == 0 || len(selectedCats) == 0 {
+			allCats, _ := server.Service.GetCategories()
 			renderCreatePost(w, CreatePostPageData{
-				Error: "Title is too long (maximum 200 characters)",
-			}, "Title is too long")
+				Error:      "Title, at least one block, and at least one category are required",
+				Categories: allCats,
+				TempBlocks: blocks,
+				Title:      title,
+			}, "")
 			return
 		}
 
-		categories := r.Form["category"]
-		if title == "" || len(blocks) == 0 {
-			allCategories, _ := server.Service.GetCategories()
+		// Convert selectedCats (string IDs) to []int
+		var catIDs []int
+		for _, s := range selectedCats {
+			if id, err := strconv.Atoi(s); err == nil {
+				catIDs = append(catIDs, id)
+			}
+		}
+
+		if err := server.Service.CreatePost(sessionID, title, catIDs, blocks); err != nil {
+			allCats, _ := server.Service.GetCategories()
 			renderCreatePost(w, CreatePostPageData{
-				Categories: allCategories,
-				Error:      "Title and at least one block are required",
-			}, "Missing fields")
+				Error:      "Failed to create post",
+				Categories: allCats,
+				TempBlocks: blocks,
+				Title:      title,
+			}, "")
 			return
 		}
 
-		if len(categories) == 0 {
-			allCategories, _ := server.Service.GetCategories()
-			renderCreatePost(w, CreatePostPageData{
-				Categories: allCategories,
-				Error:      "At least one category is required",
-			}, "Missing category")
-			return
-		}
-
-		sessionID, err := server.Service.GetSessionIDFromCookie(r)
-		if err != nil {
-			allCategories, _ := server.Service.GetCategories()
-			renderCreatePost(w, CreatePostPageData{
-				Categories: allCategories,
-				Error:      "You must be logged in to create a post",
-			}, "Not authenticated")
-			return
-		}
-
-		if err := server.Service.CreatePost(sessionID, title, blocks, categories); err != nil {
-			allCategories, _ := server.Service.GetCategories()
-			renderCreatePost(w, CreatePostPageData{
-				Categories: allCategories,
-				Error:      "The post could not be created",
-			}, "Post failed")
-			return
-		}
-
+		// Clear temp blocks on success
+		tempPosts[sessionID] = nil
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
-	// Always render the form with current state of blocks
-	allCategories, _ := server.Service.GetCategories()
+	// Update temp blocks for the session
+	tempPosts[sessionID] = blocks
+
+	// Render page with current temp blocks
+	allCats, _ := server.Service.GetCategories()
 	renderCreatePost(w, CreatePostPageData{
-		Categories: allCategories,
+		Categories: allCats,
 		TempBlocks: blocks,
-		Title:      title,
+		Title:      r.FormValue("title"),
 	}, "")
 }
 
