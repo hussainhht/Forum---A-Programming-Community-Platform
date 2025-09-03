@@ -1,11 +1,11 @@
 package api
 
 import (
-	"fmt"
-	"forum/Internal/service"
 	"database/sql"
-	"net/http"
+	"fmt"
 	m "forum/Internal/model"
+	"forum/Internal/service"
+	"net/http"
 )
 
 // Server represents the HTTP server and its dependencies
@@ -14,7 +14,6 @@ type Server struct {
 	Service    *service.Service
 	TempBlocks map[string][]m.Block // sessionID -> temporary blocks for create post
 }
-
 
 // NewServer initializes a Server
 func NewServer(port int, service *service.Service) *Server {
@@ -84,7 +83,7 @@ func (server *Server) Start() error {
 	router.HandleFunc("/create-comment", server.Post_CreateCommentHandler)
 
 	// Post page (view post)
-	router.HandleFunc("/post/", server.Get_PostHandler) // make sure your handler parses the ID from URL
+	router.HandleFunc("/post/{id}", server.Get_PostHandler)
 
 	// Reactions
 	router.HandleFunc("/post-reaction", server.Post_ReactionHandler)
@@ -93,4 +92,3 @@ func (server *Server) Start() error {
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
 }
-

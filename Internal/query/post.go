@@ -67,7 +67,7 @@ func GetAllPosts(db *sql.DB) ([]model.Post, error) {
 	var posts []model.Post
 	for rows.Next() {
 		var (
-			post model.Post
+			post        model.Post
 			contentJSON string
 		)
 		err := rows.Scan(
@@ -82,6 +82,13 @@ func GetAllPosts(db *sql.DB) ([]model.Post, error) {
 			return nil, err
 		}
 		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
+		// derive preview: first text block
+		for _, b := range post.Content {
+			if b.Type == "text" && post.Preview == "" {
+				post.Preview = b.Content
+				break
+			}
+		}
 		posts = append(posts, post)
 	}
 
@@ -123,17 +130,27 @@ func GetPostsByCategories(db *sql.DB, categoryIDs []string) ([]model.Post, error
 
 	var posts []model.Post
 	for rows.Next() {
-		var post model.Post
+		var (
+			post        model.Post
+			contentJSON string
+		)
 		err := rows.Scan(
 			&post.ID,
 			&post.Title,
-			&post.Content,
+			&contentJSON,
 			&post.CreatedAt,
 			&post.Username,
 			&post.UserID,
 		)
 		if err != nil {
 			return nil, err
+		}
+		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
+		for _, b := range post.Content {
+			if b.Type == "text" && post.Preview == "" {
+				post.Preview = b.Content
+				break
+			}
 		}
 		posts = append(posts, post)
 	}
@@ -162,13 +179,18 @@ func SelectCategoryByID(db *sql.DB, categoryID int) (*model.Category, error) {
 func GetPostByID(db *sql.DB, postID string) (*model.Post, error) {
 	row := db.QueryRow(GetPostByIDQuery, postID)
 
-	var post model.Post
-	if err := row.Scan(&post.ID, &post.Title, &post.Content, &post.CreatedAt, &post.UserID); err != nil {
+	var (
+		post        model.Post
+		contentJSON string
+	)
+	if err := row.Scan(&post.ID, &post.Title, &contentJSON, &post.CreatedAt, &post.UserID); err != nil {
 		// if err == sql.ErrNoRows {
 		// 	return nil, nil
 		// }
 		return nil, err
 	}
+
+	_ = json.Unmarshal([]byte(contentJSON), &post.Content)
 
 	return &post, nil
 }

@@ -8,9 +8,9 @@ type Block struct {
 }
 
 type TempPost struct {
-    Title              string
-    Blocks             []Block
-    SelectedCategories []int
+	Title              string
+	Blocks             []Block
+	SelectedCategories []int
 }
 
 type Post struct {
@@ -22,6 +22,7 @@ type Post struct {
 	Username  string // For display purposes (not stored in DB)
 	LikeCount int
 	Comments  []Comment
+	Preview   string
 }
 
 type PostReaction struct {
