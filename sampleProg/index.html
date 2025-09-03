@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Post - Code Forum</title>
+  <title>Code Forum</title>
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
@@ -20,40 +20,29 @@
       </button>
     </div>
 
-    <!-- Post title -->
-    <form method="POST" class="form" action="/add-block">
-      <input type="text" name="title" placeholder="Post Title" value="{{.TempPost.Title}}" required>
-      
-      <!-- Categories -->
-      <div class="radio-group">
-        {{range .Categories}}
-          <label>
-            <input type="checkbox" name="category" value="{{.ID}}"
-              {{if contains $.TempPost.SelectedCategories .ID}}checked{{end}}>
-            {{.Name}}
-          </label>
-        {{end}}
-      </div>
-
-      <!-- Add block controls -->
+    <!-- Add Block Form -->
+    <form method="POST" class="form" action="/">
       <div class="radio-group">
         <label><input type="radio" name="type" value="code" checked> Code</label>
         <label><input type="radio" name="type" value="text"> Text</label>
       </div>
-      <textarea name="content" rows="6" cols="60" placeholder="Write your block here..."></textarea><br>
-      <div style="display:flex; gap:8px;">
-        <button type="submit" class="submit-button">Add Block</button>
+      <textarea name="content" rows="6" cols="60" placeholder="Write your block here..."></textarea>
+
+      <!-- Buttons Row -->
+      <div class="button-row">
+        <button type="submit" class="submit-button">Add&nbsp;Block</button>
+
+        <form method="POST" action="/delete-last-block">
+          <button type="submit" class="submit-button delete-button" {{if not .HasBlocks}}disabled{{end}}>
+            Delete&nbsp;Last&nbsp;Block
+          </button>
+        </form>
       </div>
     </form>
 
-    <!-- Delete last block -->
-    <form method="POST" action="/delete-last-block" style="margin-top:8px;">
-      <button type="submit" class="submit-button" style="background:#ff5a5f;">Delete Last Block</button>
-    </form>
-
-    <!-- Preview of blocks -->
+    <!-- Display Blocks -->
     <div id="pre">
-      {{range .TempPost.Blocks}}
+      {{range .Blocks}}
         {{if eq .Type "code"}}
           <div class="code-string">{{.Content}}</div>
         {{else}}
@@ -61,11 +50,6 @@
         {{end}}
       {{end}}
     </div>
-
-    <!-- Final submit post -->
-    <form method="POST" action="/submit-post" style="margin-top:12px;">
-      <button type="submit" class="submit-button">Submit Post</button>
-    </form>
   </div>
 </body>
 </html>

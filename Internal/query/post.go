@@ -2,6 +2,7 @@ package query
 
 import (
 	"database/sql"
+	"encoding/json"
 	"forum/Internal/model"
 )
 
@@ -65,11 +66,14 @@ func GetAllPosts(db *sql.DB) ([]model.Post, error) {
 
 	var posts []model.Post
 	for rows.Next() {
-		var post model.Post
+		var (
+			post model.Post
+			contentJSON string
+		)
 		err := rows.Scan(
 			&post.ID,
 			&post.Title,
-			&post.Content,
+			&contentJSON,
 			&post.CreatedAt,
 			&post.Username,
 			&post.UserID,
@@ -77,6 +81,7 @@ func GetAllPosts(db *sql.DB) ([]model.Post, error) {
 		if err != nil {
 			return nil, err
 		}
+		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
 		posts = append(posts, post)
 	}
 

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"forum/Internal/api"
 	"forum/database"
 	"log"
@@ -21,6 +20,5 @@ func main() {
 	// Initialize server
 	server := api.NewServer(7777, service)
 
-	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	log.Fatal(server.Start())
 }

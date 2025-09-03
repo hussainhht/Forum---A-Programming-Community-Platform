@@ -15,7 +15,15 @@
         <div class="vp-container">
             <article class="vp-post">
                 <h1 class="vp-title">{{.Post.Title}}</h1>
-                <p class="vp-content">{{.Post.Content}}</p>
+                <div class="vp-content">
+                    {{ range .Post.Content }}
+                      {{ if eq .Type "code" }}
+                        <pre class="code-string">{{ .Content }}</pre>
+                      {{ else }}
+                        <p class="text-string">{{ .Content }}</p>
+                      {{ end }}
+                    {{ end }}
+                </div>
                 <small class="vp-meta">By: {{.Post.Username}} |
                     {{.Post.CreatedAt.Format "Jan 2, 2006"}}</small>
 

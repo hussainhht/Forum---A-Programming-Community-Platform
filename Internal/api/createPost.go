@@ -3,10 +3,10 @@ package api
 import (
 	"encoding/json"
 	"forum/Internal/model"
+	m "forum/Internal/model"
 	"html/template"
 	"net/http"
 	"strconv"
-	m "forum/Internal/model"
 )
 
 // CreatePostPageData holds the data for rendering the create post page
@@ -22,7 +22,7 @@ type CreatePostPageData struct {
 func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("session_id")
 	if err != nil || !server.Service.IsValidSession(cookie.Value) {
-		server.Service.HandleError(w, http.StatusUnauthorized)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 	sessionID := cookie.Value
@@ -47,7 +47,23 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 		Error:              "",
 	}
 
-	tmpl := template.Must(template.ParseFiles("./web/templates/create-post.html"))
+	// Use a template with FuncMap providing "contains" like in renderCreatePost
+	tmpl := template.New("create-post.html").Funcs(template.FuncMap{
+		"contains": func(slice []int, val int) bool {
+			for _, s := range slice {
+				if s == val {
+					return true
+				}
+			}
+			return false
+		},
+	})
+
+	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html")
+	if err != nil {
+		http.Error(w, "Error parsing template", http.StatusInternalServerError)
+		return
+	}
 	_ = tmpl.Execute(w, data)
 }
 
@@ -55,7 +71,7 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("session_id")
 	if err != nil || cookie.Value == "" || !server.Service.IsValidSession(cookie.Value) {
-		server.Service.HandleError(w, http.StatusUnauthorized)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 	sessionID := cookie.Value
@@ -142,7 +158,6 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 	}
 }
 
-
 // Common renderer for Create Post page
 func renderCreatePost(
 	w http.ResponseWriter,
@@ -193,5 +208,3 @@ func renderCreatePost(
 		return
 	}
 }
-
-

@@ -49,9 +49,15 @@
                     {{range .Posts}}
                     <a class="post-card" href="/post/{{.ID}}">
                         <h2>{{.Title}}</h2>
-                        <p>{{.Content}}</p>
-                        <small>Posted by {{.Username}} on {{.CreatedAt.Format
-                            "2006-01-02 15:04"}}</small>
+                        {{/* Render first text block as preview if present */}}
+                        {{ $preview := "" }}
+                        {{ range .Content }}
+                          {{ if and (eq .Type "text") (eq $preview "") }}
+                            {{ $preview = .Content }}
+                          {{ end }}
+                        {{ end }}
+                        <p>{{ $preview }}</p>
+                        <small>Posted by {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small>
                     </a>
                     <hr>
                     {{else}}
