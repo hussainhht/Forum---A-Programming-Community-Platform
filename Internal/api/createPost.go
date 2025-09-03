@@ -47,7 +47,6 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 
 
 func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
-	// Check user authentication
 	cookie, err := r.Cookie("session_id")
 	if err != nil || cookie.Value == "" || !server.Service.IsValidSession(cookie.Value) {
 		server.Service.HandleError(w, http.StatusUnauthorized)
@@ -55,7 +54,6 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 	}
 	sessionID := cookie.Value
 
-	// Parse form data
 	if err := r.ParseForm(); err != nil {
 		server.Service.HandleError(w, http.StatusBadRequest)
 		return
@@ -67,10 +65,11 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 	blocks := tempPosts[sessionID]
 
 	switch action {
+
 	case "add-block":
 		blockType := r.FormValue("type")
 		content := r.FormValue("content")
-		if content != "" && (blockType == "text" || blockType == "code") {
+		if content != "" && (blockType == "code" || blockType == "text") {
 			blocks = append(blocks, m.Block{Type: blockType, Content: content})
 		}
 
@@ -118,7 +117,7 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	// Update temp blocks for the session
+	// Update temp blocks
 	tempPosts[sessionID] = blocks
 
 	// Render page with current temp blocks
