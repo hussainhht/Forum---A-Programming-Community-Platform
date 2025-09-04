@@ -100,9 +100,13 @@ textarea {
 
 .submit-button {
   background-color: #c042ff;
-  
+  border: none;
+  padding: 8px 12px;
   color: white;
- 
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
 .submit-button:hover {
@@ -136,52 +140,4 @@ textarea {
   margin-bottom: 12px;
   white-space: pre-wrap;
   word-break: break-word;
-}
-
-
-
-
-
-
-.button-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-  align-items: center;
-}
-
-.inline-form {
-  margin: 0;
-  padding: 0;
-}
-
-.submit-button {
-  background-color: #c042ff;
-  border: none;
-  padding: 8px 16px;
-  color: white;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-  font-family: monospace;
-  white-space: nowrap;
-}
-
-.submit-button:hover {
-  background-color: #9a35cc;
-}
-
-.delete-button {
-  background-color: #ff5a5f;
-}
-
-.delete-button:hover {
-  background-color: #d94145;
-}
-
-.submit-button:disabled {
-  background-color: #4b003f;
-  opacity: 0.5;
-  cursor: not-allowed;
 }
