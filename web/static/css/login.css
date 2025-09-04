@@ -245,7 +245,7 @@ body {
   height: 100%;
   object-fit: contain;         
   opacity: 0;
-  animation: crossfade 30s infinite;  
+  animation: crossfade 50s infinite;  
   filter: drop-shadow(0 0 10px rgba(0,255,255,.25));
 }
 
@@ -254,14 +254,18 @@ body {
 .logo-rotator .s4{ animation-delay: 15s; }
 .logo-rotator .s5{ animation-delay: 20s; }
 .logo-rotator .s6{ animation-delay: 25s; }
+.logo-rotator .s7{ animation-delay: 30s; }
+.logo-rotator .s8{ animation-delay: 35s; }
+.logo-rotator .s9{ animation-delay: 40s; }
+.logo-rotator .s10{ animation-delay: 45s; }
 
 
 
 @keyframes crossfade{
   0%   { opacity: 0;   transform: scale(1); }
-  2%   { opacity: 1; }
-  18%  { opacity: 1; }
-  20%  { opacity: 0;   transform: scale(1.03); }
+  1%   { opacity: 1; }
+  8%  { opacity: 1; }
+  10%  { opacity: 0;   transform: scale(1.03); }
   100% { opacity: 0; }
 
 }
