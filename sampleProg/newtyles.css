@@ -1,0 +1,87 @@
+/* Background and layout */
+body {
+    background: #0e0015;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: monospace;
+}
+
+.card {
+    background: #15001f;
+    border: 1px solid #c042ff;
+    font-size: 14px;
+    box-shadow: 0 0 20px #c042ff40;
+    border-radius: 6px;
+    box-sizing: border-box;
+    overflow: hidden;
+    max-width: 700px;
+    width: 90%;
+}
+
+/* Title bar styling */
+.titlebar {
+    font-family: system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #2e0043;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 4px 8px;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.card button {
+    width: 28px;
+    height: 24px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+/* SVG icon styling -------------------------------------------------------------- */
+
+button svg path,
+button svg rect,
+button svg polygon {
+    fill: #ffffff;
+}
+
+button svg {
+    width: 10px;
+    height: 10px;
+}
+
+.close:hover {
+    background-color: #e81123;
+}
+
+.maximize:hover,
+.minimize:hover {
+    background-color: #c042ff2e;
+}
+
+.delete-button {
+    background-color: #ff5a5f;
+}
+
+.delete-button:hover {
+    background-color: #d94145;
+}
+
+.toolbar-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+/* ----------------------------------------------------------------------------------- */

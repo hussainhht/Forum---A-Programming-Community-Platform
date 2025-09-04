@@ -100,9 +100,9 @@ textarea {
 
 .submit-button {
   background-color: #c042ff;
-  
+
   color: white;
- 
+
 }
 
 .submit-button:hover {
@@ -137,11 +137,6 @@ textarea {
   white-space: pre-wrap;
   word-break: break-word;
 }
-
-
-
-
-
 
 .button-row {
   display: flex;
