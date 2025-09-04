@@ -20,29 +20,17 @@
       </button>
     </div>
 
-    <!-- Add Block Form -->
-    <form method="POST" class="form" action="/">
+    <form method="POST" class="form">
       <div class="radio-group">
         <label><input type="radio" name="type" value="code" checked> Code</label>
         <label><input type="radio" name="type" value="text"> Text</label>
       </div>
-      <textarea name="content" rows="6" cols="60" placeholder="Write your block here..."></textarea>
-
-      <!-- Buttons Row -->
-      <div class="button-row">
-        <button type="submit" class="submit-button">Add&nbsp;Block</button>
-
-        <form method="POST" action="/delete-last-block">
-          <button type="submit" class="submit-button delete-button" {{if not .HasBlocks}}disabled{{end}}>
-            Delete&nbsp;Last&nbsp;Block
-          </button>
-        </form>
-      </div>
+      <textarea name="content" rows="6" cols="60" placeholder="Write your block here..."></textarea><br>
+      <button type="submit" class="submit-button">Add Block</button>
     </form>
 
-    <!-- Display Blocks -->
     <div id="pre">
-      {{range .Blocks}}
+      {{range .}}
         {{if eq .Type "code"}}
           <div class="code-string">{{.Content}}</div>
         {{else}}

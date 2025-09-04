@@ -2,9 +2,9 @@
 
 :root {
   --card-bg: #eeeeee;
-  --text: #fcfdfd9f;
+  --text: #ffffff;
   --muted: #8f8f8f;
-  --accent: linear-gradient(90deg, #00f7ff, #0088ff);
+  --accent: linear-gradient(80deg, #00f7ff, #008CFF);
   --shadow: 0 0 10px rgba(0, 247, 255, 0.6);
   --radius: 10px;
   --glass-bg: rgba(49, 45, 45, 0.068);
@@ -33,6 +33,7 @@ body {
     url('../img/bg-tech.png') no-repeat center center fixed;
   background-size: cover;
   background-color: #0b1420;
+  font-family: monospace;
 }
 
 
@@ -47,14 +48,18 @@ body {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   justify-content: center;
+  justify-content: space-between;
+
 }
 
 .login-container {
-  width: 500px;
+  width: 350px;
   border-radius: 20px;
   padding: 60px 40px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  justify-content: space-around;
   gap: 40px;
 
   backdrop-filter: blur(20px);
@@ -63,10 +68,12 @@ body {
   border: 1px solid rgba(105, 250, 238, 0.3);
 
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
 }
 
 .login-header {
   text-align: center;
+  font-size: 25px;
 }
 
 .login-header h2 {
@@ -74,8 +81,6 @@ body {
   color: var(--text);
   font-weight: 700;
   letter-spacing: .3px;
-  text-shadow: 0 0 10px rgba(235, 235, 235, 0.8),
-    0 0 20px rgba(215, 219, 219, 0.6);
     
 }
 
@@ -93,47 +98,54 @@ body {
 .inputbox {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  
+  gap: 15px;
   position: relative;
   width: 100%;
-  color: #fff;
+  color: #ffffff;
+  
 }
 
 .inputbox input {
-  width: 100%;
-  height: 45px;
-  border: none;
-  outline: none;
-  padding: 0 10px;
-  border-radius: 6px;
+  width: 93%;
+  height: 46px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: 8px;
+  padding: 0 14px;
   font-size: 15px;
-  color: #fff;
-  background: transparent;
+  color: var(--text);
+  outline: none;
+  transition: .25s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,.35), 0 0 0 0 rgba(0,247,255,0);
+}
+
+.inputbox input:hover {
+  border-color: rgba(0,247,255,.35);
+}
+
+.inputbox input:focus {
+  border-color: transparent;
+  background: rgba(0, 247, 255, 0.05);
   box-shadow:
-    3px 3px 10px rgba(0,0,0,1),
-    -1px -1px 6px rgba(255, 255, 255, 0.4);
-  transition: 0.3s ease;
+    0 0 0 1px rgba(0, 247, 255, .55),
+    0 0 10px rgba(0, 200, 255, .55),
+    0 4px 14px rgba(0,0,0,.55);
 }
 
 .inputbox span {
-  font-size: 15px;
-  padding-left: 10px;
+  font-size: 14px;
+  padding-left: 14px;
   position: absolute;
-  top: 13px;
+  top: 5px;
   left: 0;
-  color: #aaa;
+  color: #ffffff;
+  letter-spacing: .3px;
   pointer-events: none;
-  transition: 0.3s;
-}
-
-/* focus state */
-.inputbox input:focus {
-  border: 2px solid transparent;
-  box-shadow:
-    3px 3px 10px rgba(0,0,0,1),
-    -1px -1px 6px rgba(255, 255, 255, 0.4),
-    inset 3px 3px 10px rgba(0,0,0,1),
-    inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+  transition: .25s;
+  user-select: none;
 }
 
 /* floating label effect */
@@ -203,7 +215,7 @@ body {
 }
 
 .logos img {
-  max-width: 60%;
+  max-width: 100%;
   height: auto;
 }
 
@@ -214,10 +226,47 @@ body {
   margin-bottom: 20px;
   font-size: 2.2rem;
 
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-    0 0 20px rgba(248, 248, 248, 0.6);
+
+}
+
+.logo-rotator{
+  position: relative;
+  width: 500px;               
+  aspect-ratio: 1 / 1;       
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0,255,255,.15) inset, 0 0 25px rgba(0,255,255,.08);
+}
+
+.logo-rotator .slide{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;         
+  opacity: 0;
+  animation: crossfade 30s infinite;  
+  filter: drop-shadow(0 0 10px rgba(0,255,255,.25));
+}
+
+.logo-rotator .s2{ animation-delay: 5s; }
+.logo-rotator .s3{ animation-delay: 10s; }
+.logo-rotator .s4{ animation-delay: 15s; }
+.logo-rotator .s5{ animation-delay: 20s; }
+.logo-rotator .s6{ animation-delay: 25s; }
 
 
 
+@keyframes crossfade{
+  0%   { opacity: 0;   transform: scale(1); }
+  2%   { opacity: 1; }
+  18%  { opacity: 1; }
+  20%  { opacity: 0;   transform: scale(1.03); }
+  100% { opacity: 0; }
 
+}
+
+@media (prefers-reduced-motion: reduce){
+  .logo-rotator .slide{ animation: none; opacity: 1; }
+  .logo-rotator .slide:not(.s1){ display: none; }
 }
