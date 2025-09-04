@@ -137,7 +137,7 @@ body {
   font-size: 14px;
   padding-left: 14px;
   position: absolute;
-  top: 5px;
+  top: 12px;
   left: 0;
   color: #ffffff;
   letter-spacing: .3px;
@@ -149,7 +149,7 @@ body {
 /* floating label effect */
 .inputbox input:focus ~ span,
 .inputbox input:valid ~ span {
-  transform: translateY(-20px);
+  transform: translateY(-30px);
   font-size: 13px;
   padding-left: 2px;
   color: var(--accent, #00f7ff); /* accent color */
