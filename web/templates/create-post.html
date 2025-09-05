@@ -40,10 +40,11 @@
         <div class="radio-group">
           <label><input type="radio" name="type" value="code" checked> Code</label>
           <label><input type="radio" name="type" value="text"> Text</label>
+          <label><input type="radio" name="type" value="link"> Link</label>
         </div>
 
         <!-- Block Content -->
-        <textarea name="content" rows="6" cols="60" placeholder="Write your block here...">{{.CurrentBlock}}</textarea>
+        <textarea name="content" rows="6" cols="60" placeholder="Write your block here..."></textarea>
 
         <!-- Block Buttons -->
         <div class="button-row">
@@ -51,8 +52,12 @@
           <button type="submit" class="submit-button" name="action" value="remove-block">Remove Last Block</button>
         </div>
 
-        <!-- Final Submit -->
-        <button type="submit" class="submit-button" name="action" value="submit-post" style="margin-top: 12px;">Submit Post</button>
+        <!-- Navigation and Submit Buttons -->
+        <div class="button-row" style="margin-top: 12px;">
+          <a href="/" class="submit-button" style="text-decoration: none; display: inline-block; text-align: center;">← Back to Home</a>
+          <button type="submit" class="submit-button" name="action" value="clear-session">Clear All</button>
+          <button type="submit" class="submit-button" name="action" value="submit-post">Submit Post</button>
+        </div>
 
           <!-- Error Message -->
         {{if .Error}}
@@ -78,6 +83,14 @@
         {{range .TempBlocks}}
           {{if eq .Type "code"}}
             <code class="code-string">{{.Content}}</code>
+          {{else if eq .Type "link"}}
+            {{if .Link}}
+              <div class="link-string">
+                <a href="{{.Link.URL}}" target="_blank" rel="noopener noreferrer">{{.Link.Text}}</a>
+              </div>
+            {{else}}
+              <div class="text-string">{{.Content}}</div>
+            {{end}}
           {{else}}
             <div class="text-string">{{.Content}}</div>
           {{end}}

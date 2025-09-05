@@ -145,10 +145,22 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
   }
   
   .submit-button:hover {
     background-color: #9e2bd1;
+  }
+  
+  /* Navigation button styles */
+  .button-row a.submit-button {
+    background-color: #6c757d;
+  }
+  
+  .button-row a.submit-button:hover {
+    background-color: #5a6268;
   }
   
   /* Error Box styles */
@@ -182,12 +194,40 @@ body {
   
   /* Text Block styles */
   .text-string {
-    background-color: #2a0035;
+    /* background-color: #2a0035; */
     padding: 10px;
     border-radius: 6px;
     color: white; 
     margin-bottom: 12px;
     font-family: cursive; 
+  }
+  
+  /* Link Block styles */
+  .link-string {
+    background-color: #1a2a3a;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border-left: 4px solid #c042ff;
+  }
+  
+  .link-string a {
+    color: #4fc3f7;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: monospace;
+  }
+  
+  .link-string a:hover {
+    color: #81d4fa;
+    text-decoration: underline;
+  }
+  
+  .link-url {
+    color: #888;
+    font-size: 12px;
+    margin-left: 8px;
+    font-family: monospace;
   }
   
   @media (max-width: 800px) {
@@ -200,4 +240,19 @@ body {
       width: 100%;
     }
   }
+
+
+
+  .code-string {
+    font-family: monospace;
+    font-size: 16px;
+    color: #a0d2ff;
+    background-color: #1a0030;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  
   

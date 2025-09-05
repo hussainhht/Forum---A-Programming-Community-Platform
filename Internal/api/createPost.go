@@ -3,7 +3,6 @@ package api
 import (
 	"encoding/json"
 	"forum/Internal/model"
-	m "forum/Internal/model"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -26,6 +25,9 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	sessionID := cookie.Value
+
+	// Clean up expired sessions periodically
+	server.cleanupExpiredSessions()
 
 	// Initialize TempBlocks for this session
 	if _, ok := server.TempBlocks[sessionID]; !ok {
@@ -103,11 +105,27 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 
 	switch action {
 	case "add-block":
-		if content != "" && (blockType == "code" || blockType == "text") {
-			tempBlocks = append(tempBlocks, model.Block{
+		if content != "" && (blockType == "code" || blockType == "text" || blockType == "link") {
+			block := model.Block{
 				Type:    blockType,
 				Content: content,
-			})
+			}
+
+			// Handle link blocks
+			if blockType == "link" {
+				text, url, isValid := server.Service.ParseMarkdownLink(content)
+				if isValid {
+					block.Link = &model.Link{
+						Text: text,
+						URL:  url,
+					}
+				} else {
+					// If not valid markdown format, treat as regular content
+					block.Type = "text"
+				}
+			}
+
+			tempBlocks = append(tempBlocks, block)
 			server.TempBlocks[sessionID] = tempBlocks
 		}
 		renderCreatePost(w, server, title, catIDs, tempBlocks, "")
@@ -142,14 +160,21 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 
 		// Call service to create post
 		if err := server.Service.CreatePost(sessionID, title, string(blocksJSON), catIDsStr); err != nil {
-			renderCreatePost(w, server, title, catIDs, tempBlocks, "Failed to create post")
+			renderCreatePost(w, server, title, catIDs, tempBlocks, "Failed to create post: "+err.Error())
 			return
 		}
 
 		// Clear temp blocks
 		server.TempBlocks[sessionID] = []model.Block{}
 
+		// Redirect to home page
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+
+	case "clear-session":
+		// Clear temp blocks when user wants to start fresh
+		server.TempBlocks[sessionID] = []model.Block{}
+		renderCreatePost(w, server, "", []int{}, []model.Block{}, "")
 		return
 
 	default:
@@ -164,7 +189,7 @@ func renderCreatePost(
 	server *Server,
 	title string,
 	selectedCats []int,
-	tempBlocks []m.Block,
+	tempBlocks []model.Block,
 	errMsg string,
 ) {
 	// Fetch all categories from service
@@ -206,5 +231,14 @@ func renderCreatePost(
 	if err := tmpl.Execute(w, data); err != nil {
 		http.Error(w, "Error rendering page", http.StatusInternalServerError)
 		return
+	}
+}
+
+// cleanupExpiredSessions removes temp blocks for invalid sessions
+func (server *Server) cleanupExpiredSessions() {
+	for sessionID := range server.TempBlocks {
+		if !server.Service.IsValidSession(sessionID) {
+			delete(server.TempBlocks, sessionID)
+		}
 	}
 }

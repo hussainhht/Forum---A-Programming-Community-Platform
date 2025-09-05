@@ -3,14 +3,14 @@ package model
 import "time"
 
 type Block struct {
-	Type    string `json:"type"` // "text" or "code"
+	Type    string `json:"type"` // "text", "code", or "link"
 	Content string `json:"content"`
-	Line    link
+	Link    *Link  `json:"link,omitempty"`
 }
 
-type link struct {
-	Textinterface  string  
-	Linkurl    string 
+type Link struct {
+	Text string `json:"text"`
+	URL  string `json:"url"`
 }
 
 type TempPost struct {

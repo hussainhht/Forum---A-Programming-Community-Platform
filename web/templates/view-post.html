@@ -19,6 +19,15 @@
                     {{ range .Post.Content }}
                       {{ if eq .Type "code" }}
                         <pre class="code-string">{{ .Content }}</pre>
+                      {{ else if eq .Type "link" }}
+                        {{ if .Link }}
+                          <div class="link-string">
+                            <a href="{{.Link.URL}}" target="_blank" rel="noopener noreferrer">{{.Link.Text}}</a>
+                            <small class="link-url">({{.Link.URL}})</small>
+                          </div>
+                        {{ else }}
+                          <p class="text-string">{{ .Content }}</p>
+                        {{ end }}
                       {{ else }}
                         <p class="text-string">{{ .Content }}</p>
                       {{ end }}
