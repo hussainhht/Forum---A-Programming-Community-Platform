@@ -118,4 +118,32 @@
   font: inherit; background:#fff;
   transition: border-color .18s ease, box-shadow .18s ease;
 }
-.vp-comment-form textarea:focus{ border-color: var(--benefit-teal); box-shadow: var(--ring); outline:none; } 
+.vp-comment-form textarea:focus{ border-color: var(--benefit-teal); box-shadow: var(--ring); outline:none; }
+
+/* Link Block styles */
+.link-string {
+  background: var(--benefit-teal-soft);
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin: 8px 0;
+  border-left: 4px solid var(--benefit-teal);
+}
+
+.link-string a {
+  color: var(--benefit-teal-2);
+  text-decoration: none;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.link-string a:hover {
+  color: var(--benefit-teal);
+  text-decoration: underline;
+}
+
+.link-url {
+  color: var(--benefit-text-muted);
+  font-size: 12px;
+  margin-left: 8px;
+  font-family: monospace;
+} 

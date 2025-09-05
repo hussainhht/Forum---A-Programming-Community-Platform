@@ -12,10 +12,14 @@ func (server *Server) LogoutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Remove session from DB
-
 	sessionID := cookie.Value
+
+	// Clear temp blocks for this session
+	delete(server.TempBlocks, sessionID)
+
+	// Remove session from DB
 	server.Service.LogoutUser(sessionID)
+
 	// Delete cookie
 	http.SetCookie(w, &http.Cookie{
 		Name:   "session_id",

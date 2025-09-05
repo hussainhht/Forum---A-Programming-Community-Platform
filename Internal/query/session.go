@@ -30,15 +30,22 @@ func CreateSession(db *sql.DB, userID int, sessionID string, expiresAt time.Time
 }
 
 func SelectUserFromSession(db *sql.DB, sessionID string) (*model.User, error) {
-	var user model.User
-	err := db.QueryRow(selectUserFromSessionQuery, sessionID).Scan(&user.ID)
+	var userID int
+	err := db.QueryRow(selectUserFromSessionQuery, sessionID).Scan(&userID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, fmt.Errorf("user not found, session not valid")
+			return nil, nil
 		}
 		return nil, fmt.Errorf("error selecting user from session: %v", err)
 	}
-	return &user, nil
+	
+	// Get full user details
+	user, err := GetUserByID(db, userID)
+	if err != nil {
+		return nil, fmt.Errorf("error getting user details: %v", err)
+	}
+	
+	return user, nil
 }
 
 func GetUserIDFromSession(db *sql.DB, sessionID string) (int, error) {
