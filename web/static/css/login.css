@@ -272,3 +272,31 @@ body {
   .logo-rotator .slide{ animation: none; opacity: 1; }
   .logo-rotator .slide:not(.s1){ display: none; }
 }
+
+
+.bg-rotator{
+  --count: 3;          
+  --slot: 6s;          
+  --total: calc(var(--count) * var(--slot));
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #000;
+}
+
+.bg-rotator .slide{
+  position: absolute;
+  inset: 0;
+  background: var(--bg) center / cover no-repeat fixed;
+  opacity: 0;
+  animation: bg-fade var(--total) linear infinite both;
+  animation-delay: calc(var(--i) * (var(--total) / var(--count)));
+}
+
+@keyframes bg-fade{
+  0%   { opacity: 0; }
+  5%   { opacity: 1; }
+  15%  { opacity: 1; }
+  99%  { opacity: 0; }
+  100% { opacity: 0; }
+}
