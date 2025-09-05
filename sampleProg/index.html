@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Code Forum</title>
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
+
 <body>
-  <div class="card">
-    <div class="titlebar">
-      <button class="minimize">
-        <svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2"/></svg>
-      </button>
-      <button class="maximize">
-        <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8"/></svg>
-      </button>
-      <button class="close">
-        <svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9"/></svg>
-      </button>
-    </div>
-
-    <form method="POST" class="form">
-      <div class="radio-group">
-        <label><input type="radio" name="type" value="code" checked> Code</label>
-        <label><input type="radio" name="type" value="text"> Text</label>
+  
+  <main>
+    <div class="card">
+      <div class="titlebar">
+        <button class="minimize">
+          <svg viewBox="0 0 10 10">
+            <rect x="1" y="4" width="8" height="2" />
+          </svg>
+        </button>
+        <button class="maximize">
+          <svg viewBox="0 0 10 10">
+            <rect x="1" y="1" width="8" height="8" />
+          </svg>
+        </button>
+        <button class="close">
+          <svg viewBox="0 0 10 10">
+            <polygon points="1,1 9,9 9,1 1,9" />
+          </svg>
+        </button>
       </div>
-      <textarea name="content" rows="6" cols="60" placeholder="Write your block here..."></textarea><br>
-      <button type="submit" class="submit-button">Add Block</button>
-    </form>
 
-    <div id="pre">
-      {{range .}}
+      <form method="POST" class="form">
+        <div class="radio-group">
+          <label><input type="radio" name="type" value="code" checked> Code</label>
+          <label><input type="radio" name="type" value="text"> Text</label>
+        </div>
+        <textarea name="content" rows="6" cols="60" placeholder="Write your block here..."></textarea><br>
+        <button type="submit" class="submit-button">Add Block</button>
+      </form>
+
+      <div id="pre">
+        {{range .}}
         {{if eq .Type "code"}}
-          <div class="code-string">{{.Content}}</div>
+        <div class="code-string">{{.Content}}</div>
         {{else}}
-          <div class="text-string">{{.Content}}</div>
+        <div class="text-string">{{.Content}}</div>
         {{end}}
-      {{end}}
+        {{end}}
+      </div>
     </div>
+  </main>
+
+  <div id="right_side-bar">
+
   </div>
 </body>
+
 </html>

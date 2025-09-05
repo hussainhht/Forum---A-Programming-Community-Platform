@@ -1,51 +1,47 @@
 /* Background and layout */
 body {
     background: #0e0015;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     min-height: 100vh;
     height: 100vh;
     margin: 0;
     font-family: monospace;
     color: white;
-
-    display: flex;
-    flex-direction: row;
 }
 
 main {
-    width: 60%;
-    height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
+}
 
+#main-container {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
 }
 
 /* sidebars */
 .sidebar {
-    width: 25%;
+    width: 20%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: fixed;
+    top: 0;
 }
 
 .sidebar-left {
-    position: fixed;
     left: 0;
-    top: 0;
     z-index: 1;
 }
 
 .sidebar-right {
-    position: fixed;
     right: 0;
-    top: 0;
     z-index: 1;
 }
 
@@ -64,17 +60,42 @@ main {
     padding: 10px;
 }
 
+/* sections */
+
+.section-title {
+    font-size: 24px;
+    color: white;
+    text-align: center;
+}
 
 /* Hero section */
 
 #hero-section {
     width: 100%;
     text-align: center;
-    height: 50vh;
+    padding: 128px 0;
 }
 
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
 
+.hero-title {
+    font-size: 36px;
+    margin: 0;
+    color: white;
+}
 
+.hero-subtitle {
+    font-size: 18px;
+    margin: 8px 0 0 0;
+    color: white;
+    opacity: 0.6;
+}
 
 /* posts */
 
@@ -100,6 +121,9 @@ main {
     overflow: hidden;
     height: 256px;
     width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .post-card {
@@ -140,8 +164,12 @@ main {
     cursor: pointer;
 }
 
-.post-content {
+.post-body {
     padding: 4px 8px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* SVG icon styling -------------------------------------------------------------- */

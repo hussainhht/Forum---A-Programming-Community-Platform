@@ -59,6 +59,18 @@ func GetUserByUsernameOrEmail(DB *sql.DB, identifier string) (model.User, error)
 	}, nil
 }
 
+func GetUserByID(DB *sql.DB, userID int) (*model.User, error) {
+	var user model.User
+	err := DB.QueryRow("SELECT id, username, email, password FROM users WHERE id = ?", userID).Scan(&user.ID, &user.Username, &user.Email, &user.Password)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("error selecting user by ID: %v", err)
+	}
+	return &user, nil
+}
+
 func GetUsernameByUserID(DB *sql.DB, userID int) (string, error) {
 	var username string
 	err := DB.QueryRow(SelectUserWhereIDQuery, userID).Scan(&username)
