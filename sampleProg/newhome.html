@@ -9,26 +9,69 @@
 </head>
 
 <body>
-
-    <div class="card">
-        <div class="titlebar">
-            <div class="toolbar-buttons">
-                <button class="minimize">
-                    <svg viewBox="0 0 10 10">
-                        <rect x="1" y="4" width="8" height="2" />
-                    </svg>
-                </button>
-                <button class="maximize">
-                    <svg viewBox="0 0 10 10">
-                        <rect x="1" y="1" width="8" height="8" />
-                    </svg>
-                </button>
-                <button class="close">
-                    <svg viewBox="0 0 10 10">
-                        <polygon points="1,1 9,9 9,1 1,9" />
-                    </svg>
-                </button>
+    <div class="sidebar left-sidebar">
+        <div class="sidebar-options">
+            <form action="" class="sidebar-form">
+                <label for="left-sidebar-option1"><input type="radio" name="sidebar-option"
+                        id="left-sidebar-option1">Option 1</label>
+                <label for="left-sidebar-option2"><input type="radio" name="sidebar-option"
+                        id="left-sidebar-option2">Option 2</label>
+            </form>
+        </div>
+    </div>
+    <main>
+        <section id="hero-section">
+            <div class="hero-container">
+                <h1>Welcome to the Forum</h1>
+                <p>Discuss, share, and connect with others.</p>
             </div>
+        </section>
+        <section id="posts-section">
+            <div class="posts-container">
+                {{range .Posts}}
+                <div class="post-card">
+                    <div class="post-titlebar">
+                        <div class="post-title">{{.Title}}</div>
+                        <div class="post-toolbar-buttons">
+                            <button class="minimize">
+                                <svg viewBox="0 0 10 10">
+                                    <rect x="1" y="4" width="8" height="2" />
+                                </svg>
+                            </button>
+                            <button class="maximize">
+                                <svg viewBox="0 0 10 10">
+                                    <rect x="1" y="1" width="8" height="8" />
+                                </svg>
+                            </button>
+                            <button class="close">
+                                <svg viewBox="0 0 10 10">
+                                    <polygon points="1,1 9,9 9,1 1,9" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="post-content">
+
+                        <p>{{.Preview}}</p>
+                        <small>Posted by {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small>
+                    </div>
+
+                </div>
+                {{else}}
+                <p>No posts found.</p>
+                {{end}}
+            </div>
+        </section>
+    </main>
+    <div class="sidebar right-sidebar">
+        <div class="sidebar-options">
+            <form action="" class="sidebar-form">
+                <label for="right-sidebar-option1"><input type="radio" name="sidebar-option"
+                        id="right-sidebar-option1">Option 1</label>
+                <label for="right-sidebar-option2"><input type="radio" name="sidebar-option"
+                        id="right-sidebar-option2">Option 2</label>
+            </form>
         </div>
     </div>
 </body>
