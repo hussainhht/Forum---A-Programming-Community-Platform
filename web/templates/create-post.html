@@ -1,72 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create Post</title>
-  <link rel="stylesheet" href="/web/static/css/styles.css" />
+  <link rel="stylesheet" href="web/static/css/editor.css" />
 </head>
+
 <body>
-  <div class="card">
-    <div class="titlebar">
-      <button class="minimize">
-        <svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2"/></svg>
-      </button>
-      <button class="maximize">
-        <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8"/></svg>
-      </button>
-      <button class="close">
-        <svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9"/></svg>
-      </button>
+  <div class="container">
+
+    <!-- First Card: Editor -->
+    <div class="card">
+      <div class="titlebar">
+        <button class="minimize"><svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2"/></svg></button>
+        <button class="maximize"><svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8"/></svg></button>
+        <button class="close"><svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9"/></svg></button>
+      </div>
+
+      <form method="POST" action="/create-post">
+        <!-- Post Title -->
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required placeholder="Enter post title..." value="{{.Title}}" />
+
+        <!-- Categories -->
+        <h4>Categories:</h4>
+        <div class="checkbox-group">
+          {{range .Categories}}
+            <label>
+              <input type="checkbox" name="category[]" value="{{.ID}}" {{if contains $.SelectedCategories .ID}}checked{{end}}>
+              {{.Name}}
+            </label>
+          {{end}}
+        </div>
+
+        <!-- Block Type -->
+        <h4>Add Block:</h4>
+        <div class="radio-group">
+          <label><input type="radio" name="type" value="code" checked> Code</label>
+          <label><input type="radio" name="type" value="text"> Text</label>
+        </div>
+
+        <!-- Block Content -->
+        <textarea name="content" rows="6" cols="60" placeholder="Write your block here...">{{.CurrentBlock}}</textarea>
+
+        <!-- Block Buttons -->
+        <div class="button-row">
+          <button type="submit" class="submit-button" name="action" value="add-block">Add Block</button>
+          <button type="submit" class="submit-button" name="action" value="remove-block">Remove Last Block</button>
+        </div>
+
+        <!-- Final Submit -->
+        <button type="submit" class="submit-button" name="action" value="submit-post" style="margin-top: 12px;">Submit Post</button>
+
+          <!-- Error Message -->
+        {{if .Error}}
+          <div class="error-box">{{.Error}}</div>
+        {{end}}
+
+        
+
+      
+      </form>
     </div>
 
-    <form method="POST" class="form" action="/create-post">
-      <!-- Post Title -->
-      <label for="title">Title:</label>
-      <input type="text" id="title" name="title" required placeholder="Enter post title..." value="{{.Title}}" />
-
-      <!-- Categories -->
-      <h4>Categories:</h4>
-      <div class="checkbox-group">
-        {{range .Categories}}
-          <label>
-            <input type="checkbox" name="category" value="{{.ID}}" 
-              {{if contains $.SelectedCategories .ID}}checked{{end}}>
-            {{.Name}}
-          </label>
-        {{end}}
+    <!-- Second Card: Preview -->
+    <div class="card">
+      <div class="titlebar">
+        <button class="minimize"><svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2"/></svg></button>
+        <button class="maximize"><svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8"/></svg></button>
+        <button class="close"><svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9"/></svg></button>
       </div>
 
-      <!-- Block Editor -->
-      <h4>Add Blocks:</h4>
-      <div class="radio-group">
-        <label><input type="radio" name="type" value="code" checked> Code</label>
-        <label><input type="radio" name="type" value="text"> Text</label>
-      </div>
-      <textarea name="content" rows="6" cols="60" placeholder="Write your block here..."></textarea>
-      <div style="display:flex; gap:8px; margin-top:8px;">
-        <button type="submit" class="submit-button" name="action" value="add-block">Add Block</button>
-        <button type="submit" class="submit-button" name="action" value="remove-block">Remove Last Block</button>
-      </div>
-
-      <!-- Preview of blocks -->
-      <div id="pre" style="margin-top:16px;">
+      <!-- Preview of Blocks -->
+      <div id="pre">
         {{range .TempBlocks}}
           {{if eq .Type "code"}}
-            <code class="code-string">{{.Content}}</div>
+            <code class="code-string">{{.Content}}</code>
           {{else}}
             <div class="text-string">{{.Content}}</div>
           {{end}}
         {{end}}
       </div>
+    </div>
 
-      <!-- Final Submit -->
-      <button type="submit" class="submit-button" name="action" value="submit-post" style="margin-top:16px;">Submit Post</button>
-
-      {{if .Error}}
-        <div class="error-box">{{.Error}}</div>
-      {{end}}
-    </form>
   </div>
 </body>
+
 </html>

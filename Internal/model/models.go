@@ -5,6 +5,12 @@ import "time"
 type Block struct {
 	Type    string `json:"type"` // "text" or "code"
 	Content string `json:"content"`
+	Line    link
+}
+
+type link struct {
+	Textinterface  string  
+	Linkurl    string 
 }
 
 type TempPost struct {
