@@ -276,7 +276,7 @@ body {
 
 .bg-rotator{
   --count: 3;          
-  --slot: 6s;          
+  --slot: 5s;          
   --total: calc(var(--count) * var(--slot));
   position: fixed;
   inset: 0;
