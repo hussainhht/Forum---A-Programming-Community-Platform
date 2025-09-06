@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Code Playground</title>
+  <link rel="stylesheet" href="/web/static/css/coding.css">
+</head>
+<body>
+  <header>
+    <strong>Code Playground</strong> — simple form, no JavaScript needed 🚀
+  </header>
+
+  <main>
+    <div class="card">
+      <form action="/playground/preview" method="POST" accept-charset="utf-8">
+        <div class="row">
+          <div class="col">
+            <label for="language">Language</label>
+            <select id="language" name="language" required>
+              <option value="go">Go</option>
+              <option value="python">Python</option>
+              <option value="javascript">JavaScript</option>
+              <option value="c">C</option>
+              <option value="cpp">C++</option>
+              <option value="java">Java</option>
+              <option value="rust">Rust</option>
+              <option value="sql">SQL</option>
+              <option value="html">HTML</option>
+              <option value="css">CSS</option>
+              <option value="bash">Bash</option>
+              <option value="plaintext">Plain text</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="filename">Filename (optional, no extension)</label>
+            <input id="filename" name="filename" type="text" placeholder="example: solution">
+          </div>
+        </div>
+
+        <label for="code">Your code</label>
+        <textarea id="code" name="code" spellcheck="false" placeholder="// Write your code here..."></textarea>
+
+        <div class="row">
+          <div class="col">
+            <label for="lineend">Line endings</label>
+            <select id="lineend" name="lineend">
+              <option value="lf">LF (Unix)</option>
+              <option value="crlf">CRLF (Windows)</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="bom">Encoding</label>
+            <select id="bom" name="bom">
+              <option value="nobom">UTF-8 (no BOM)</option>
+              <option value="bom">UTF-8 with BOM</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-secondary" type="submit" formaction="/playground/preview">Preview highlighted</button>
+          <button class="btn-primary" type="submit" formaction="/download">Download file</button>
+        </div>
+        <p class="muted">Note: The server (Go) will generate highlighted HTML and downloadable file.</p>
+      </form>
+    </div>
+
+    <div class="preview">
+      <div class="preview-head">Preview</div>
+      <div class="preview-body">
+        {{if .HighlightedHTML}}
+          {{.HighlightedHTML}}
+        {{else}}
+          <pre class="chroma" style="padding:16px; color:#9fb7d0">// No preview yet. Write some code and click "Preview highlighted".</pre>
+        {{end}}
+      </div>
+    </div>
+  </main>
+</body>
+</html>

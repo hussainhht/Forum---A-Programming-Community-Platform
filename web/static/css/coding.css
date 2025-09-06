@@ -1,0 +1,115 @@
+:root { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background: #0b1220;
+  color: #e6edf3;
+  font-family: ui-sans-serif, system-ui, Segoe UI, Arial;
+}
+
+header {
+  padding: 16px 20px;
+  background: #0f172a;
+  border-bottom: 1px solid #1f2937;
+}
+
+main {
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.card {
+  background: #0f172a;
+  border: 1px solid #243042;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.row>.col {
+  flex: 1 1 220px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 6px;
+  color: #9fb7d0;
+}
+
+select, input[type=text], textarea, button {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #2b3a4f;
+  background: #0b1220;
+  color: #e6edf3;
+  outline: none;
+}
+
+textarea {
+  height: 320px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.btn-primary {
+  background: #0ea5a6;
+  border-color: #0ea5a6;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #1e2a3b;
+  border-color: #334155;
+  cursor: pointer;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  filter: brightness(1.05);
+}
+
+.muted {
+  color: #7e9bb9;
+}
+
+.preview {
+  margin-top: 18px;
+  border: 1px solid #243042;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.preview-head {
+  padding: 10px 14px;
+  background: #0b1628;
+  border-bottom: 1px solid #243042;
+  color: #9fb7d0;
+}
+
+.preview-body {
+  padding: 0;
+  background: #0a0f1d;
+}
+
+pre.chroma {
+  margin: 0;
+  padding: 16px;
+  overflow: auto;
+}
+
