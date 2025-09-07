@@ -89,6 +89,10 @@ func (server *Server) Start() error {
 	router.HandleFunc("/post-reaction", server.Post_ReactionHandler)
 	router.HandleFunc("/comment-reaction", server.CommentReactionHandler)
 
+	router.HandleFunc("/playground", server.Get_PlaygroundHandler)
+	router.HandleFunc("/playground/preview", server.Post_PlaygroundPreviewHandler)
+	router.HandleFunc("/download", server.Post_DownloadHandler)
+
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
 }

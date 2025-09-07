@@ -1,81 +1,260 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Code Playground</title>
-  <link rel="stylesheet" href="/web/static/css/coding.css">
+  <!-- serve static from /static/... in Go -->
+  <link rel="stylesheet" href="/web/static/css/coding.css" />
 </head>
+
 <body>
-  <header>
-    <strong>Code Playground</strong> — simple form, no JavaScript needed 🚀
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+          </svg>
+          <h1 class="logo-text">Code Playground</h1>
+        </div>
+        <div class="tagline">
+          <span>—</span>
+          <svg class="rocket-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <div class="card">
-      <form action="/playground/preview" method="POST" accept-charset="utf-8">
-        <div class="row">
-          <div class="col">
-            <label for="language">Language</label>
-            <select id="language" name="language" required>
-              <option value="go">Go</option>
-              <option value="python">Python</option>
-              <option value="javascript">JavaScript</option>
-              <option value="c">C</option>
-              <option value="cpp">C++</option>
-              <option value="java">Java</option>
-              <option value="rust">Rust</option>
-              <option value="sql">SQL</option>
-              <option value="html">HTML</option>
-              <option value="css">CSS</option>
-              <option value="bash">Bash</option>
-              <option value="plaintext">Plain text</option>
-            </select>
+  <!-- Main -->
+  <main class="main">
+    <div class="container">
+      <!-- Editor Card -->
+      <div class="card">
+        <!-- IMPORTANT: method+action + correct field names -->
+        <form class="form-grid" action="/playground/preview" method="POST" accept-charset="utf-8">
+          <!-- Language + Filename -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="language" class="label">Language</label>
+              <select id="language" name="language" class="select" required>
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="go" {{if eq .Language "go" }}selected{{end}}>Go</option>
+                <option value="rust">Rust</option>
+                <option value="typescript">TypeScript</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="sql">SQL</option>
+                <option value="bash">Bash</option>
+                <option value="plaintext">Plain Text</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="filename" class="label">Filename (optional, no extension)</label>
+              <input type="text" id="filename" name="filename" class="input" value="{{.Filename}}"
+                placeholder="example: solution" />
+            </div>
           </div>
-          <div class="col">
-            <label for="filename">Filename (optional, no extension)</label>
-            <input id="filename" name="filename" type="text" placeholder="example: solution">
+
+          <!-- Code -->
+          <div class="form-group">
+            <label for="code" class="label">Your code</label>
+            <textarea id="code" name="code" class="textarea textarea-code" spellcheck="false" autocapitalize="off"
+              autocomplete="off" autocorrect="off" placeholder="// Write your code here..."
+              wrap="off">{{.Code}}</textarea>
+
           </div>
+          
+
+
+
+          <!-- !-----------------------------------------------------<script> -->
+          <script>
+            // DEV-ONLY: lightweight editor helpers for the <textarea id="code">
+            // Features: auto-pair (), {}, [], "", '', ``, smart Enter indent, Tab inserts spaces,
+            // skip-over closing chars, and smart backspace on empty pairs.
+
+            (function () {
+              const ta = document.getElementById('code');
+              if (!ta) return;
+
+              const TAB = '    '; // 4 spaces
+              const pairs = { '(': ')', '{': '}', '[': ']', '"': '"', "'": "'", '`': '`' };
+              const closers = new Set(Object.values(pairs));
+
+              function getLineStart(text, pos) {
+                const i = text.lastIndexOf('\n', pos - 1);
+                return i === -1 ? 0 : i + 1;
+              }
+
+              function currentLineIndent(text, pos) {
+                const ls = getLineStart(text, pos);
+                const line = text.slice(ls, pos);
+                const m = line.match(/^\s*/);
+                return m ? m[0] : '';
+              }
+
+              ta.addEventListener('keydown', function (e) {
+                const { selectionStart: start, selectionEnd: end, value: v } = ta;
+                const hasSel = start !== end;
+                const before = v.slice(0, start);
+                const sel = v.slice(start, end);
+                const after = v.slice(end);
+                const nextCh = after[0] || '';
+
+                // TAB -> insert spaces
+                if (e.key === 'Tab') {
+                  e.preventDefault();
+                  const insert = TAB;
+                  ta.value = before + insert + after;
+                  const caret = start + insert.length;
+                  ta.selectionStart = ta.selectionEnd = caret;
+                  return;
+                }
+
+                // ENTER -> keep indent, and add block indent if previous line ends with { [ (
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  const indent = currentLineIndent(v, start);
+                  const lineStart = getLineStart(v, start);
+                  const line = v.slice(lineStart, start);
+                  const needsExtra = /[\{\[\(]\s*$/.test(line);
+                  const extra = needsExtra ? TAB : '';
+
+                  // If the next char is a closer and we just opened a block, do a split:
+                  if (needsExtra && /[\}\]\)]/.test(nextCh)) {
+                    const insert = `\n${indent}${extra}\n${indent}`;
+                    ta.value = before + insert + after;
+                    const caret = start + 1 + indent.length + extra.length; // on the inner line
+                    ta.selectionStart = ta.selectionEnd = caret;
+                  } else {
+                    const insert = `\n${indent}${extra}`;
+                    ta.value = before + insert + after;
+                    const caret = start + 1 + indent.length + extra.length;
+                    ta.selectionStart = ta.selectionEnd = caret;
+                  }
+                  return;
+                }
+
+                // Auto-pair opening chars and wrap selection
+                if (pairs[e.key]) {
+                  e.preventDefault();
+                  const open = e.key;
+                  const close = pairs[e.key];
+
+                  if (hasSel) {
+                    // Wrap selection
+                    ta.value = before + open + sel + close + after;
+                    ta.selectionStart = start + 1;
+                    ta.selectionEnd = end + 1;
+                  } else {
+                    // Insert pair and place caret between
+                    ta.value = before + open + close + after;
+                    const caret = start + 1;
+                    ta.selectionStart = ta.selectionEnd = caret;
+                  }
+                  return;
+                }
+
+                // Skip over existing closer if the same char is ahead
+                if (closers.has(e.key) && nextCh === e.key && !hasSel) {
+                  e.preventDefault();
+                  const caret = start + 1;
+                  ta.selectionStart = ta.selectionEnd = caret;
+                  return;
+                }
+
+                // Smart backspace on empty pairs: | inside () {} [] "" '' ``
+                if (e.key === 'Backspace' && !hasSel && start > 0 && end === start) {
+                  const prev = v[start - 1];
+                  const ahead = v[start] || '';
+                  if (pairs[prev] === ahead) {
+                    e.preventDefault();
+                    ta.value = v.slice(0, start - 1) + v.slice(start + 1);
+                    ta.selectionStart = ta.selectionEnd = start - 1;
+                    return;
+                  }
+                }
+              });
+            })();
+          </script>
+
+
+
+          <!-- Settings -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="lineend" class="label">Line endings</label>
+              <!-- name MUST be lineend -->
+              <select id="lineend" name="lineend" class="select">
+                <option value="lf" {{if or (eq .LineEnd "" ) (eq .LineEnd "lf" )}}selected{{end}}>LF (Unix)</option>
+                <option value="crlf" {{if eq .LineEnd "crlf" }}selected{{end}}>CRLF (Windows)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="bom" class="label">Encoding</label>
+              <!-- name MUST be bom -->
+              <select id="bom" name="bom" class="select">
+                <option value="nobom" {{if or (eq .BOM "" ) (eq .BOM "nobom" )}}selected{{end}}>UTF-8 (no BOM)</option>
+                <option value="bom" {{if eq .BOM "bom" }}selected{{end}}>UTF-8 with BOM</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="button-group">
+            <!-- submit to preview -->
+            <button type="submit" class="button button-secondary" formaction="/playground/preview">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              Preview highlighted
+            </button>
+
+            <!-- submit to download -->
+            <button type="submit" class="button button-primary" formaction="/download">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Download file
+            </button>
+          </div>
+
+          <p class="note">Note: The server will generate highlighted HTML and the downloadable file.</p>
+        </form>
+      </div>
+
+      <!-- Preview Card -->
+      <div class="card">
+        <div class="preview-header">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+          </svg>
+          <h2 class="preview-title">Preview</h2>
         </div>
-
-        <label for="code">Your code</label>
-        <textarea id="code" name="code" spellcheck="false" placeholder="// Write your code here..."></textarea>
-
-        <div class="row">
-          <div class="col">
-            <label for="lineend">Line endings</label>
-            <select id="lineend" name="lineend">
-              <option value="lf">LF (Unix)</option>
-              <option value="crlf">CRLF (Windows)</option>
-            </select>
-          </div>
-          <div class="col">
-            <label for="bom">Encoding</label>
-            <select id="bom" name="bom">
-              <option value="nobom">UTF-8 (no BOM)</option>
-              <option value="bom">UTF-8 with BOM</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="btn-secondary" type="submit" formaction="/playground/preview">Preview highlighted</button>
-          <button class="btn-primary" type="submit" formaction="/download">Download file</button>
-        </div>
-        <p class="muted">Note: The server (Go) will generate highlighted HTML and downloadable file.</p>
-      </form>
-    </div>
-
-    <div class="preview">
-      <div class="preview-head">Preview</div>
-      <div class="preview-body">
-        {{if .HighlightedHTML}}
+        <div class="preview-content">
+          {{if .HighlightedHTML}}
           {{.HighlightedHTML}}
-        {{else}}
-          <pre class="chroma" style="padding:16px; color:#9fb7d0">// No preview yet. Write some code and click "Preview highlighted".</pre>
-        {{end}}
+          {{else}}
+          <pre class="preview-placeholder">// No preview yet. Write some code and click "Preview highlighted".</pre>
+          {{end}}
+        </div>
       </div>
     </div>
   </main>
 </body>
+
 </html>
