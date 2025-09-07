@@ -1,11 +1,21 @@
 /* Background and layout */
+
+:root {
+    --primary-color: #c042ff;
+    --secondary-color: #2e0043;
+    --tertiary-color: #c042ff40;
+    --quaternary-color: #0e0015;
+    --background-color: #15001f;
+    --text-color: white;
+}
+
 body {
-    background: #0e0015;
+    background: var(--quaternary-color);
     min-height: 100vh;
     height: 100vh;
     margin: 0;
     font-family: monospace;
-    color: white;
+    color: var(--text-color);
 }
 
 main {
@@ -24,8 +34,11 @@ main {
 }
 
 /* sidebars */
+
+
+
 .sidebar {
-    width: 20%;
+    width: 10%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -33,31 +46,52 @@ main {
     justify-content: center;
     position: fixed;
     top: 0;
+    background: none;
 }
 
-.sidebar-left {
-    left: 0;
-    z-index: 1;
-}
-
-.sidebar-right {
-    right: 0;
-    z-index: 1;
-}
-
-.sidebar-form {
+.sidebar-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    border: solid 2px #c042ff42;
+    height: 95%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 12px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
 }
 
-.sidebar-options {
-    background-color: #2e0043;
-    border: 1px solid #c042ff;
-    box-shadow: 0 0 20px #c042ff40;
-    border-radius: 6px;
-    box-sizing: border-box;
-    padding: 10px;
+.sidebar-profile {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-bottom: solid 1px #c042ff42;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.sidebar-profile-img-container {
+    width: 50%;
+    aspect-ratio: 1/1;
+}
+
+.sidebar-profile-img-container svg {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
+    color: white;
+    background-color: white;
+}
+
+.sidebar-profile-username {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
 }
 
 /* sections */
@@ -87,13 +121,13 @@ main {
 .hero-title {
     font-size: 36px;
     margin: 0;
-    color: white;
+    color: var(--text-color);
 }
 
 .hero-subtitle {
     font-size: 18px;
     margin: 8px 0 0 0;
-    color: white;
+    color: var(--text-color);
     opacity: 0.6;
 }
 
@@ -112,10 +146,10 @@ main {
 }
 
 .post-card {
-    background: #15001f;
-    border: 1px solid #c042ff;
+    background: var(--quaternary-color);
+    border: 1px solid var(--primary-color);
     font-size: 14px;
-    box-shadow: 0 0 20px #c042ff40;
+    box-shadow: 0 0 20px var(--tertiary-color);
     border-radius: 6px;
     box-sizing: border-box;
     overflow: hidden;
@@ -208,3 +242,49 @@ button svg {
 }
 
 /* ----------------------------------------------------------------------------------- */
+
+
+
+/* Background */
+
+
+:root {
+    --size: 80px;
+    --color: rgba(66, 30, 151, 0.801);
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    background: conic-gradient(from 180deg at 50% 70%, hsla(0, 0%, 98%, 1) 0deg, var(--color) 72.0000010728836deg, var(--color) 144.0000021457672deg, var(--color) 216.00000858306885deg, var(--color) 288.0000042915344deg, hsla(0, 0%, 98%, 1) 1turn);
+    width: 100%;
+    height: 100%;
+    mask:
+        radial-gradient(circle at 100% 100%, white 2px, transparent 2.5px) 50% 50% / var(--size) var(--size),
+        url("https://static.vecteezy.com/system/resources/previews/038/106/557/large_2x/rustic-grunge-texture-with-grain-and-stains-abstract-noise-background-graphic-illustration-with-transparent-background-png.png") 512px 50%;
+    mask-composite: intersect;
+    animation: flicker 40s infinite linear;
+    z-index: -2;
+}
+
+.background h1 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    margin: 0;
+    font-size: clamp(6rem, 8vw + 1rem, 14rem);
+    font-family: "Geist", sans-serif;
+    font-weight: 140;
+    color: hsl(0 0% 2%);
+    mix-blend-mode: soft-light;
+    /*   -webkit-text-stroke: 2px hsl(0 0% 100% / 0.95); */
+    filter: drop-shadow(0 0 2px white);
+    text-shadow: 2px 2px white;
+}
+
+@keyframes flicker {
+    to {
+        mask-position: 50% 50%, 0 100%;
+    }
+}
