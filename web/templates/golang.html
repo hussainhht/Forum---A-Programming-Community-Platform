@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golang Zone</title>
+  <link rel="stylesheet" href="/web/static/css/golang.css">
+  <!-- Optional: English font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="golang-layout">
+    <!-- Sidebar -->
+    <aside class="golang-sidebar">
+      <div class="sidebar-content">
+        <div class="logo-section">
+          <div class="go-logo">
+            <svg viewBox="0 0 100 100" class="go-icon">
+              <circle cx="50" cy="50" r="45" fill="var(--go-accent)" opacity="0.1"></circle>
+              <path d="M25 40h50M25 50h50M25 60h50" stroke="var(--go-accent)" stroke-width="3" stroke-linecap="round"></path>
+              <circle cx="75" cy="50" r="8" fill="var(--go-accent)"></circle>
+            </svg>
+          </div>
+          <h3>Golang Zone</h3>
+        </div>
+        
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            Home
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-icon">📚</span>
+            Tutorials
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-icon">💡</span>
+            Examples
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-icon">🔧</span>
+            Tools
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-icon">👥</span>
+            Community
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="go-stats">
+            <div class="stat-item">
+              <span class="stat-number">1.2k</span>
+              <span class="stat-label">Developers</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">450</span>
+              <span class="stat-label">Projects</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="golang-main">
+      <!-- Hero Section -->
+      <section class="go-hero">
+        <div class="go-hero-content">
+          <div class="go-hero-text">
+            <div class="hero-badge">
+              <span class="badge-icon">⚡</span>
+              Go Language — Speed & Simplicity
+            </div>
+            <h1 class="go-title">
+              <span class="title-highlight">The</span>
+              <span class="title-main">Golang Zone</span>
+            </h1>
+            <p class="go-subtitle">
+              Discover the power of Go with our developer community.
+            </p>
+            <p class="go-desc">
+              Find everything you need to learn and master Go — from basics
+              to advanced projects, with hands-on examples and interactive lessons.
+            </p>
+            <div class="go-actions">
+              <a class="go-btn primary" href="https://go.dev/" target="_blank" rel="noopener">
+                <span class="btn-icon">🚀</span>
+                Start learning now
+              </a>
+              <a class="go-btn secondary" href="#posts">
+                <span class="btn-icon">📖</span>
+                Browse posts
+              </a>
+            </div>
+          </div>
+          
+          <!-- Hero Art -->
+          <div class="go-hero-art" aria-hidden="true">
+            <div class="art-container">
+              <div class="floating-elements">
+                <div class="float-item item-1">func</div>
+                <div class="float-item item-2">go</div>
+                <div class="float-item item-3">chan</div>
+                <div class="float-item item-4">defer</div>
+              </div>
+              <div class="code-preview">
+                <div class="code-header">
+                  <div class="code-dots">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <span class="code-title">main.go</span>
+                </div>
+                <div class="code-content">
+                  <div class="code-line">
+                    <span class="keyword">package</span> <span class="identifier">main</span>
+                  </div>
+                  <div class="code-line">
+                    <span class="keyword">import</span> <span class="string">"fmt"</span>
+                  </div>
+                  <div class="code-line">
+                    <span class="keyword">func</span> <span class="function">main</span>() {
+                  </div>
+                  <div class="code-line indent">
+                    fmt.<span class="function">Println</span>(<span class="string">"Welcome to Go!"</span>)
+                  </div>
+                  <div class="code-line">}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="go-features">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Blazing Fast</h3>
+            <p>High performance and fast execution</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔧</div>
+            <h3>Simple Development</h3>
+            <p>Clean syntax that’s easy to learn</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <h3>Concurrency</h3>
+            <p>First-class Goroutines & Channels</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Safe & Reliable</h3>
+            <p>Smart memory management and type safety</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Posts Section -->
+      <section class="go-posts" id="posts">
+        <header class="go-posts-header">
+          <h2>Latest posts in <span class="pill">golang</span></h2>
+          <div class="posts-filter">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Basics</button>
+            <button class="filter-btn">Advanced</button>
+            <button class="filter-btn">Projects</button>
+          </div>
+        </header>
+
+        <div class="go-posts-grid">
+          <!-- Sample Posts -->
+          <article class="go-post-card featured">
+            <div class="post-badge">Featured</div>
+            <div class="post-category">Basics</div>
+            <h3 class="go-post-title">
+              <a href="#">The Complete Beginner’s Guide to Go</a>
+            </h3>
+            <p class="go-post-meta">
+              by Ahmed Mohamed • 2 days ago • 15 min read
+            </p>
+            <p class="go-post-snippet">
+              Learn Go from scratch with practical examples and real apps:
+              variables, functions, and the core building blocks…
+            </p>
+            <div class="post-stats">
+              <span class="stat">👁️ 2.3k</span>
+              <span class="stat">❤️ 156</span>
+              <span class="stat">💬 23</span>
+            </div>
+            <a class="go-post-link" href="#">
+              Read more <span class="arrow">→</span>
+            </a>
+          </article>
+
+          <article class="go-post-card">
+            <div class="post-category">Advanced</div>
+            <h3 class="go-post-title">
+              <a href="#">Build a Fast API with Gin Framework</a>
+            </h3>
+            <p class="go-post-meta">
+              by Sara Ahmed • 3 days ago • 12 min read
+            </p>
+            <p class="go-post-snippet">
+              Create a robust, high-performance REST API with Gin — one of
+              the most popular Go frameworks…
+            </p>
+            <div class="post-stats">
+              <span class="stat">👁️ 1.8k</span>
+              <span class="stat">❤️ 89</span>
+              <span class="stat">💬 15</span>
+            </div>
+            <a class="go-post-link" href="#">
+              Read more <span class="arrow">→</span>
+            </a>
+          </article>
+
+          <article class="go-post-card">
+            <div class="post-category">Projects</div>
+            <h3 class="go-post-title">
+              <a href="#">Real-time Chat System with WebSockets</a>
+            </h3>
+            <p class="go-post-meta">
+              by Mohamed Ali • 1 week ago • 20 min read
+            </p>
+            <p class="go-post-snippet">
+              Hands-on project using WebSockets and Goroutines with a simple,
+              clean UI…
+            </p>
+            <div class="post-stats">
+              <span class="stat">👁️ 3.1k</span>
+              <span class="stat">❤️ 234</span>
+              <span class="stat">💬 45</span>
+            </div>
+            <a class="go-post-link" href="#">
+              Read more <span class="arrow">→</span>
+            </a>
+          </article>
+
+          <article class="go-post-card">
+            <div class="post-category">Tools</div>
+            <h3 class="go-post-title">
+              <a href="#">Best Productivity Tools for Go Developers</a>
+            </h3>
+            <p class="go-post-meta">
+              by Fatima Hassan • 2 weeks ago • 8 min read
+            </p>
+            <p class="go-post-snippet">
+              A curated set of essential tools and libraries to boost your
+              productivity and code quality…
+            </p>
+            <div class="post-stats">
+              <span class="stat">👁️ 1.5k</span>
+              <span class="stat">❤️ 67</span>
+              <span class="stat">💬 12</span>
+            </div>
+            <a class="go-post-link" href="#">
+              Read more <span class="arrow">→</span>
+            </a>
+          </article>
+        </div>
+
+        <div class="load-more">
+          <button class="load-more-btn">
+            <span class="btn-icon">⬇️</span>
+            Load more posts
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Background Elements -->
+  <div class="bg-elements" aria-hidden="true">
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+    <div class="bg-circle circle-3"></div>
+  </div>
+</body>
+</html>

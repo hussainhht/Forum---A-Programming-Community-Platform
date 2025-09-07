@@ -93,6 +93,12 @@ func (server *Server) Start() error {
 	router.HandleFunc("/playground/preview", server.Post_PlaygroundPreviewHandler)
 	router.HandleFunc("/download", server.Post_DownloadHandler)
 
+	router.HandleFunc("/golang", server.Get_GolangHandler)
+	// Optional: redirect uppercase variant to canonical path
+	router.HandleFunc("/Golang", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/golang", http.StatusMovedPermanently)
+	})
+
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
 }
