@@ -1,26 +1,31 @@
 package service
 
 import (
-	// "forum/Internal/model"
-	// "html/template"
+	"html/template"
+	"log"
 	"net/http"
+
+	m "forum/Internal/model"
 )
 
-func (service *Service) HandleError(w http.ResponseWriter, err int) {
-	// if err == 0 {
-	// 	return
-	// }
-	// // http.Error(w, http.StatusText(err), err)
-	// tmpl, tmplErr := template.ParseFiles("./web/templates/error.html")
-	// if tmplErr != nil {
-	// 	http.Error(w, "Failed to load error template", http.StatusInternalServerError)
-	// 	return
-	// }
-	// pageData := model.PageData{
-	// 	ErrorMsg:  http.StatusText(err),
-	// 	ErrorCode: err,
-	// }
-	// w.WriteHeader(err)
-	// tmpl.Execute(w, pageData)
+// HandleError renders a simple error page with the given status code.
+// Falls back to http.Error if the template fails to parse/execute.
+func (service *Service) HandleError(w http.ResponseWriter, status int) {
+	if status == 0 {
+		status = http.StatusInternalServerError
+	}
 
+	log.Printf("http error: %d %s", status, http.StatusText(status))
+
+	tpl, err := template.ParseFiles("./web/templates/error.html")
+	if err != nil {
+		http.Error(w, http.StatusText(status), status)
+		return
+	}
+
+	w.WriteHeader(status)
+	data := m.PageData{ErrorMsg: http.StatusText(status), ErrorCode: status}
+	if execErr := tpl.Execute(w, data); execErr != nil {
+		http.Error(w, http.StatusText(status), status)
+	}
 }
