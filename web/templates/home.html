@@ -9,10 +9,15 @@
 </head>
 
 <body>
-    <div class="background">
+    <!-- <div class="background">
 
-    </div>
+    </div> -->
     <div class="sidebar sidebar-left">
+        <!-- Checkbox (hidden) -->
+        <input type="checkbox" id="sidebar-toggle" checked>
+
+        <!-- Button that controls checkbox -->
+        <label class="sidebar-toggle-button" for="sidebar-toggle">☰</label>
         <div class="sidebar-container">
             <div class="sidebar-profile">
                 <div class="sidebar-profile-img-container"><svg role="img" width="24px" height="24px"
@@ -24,9 +29,31 @@
                 </div>
                 <div class="sidebar-profile-username">Balafoo</div>
             </div>
-            <div class="sidebar-home"></div>
+            <div class="sidebar-body">
+                <div class="sidebar-body-home-container sidebar-list-container">
+                    <button class="sidebar-button"><a href="/">Home</a></button>
+                </div>
+                <div class="sidebar-body-categories-container sidebar-list-container">
+                    <title class="sidebar-body-categories-title">Categories</title>
+                    <div class="sidebar-body-categories-list sidebar-list-container">
+                        <button class="sidebar-button">Go Lang</button>
+                        <button class="sidebar-button">Javascript</button>
+                        <button class="sidebar-button">Rust</button>
+                        <button class="sidebar-button">HTML</button>
+                        <button class="sidebar-button">CSS</button>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-footer sidebar-list-container">
+                <button class="sidebar-button"><a href="/settings">Settings</a></button>
+                <button class="sidebar-button"><a href="/account">Account</a></button>
+                <button class="sidebar-button"><a href="/register">Register</a></button>
+                <button class="sidebar-button"><a href="/login">Login</a></button>
+                <button class="sidebar-button"><a href="/logout">Logout</a></button>
+            </div>
         </div>
     </div>
+
     <main>
         <div id="main-container">
             <section id="hero-section">
