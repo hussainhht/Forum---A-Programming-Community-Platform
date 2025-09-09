@@ -1,18 +1,14 @@
-/* ! variables */
-
+/* ! ===================== VARIABLES ===================== */
 :root {
-  --card-bg: #eeeeee;
-  --text: #ffffff;
-  --muted: #8f8f8f;
-  --accent: linear-gradient(80deg, #00f7ff, #008CFF);
-  --shadow: 0 0 10px rgba(0, 247, 255, 0.6);
+  --card-bg: #1a0f1f; /* Dark purple card background */
+  --text: #f5e6ff;    /* Light violet text */
+  --muted: #a47bbf;   /* Muted purple text */
+  --accent: linear-gradient(80deg, #d94dff, #8a2be2); /* Neon purple gradient */
+  --shadow: 0 0 12px rgba(180, 50, 255, 0.6); /* Purple glowing shadow */
   --radius: 10px;
-  --glass-bg: rgba(23, 46, 61, 0.186);
-  /* transparent white background */
-  --glass-border: rgba(255, 255, 255, 0.3);
-  /* light border for glass effect */
-  --glass-blur: 20px;
-  /* blur strength */
+  --glass-bg: rgba(40, 0, 60, 0.25); /* Glass effect background (purple tint) */
+  --glass-border: rgba(200, 120, 255, 0.3); /* Light purple border */
+  --glass-blur: 20px; /* Blur strength */
 }
 
 html,
@@ -24,19 +20,17 @@ body {
   margin: 0;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
-  /* center horizontally */
-  align-items: center;
-  /* center vertically */
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
   background:
-    linear-gradient(rgba(0, 0, 0, .35), rgba(0, 0, 0, .35)),
-    url('../img/bg-tech.png') no-repeat center center fixed;
+    linear-gradient(rgba(0, 0, 0, .45), rgba(0, 0, 0, .45)),
+    url('../img/bg-tech-purple.png') no-repeat center center fixed;
   background-size: cover;
-  background-color: #0b1420;
+  background-color: #0a0013; /* Extra dark background */
   font-family: monospace;
 }
 
-
+/* ===================== MAIN CARD ===================== */
 .main-card {
   width: 1000px;
   border-radius: 40px;
@@ -45,28 +39,24 @@ body {
   background: var(--glass-bg);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  justify-content: center;
   justify-content: space-between;
-  
 }
 
+/* ===================== LOGIN BOX ===================== */
 .login-container {
   width: 350px;
   border-radius: 20px;
   padding: 60px 40px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   justify-content: space-around;
   gap: 40px;
 
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(105, 250, 238, 0.3);
-
+  border: 1px solid var(--glass-border);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-
 }
 
 .login-header {
@@ -79,29 +69,25 @@ body {
   color: var(--text);
   font-weight: 700;
   letter-spacing: .3px;
-    
 }
 
+/* Responsive: Mobile version */
 @media (max-width: 480px) {
   .login-container {
     width: 100%;
     margin: 10px 16px;
-    /* space from edges */
     padding: 32px 12px;
-    /* adjust padding */
   }
 }
 
-/* ===== Floating Inputs ===== */
+/* ===================== INPUTS ===================== */
 .inputbox {
   display: flex;
   flex-direction: column;
-  
   gap: 18px;
   position: relative;
   width: 100%;
-  color: #ffffff;
-  
+  color: var(--text);
 }
 
 .inputbox input {
@@ -117,20 +103,20 @@ body {
   color: var(--text);
   outline: none;
   transition: .25s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,.35), 0 0 0 0 rgba(0,247,255,0);
+  box-shadow: 0 2px 6px rgba(0,0,0,.35);
 }
 
 .inputbox input:hover {
-  border-color: rgba(0,247,255,.35);
+  border-color: rgba(200,100,255,.4);
 }
 
 .inputbox input:focus {
   border-color: transparent;
-  background: rgba(0, 247, 255, 0.05);
+  background: rgba(180, 50, 255, 0.07);
   box-shadow:
-    0 0 0 1px rgba(0, 247, 255, .55),
-    0 0 10px rgba(0, 200, 255, .55),
-    0 4px 14px rgba(0,0,0,.55);
+    0 0 0 1px rgba(200, 80, 255, .7),
+    0 0 14px rgba(180, 50, 255, .6),
+    0 4px 16px rgba(0,0,0,.55);
 }
 
 .inputbox span {
@@ -139,24 +125,23 @@ body {
   position: absolute;
   top: 12px;
   left: 0;
-  color: #ffffff;
+  color: var(--text);
   letter-spacing: .3px;
   pointer-events: none;
   transition: .25s;
   user-select: none;
 }
 
-/* floating label effect */
+/* Floating label effect */
 .inputbox input:focus ~ span,
 .inputbox input:valid ~ span {
   transform: translateY(-30px);
   font-size: 13px;
   padding-left: 2px;
-  color: var(--accent, #00f7ff); /* accent color */
+  color: #d94dff; /* Accent neon purple */
 }
 
-/* ------------------------------------------------------------ */
-
+/* ===================== BUTTONS ===================== */
 .form-actions {
   margin-top: 6px;
   display: flex;
@@ -176,9 +161,10 @@ body {
 }
 
 .form-actions button:hover {
-  background: rgba(5, 102, 126, 0.589);
+  background: rgba(150, 50, 200, 0.7);
 }
 
+/* ===================== FOOTER ===================== */
 .form-footer {
   text-align: center;
   font-size: 14px;
@@ -186,7 +172,7 @@ body {
 }
 
 .form-footer a {
-  color: #4a90e2;
+  color: #d94dff;
   text-decoration: none;
 }
 
@@ -194,18 +180,18 @@ body {
   text-decoration: underline;
 }
 
+/* ===================== ERROR BOX ===================== */
 .error-box {
   margin: 0 0 12px;
   padding: 10px 12px;
   border-radius: 8px;
   background: var(--glass-bg);
-  color: #b00020;
+  color: #ff4d6d;
   border: 1px solid #3d0006;
   font-size: 14px;
 }
 
-
-/* ! ---------------logos---------------------- */
+/* ===================== LOGO ===================== */
 .logos {
   display: flex;
   flex-direction: column;
@@ -223,17 +209,17 @@ body {
   text-align: center;
   margin-bottom: 20px;
   font-size: 2.2rem;
-
-
 }
 
+/* ===================== LOGO ROTATOR ===================== */
 .logo-rotator{
   position: relative;
   width: 500px;               
   aspect-ratio: 1 / 1;       
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: 0 0 30px rgba(0,255,255,.15) inset, 0 0 25px rgba(0,255,255,.08);
+  box-shadow: 0 0 30px rgba(200,100,255,.15) inset, 
+              0 0 25px rgba(200,100,255,.08);
 }
 
 .logo-rotator .slide{
@@ -244,7 +230,7 @@ body {
   object-fit: contain;         
   opacity: 0;
   animation: crossfade 50s infinite;  
-  filter: drop-shadow(0 0 10px rgba(0,255,255,.25));
+  filter: drop-shadow(0 0 10px rgba(200,100,255,.25));
 }
 
 .logo-rotator .s2{ animation-delay: 5s; }
@@ -257,15 +243,12 @@ body {
 .logo-rotator .s9{ animation-delay: 40s; }
 .logo-rotator .s10{ animation-delay: 45s; }
 
-
-
 @keyframes crossfade{
   0%   { opacity: 0;   transform: scale(1); }
   1%   { opacity: 1; }
   8%  { opacity: 1; }
   10%  { opacity: 0;   transform: scale(1.03); }
   100% { opacity: 0; }
-
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -273,7 +256,7 @@ body {
   .logo-rotator .slide:not(.s1){ display: none; }
 }
 
-
+/* ===================== BACKGROUND ROTATOR ===================== */
 .bg-rotator{
   --count: 3;          
   --slot: 5s;          
@@ -300,4 +283,3 @@ body {
   99%  { opacity: 0; }
   100% { opacity: 0; }
 }
-

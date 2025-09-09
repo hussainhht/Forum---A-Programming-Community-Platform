@@ -1,0 +1,52 @@
+/* Isolated responsive sidebar (app-sb-*) */
+#app-sb-toggle{display:none}
+.app-sb-toggle-btn{position:fixed;top:12px;left:14px;background:none;border:1px solid rgba(255,255,255,.15);color:#fff;font-size:22px;cursor:pointer;z-index:250;padding:4px 10px;border-radius:6px;backdrop-filter:blur(4px);background:rgba(255,255,255,.05);transition:.25s}
+.app-sb-toggle-btn:hover{background:rgba(255,255,255,.15)}
+
+.app-sb{position:fixed;top:0;left:0;height:100dvh;width:250px;max-width:78%;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:200}
+.app-sb-container{pointer-events:auto;display:flex;flex-direction:column;justify-content:space-between;height:82%;width:100%;border:1px solid rgba(192,66,255,.35);border-right:2px solid rgba(192,66,255,.55);background:linear-gradient(135deg,rgba(46,0,67,.85),rgba(21,0,31,.85));backdrop-filter:blur(8px);padding:18px 16px;border-radius:14px;border-top-left-radius:0;border-bottom-left-radius:0;box-shadow:0 8px 28px -6px rgba(0,0,0,.55),0 0 0 1px rgba(192,66,255,.25) inset;transform:translateX(0);transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .3s}
+
+/* Hidden state */
+#app-sb-toggle:not(:checked)~.app-sb-container{transform:translateX(-108%);opacity:0}
+#app-sb-toggle:checked~.app-sb-container{opacity:1}
+
+.app-sb-profile{display:flex;flex-direction:column;align-items:center;gap:10px;padding-bottom:14px;margin-bottom:10px;border-bottom:1px solid rgba(192,66,255,.25)}
+.app-sb-profile-img{width:70px;height:70px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#c042ff33,#c042ff11);border:1px solid rgba(192,66,255,.35)}
+.app-sb-profile-img svg{width:60%;height:60%}
+.app-sb-username{font-weight:700;font-size:.95rem;letter-spacing:.5px;text-transform:capitalize;color:#fff}
+
+.app-sb-body{display:flex;flex-direction:column;gap:18px;overflow-y:auto;scrollbar-width:none}
+.app-sb-body::-webkit-scrollbar{display:none}
+
+.app-sb-section{display:flex;flex-direction:column;gap:6px}
+.app-sb-section-title{font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#c8a5da;opacity:.85;margin-bottom:2px}
+
+.app-sb-cat-list{display:flex;flex-direction:column;gap:4px}
+
+.app-sb-link{display:block;width:100%;padding:8px 10px;border-radius:8px;font-size:.9rem;color:#ffffffd9;text-decoration:none;position:relative;transition:.25s background, .25s color;font-weight:500}
+.app-sb-link:hover{background:linear-gradient(90deg,rgba(192,66,255,.20),rgba(192,66,255,.05));color:#fff}
+.app-sb-link:active{transform:translateY(1px)}
+
+.app-sb-footer{display:flex;flex-direction:column;gap:4px;padding-top:12px;margin-top:4px;border-top:1px solid rgba(192,66,255,.25)}
+
+/* Compact widths */
+@media (max-width: 900px){
+  .app-sb{width:220px}
+  body.has-sidebar{padding-left:0}
+}
+
+/* Mobile overlay mode */
+@media (max-width: 640px){
+  .app-sb{width:240px;align-items:flex-start}
+  .app-sb-toggle-btn{top:10px;left:10px}
+  #app-sb-toggle:not(:checked)~.app-sb-container{box-shadow:none}
+  #app-sb-toggle:checked~.app-sb-container{box-shadow:0 12px 42px -6px rgba(0,0,0,.65)}
+}
+
+/* Push main content on large screens */
+body.has-sidebar .content-with-sidebar{margin-left:250px;transition:margin .35s cubic-bezier(.4,0,.2,1)}
+@media (max-width:900px){body.has-sidebar .content-with-sidebar{margin-left:220px}}
+@media (max-width:640px){body.has-sidebar .content-with-sidebar{margin-left:0}}
+
+/* When collapsed (unchecked) keep content full width */
+#app-sb-toggle:not(:checked)~.content-with-sidebar{margin-left:0}
