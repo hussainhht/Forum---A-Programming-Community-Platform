@@ -195,6 +195,7 @@ main {
     border: none;
     padding-left: 12px;
     padding-top: 4px;
+    cursor: pointer;
 }
 
 /* sections */

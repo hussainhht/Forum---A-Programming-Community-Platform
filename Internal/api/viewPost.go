@@ -30,7 +30,7 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 		Post:       post,
 	}
 	// Render the post using a template
-	tmpl, tmplErr := template.ParseFiles("./web/templates/view-post.html")
+	tmpl, tmplErr := template.ParseFiles("./web/templates/view-post.html", "./web/templates/sidebar.html")
 	if tmplErr != nil {
 		server.Service.HandleError(w, http.StatusInternalServerError)
 		return

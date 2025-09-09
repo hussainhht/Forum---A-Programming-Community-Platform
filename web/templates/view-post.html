@@ -3,10 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <title>{{.Post.Title}} - Forum</title>
-
+        <link rel="stylesheet" href="/web/static/css/newtyles.css">
         <link rel="stylesheet" href="/web/static/css/view-post.css">
     </head>
-    <body class="vp">
+    <body class="vp has-sidebar">
+    {{template "sidebar" .}}
         {{if .IsLoggedIn}}
       
         <p class="vp-welcome"><a href="/login">Please log in</a></p>

@@ -7,14 +7,13 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-
 )
 
 type GolangPageData struct {
 	SourceURL  string
 	Posts      []model.Post
 	IsLoggedIn bool
-	CountPosts  int
+	CountPosts int
 }
 
 func (server *Server) Get_GolangHandler(w http.ResponseWriter, r *http.Request) {
@@ -47,7 +46,7 @@ func (server *Server) Get_GolangHandler(w http.ResponseWriter, r *http.Request) 
 		SourceURL:  "https://go.dev/doc/",
 		Posts:      posts,
 		IsLoggedIn: isLoggedIn,
-		CountPosts:  countpost,
+		CountPosts: countpost,
 	}
 
 	// Parse all templates with a FuncMap that includes helpers used by other pages (e.g., create-post.html)
@@ -61,7 +60,6 @@ func (server *Server) Get_GolangHandler(w http.ResponseWriter, r *http.Request) 
 			return false
 		},
 	})
-
 
 	tpl, err := base.ParseGlob("./web/templates/*.html")
 	if err != nil {

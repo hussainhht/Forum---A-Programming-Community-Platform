@@ -61,7 +61,7 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 		},
 	})
 
-	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html")
+	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html", "./web/templates/sidebar.html")
 	if err != nil {
 		http.Error(w, "Error parsing template", http.StatusInternalServerError)
 		return
@@ -221,7 +221,7 @@ func renderCreatePost(
 	})
 
 	// Parse the template file
-	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html")
+	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html", "./web/templates/sidebar.html")
 	if err != nil {
 		http.Error(w, "Error parsing template", http.StatusInternalServerError)
 		return

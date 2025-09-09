@@ -27,7 +27,7 @@ func (server *Server) Get_RootHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			return false
 		},
-	}).ParseFiles("./web/templates/home.html")
+	}).ParseFiles("./web/templates/home.html", "./web/templates/sidebar.html")
 
 	if tmplErr != nil {
 		server.Service.HandleError(w, http.StatusInternalServerError)
