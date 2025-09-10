@@ -1,86 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" />
         <title>{{.Post.Title}} - Forum</title>
-        <link rel="stylesheet" href="/web/static/css/newtyles.css">
-        <link rel="stylesheet" href="/web/static/css/view-post.css">
+        <link rel="stylesheet" href="/web/static/css/newtyles.css" />
+        <link rel="stylesheet" href="/web/static/css/view-post.css" />
     </head>
     <body class="vp has-sidebar">
-    {{template "sidebar" .}}
-        {{if .IsLoggedIn}}
-      
-        <p class="vp-welcome"><a href="/login">Please log in</a></p>
-        {{end}}
+        {{template "sidebar" .}}
 
-        <div class="vp-container">
-            <article class="vp-post">
-                <h1 class="vp-title">{{.Post.Title}}</h1>
-                <div class="vp-content">
-                    {{ range .Post.Content }}
-                      {{ if eq .Type "code" }}
-                        <pre class="code-string">{{ .Content }}</pre>
-                      {{ else if eq .Type "link" }}
-                        {{ if .Link }}
-                          <div class="link-string">
-                            <a href="{{.Link.URL}}" target="_blank" rel="noopener noreferrer">{{.Link.Text}}</a>
-                            <small class="link-url">({{.Link.URL}})</small>
-                          </div>
-                        {{ else }}
-                          <p class="text-string">{{ .Content }}</p>
-                        {{ end }}
-                      {{ else }}
-                        <p class="text-string">{{ .Content }}</p>
-                      {{ end }}
-                    {{ end }}
+        <div class="background" aria-hidden="true"></div>
+
+        <div class="container vp-container">
+            <!-- Post Card -->
+            <div class="card vp-post">
+                <div class="titlebar">
+                    <button class="minimize"><svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2"/></svg></button>
+                    <button class="maximize"><svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8"/></svg></button>
+                    <button class="close"><svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9"/></svg></button>
                 </div>
-                <small class="vp-meta">By: {{.Post.Username}} |
-                    {{.Post.CreatedAt.Format "Jan 2, 2006"}}</small>
+                <div class="vp-post-body">
+                    <h1 class="vp-title">{{.Post.Title}}</h1>
+                    <div class="vp-content" id="post-content">
+                        {{ range .Post.Content }}
+                            {{ if eq .Type "code" }}
+                                <pre class="code-string">{{ .Content }}</pre>
+                            {{ else if eq .Type "link" }}
+                                {{ if .Link }}
+                                    <div class="link-string">
+                                        <a href="{{.Link.URL}}" target="_blank" rel="noopener noreferrer">{{.Link.Text}}</a>
+                                        <small class="link-url">({{.Link.URL}})</small>
+                                    </div>
+                                {{ else }}
+                                    <div class="text-string">{{ .Content }}</div>
+                                {{ end }}
+                            {{ else }}
+                                <div class="text-string">{{ .Content }}</div>
+                            {{ end }}
+                        {{ end }}
+                    </div>
+                    <small class="vp-meta">By: {{.Post.Username}} | {{.Post.CreatedAt.Format "Jan 2, 2006"}}</small>
 
-                <div class="vp-likes">
+                    <div class="vp-likes">
+                        {{if .IsLoggedIn}}
+                        <form action="/post-reaction" method="POST" class="vp-like-form">
+                            <input type="hidden" name="post_id" value="{{.Post.ID}}" />
+                            <button class="vp-btn vp-like" type="submit" name="reaction_type" value="like">👍 Like</button>
+                            <button class="vp-btn vp-dislike" type="submit" name="reaction_type" value="dislike">👎 Dislike</button>
+                        </form>
+                        {{end}}
+                        <span class="vp-like-count">{{.Post.LikeCount}} likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comments Card -->
+            <div class="card vp-comments">
+                <div class="titlebar">
+                    <button class="minimize"><svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2"/></svg></button>
+                    <button class="maximize"><svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8"/></svg></button>
+                    <button class="close"><svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9"/></svg></button>
+                </div>
+                <div class="vp-comments-body">
+                    <h3 class="vp-comments-title">Comments</h3>
+                    <div class="vp-comment-list">
+                        {{if .Post.Comments}}
+                            {{range .Post.Comments}}
+                                <div class="vp-comment">
+                                    <div class="vp-comment-head">
+                                        <strong class="vp-comment-user">{{.Username}}</strong>
+                                        <small class="vp-comment-date">({{.CreatedAt.Format "Jan 2, 15:04"}})</small>
+                                    </div>
+                                    <div class="vp-comment-text">{{.Content}}</div>
+                                </div>
+                            {{end}}
+                        {{else}}
+                            <div class="vp-empty">No comments yet.</div>
+                        {{end}}
+                    </div>
+
                     {{if .IsLoggedIn}}
-                    <form action="/post-reaction" method="POST"
-                        class="vp-like-form">
-                        <input type="hidden" name="post_id"
-                            value="{{.Post.ID}}">
-                        <button class="vp-btn vp-like" type="submit"
-                            name="reaction_type" value="like">👍 Like</button>
-                        <button class="vp-btn vp-dislike" type="submit"
-                            name="reaction_type" value="dislike">👎
-                            Dislike</button>
+                    <form action="/create-comment" method="POST" class="vp-comment-form">
+                        <input type="hidden" name="post_id" value="{{.Post.ID}}" />
+                        <textarea name="content" placeholder="Add a comment..." required></textarea>
+                        <button class="vp-btn" type="submit">Comment</button>
                     </form>
                     {{end}}
-                    <span class="vp-like-count">{{.Post.LikeCount}} likes</span>
                 </div>
-            </article>
-
-            <section class="vp-comments">
-                <h3>Comments</h3>
-                {{if .Post.Comments}}
-                {{range .Post.Comments}}
-                <div class="vp-comment">
-                    <div class="vp-comment-head">
-                        <strong class="vp-comment-user">{{.Username}}</strong>
-                        <small class="vp-comment-date">({{.CreatedAt.Format
-                            "Jan 2, 15:04"}})</small>
-                    </div>
-                    <p class="vp-comment-text">{{.Content}}</p>
-                </div>
-                {{end}}
-                {{else}}
-                <p class="vp-empty">No comments yet.</p>
-                {{end}}
-
-                {{if .IsLoggedIn}}
-                <form action="/create-comment" method="POST"
-                    class="vp-comment-form">
-                    <input type="hidden" name="post_id" value="{{.Post.ID}}">
-                    <textarea name="content" placeholder="Add a comment..."
-                        required></textarea>
-                    <button class="vp-btn" type="submit">Comment</button>
-                </form>
-                {{end}}
-            </section>
+            </div>
         </div>
     </body>
 </html>
