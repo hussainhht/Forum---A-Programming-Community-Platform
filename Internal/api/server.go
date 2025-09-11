@@ -80,14 +80,14 @@ func (server *Server) Start() error {
 	})
 
 	// Create Comment
-	router.HandleFunc("/create-comment", server.Post_CreateCommentHandler)
+	router.HandleFunc("POST /create-comment", server.Post_CreateCommentHandler)
 
 	// Post page (view post)
-	router.HandleFunc("/post/{id}", server.Get_PostHandler)
+	router.HandleFunc("GET /post/{id}", server.Get_PostHandler)
 
 	// Reactions
-	router.HandleFunc("/post-reaction", server.Post_ReactionHandler)
-	router.HandleFunc("/comment-reaction", server.CommentReactionHandler)
+	router.HandleFunc("POST /post-reaction", server.Post_ReactionHandler)
+	router.HandleFunc("POST /comment-reaction", server.CommentReactionHandler)
 
 	router.HandleFunc("/playground", server.Get_PlaygroundHandler)
 	router.HandleFunc("/playground/preview", server.Post_PlaygroundPreviewHandler)
