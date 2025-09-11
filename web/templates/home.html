@@ -21,7 +21,7 @@
             </section>
             <section id="posts-section">
                 <h2 class="section-title">Featured Posts</h2>
-                <div class="posts-container">
+                <form method="get" class="posts-container">
                     {{range .Posts}}
                     <div class="post-card">
                         <div class="post-titlebar">
@@ -32,7 +32,7 @@
                                         <rect x="1" y="4" width="8" height="2" />
                                     </svg>
                                 </button>
-                                <button class="maximize">
+                                <button class="maximize" value="maximize" type="submit" formaction="/post/{{.ID}}">
                                     <svg viewBox="0 0 10 10">
                                         <rect x="1" y="1" width="8" height="8" />
                                     </svg>
@@ -52,7 +52,7 @@
                     {{else}}
                     <p>No posts found.</p>
                     {{end}}
-                </div>
+                </form>
             </section>
         </div>
     </main>
