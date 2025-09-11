@@ -5,9 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create Post</title>
-  <!-- <link rel="stylesheet" href="web/static/css/sidebar.css" /> -->
 
-  <link rel="stylesheet" href="/web/static/css/newtyles.css" />
   <link rel="stylesheet" href="web/static/css/editor.css" />
 </head>
 
@@ -32,7 +30,7 @@
         <div class="checkbox-group">
           {{range .Categories}}
             <label>
-              <input type="checkbox" name="category[]" value="{{.ID}}" {{if contains $.SelectedCategories .ID}}checked{{end}}>
+              <input type="checkbox" name="category" value="{{.ID}}" {{if contains $.SelectedCategories .ID}}checked{{end}}>
               {{.Name}}
             </label>
           {{end}}
