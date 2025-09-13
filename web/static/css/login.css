@@ -71,15 +71,6 @@ body {
   letter-spacing: .3px;
 }
 
-/* Responsive: Mobile version */
-@media (max-width: 480px) {
-  .login-container {
-    width: 100%;
-    margin: 10px 16px;
-    padding: 32px 12px;
-  }
-}
-
 /* ===================== INPUTS ===================== */
 .inputbox {
   display: flex;
@@ -91,7 +82,7 @@ body {
 }
 
 .inputbox input {
-  width: 93%;
+  
   height: 46px;
   border: 1px solid var(--glass-border);
   background: var(--glass-bg);
@@ -99,6 +90,7 @@ body {
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border-radius: 8px;
   padding: 0 14px;
+  padding-right: 44px; /* reserve space for eye */
   font-size: 15px;
   color: var(--text);
   outline: none;
@@ -106,9 +98,7 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,.35);
 }
 
-.inputbox input:hover {
-  border-color: rgba(200,100,255,.4);
-}
+.inputbox input:hover { border-color: rgba(200,100,255,.4); }
 
 .inputbox input:focus {
   border-color: transparent;
@@ -140,6 +130,49 @@ body {
   padding-left: 2px;
   color: #d94dff; /* Accent neon purple */
 }
+
+/* ===================== PASSWORD VISIBILITY TOGGLE ===================== */
+/* Hidden checkbox to hold state - clicks are on the label */
+.pw-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.eye-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;           /* distance from right edge */
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  fill: var(--muted);
+}
+
+.eye-toggle svg { pointer-events: none; }
+.eye-toggle .eye-slash { display: none; }
+
+/* Swap icons when checked */
+#togglePassword:checked ~ .eye-toggle .eye { display: none; }
+#togglePassword:checked ~ .eye-toggle .eye-slash { display: block; }
+/* =================== END PASSWORD VISIBILITY TOGGLE =================== */
+
+/* ===================== CSS-ONLY PASSWORD MASK ===================== */
+/* Default: mask characters */
+#password { -webkit-text-security: disc; }
+/* When checkbox is checked: unmask */
+#togglePassword:checked ~ #password { -webkit-text-security: none; }
+/* ================================================================ */
+
 
 /* ===================== BUTTONS ===================== */
 .form-actions {
@@ -258,8 +291,8 @@ body {
 
 /* ===================== BACKGROUND ROTATOR ===================== */
 .bg-rotator{
-  --count: 3;          
-  --slot: 5s;          
+  --count: 3;
+  --slot: 5s;
   --total: calc(var(--count) * var(--slot));
   position: fixed;
   inset: 0;
