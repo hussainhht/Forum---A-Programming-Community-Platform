@@ -98,9 +98,9 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,.35);
 }
 
-.inputbox input:hover { border-color: rgba(200,100,255,.4); }
+.inputbox input:not(.pw-toggle):hover { border-color: rgba(200,100,255,.4); }
 
-.inputbox input:focus {
+.inputbox input:not(.pw-toggle):focus {
   border-color: transparent;
   background: rgba(180, 50, 255, 0.07);
   box-shadow:
@@ -118,17 +118,27 @@ body {
   color: var(--text);
   letter-spacing: .3px;
   pointer-events: none;
-  transition: .25s;
+  display: inline-block;             /* allow smooth transforms */
+  transition: transform .25s, color .25s, font-size .25s;
   user-select: none;
+  z-index: 1;                        /* appear above input border */
 }
 
-/* Floating label effect */
-.inputbox input:focus ~ span,
-.inputbox input:valid ~ span {
+/* Floating label effect (ignore hidden checkbox) */
+.inputbox input:not(.pw-toggle):focus ~ span,
+.inputbox input:not(.pw-toggle):valid ~ span {
   transform: translateY(-30px);
   font-size: 13px;
   padding-left: 2px;
   color: #d94dff; /* Accent neon purple */
+}
+
+/* Float label on browser autofill as well */
+.inputbox input:not(.pw-toggle):-webkit-autofill ~ span {
+  transform: translateY(-30px);
+  font-size: 13px;
+  padding-left: 2px;
+  color: #d94dff;
 }
 
 /* ===================== PASSWORD VISIBILITY TOGGLE ===================== */
