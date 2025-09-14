@@ -1,4 +1,4 @@
-{{define "sidebar"}}
+{{define "sidebarOld"}}
 <div class="sidebar sidebar-left">
     <!-- Checkbox (hidden) -->
     <input type="checkbox" id="sidebar-toggle" checked>
@@ -19,13 +19,13 @@
         <div class="sidebar-body">
             <div class="sidebar-body-home-container sidebar-list-container">
                 <button class="sidebar-button"><a href="/">Home</a></button>
-                <button class="sidebar-button"><a href="/create-post">Create Post</a></button>
+                <button class="sidebar-button"><a href="/create-post">Create&nbsp;Post</a></button>
 
             </div>
             <div class="sidebar-body-categories-container sidebar-list-container">
                 <title class="sidebar-body-categories-title">Categories</title>
                 <div class="sidebar-body-categories-list sidebar-list-container">
-                    <button class="sidebar-button">Go Lang</button>
+                    <button class="sidebar-button">Go&nbsp;Lang</button>
                     <button class="sidebar-button">Javascript</button>
                     <button class="sidebar-button">Rust</button>
                     <button class="sidebar-button">HTML</button>
@@ -42,4 +42,9 @@
         </div>
     </div>
 </div>
+{{end}}
+
+
+{{define "sidebar"}}
+
 {{end}}
