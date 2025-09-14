@@ -38,7 +38,7 @@ func (server *Server) Start() error {
 	router.Handle("/web/", http.StripPrefix("/web/", fs))
 
 	// Root
-	router.HandleFunc("/", server.Get_RootHandler)
+	router.HandleFunc("/", server.Get_HomeHandler)
 
 	// Register
 	router.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
@@ -98,9 +98,6 @@ func (server *Server) Start() error {
 	router.HandleFunc("/Golang", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/golang", http.StatusMovedPermanently)
 	})
-
-	
-
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
 }

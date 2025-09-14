@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../static/css/root.css">
+    <link rel="stylesheet" href="./web/static/css/root.css">
+    <link rel="stylesheet" href="{{.CSSFile}}">
 </head>
 
 <body id="root-body">
@@ -17,7 +19,7 @@
                 <section class="sidebar-section" id="sidebar-header-section">
                     <div class="sidebar-header-container sidebar-section-container">
                         <label id="sidebar-toggle-button" class="sidebar-button" for="sidebar-toggle"><img
-                                class="sidebar-button-icon" src="../static/icons/menu.svg" alt=""></label>
+                                class="sidebar-button-icon" src="./web/static/icons/menu.svg" alt=""></label>
                     </div>
                 </section>
                 <!-- <section class="sidebar-section" id="sidebar-profile-section">
@@ -33,13 +35,13 @@
                 <section class="sidebar-section" id="sidebar-main-section">
                     <div class="sidebar-main-container sidebar-section-container">
                         <button class="sidebar-button" onclick="location.href='/'"><img class="sidebar-button-icon"
-                                src="../static/icons/home.svg" alt=""><span
+                                src="./web/static/icons/home.svg" alt=""><span
                                 class="sidebar-button-text sidebar-text">Home</span></button>
                         <button class="sidebar-button" onclick="location.href='/create-post'"><img
-                                class="sidebar-button-icon" src="../static/icons/add_post.svg" alt=""><span
+                                class="sidebar-button-icon" src="./web/static/icons/add_post.svg" alt=""><span
                                 class="sidebar-button-text sidebar-text">Create&nbsp;Post</span></button>
                         <button class="sidebar-button" onclick="location.href='/posts'"><img class="sidebar-button-icon"
-                                src="../static/icons/read_more.svg" alt=""><span
+                                src="./web/static/icons/read_more.svg" alt=""><span
                                 class="sidebar-button-text sidebar-text">Discover&nbsp;Posts</span></button>
                     </div>
                 </section>
@@ -47,29 +49,29 @@
                     <div class="sidebar-categories-container sidebar-section-container">
                         <button class="sidebar-button"><span
                                 class="sidebar-button-text sidebar-text">Categories</span><img
-                                class="sidebar-button-icon" src="../static/icons/arrow_right.svg" alt=""></button>
+                                class="sidebar-button-icon" src="./web/static/icons/arrow_right.svg" alt=""></button>
                         <button class="sidebar-button" onclick="location.href='/category/1'"><img
-                                class="sidebar-button-icon" src="../static/icons/go.svg" alt=""><span
+                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
                                 class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
                         <button class="sidebar-button" onclick="location.href='/category/2'"><img
-                                class="sidebar-button-icon" src="../static/icons/rust.png" alt=""><span
+                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
                                 class="sidebar-button-text sidebar-text">Rust</span></button>
                         <button class="sidebar-button" onclick="location.href='/category/3'"><img
-                                class="sidebar-button-icon" src="../static/icons/javascript.svg" alt=""><span
+                                class="sidebar-button-icon" src="./web/static/icons/javascript.svg" alt=""><span
                                 class="sidebar-button-text sidebar-text">JavaScript</span></button>
                         <button class="sidebar-button" onclick="location.href='/category/4'"><img
-                                class="sidebar-button-icon" src="../static/icons/arrow_down.svg" alt=""><span
+                                class="sidebar-button-icon" src="./web/static/icons/arrow_down.svg" alt=""><span
                                 class="sidebar-button-text sidebar-text">View&nbsp;More</span></button>
                     </div>
                 </section>
                 <section class="sidebar-section" id="sidebar-auth-section">
                     <div class="sidebar-auth-container sidebar-section-container">
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="../static/icons/login.svg"
+                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/login.svg"
                                 alt=""> <span class="sidebar-button-text sidebar-text">Login&nbsp;In</span></button>
                         <button class="sidebar-button"><img class="sidebar-button-icon"
-                                src="../static/icons/register.svg" alt=""> <span
+                                src="./web/static/icons/register.svg" alt=""> <span
                                 class="sidebar-button-text sidebar-text">Register</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="../static/icons/logout.svg"
+                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/logout.svg"
                                 alt=""> <span class="sidebar-button-text sidebar-text">Logout</span></button>
 
                     </div>
@@ -77,14 +79,14 @@
                 <section class="sidebar-section" id="sidebar-footer-section">
                     <div class="sidebar-footer-container sidebar-section-container">
                         <button class="sidebar-button"><img class="sidebar-button-icon"
-                                src="../static/icons/settings.svg" alt=""> <span
+                                src="./web/static/icons/settings.svg" alt=""> <span
                                 class="sidebar-button-text sidebar-text">Settings</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="../static/icons/help.svg"
+                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/help.svg"
                                 alt=""> <span class="sidebar-button-text sidebar-text">Help</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="../static/icons/policy.svg"
+                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/policy.svg"
                                 alt=""> <span
                                 class="sidebar-button-text sidebar-text">Privacy&nbsp;Policy</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="../static/icons/terms.svg"
+                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/terms.svg"
                                 alt=""> <span
                                 class="sidebar-button-text sidebar-text">Terms&nbsp;of&nbsp;Service</span></button>
                     </div>
@@ -95,7 +97,7 @@
 
     <main>
         <div id="main-container">
-            {{template "main" .}}
+            {{template "mainBlock" .}}
         </div>
     </main>
 </body>

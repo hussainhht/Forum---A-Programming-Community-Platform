@@ -79,4 +79,5 @@ type PageData struct {
 	SelectedCategories []string
 	ErrorMsg           string
 	ErrorCode          int
+	CSSFile            string
 }

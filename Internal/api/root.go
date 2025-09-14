@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func (server *Server) Get_RootHandler(w http.ResponseWriter, r *http.Request) {
+func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path != "/" {
 		server.Service.HandleError(w, http.StatusNotFound)
@@ -17,20 +17,11 @@ func (server *Server) Get_RootHandler(w http.ResponseWriter, r *http.Request) {
 	sessionIDCookie, _ := r.Cookie("session_id")
 
 	// Create template with custom functions
-	tmpl, tmplErr := template.New("home.html").Funcs(template.FuncMap{
-		"contains": func(slice []string, item int) bool {
-			itemStr := fmt.Sprintf("%d", item)
-			for _, s := range slice {
-				if s == itemStr {
-					return true
-				}
-			}
-			return false
-		},
-	}).ParseFiles("./web/templates/home.html", "./web/templates/sidebar.html")
+	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/home.html") 
 
 	if tmplErr != nil {
 		server.Service.HandleError(w, http.StatusInternalServerError)
+		fmt.Println("Error creating template:", tmplErr)
 		return
 	}
 
@@ -67,6 +58,7 @@ func (server *Server) Get_RootHandler(w http.ResponseWriter, r *http.Request) {
 		Posts:              posts,
 		Categories:         categories,
 		SelectedCategories: categoryIDs,
+		CSSFile: 		 "./web/static/css/newtyles.css",
 	}
 
 	// Pass posts to the template
