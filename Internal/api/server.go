@@ -99,6 +99,8 @@ func (server *Server) Start() error {
 		http.Redirect(w, r, "/golang", http.StatusMovedPermanently)
 	})
 
+	
+
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
 }
