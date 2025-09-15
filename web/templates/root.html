@@ -16,21 +16,11 @@
             <input hidden type="checkbox" name="sidebar-toggle" id="sidebar-toggle">
             <div id="sidebar-sections-container">
                 <section class="sidebar-section" id="sidebar-header-section">
-                    <div class="sidebar-header-container sidebar-section-container">
+                    <div id="sidebar-header-container" class="sidebar-section-container">
                         <label id="sidebar-toggle-button" class="sidebar-button" for="sidebar-toggle"><img
                                 class="sidebar-button-icon" src="./web/static/icons/menu.svg" alt=""></label>
                     </div>
                 </section>
-                <!-- <section class="sidebar-section" id="sidebar-profile-section">
-                    <div class="sidebar-profile-container sidebar-section-container">
-                        <div class="sidebar-profile-img-container">
-                            <img src="" alt="User profile image">
-                        </div>
-                        <div class="sidebar-profile-username-container">
-                            <span class="sidebar-profile-username-text sidebar-text sidebar-button-text">Balafoo</span>
-                        </div>
-                    </div>
-                </section> -->
                 <section class="sidebar-section" id="sidebar-main-section">
                     <div class="sidebar-main-container sidebar-section-container">
                         <button class="sidebar-button" onclick="location.href='/'"><img class="sidebar-button-icon"
@@ -55,9 +45,30 @@
                         <button class="sidebar-button" onclick="location.href='/category/2'"><img
                                 class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
                                 class="sidebar-button-text sidebar-text">Rust</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/3'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/javascript.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">JavaScript</span></button>
+                        <button class="sidebar-button" onclick="location.href='/category/1'"><img
+                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
+                                class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
+                        <button class="sidebar-button" onclick="location.href='/category/2'"><img
+                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
+                                class="sidebar-button-text sidebar-text">Rust</span></button>
+                        <button class="sidebar-button" onclick="location.href='/category/1'"><img
+                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
+                                class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
+                        <button class="sidebar-button" onclick="location.href='/category/2'"><img
+                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
+                                class="sidebar-button-text sidebar-text">Rust</span></button>
+                        <button class="sidebar-button" onclick="location.href='/category/1'"><img
+                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
+                                class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
+                        <button class="sidebar-button" onclick="location.href='/category/2'"><img
+                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
+                                class="sidebar-button-text sidebar-text">Rust</span></button>
+                        <button class="sidebar-button" onclick="location.href='/category/1'"><img
+                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
+                                class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
+                        <button class="sidebar-button" onclick="location.href='/category/2'"><img
+                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
+                                class="sidebar-button-text sidebar-text">Rust</span></button>
                         <button class="sidebar-button" onclick="location.href='/category/4'"><img
                                 class="sidebar-button-icon" src="./web/static/icons/arrow_down.svg" alt=""><span
                                 class="sidebar-button-text sidebar-text">View&nbsp;More</span></button>
@@ -74,7 +85,6 @@
                         <button class="sidebar-button"><img class="sidebar-button-icon"
                                 src="./web/static/icons/logout.svg" alt=""> <span
                                 class="sidebar-button-text sidebar-text">Logout</span></button>
-
                     </div>
                 </section>
                 <section class="sidebar-section" id="sidebar-footer-section">
@@ -82,23 +92,31 @@
                         <button class="sidebar-button"><img class="sidebar-button-icon"
                                 src="./web/static/icons/settings.svg" alt=""> <span
                                 class="sidebar-button-text sidebar-text">Settings</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon"
+                        <button id="sidebar-help-button" class="sidebar-button"><img class="sidebar-button-icon"
                                 src="./web/static/icons/help.svg" alt=""> <span
                                 class="sidebar-button-text sidebar-text">Help</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon"
-                                src="./web/static/icons/policy.svg" alt=""> <span
-                                class="sidebar-button-text sidebar-text">Privacy&nbsp;Policy</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon"
-                                src="./web/static/icons/terms.svg" alt=""> <span
-                                class="sidebar-button-text sidebar-text">Terms&nbsp;of&nbsp;Service</span></button>
+                        <button id="sidebar-privacy-button" class="sidebar-button"><img class="sidebar-button-icon"
+                                src="./web/static/icons/Terms.svg" alt=""> <span
+                                class="sidebar-button-text sidebar-text">Privacy&nbsp;&amp;&nbsp;Terms</span></button>
                     </div>
                 </section>
             </div>
+            <section class="sidebar-section" id="sidebar-profile-section">
+                <div class="sidebar-section-container" id="sidebar-profile-container">
+                    <div class="sidebar-profile-img-container">
+                        <img id="sidebar-profile-img" src="/web/static/img/gopher.svg" alt="">
+                    </div>
+                    <div class="sidebar-profile-username-container">
+                        <span id="sidebar-profile-username-text" class="sidebar-text sidebar-button-text"><a
+                                href="">Balafoo</a></span>
+                    </div>
+                </div>
+            </section>
         </div>
     </nav>
 
     <main>
-            {{template "mainBlock" .}}
+        {{template "mainBlock" .}}
     </main>
 </body>
 
