@@ -58,6 +58,7 @@ body {
   gap: var(--go-spacing); padding: var(--go-spacing);
   min-height: 100vh;
 }
+.golang-layout.no-sidebar { grid-template-columns: 1fr; }
 .golang-sidebar {
   background: var(--go-bg-card);
   border-radius: var(--go-radius);

@@ -98,8 +98,12 @@ func (server *Server) Start() error {
 	router.HandleFunc("/Golang", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/golang", http.StatusMovedPermanently)
 	})
+
+	// JavaScript zone
+	router.HandleFunc("/javascript", server.Get_JavaScriptHandler)
+	router.HandleFunc("/js", func(w http.ResponseWriter, r *http.Request) { // short alias
+		http.Redirect(w, r, "/javascript", http.StatusMovedPermanently)
+	})
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
 }
-
-
