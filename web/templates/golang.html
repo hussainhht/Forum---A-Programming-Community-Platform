@@ -14,7 +14,7 @@
       rel="stylesheet"
     />
   </head>
-  
+
   <body class="has-sidebar">    
     <div class="golang-layout">
       <!-- Sidebar -->
@@ -47,19 +47,7 @@
               <span class="nav-icon">🏠</span>
               Home
             </a>
-            <a href="#" class="nav-item">
-              <span class="nav-icon">📚</span>
-              Tutorials
-            </a>
-            <a href="#" class="nav-item">
-              <span class="nav-icon">💡</span>
-              Examples
-            </a>
-            <a href="#" class="nav-item">
-              <span class="nav-icon">🔧</span>
-              Tools
-            </a>
-            <a href="#" class="nav-item">
+            <a href="https://forum.golangbridge.org/" class="nav-item">
               <span class="nav-icon">👥</span>
               Community
             </a>
@@ -71,10 +59,7 @@
                 <span class="stat-number">1.2k</span>
                 <span class="stat-label">Developers</span>
               </div>
-              <div class="stat-item">
-                <span class="stat-number">{{.CountPosts}}</span>
-                <span class="stat-label">posts</span>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -111,11 +96,16 @@
                   <span class="btn-icon">🚀</span>
                   Start learning now
                 </a>
-                <a class="go-btn secondary" href="#posts">
+                <a class="go-btn secondary" href="#posts-section">
                   <span class="btn-icon">📖</span>
                   Browse posts
                 </a>
+
+                <span class="stat-number">{{.CountPosts}}</span>
+                <span class="stat-label">posts</span>
+                
               </div>
+
             </div>
 
             <!-- Hero Art -->

@@ -40,7 +40,7 @@ func (server *Server) Post_LoginHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	
-	emailOrUsername := strings.TrimSpace(strings.ToLower(r.FormValue("emailORUsername")))
+	emailOrUsername := strings.TrimSpace(r.FormValue("emailORUsername"))
 	password := r.FormValue("password")
 
 	newSessionID, err := server.Service.LoginUser(emailOrUsername, password)
