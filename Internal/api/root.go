@@ -17,7 +17,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	sessionIDCookie, _ := r.Cookie("session_id")
 
 	// Create template with custom functions
-	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/home.html") 
+	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/home.html")
 
 	if tmplErr != nil {
 		server.Service.HandleError(w, http.StatusInternalServerError)
@@ -58,9 +58,20 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 		Posts:              posts,
 		Categories:         categories,
 		SelectedCategories: categoryIDs,
-		CSSFile: 		 "./web/static/css/newtyles.css",
+		CSSFile:            "./web/static/css/newtyles.css",
+		Cells: 		   generateCells(),
 	}
 
 	// Pass posts to the template
 	tmpl.Execute(w, pageData)
+}
+
+func generateCells() []model.Cell {
+	cells := []model.Cell{}
+	for r := 0; r < 20; r++ {
+		for c := 0; c < 20; c++ {
+			cells = append(cells, model.Cell{Row: r, Col: c})
+		}
+	}
+	return cells
 }

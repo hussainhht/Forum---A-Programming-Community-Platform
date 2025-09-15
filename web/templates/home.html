@@ -1,48 +1,47 @@
 {{define "mainBlock" }}
-<main>
-    <div id="main-container">
-        <section id="hero-section">
-            <div class="hero-container">
-                <h1 class="hero-title">Welcome to Null Pointer</h1>
-                <p class="hero-subtitle">Discuss, share, and connect with others.</p>
-            </div>
-        </section>
-        <section id="posts-section">
-            <h2 class="section-title">Featured Posts</h2>
-            <form method="get" class="posts-container">
-                {{range .Posts}}
-                <div class="post-card">
-                    <div class="post-titlebar">
-                        <div class="post-title">{{.Title}}</div>
-                        <div class="post-toolbar-buttons">
-                            <button class="minimize">
-                                <svg viewBox="0 0 10 10">
-                                    <rect x="1" y="4" width="8" height="2" />
-                                </svg>
-                            </button>
-                            <button class="maximize" value="maximize" type="submit" formaction="/post/{{.ID}}">
-                                <svg viewBox="0 0 10 10">
-                                    <rect x="1" y="1" width="8" height="8" />
-                                </svg>
-                            </button>
-                            <button class="close">
-                                <svg viewBox="0 0 10 10">
-                                    <polygon points="1,1 9,9 9,1 1,9" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="post-body">
-                        <div class="post-content">{{.Preview}}</div>
-                        <div class="post-info"><small>Posted by{.Username} on {.CreatedAt.Format "2006-01-02
-                                15:04"}</small></div>
+
+<div id="main-container">
+    <section id="hero-section">
+        <div class="hero-container">
+            <h1 class="hero-title">Welcome to Null Pointer</h1>
+            <p class="hero-subtitle">Discuss, share, and connect with others.</p>
+        </div>
+    </section>
+    <section id="posts-section">
+        <h2 class="section-title">Featured Posts</h2>
+        <form method="get" class="posts-container">
+            {{range .Posts}}
+            <div class="post-card">
+                <div class="post-titlebar">
+                    <div class="post-title">{{.Title}}</div>
+                    <div class="post-toolbar-buttons">
+                        <button class="minimize">
+                            <svg viewBox="0 0 10 10">
+                                <rect x="1" y="4" width="8" height="2" />
+                            </svg>
+                        </button>
+                        <button class="maximize" value="maximize" type="submit" formaction="/post/{{.ID}}">
+                            <svg viewBox="0 0 10 10">
+                                <rect x="1" y="1" width="8" height="8" />
+                            </svg>
+                        </button>
+                        <button class="close">
+                            <svg viewBox="0 0 10 10">
+                                <polygon points="1,1 9,9 9,1 1,9" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
-                {{else}}
-                <p>No posts found.</p>
-                {{end}}
-            </form>
-        </section>
-    </div>
-</main>
+                <div class="post-body">
+                    <div class="post-content">{{.Preview}}</div>
+                    <div class="post-info"><small>Posted by{.Username} on {.CreatedAt.Format "2006-01-02
+                            15:04"}</small></div>
+                </div>
+            </div>
+            {{else}}
+            <p>No posts found.</p>
+            {{end}}
+        </form>
+    </section>
+</div>
 {{end}}

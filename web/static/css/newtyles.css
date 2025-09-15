@@ -1,13 +1,6 @@
 /* Background and layout */
 
-:root {
-    --primary-color: #c042ff;
-    --secondary-color: #2e0043;
-    --tertiary-color: #c042ff40;
-    --quaternary-color: #0e0015;
-    --background-color: #15001f;
-    --text-color: white;
-}
+
 a {
     text-decoration: none;
     color: inherit;
@@ -17,14 +10,6 @@ a {
     justify-content: inherit;
 }
 
-body {
-    background: var(--quaternary-color);
-    min-height: 100vh;
-    height: 100vh;
-    margin: 0;
-    font-family: monospace;
-    color: var(--text-color);
-}
 
 main {
     display: flex;
@@ -145,6 +130,7 @@ main {
     justify-content: center;
     flex-shrink: 0;
     cursor: pointer;
+    pointer-events: all;
 }
 
 .post-body {

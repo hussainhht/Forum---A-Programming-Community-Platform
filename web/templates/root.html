@@ -13,7 +13,6 @@
 <body id="root-body">
     <nav id="sidebar">
         <div class="sidebar-container">
-
             <input hidden type="checkbox" name="sidebar-toggle" id="sidebar-toggle">
             <div id="sidebar-sections-container">
                 <section class="sidebar-section" id="sidebar-header-section">
@@ -66,13 +65,15 @@
                 </section>
                 <section class="sidebar-section" id="sidebar-auth-section">
                     <div class="sidebar-auth-container sidebar-section-container">
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/login.svg"
-                                alt=""> <span class="sidebar-button-text sidebar-text">Login&nbsp;In</span></button>
+                        <button class="sidebar-button"><img class="sidebar-button-icon"
+                                src="./web/static/icons/login.svg" alt=""> <span
+                                class="sidebar-button-text sidebar-text">Login&nbsp;In</span></button>
                         <button class="sidebar-button"><img class="sidebar-button-icon"
                                 src="./web/static/icons/register.svg" alt=""> <span
                                 class="sidebar-button-text sidebar-text">Register</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/logout.svg"
-                                alt=""> <span class="sidebar-button-text sidebar-text">Logout</span></button>
+                        <button class="sidebar-button"><img class="sidebar-button-icon"
+                                src="./web/static/icons/logout.svg" alt=""> <span
+                                class="sidebar-button-text sidebar-text">Logout</span></button>
 
                     </div>
                 </section>
@@ -81,13 +82,14 @@
                         <button class="sidebar-button"><img class="sidebar-button-icon"
                                 src="./web/static/icons/settings.svg" alt=""> <span
                                 class="sidebar-button-text sidebar-text">Settings</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/help.svg"
-                                alt=""> <span class="sidebar-button-text sidebar-text">Help</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/policy.svg"
-                                alt=""> <span
+                        <button class="sidebar-button"><img class="sidebar-button-icon"
+                                src="./web/static/icons/help.svg" alt=""> <span
+                                class="sidebar-button-text sidebar-text">Help</span></button>
+                        <button class="sidebar-button"><img class="sidebar-button-icon"
+                                src="./web/static/icons/policy.svg" alt=""> <span
                                 class="sidebar-button-text sidebar-text">Privacy&nbsp;Policy</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon" src="./web/static/icons/terms.svg"
-                                alt=""> <span
+                        <button class="sidebar-button"><img class="sidebar-button-icon"
+                                src="./web/static/icons/terms.svg" alt=""> <span
                                 class="sidebar-button-text sidebar-text">Terms&nbsp;of&nbsp;Service</span></button>
                     </div>
                 </section>
@@ -96,9 +98,7 @@
     </nav>
 
     <main>
-        <div id="main-container">
             {{template "mainBlock" .}}
-        </div>
     </main>
 </body>
 

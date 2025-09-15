@@ -184,6 +184,11 @@ a {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--background-color);
+    min-height: 100vh;
+    height: 100vh;
+    margin: 0;
+    color: var(--text-color);
 }
 
 #root-body {
@@ -223,6 +228,7 @@ nav {
 /*  */
 /* Sidebar */
 /*  */
+
 #sidebar {
     width: fit-content;
     height: 100%;

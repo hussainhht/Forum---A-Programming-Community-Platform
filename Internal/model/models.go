@@ -80,4 +80,12 @@ type PageData struct {
 	ErrorMsg           string
 	ErrorCode          int
 	CSSFile            string
+	Cells              []Cell
+}
+
+
+
+type Cell struct {
+	Row int
+	Col int
 }

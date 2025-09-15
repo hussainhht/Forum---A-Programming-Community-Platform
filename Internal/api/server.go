@@ -101,3 +101,5 @@ func (server *Server) Start() error {
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
 }
+
+
