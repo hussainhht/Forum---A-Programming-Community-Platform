@@ -20,15 +20,17 @@ type TempPost struct {
 }
 
 type Post struct {
-	ID        int
-	UserID    int // FK to User
-	Title     string
-	Content   []Block `json:"content"`
-	CreatedAt time.Time
-	Username  string // For display purposes (not stored in DB)
-	LikeCount int
-	Comments  []Comment
-	Preview   string
+	ID            int
+	UserID        int // FK to User
+	Title         string
+	Content       []Block `json:"content"`
+	CreatedAt     time.Time
+	Username      string // For display purposes (not stored in DB)
+	LikeCount     int
+	Comments      []Comment
+	Preview       string
+	CommentCount  int
+	FeaturedScore float64
 }
 
 type PostReaction struct {
@@ -70,8 +72,8 @@ type Category struct {
 
 type PageData struct {
 	IsLoggedIn         bool
-	Posts              []Post
-	Post			   *Post
+	FeaturedPosts      []Post
+	Post               *Post
 	LikeCount          int
 	UserLiked          bool
 	Categories         []Category
@@ -81,8 +83,6 @@ type PageData struct {
 	ErrorCode          int
 	CSSFile            string
 }
-
-
 
 type Cell struct {
 	Row int

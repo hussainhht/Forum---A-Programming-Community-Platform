@@ -34,17 +34,12 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get posts - either filtered by categories or all posts
-	var posts []model.Post
-	categoryIDs := r.URL.Query()["category"]
+	var featuredPosts []model.Post
 
-	if len(categoryIDs) > 0 {
-		posts, err = server.Service.GetPostsByCategories(categoryIDs)
-	} else {
-		posts, err = server.Service.GetAllPosts()
-	}
+	featuredPosts, err = server.Service.GetFeaturedPosts()
 
 	if err != nil {
-		http.Error(w, "Error fetching posts", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -64,12 +59,11 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pageData := model.PageData{
-		IsLoggedIn:         isLoggedIn,
-		User:               user,
-		Posts:              posts,
-		Categories:         categories,
-		SelectedCategories: categoryIDs,
-		CSSFile:            "./web/static/css/newtyles.css",
+		IsLoggedIn:    isLoggedIn,
+		User:          user,
+		FeaturedPosts: featuredPosts,
+		Categories:    categories,
+		CSSFile:	      "./web/static/css/newtyles.css",
 	}
 
 	// Pass posts to the template

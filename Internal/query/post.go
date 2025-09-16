@@ -230,3 +230,58 @@ func GetPostLikeCount(db *sql.DB, postID int) (int, error) {
 	}
 	return likeCount, nil
 }
+
+func GetFeaturedPosts(db *sql.DB) ([]model.Post, error) {
+	rows, err := db.Query(`
+WITH engagement AS (
+    SELECT
+        p.id AS post_id,
+        COUNT(DISTINCT CASE WHEN pr.reaction_type = 'like' THEN pr.user_id END) AS likes,
+        COUNT(DISTINCT c.id) AS comments
+    FROM posts p
+    LEFT JOIN post_reactions pr ON p.id = pr.post_id
+    LEFT JOIN comments c ON p.id = c.post_id
+    GROUP BY p.id
+)
+SELECT
+    p.id,
+    p.title,
+    p.content,
+    p.created_at,
+    u.username,
+	p.user_id,
+    e.likes,
+    e.comments,
+    COALESCE(
+		(
+	    	(e.likes * 3 + e.comments * 5) * 1.0 /
+        	(strftime('%s','now') - strftime('%s', p.created_at)) / 3600.0 + 2 
+		), 0
+    ) AS featured_score
+FROM posts p
+JOIN users u ON p.user_id = u.id
+JOIN engagement e ON p.id = e.post_id
+ORDER BY featured_score DESC
+LIMIT 10;
+`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var posts []model.Post
+	for rows.Next() {
+		var post model.Post
+		var contentJSON string
+		if err := rows.Scan(&post.ID, &post.Title, &contentJSON, &post.CreatedAt, &post.Username, &post.UserID, &post.LikeCount, &post.CommentCount, &post.FeaturedScore); err != nil {
+			return nil, err
+		}
+		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
+		posts = append(posts, post)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return posts, nil
+}
