@@ -58,7 +58,7 @@ func (server *Server) Get_LuaHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/*.html")
+	tpl, err := base.ParseGlob("./web/templates/category/lua.html")
 	if err != nil {
 		log.Printf("lua: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)

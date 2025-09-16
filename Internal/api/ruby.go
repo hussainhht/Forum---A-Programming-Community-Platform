@@ -57,7 +57,7 @@ func (server *Server) Get_RubyHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/*.html")
+	tpl, err := base.ParseGlob("./web/templates/category/ruby.html")
 	if err != nil {
 		log.Printf("ruby: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)

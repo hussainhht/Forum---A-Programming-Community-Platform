@@ -57,7 +57,7 @@ func (server *Server) Get_CHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/*.html")
+	tpl, err := base.ParseGlob("./web/templates/category/c.html")
 	if err != nil {
 		log.Printf("c: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)

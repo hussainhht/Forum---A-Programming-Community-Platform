@@ -58,7 +58,7 @@ func (server *Server) Get_PHPHandler(w http.ResponseWriter, r *http.Request) {
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/*.html")
+	tpl, err := base.ParseGlob("./web/templates/category/php.html")
 	if err != nil {
 		log.Printf("php: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)

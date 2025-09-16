@@ -100,7 +100,7 @@ func (server *Server) Get_JuliaHandler(w http.ResponseWriter, r *http.Request) {
 		Misc: map[string]interface{}{},
 	}
 
-	tmpl, err := template.ParseFiles("web/templates/Julia.html")
+	tmpl, err := template.ParseFiles("web/templates/category/julia.html")
 	if err != nil {
 		server.Service.HandleError(w, http.StatusInternalServerError)
 		return

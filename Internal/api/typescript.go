@@ -58,7 +58,7 @@ func (server *Server) Get_TypeScriptHandler(w http.ResponseWriter, r *http.Reque
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/*.html")
+	tpl, err := base.ParseGlob("./web/templates/category/Typescript.html")
 	if err != nil {
 		log.Printf("typescript: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)

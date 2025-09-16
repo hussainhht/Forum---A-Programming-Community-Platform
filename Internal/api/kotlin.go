@@ -58,7 +58,7 @@ func (server *Server) Get_KotlinHandler(w http.ResponseWriter, r *http.Request) 
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/*.html")
+	tpl, err := base.ParseGlob("./web/templates/category/kotlin.html")
 	if err != nil {
 		log.Printf("kotlin: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)

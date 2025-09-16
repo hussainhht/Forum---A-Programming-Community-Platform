@@ -61,7 +61,7 @@ func (server *Server) Get_GolangHandler(w http.ResponseWriter, r *http.Request) 
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/*.html")
+	tpl, err := base.ParseGlob("./web/templates/category/golang.html")
 	if err != nil {
 		log.Printf("golang: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)

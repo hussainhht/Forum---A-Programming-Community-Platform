@@ -57,7 +57,7 @@ func (server *Server) Get_AssemblyHandler(w http.ResponseWriter, r *http.Request
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/*.html")
+	tpl, err := base.ParseGlob("./web/templates/category/Assembly.html")
 	if err != nil {
 		log.Printf("assembly: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)

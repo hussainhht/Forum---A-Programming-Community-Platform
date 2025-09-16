@@ -68,7 +68,7 @@ func (server *Server) Get_BrainfuckHandler(w http.ResponseWriter, r *http.Reques
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/*.html")
+	tpl, err := base.ParseGlob("./web/templates/category/Brainfuck.html")
 	if err != nil {
 		log.Printf("brainfuck: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)
