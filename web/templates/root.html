@@ -36,6 +36,7 @@
                 </section>
                 <section class="sidebar-section" id="sidebar-categories-section">
                     <div class="sidebar-categories-container sidebar-section-container">
+                        <input type="checkbox" id="sidebar-categories-toggle" hidden>
                         <button class="sidebar-button"><span
                                 class="sidebar-button-text sidebar-text">Categories</span><img
                                 class="sidebar-button-icon" src="./web/static/icons/arrow_right.svg" alt=""></button>
@@ -48,30 +49,35 @@
                         <button class="sidebar-button" onclick="location.href='/category/1'"><img
                                 class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
                                 class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/2'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
-                                class="sidebar-button-text sidebar-text">Rust</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/1'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/2'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
-                                class="sidebar-button-text sidebar-text">Rust</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/1'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/2'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
-                                class="sidebar-button-text sidebar-text">Rust</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/1'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/2'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
-                                class="sidebar-button-text sidebar-text">Rust</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/4'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/arrow_down.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">View&nbsp;More</span></button>
+
+                        <div id="sidebar-hidden-categories"><button class="sidebar-button"
+                                onclick="location.href='/category/2'"><img class="sidebar-button-icon"
+                                    src="./web/static/icons/rust.png" alt=""><span
+                                    class="sidebar-button-text sidebar-text">Rust</span></button>
+                            <button class="sidebar-button" onclick="location.href='/category/1'"><img
+                                    class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
+                                    class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
+                            <button class="sidebar-button" onclick="location.href='/category/2'"><img
+                                    class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
+                                    class="sidebar-button-text sidebar-text">Rust</span></button>
+                            <button class="sidebar-button" onclick="location.href='/category/1'"><img
+                                    class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
+                                    class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
+                            <button class="sidebar-button" onclick="location.href='/category/2'"><img
+                                    class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
+                                    class="sidebar-button-text sidebar-text">Rust</span></button>
+                            <button class="sidebar-button" onclick="location.href='/category/1'"><img
+                                    class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
+                                    class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
+                            <button class="sidebar-button" onclick="location.href='/category/2'"><img
+                                    class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
+                                    class="sidebar-button-text sidebar-text">Rust</span></button>
+                        </div>
+                        <label for="sidebar-categories-toggle" id="sidebar-categories-toggle-button" class="sidebar-button"><img
+                                id="sidebar-categories-arrow-img" class="sidebar-button-icon"
+                                src="./web/static/icons/arrow_down.svg" alt=""><span
+                                class="sidebar-button-text sidebar-text">View&nbsp;More</span></label>
+
                     </div>
                 </section>
                 <section class="sidebar-section" id="sidebar-auth-section">
