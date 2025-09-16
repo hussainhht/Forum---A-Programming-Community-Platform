@@ -65,4 +65,34 @@ CREATE TABLE IF NOT EXISTS sessions (
 );
 
 INSERT OR IGNORE INTO categories (name) VALUES
-('golang'), ('javascript'), ('rust'), ('ruby'), ('java'), ('c'), ('csharp'), ('php'), ('python'), ('c++'),('other'),('html'),('css');
+('golang'), 
+('javascript'), 
+('js'), 
+('rust'), 
+('ruby'), 
+('java'), 
+('c'), 
+('csharp'), 
+('cpp'), 
+('php'), 
+('python'), 
+('c++'), 
+('html'), 
+('css'),
+-- Additional languages & topics
+('matlab'), 
+('bash'), 
+('assembly'), 
+('brainfuck'), 
+('esoteric'), 
+('r'), 
+('sql'), 
+('lua'), 
+('typescript'), 
+('swift'), 
+('dart'), 
+('flutter'), 
+('kotlin'), 
+('fortran'), 
+('julia'), 
+('ada');
