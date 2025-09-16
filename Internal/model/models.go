@@ -70,17 +70,16 @@ type Category struct {
 
 type PageData struct {
 	IsLoggedIn         bool
-	CSRFToken          string
-	Post               *Post
 	Posts              []Post
+	Post			   *Post
 	LikeCount          int
 	UserLiked          bool
 	Categories         []Category
 	SelectedCategories []string
+	User               *User
 	ErrorMsg           string
 	ErrorCode          int
 	CSSFile            string
-	Cells              []Cell
 }
 
 

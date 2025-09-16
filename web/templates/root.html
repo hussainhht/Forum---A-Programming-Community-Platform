@@ -5,122 +5,116 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" href="../static/css/root.css">
         <link rel="stylesheet" href="./web/static/css/root.css">
         <link rel="stylesheet" href="{{.CSSFile}}">
 </head>
 
 <body id="root-body">
-    <nav id="sidebar">
-        <div class="sidebar-container">
-            <input hidden type="checkbox" name="sidebar-toggle" id="sidebar-toggle">
-            <div id="sidebar-sections-container">
-                <section class="sidebar-section" id="sidebar-header-section">
-                    <div id="sidebar-header-container" class="sidebar-section-container">
-                        <label id="sidebar-toggle-button" class="sidebar-button" for="sidebar-toggle"><img
-                                class="sidebar-button-icon" src="./web/static/icons/menu.svg" alt=""></label>
-                    </div>
-                </section>
-                <section class="sidebar-section" id="sidebar-main-section">
-                    <div class="sidebar-main-container sidebar-section-container">
-                        <button class="sidebar-button" onclick="location.href='/'"><img class="sidebar-button-icon"
-                                src="./web/static/icons/home.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">Home</span></button>
-                        <button class="sidebar-button" onclick="location.href='/create-post'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/add_post.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">Create&nbsp;Post</span></button>
-                        <button class="sidebar-button" onclick="location.href='/posts'"><img class="sidebar-button-icon"
-                                src="./web/static/icons/read_more.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">Discover&nbsp;Posts</span></button>
-                    </div>
-                </section>
-                <section class="sidebar-section" id="sidebar-categories-section">
-                    <div class="sidebar-categories-container sidebar-section-container">
-                        <input type="checkbox" id="sidebar-categories-toggle" hidden>
-                        <button class="sidebar-button"><span
-                                class="sidebar-button-text sidebar-text">Categories</span><img
-                                class="sidebar-button-icon" src="./web/static/icons/arrow_right.svg" alt=""></button>
-                        <button class="sidebar-button" onclick="location.href='/golang'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/2'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
-                                class="sidebar-button-text sidebar-text">Rust</span></button>
-                        <button class="sidebar-button" onclick="location.href='/category/1'"><img
-                                class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
+        <nav id="sidebar">
+                <div class="sidebar-container">
+                        <input hidden type="checkbox" name="sidebar-toggle" id="sidebar-toggle">
+                        <div id="sidebar-sections-container">
+                                <section class="sidebar-section" id="sidebar-header-section">
+                                        <div id="sidebar-header-container" class="sidebar-section-container">
+                                                <label id="sidebar-toggle-button" class="sidebar-button"
+                                                        for="sidebar-toggle"><img class="sidebar-button-icon"
+                                                                src="./web/static/icons/menu.svg" alt=""></label>
+                                        </div>
+                                </section>
+                                <section class="sidebar-section" id="sidebar-main-section">
+                                        <div class="sidebar-main-container sidebar-section-container">
+                                                <button class="sidebar-button" onclick="location.href='/'"><img
+                                                                class="sidebar-button-icon"
+                                                                src="./web/static/icons/home.svg" alt=""><span
+                                                                class="sidebar-button-text sidebar-text">Home</span></button>
+                                                <button class="sidebar-button"
+                                                        onclick="location.href='/create-post'"><img
+                                                                class="sidebar-button-icon"
+                                                                src="./web/static/icons/add_post.svg" alt=""><span
+                                                                class="sidebar-button-text sidebar-text">Create&nbsp;Post</span></button>
+                                                <button class="sidebar-button" onclick="location.href='/posts'"><img
+                                                                class="sidebar-button-icon"
+                                                                src="./web/static/icons/read_more.svg" alt=""><span
+                                                                class="sidebar-button-text sidebar-text">Discover&nbsp;Posts</span></button>
+                                        </div>
+                                </section>
+                                <section class="sidebar-section" id="sidebar-categories-section">
+                                        <div class="sidebar-categories-container sidebar-section-container">
+                                                <input type="checkbox" id="sidebar-categories-toggle" hidden>
+                                                {{range $i, $cat := .Categories}}
+                                                {{if lt $i 3}}
+                                                <button class="sidebar-button" onclick="location.href='/{{.Name}}'"><img
+                                                                class="sidebar-button-icon"
+                                                                src="./web/static/icons/categories/{{.Name}}.svg"
+                                                                alt=""><span
+                                                                class="sidebar-button-text sidebar-text">{{.Name}}</span></button>
+                                                {{end}}
+                                                {{end}}
 
-                        <div id="sidebar-hidden-categories"><button class="sidebar-button"
-                                onclick="location.href='/category/2'"><img class="sidebar-button-icon"
-                                    src="./web/static/icons/rust.png" alt=""><span
-                                    class="sidebar-button-text sidebar-text">Rust</span></button>
-                            <button class="sidebar-button" onclick="location.href='/category/1'"><img
-                                    class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
-                                    class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
-                            <button class="sidebar-button" onclick="location.href='/category/2'"><img
-                                    class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
-                                    class="sidebar-button-text sidebar-text">Rust</span></button>
-                            <button class="sidebar-button" onclick="location.href='/category/1'"><img
-                                    class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
-                                    class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
-                            <button class="sidebar-button" onclick="location.href='/category/2'"><img
-                                    class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
-                                    class="sidebar-button-text sidebar-text">Rust</span></button>
-                            <button class="sidebar-button" onclick="location.href='/category/1'"><img
-                                    class="sidebar-button-icon" src="./web/static/icons/go.svg" alt=""><span
-                                    class="sidebar-button-text sidebar-text">Go&nbsp;Lang</span></button>
-                            <button class="sidebar-button" onclick="location.href='/category/2'"><img
-                                    class="sidebar-button-icon" src="./web/static/icons/rust.png" alt=""><span
-                                    class="sidebar-button-text sidebar-text">Rust</span></button>
+                                                <div id="sidebar-hidden-categories">
+                                                        {{range $i, $cat := .Categories}}
+                                                        {{if ge $i 3}}
+                                                        <button class="sidebar-button"
+                                                                onclick="location.href='/{{.Name}}'"><img
+                                                                        class="sidebar-button-icon"
+                                                                        src="./web/static/icons/categories/{{.Name}}.svg"
+                                                                        alt=""><span
+                                                                        class="sidebar-button-text sidebar-text">{{.Name}}</span></button>
+                                                        {{end}}
+                                                        {{end}}
+                                                </div>
+                                                <label for="sidebar-categories-toggle"
+                                                        id="sidebar-categories-toggle-button"
+                                                        class="sidebar-button"><img id="sidebar-categories-arrow-img"
+                                                                class="sidebar-button-icon"
+                                                                src="./web/static/icons/arrow_down.svg" alt=""><span
+                                                                class="sidebar-button-text sidebar-text">Show&nbsp;More</span></label>
+
+                                        </div>
+                                </section>
+                                <section class="sidebar-section" id="sidebar-auth-section">
+                                        <div class="sidebar-auth-container sidebar-section-container">
+                                                <button class="sidebar-button"><img class="sidebar-button-icon"
+                                                                src="./web/static/icons/login.svg" alt=""> <span
+                                                                class="sidebar-button-text sidebar-text">Login&nbsp;In</span></button>
+                                                <button class="sidebar-button"><img class="sidebar-button-icon"
+                                                                src="./web/static/icons/register.svg" alt=""> <span
+                                                                class="sidebar-button-text sidebar-text">Register</span></button>
+                                                <button class="sidebar-button"><img class="sidebar-button-icon"
+                                                                src="./web/static/icons/logout.svg" alt=""> <span
+                                                                class="sidebar-button-text sidebar-text">Logout</span></button>
+                                        </div>
+                                </section>
+                                <section class="sidebar-section" id="sidebar-footer-section">
+                                        <div class="sidebar-footer-container sidebar-section-container">
+                                                <button class="sidebar-button"><img class="sidebar-button-icon"
+                                                                src="./web/static/icons/settings.svg" alt=""> <span
+                                                                class="sidebar-button-text sidebar-text">Settings</span></button>
+                                                <button id="sidebar-help-button" class="sidebar-button"><img
+                                                                class="sidebar-button-icon"
+                                                                src="./web/static/icons/help.svg" alt=""> <span
+                                                                class="sidebar-button-text sidebar-text">Help</span></button>
+                                                <button id="sidebar-privacy-button" class="sidebar-button"><img
+                                                                class="sidebar-button-icon"
+                                                                src="./web/static/icons/Terms.svg" alt=""> <span
+                                                                class="sidebar-button-text sidebar-text">Privacy&nbsp;&amp;&nbsp;Terms</span></button>
+                                        </div>
+                                </section>
                         </div>
-                        <label for="sidebar-categories-toggle" id="sidebar-categories-toggle-button" class="sidebar-button"><img
-                                id="sidebar-categories-arrow-img" class="sidebar-button-icon"
-                                src="./web/static/icons/arrow_down.svg" alt=""><span
-                                class="sidebar-button-text sidebar-text">View&nbsp;More</span></label>
-
-                    </div>
-                </section>
-                <section class="sidebar-section" id="sidebar-auth-section">
-                    <div class="sidebar-auth-container sidebar-section-container">
-                        <button class="sidebar-button"><img class="sidebar-button-icon"
-                                src="./web/static/icons/login.svg" alt=""> <span
-                                class="sidebar-button-text sidebar-text">Login&nbsp;In</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon"
-                                src="./web/static/icons/register.svg" alt=""> <span
-                                class="sidebar-button-text sidebar-text">Register</span></button>
-                        <button class="sidebar-button"><img class="sidebar-button-icon"
-                                src="./web/static/icons/logout.svg" alt=""> <span
-                                class="sidebar-button-text sidebar-text">Logout</span></button>
-                    </div>
-                </section>
-                <section class="sidebar-section" id="sidebar-footer-section">
-                    <div class="sidebar-footer-container sidebar-section-container">
-                        <button class="sidebar-button"><img class="sidebar-button-icon"
-                                src="./web/static/icons/settings.svg" alt=""> <span
-                                class="sidebar-button-text sidebar-text">Settings</span></button>
-                        <button id="sidebar-help-button" class="sidebar-button"><img class="sidebar-button-icon"
-                                src="./web/static/icons/help.svg" alt=""> <span
-                                class="sidebar-button-text sidebar-text">Help</span></button>
-                        <button id="sidebar-privacy-button" class="sidebar-button"><img class="sidebar-button-icon"
-                                src="./web/static/icons/Terms.svg" alt=""> <span
-                                class="sidebar-button-text sidebar-text">Privacy&nbsp;&amp;&nbsp;Terms</span></button>
-                    </div>
-                </section>
-            </div>
-            <section class="sidebar-section" id="sidebar-profile-section">
-                <div class="sidebar-section-container" id="sidebar-profile-container">
-                    <div class="sidebar-profile-img-container">
-                        <img id="sidebar-profile-img" src="/web/static/img/gopher.svg" alt="">
-                    </div>
-                    <div class="sidebar-profile-username-container">
-                        <span id="sidebar-profile-username-text" class="sidebar-text sidebar-button-text"><a
-                                href="">Balafoo</a></span>
-                    </div>
+                        <section class="sidebar-section" id="sidebar-profile-section">
+                                <div class="sidebar-section-container" id="sidebar-profile-container">
+                                        <div class="sidebar-profile-img-container">
+                                                <img id="sidebar-profile-img" src="/web/static/img/gopher.svg" alt="">
+                                        </div>
+                                        <div class="sidebar-profile-username-container">
+                                                <span id="sidebar-profile-username-text"
+                                                        class="sidebar-text sidebar-button-text"><a
+                                                                href="">{{.User.Username}}</a></span>
+                                        </div>
+                                </div>
+                        </section>
                 </div>
-            </section>
-        </div>
-    </nav>
-
+        </nav>
         <main>
                 {{template "mainBlock" .}}
         </main>

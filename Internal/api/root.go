@@ -9,7 +9,8 @@ import (
 
 func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 
-	if r.URL.Path != "/" {
+	if r.URL.Path != "/" && r.URL.Path != "" {
+		fmt.Println("Path not found:", r.URL.Path)
 		server.Service.HandleError(w, http.StatusNotFound)
 		return
 	}
@@ -52,26 +53,25 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if sessionIDCookie != nil {
 		isLoggedIn = server.Service.IsValidSession(sessionIDCookie.Value)
 	}
+	// Get user info if logged in
+	var user *model.User
+	if isLoggedIn {
+		user, err = server.Service.GetUserFromSessionID(sessionIDCookie.Value)
+		if err != nil {
+			http.Error(w, "Error fetching user info", http.StatusInternalServerError)
+			return
+		}
+	}
 
 	pageData := model.PageData{
 		IsLoggedIn:         isLoggedIn,
+		User:               user,
 		Posts:              posts,
 		Categories:         categories,
 		SelectedCategories: categoryIDs,
 		CSSFile:            "./web/static/css/newtyles.css",
-		Cells: 		   generateCells(),
 	}
 
 	// Pass posts to the template
 	tmpl.Execute(w, pageData)
-}
-
-func generateCells() []model.Cell {
-	cells := []model.Cell{}
-	for r := 0; r < 20; r++ {
-		for c := 0; c < 20; c++ {
-			cells = append(cells, model.Cell{Row: r, Col: c})
-		}
-	}
-	return cells
 }

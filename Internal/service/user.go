@@ -83,9 +83,9 @@ func (service *Service) RegisterUser(username, email, password, confirmPassword 
 }
 
 func (service *Service) LogoutUser(session_id string) {
-	userID, _ := service.GetUserIDFromSessionID(session_id)
-	if userID != 0 {
-		_ = query.RemoveSession(service.DB, userID)
+	user, _ := service.GetUserFromSessionID(session_id)
+	if user.ID != 0 {
+		_ = query.RemoveSession(service.DB, user.ID)
 	}
 
 }
