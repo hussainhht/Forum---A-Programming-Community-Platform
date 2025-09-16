@@ -72,21 +72,19 @@
 
                                         </div>
                                 </section>
-                                <section class="sidebar-section" id="sidebar-auth-section">
+                                <!-- <section class="sidebar-section" id="sidebar-auth-section">
                                         <div class="sidebar-auth-container sidebar-section-container">
-                                                <button class="sidebar-button"><img class="sidebar-button-icon"
-                                                                src="./web/static/icons/login.svg" alt=""> <span
-                                                                class="sidebar-button-text sidebar-text">Login&nbsp;In</span></button>
-                                                <button class="sidebar-button"><img class="sidebar-button-icon"
-                                                                src="./web/static/icons/register.svg" alt=""> <span
-                                                                class="sidebar-button-text sidebar-text">Register</span></button>
-                                                <button onclick="location.href='/logout'" class="sidebar-button"> <img class="sidebar-button-icon"
-                                                                src="./web/static/icons/logout.svg" alt=""> <span
-                                                                class="sidebar-button-text sidebar-text">Logout</span></button>
+                                          
                                         </div>
-                                </section>
+                                </section> -->
                                 <section class="sidebar-section" id="sidebar-footer-section">
                                         <div class="sidebar-footer-container sidebar-section-container">
+                                                {{if .IsLoggedIn}}
+                                                <button onclick="location.href='/logout'" class="sidebar-button"> <img
+                                                                class="sidebar-button-icon"
+                                                                src="./web/static/icons/logout.svg" alt=""> <span
+                                                                class="sidebar-button-text sidebar-text">Logout</span></button>
+                                                {{end}}
                                                 <button class="sidebar-button"><img class="sidebar-button-icon"
                                                                 src="./web/static/icons/settings.svg" alt=""> <span
                                                                 class="sidebar-button-text sidebar-text">Settings</span></button>
@@ -103,6 +101,7 @@
                         </div>
                         <section class="sidebar-section" id="sidebar-profile-section">
                                 <div class="sidebar-section-container" id="sidebar-profile-container">
+                                        {{if .IsLoggedIn}}
                                         <div class="sidebar-profile-img-container">
                                                 <img id="sidebar-profile-img" src="/web/static/img/gopher.svg" alt="">
                                         </div>
@@ -111,6 +110,14 @@
                                                         class="sidebar-text sidebar-button-text"><a
                                                                 href="">{{.User.Username}}</a></span>
                                         </div>
+                                        {{else}}
+                                        <button onclick="location.href='/login'" class="sidebar-button"><img class="sidebar-button-icon"
+                                                        src="./web/static/icons/login.svg" alt=""> <span
+                                                        class="sidebar-button-text sidebar-text">Login&nbsp;In</span></button>
+                                        <button onclick="location.href='/register'" class="sidebar-button"><img class="sidebar-button-icon"
+                                                        src="./web/static/icons/register.svg" alt=""> <span
+                                                        class="sidebar-button-text sidebar-text">Register</span></button>
+                                        {{end}}
                                 </div>
                         </section>
                 </div>
