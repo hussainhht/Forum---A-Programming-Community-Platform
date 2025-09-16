@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>MATLAB Zone</title>
+		<link rel="stylesheet" href="/web/static/css/matlab.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+
+	<body>
+		<div class="matlab-layout no-sidebar">
+			<main class="matlab-main">
+				<!-- Hero Section -->
+				<section class="matlab-hero">
+					<div class="matlab-hero-content">
+						<div class="matlab-hero-text">
+							<div class="hero-badge">
+								<span class="badge-icon">📈</span>
+								MATLAB — Numeric Computing & Visualization
+							</div>
+							<h1 class="matlab-title">
+								<span class="title-highlight">Explore</span>
+								<span class="title-main">The MATLAB Zone</span>
+							</h1>
+							<p class="matlab-subtitle">Matrices, plotting, toolboxes, Simulink.</p>
+							<p class="matlab-desc">
+								Learn MATLAB for data analysis, algorithm development, and modeling. Discover tips,
+								toolboxes, and best practices from the community.
+							</p>
+							<div class="matlab-actions">
+								<a class="matlab-btn primary" href="https://www.mathworks.com/help/matlab/" target="_blank" rel="noopener">
+									<span class="btn-icon">🚀</span> MATLAB Docs
+								</a>
+								<a class="matlab-btn secondary" href="#posts-section">
+									<span class="btn-icon">📖</span> Browse posts
+								</a>
+								<a class="matlab-btn secondary" href="https://www.mathworks.com/help/" target="_blank" rel="noopener">
+									<span class="btn-icon">📚</span> MathWorks Help Center
+								</a>
+								<div class="stat-item">
+									<span class="stat-number">{{.CountPosts}}</span>
+									<span class="stat-label">posts</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Hero Art -->
+						<div class="matlab-hero-art" aria-hidden="true">
+							<div class="art-container">
+								<div class="floating-elements">
+									<div class="float-item item-1">plot</div>
+									<div class="float-item item-2">matrix</div>
+									<div class="float-item item-3">fft</div>
+									<div class="float-item item-4">ode45</div>
+								</div>
+								<div class="code-preview">
+									<div class="code-header">
+										<div class="code-dots"><span></span><span></span><span></span></div>
+										<span class="code-title">script.m</span>
+									</div>
+									<div class="code-content">
+										<div class="code-line"><span class="keyword">x</span> = 0:0.1:2*pi;</div>
+										<div class="code-line"><span class="keyword">y</span> = sin(x);</div>
+										<div class="code-line">plot(x, y);</div>
+										<div class="code-line">title(<span class="string">'Sine Wave'</span>);</div>
+										<div class="code-line">grid <span class="keyword">on</span>;</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Features Section -->
+				<section class="matlab-features">
+					<div class="features-grid">
+						<div class="feature-card">
+							<div class="feature-icon">🧮</div>
+							<h3>Matrix-first</h3>
+							<p>Linear algebra and array operations</p>
+						</div>
+						<div class="feature-card">
+							<div class="feature-icon">📊</div>
+							<h3>Visualization</h3>
+							<p>2D/3D plots, apps, dashboards</p>
+						</div>
+						<div class="feature-card">
+							<div class="feature-icon">🧪</div>
+							<h3>Toolboxes</h3>
+							<p>Signal processing, control, ML</p>
+						</div>
+						<div class="feature-card">
+							<div class="feature-icon">🧭</div>
+							<h3>Simulink</h3>
+							<p>Model-based design and simulation</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Posts Section -->
+				<form action="get" class="posts-container">
+					<section id="posts-section">
+						<h2 class="section-title">Featured Posts</h2>
+						<div class="posts-container">
+							{{range .Posts}}
+							<div class="post-card">
+								<div class="post-titlebar">
+									<div class="post-title">{{.Title}}</div>
+									<div class="post-toolbar-buttons">
+										<button class="minimize" title="Minimize">
+											<svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2" /></svg>
+										</button>
+										<button class="maximize" value="maximize" type="submit" formaction="/post/{{.ID}}">
+											<svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" /></svg>
+										</button>
+										<button class="close" title="Close">
+											<svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9" /></svg>
+										</button>
+									</div>
+								</div>
+								<div class="post-body">
+									<div class="post-content">{{.Preview}}</div>
+									<div class="post-info">
+										<small>Posted by {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small>
+									</div>
+								</div>
+							</div>
+							{{else}}
+							<p>No posts found.</p>
+							{{end}}
+						</div>
+					</section>
+				</form>
+			</main>
+		</div>
+
+		<!-- Background Elements -->
+		<div class="bg-elements" aria-hidden="true">
+			<div class="bg-circle circle-1"></div>
+			<div class="bg-circle circle-2"></div>
+			<div class="bg-circle circle-3"></div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Golang Zone</title>
+    <link rel="stylesheet" href="/web/static/css/sidebar.css" />
+    <link rel="stylesheet" href="/web/static/css/golang.css" />
+    <!-- Optional: English font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="golang-layout no-sidebar">
+      <main class="golang-main">
+        <!-- Hero Section -->
+        <section class="go-hero">
+          <div class="go-hero-content">
+            <div class="go-hero-text">
+              <div class="hero-badge">
+                <span class="badge-icon">⚡</span>
+                Go Language — Speed & Simplicity
+              </div>
+              <h1 class="go-title">
+                <span class="title-highlight">The</span>
+                <span class="title-main">Golang Zone</span>
+              </h1>
+              <p class="go-subtitle">
+                Discover the power of Go with our developer community.
+              </p>
+              <p class="go-desc">
+                Find everything you need to learn and master Go — from basics to
+                advanced projects, with hands-on examples and interactive
+                lessons.
+              </p>
+              <div class="go-actions">
+                <a
+                  class="go-btn primary"
+                  href="https://go.dev/"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span class="btn-icon">🚀</span>
+                  Start learning now
+                </a>
+                <a class="go-btn secondary" href="#posts-section">
+                  <span class="btn-icon">📖</span>
+                  Browse posts
+                </a>
+                <div class="stat-item">
+                  <span class="stat-number">{{.CountPosts}}</span>
+                  <span class="stat-label">posts</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Art -->
+            <div class="go-hero-art" aria-hidden="true">
+              <div class="art-container">
+                <div class="floating-elements">
+                  <div class="float-item item-1">func</div>
+                  <div class="float-item item-2">go</div>
+                  <div class="float-item item-3">chan</div>
+                  <div class="float-item item-4">defer</div>
+                </div>
+                <div class="code-preview">
+                  <div class="code-header">
+                    <div class="code-dots">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <span class="code-title">main.go</span>
+                  </div>
+                  <div class="code-content">
+                    <div class="code-line">
+                      <span class="keyword">package</span>
+                      <span class="identifier">main</span>
+                    </div>
+                    <div class="code-line">
+                      <span class="keyword">import</span>
+                      <span class="string">"fmt"</span>
+                    </div>
+                    <div class="code-line">
+                      <span class="keyword">func</span>
+                      <span class="function">main</span>() {
+                    </div>
+                    <div class="code-line indent">
+                      fmt.<span class="function">Println</span>(<span
+                        class="string"
+                        >"Welcome to Go!"</span
+                      >)
+                    </div>
+                    <div class="code-line">}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="go-features">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <h3>Blazing Fast</h3>
+              <p>High performance and fast execution</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔧</div>
+              <h3>Simple Development</h3>
+              <p>Clean syntax that's easy to learn</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🌐</div>
+              <h3>Concurrency</h3>
+              <p>First-class Goroutines & Channels</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🛡️</div>
+              <h3>Safe & Reliable</h3>
+              <p>Smart memory management and type safety</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Posts Section -->
+        <form action="get" class="posts-container">
+          <section id="posts-section">
+            <h2 class="section-title">Featured Posts</h2>
+            <div class="posts-container">
+              {{range .Posts}}
+              <div class="post-card">
+                <div class="post-titlebar">
+                  <div class="post-title">{{.Title}}</div>
+                  <div class="post-toolbar-buttons">
+                    <button class="minimize" title="Minimize">
+                      <svg viewBox="0 0 10 10">
+                        <rect x="1" y="4" width="8" height="2" />
+                      </svg>
+                    </button>
+                    <button
+                      class="maximize"
+                      value="maximize"
+                      type="submit"
+                      formaction="/post/{{.ID}}"
+                    >
+                      <svg viewBox="0 0 10 10">
+                        <rect x="1" y="1" width="8" height="8" />
+                      </svg>
+                    </button>
+                    <button class="close" title="Close">
+                      <svg viewBox="0 0 10 10">
+                        <polygon points="1,1 9,9 9,1 1,9" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <div class="post-content">{{.Preview}}</div>
+                  <div class="post-info">
+                    <small
+                      >Posted by {{.Username}} on {{.CreatedAt.Format
+                      "2006-01-02 15:04"}}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              {{else}}
+              <p>No posts found.</p>
+              {{end}}
+            </div>
+          </section>
+        </form>
+      </main>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="bg-elements" aria-hidden="true">
+      <div class="bg-circle circle-1"></div>
+      <div class="bg-circle circle-2"></div>
+      <div class="bg-circle circle-3"></div>
+    </div>
+  </body>
+</html>
