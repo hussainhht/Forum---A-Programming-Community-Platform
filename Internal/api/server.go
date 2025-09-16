@@ -99,6 +99,11 @@ func (server *Server) Start() error {
 		http.Redirect(w, r, "/golang", http.StatusMovedPermanently)
 	})
 
+	// Rust zone
+	router.HandleFunc("/rust", server.Get_RustHandler)
+	router.HandleFunc("/Rust", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/rust", http.StatusMovedPermanently)
+	})
 	// JavaScript zone
 	router.HandleFunc("/javascript", server.Get_JavaScriptHandler)
 	router.HandleFunc("/js", func(w http.ResponseWriter, r *http.Request) { // short alias
