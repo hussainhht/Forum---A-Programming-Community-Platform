@@ -104,6 +104,42 @@ func (server *Server) Start() error {
 	router.HandleFunc("/Rust", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/rust", http.StatusMovedPermanently)
 	})
+
+	// Ruby zone
+	router.HandleFunc("/ruby", server.Get_RubyHandler)
+	router.HandleFunc("/Ruby", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/ruby", http.StatusMovedPermanently)
+	})
+
+	// Java zone
+	router.HandleFunc("/java", server.Get_JavaHandler)
+	router.HandleFunc("/Java", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/java", http.StatusMovedPermanently)
+	})
+
+	// C zone
+	router.HandleFunc("/c", server.Get_CHandler)
+	router.HandleFunc("/C", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/c", http.StatusMovedPermanently)
+	})
+
+	// CSS zone
+	router.HandleFunc("/css", server.Get_CSSHandler)
+	router.HandleFunc("/CSS", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/css", http.StatusMovedPermanently)
+	})
+
+	// C# zone
+	router.HandleFunc("/csharp", server.Get_CSharpHandler)
+	router.HandleFunc("/CSharp", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/csharp", http.StatusMovedPermanently)
+	})
+
+	// HTML zone
+	router.HandleFunc("/html", server.Get_HTMLHandler)
+	router.HandleFunc("/HTML", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/html", http.StatusMovedPermanently)
+	})
 	// JavaScript zone
 	router.HandleFunc("/javascript", server.Get_JavaScriptHandler)
 	router.HandleFunc("/js", func(w http.ResponseWriter, r *http.Request) { // short alias

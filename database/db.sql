@@ -65,4 +65,4 @@ CREATE TABLE IF NOT EXISTS sessions (
 );
 
 INSERT OR IGNORE INTO categories (name) VALUES
-('golang'), ('javascript'), ('rust'), ('ruby'), ('java'), ('c'), ('csharp'), ('php'), ('python'), ('c++'),('other');
+('golang'), ('javascript'), ('rust'), ('ruby'), ('java'), ('c'), ('csharp'), ('php'), ('python'), ('c++'),('other'),('html'),('css');
