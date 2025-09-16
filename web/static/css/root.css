@@ -57,7 +57,7 @@ main {
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    position: fixed;
+    position: static;
 }
 
 #sidebar-sections-container {
@@ -182,13 +182,31 @@ main {
     border: none;
 }
 
+/* categories */
+
 .sidebar-categories-container {
     display: flex;
 }
 
+#sidebar-hidden-categories {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#sidebar-categories-toggle:checked~#sidebar-hidden-categories {
+    display: unset;
+}
+#sidebar-categories-toggle:checked~#sidebar-categories-toggle-button>#sidebar-categories-arrow-img {
+    transform: rotate(180deg);
+}
+/* footer */
+
 #sidebar-footer-section {
     border-bottom: solid 1px var(--secondary-color);
 }
+
+/* profile */
 
 #sidebar-profile-section {
     border: none;
