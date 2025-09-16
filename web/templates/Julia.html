@@ -1,0 +1,109 @@
+{{define "Julia.html"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Julia | High-Performance Technical Computing</title>
+    <link rel="stylesheet" href="/web/static/css/julia.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="julia-layout">
+    <main class="julia-main">
+        <section class="julia-hero">
+            <div class="julia-hero-content">
+                <div class="julia-hero-text">
+                    <div class="hero-badge"><span class="badge-icon">⚛️</span> {{.Badge}}</div>
+                    <h1 class="julia-title"><span class="title-highlight">Fast. Flexible.</span><span class="title-main"> Julia Power.</span></h1>
+                    <p class="julia-subtitle">{{.Tagline}}</p>
+                    <p class="julia-desc">Julia unifies performance and high-level expressiveness. Built for numerical science, data, ML, and parallel computing — while keeping code elegant and concise.</p>
+                    <div class="julia-actions">
+                        <a href="#posts-section" class="julia-btn primary" rel="noopener"><span class="btn-icon">📚</span>Explore Posts</a>
+                        <a href="{{.MoreLink}}" class="julia-btn secondary" target="_blank" rel="noopener"><span class="btn-icon">🚀</span>Docs</a>
+                        <a href="{{.SourceLink}}" class="julia-btn secondary" target="_blank" rel="noopener"><span class="btn-icon">🧪</span>Source</a>
+                    </div>
+                </div>
+                <div class="julia-hero-art">
+                    <div class="art-container">
+                        <div class="floating-elements">
+                            <div class="float-item item-1">multiple dispatch</div>
+                            <div class="float-item item-2">JIT LLVM</div>
+                            <div class="float-item item-3">parallel loops</div>
+                            <div class="float-item item-4">scientific</div>
+                        </div>
+                        <div class="code-preview">
+                            <div class="code-header">
+                                <div class="code-dots"><span></span><span></span><span></span></div>
+                                <div class="code-title">mandelbrot.jl</div>
+                                <div style="font-size:0.65rem; opacity:.55;">UTF-8</div>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-line">using Colors</div>
+                                <div class="code-line">function mandel(x,y)</div>
+                                <div class="code-line indent">c = complex(x,y); z = 0</div>
+                                <div class="code-line indent">for i in 1:50</div>
+                                <div class="code-line indent">    z = z^2 + c; abs(z) &gt; 2 && return i</div>
+                                <div class="code-line indent">end</div>
+                                <div class="code-line indent">return 0</div>
+                                <div class="code-line">end</div>
+                                <div class="code-line"># high-performance exploration</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="julia-features">
+            <div class="features-grid">
+                {{range .Features}}
+                <div class="feature-card">
+                    <div class="feature-icon">🧩</div>
+                    <h3>{{.Title}}</h3>
+                    <p>{{.Desc}}</p>
+                </div>
+                {{end}}
+            </div>
+        </section>
+
+        <section id="posts-section">
+            <h2 class="section-title">Julia Posts <span style="opacity:.6; font-size:.8em; font-weight:600;">({{.CountPosts}})</span></h2>
+            <div class="posts-container">
+                {{if .Posts}}
+                    {{range .Posts}}
+                        <article class="post-card" data-post-id="{{.ID}}" aria-label="Julia Post">
+                            <div class="post-titlebar">
+                                <h3 class="post-title" title="{{.Title}}">{{.Title}}</h3>
+                                <div class="post-toolbar-buttons" role="group" aria-label="Post window controls">
+                                    <button class="minimize" aria-label="Collapse post"><svg viewBox="0 0 10 10"><rect x="2" y="4.5" width="6" height="1" rx="0.5"/></svg></button>
+                                    <button class="maximize" aria-label="Expand post"><svg viewBox="0 0 10 10"><rect x="2" y="2" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1"/></svg></button>
+                                    <button class="close" aria-label="Close post"><svg viewBox="0 0 10 10"><path d="M2 2 L8 8 M8 2 L2 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></button>
+                                </div>
+                            </div>
+                            <div class="post-body">
+                                <p class="post-content">{{.Content}}</p>
+                                <div class="post-info"><small>By {{.Creator.Username}} • {{.CreationTime.Format "Jan 02, 2006 15:04"}}</small></div>
+                            </div>
+                        </article>
+                    {{end}}
+                {{else}}
+                    <p style="opacity:.65; padding:6px 8px 4px; font-size:.92rem;">No Julia posts yet. Start the first!</p>
+                {{end}}
+            </div>
+        </section>
+    </main>
+</div>
+<div class="bg-elements">
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+    <div class="bg-circle circle-3"></div>
+</div>
+<script>
+// Optional future JS interactivity placeholder
+</script>
+</body>
+</html>
+{{end}}

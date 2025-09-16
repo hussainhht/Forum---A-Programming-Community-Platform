@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>R Zone</title>
+		<link rel="stylesheet" href="/web/static/css/r.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+
+	<body>
+		<div class="r-layout no-sidebar">
+			<main class="r-main">
+				<!-- Hero Section -->
+				<section class="r-hero">
+					<div class="r-hero-content">
+						<div class="r-hero-text">
+							<div class="hero-badge">
+								<span class="badge-icon">📊</span>
+								R — Statistics & Visualization
+							</div>
+							<h1 class="r-title">
+								<span class="title-highlight">The</span>
+								<span class="title-main">R Zone</span>
+							</h1>
+							<p class="r-subtitle">Data analysis made expressive.</p>
+							<p class="r-desc">
+								Explore R for statistics, visualization, and data science: tidyverse,
+								ggplot2, Shiny apps, and reproducible research.
+							</p>
+							<div class="r-actions">
+								<a class="r-btn primary" href="https://cran.r-project.org/manuals.html" target="_blank" rel="noopener">
+									<span class="btn-icon">🚀</span> Official Manuals
+								</a>
+								<a class="r-btn secondary" href="#posts-section">
+									<span class="btn-icon">📚</span> Browse posts
+								</a>
+								<a class="r-btn secondary" href="https://www.tidyverse.org/" target="_blank" rel="noopener">
+									<span class="btn-icon">🧰</span> Tidyverse
+								</a>
+								<div class="stat-item">
+									<span class="stat-number">{{.CountPosts}}</span>
+									<span class="stat-label">posts</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Hero Art -->
+						<div class="r-hero-art" aria-hidden="true">
+							<div class="art-container">
+								<div class="floating-elements">
+									<div class="float-item item-1">dplyr</div>
+									<div class="float-item item-2">ggplot</div>
+									<div class="float-item item-3">tidyr</div>
+									<div class="float-item item-4">shiny</div>
+								</div>
+								<div class="code-preview">
+									<div class="code-header">
+										<div class="code-dots">
+											<span></span><span></span><span></span>
+										</div>
+										<span class="code-title">analysis.R</span>
+									</div>
+									<div class="code-content">
+										<div class="code-line">library(tidyverse)</div>
+										<div class="code-line">df &lt;- tibble(x = rnorm(100), y = rnorm(100))</div>
+										<div class="code-line">p &lt;- ggplot(df, aes(x, y)) + geom_point(color = "#2c7fb8")</div>
+										<div class="code-line">print(p)</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Features Section -->
+				<section class="r-features">
+					<div class="features-grid">
+						<div class="feature-card">
+							<div class="feature-icon">📈</div>
+							<h3>Statistics</h3>
+							<p>Powerful modeling and inference tools</p>
+						</div>
+						<div class="feature-card">
+							<div class="feature-icon">🖼️</div>
+							<h3>Visualization</h3>
+							<p>ggplot2 and grammar of graphics</p>
+						</div>
+						<div class="feature-card">
+							<div class="feature-icon">🧰</div>
+							<h3>Tidyverse</h3>
+							<p>Modern data manipulation packages</p>
+						</div>
+						<div class="feature-card">
+							<div class="feature-icon">🌐</div>
+							<h3>Interactive</h3>
+							<p>Build Shiny web apps and dashboards</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Posts Section -->
+				<form action="get" class="posts-container">
+					<section id="posts-section">
+						<h2 class="section-title">Featured Posts</h2>
+						<div class="posts-container">
+							{{range .Posts}}
+							<div class="post-card">
+								<div class="post-titlebar">
+									<div class="post-title">{{.Title}}</div>
+									<div class="post-toolbar-buttons">
+										<button class="minimize" title="Minimize">
+											<svg viewBox="0 0 10 10">
+												<rect x="1" y="4" width="8" height="2" />
+											</svg>
+										</button>
+										<button
+											class="maximize"
+											value="maximize"
+											type="submit"
+											formaction="/post/{{.ID}}"
+										>
+											<svg viewBox="0 0 10 10">
+												<rect x="1" y="1" width="8" height="8" />
+											</svg>
+										</button>
+										<button class="close" title="Close">
+											<svg viewBox="0 0 10 10">
+												<polygon points="1,1 9,9 9,1 1,9" />
+											</svg>
+										</button>
+									</div>
+								</div>
+								<div class="post-body">
+									<div class="post-content">{{.Preview}}</div>
+									<div class="post-info">
+										<small
+											>Posted by {{.Username}} on {{.CreatedAt.Format
+											"2006-01-02 15:04"}}</small
+										>
+									</div>
+								</div>
+							</div>
+							{{else}}
+							<p>No posts found.</p>
+							{{end}}
+						</div>
+					</section>
+				</form>
+			</main>
+		</div>
+
+		<!-- Background Elements -->
+		<div class="bg-elements" aria-hidden="true">
+			<div class="bg-circle circle-1"></div>
+			<div class="bg-circle circle-2"></div>
+			<div class="bg-circle circle-3"></div>
+		</div>
+	</body>
+	</html>

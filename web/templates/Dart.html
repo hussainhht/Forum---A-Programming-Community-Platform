@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dart & Flutter Zone</title>
+    <link rel="stylesheet" href="/web/static/css/dart.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="dart-layout no-sidebar">
+      <main class="dart-main">
+        <section class="dart-hero">
+          <div class="dart-hero-content">
+            <div class="dart-hero-text">
+              <div class="hero-badge">
+                <span class="badge-icon">🎯</span>
+                Dart & Flutter — Cross‑Platform Power
+              </div>
+              <h1 class="dart-title">
+                <span class="title-highlight">The</span>
+                <span class="title-main">Dart & Flutter Zone</span>
+              </h1>
+              <p class="dart-subtitle">One language. Native experiences everywhere.</p>
+              <p class="dart-desc">
+                Build fast UIs for mobile, web, desktop, and beyond with Flutter and the expressive
+                Dart language featuring async/await, sound null safety, and hot reload.
+              </p>
+              <div class="dart-actions">
+                <a class="dart-btn primary" href="https://dart.dev/guides" target="_blank" rel="noopener">
+                  <span class="btn-icon">🚀</span>
+                  Dart Guides
+                </a>
+                <a class="dart-btn secondary" href="https://docs.flutter.dev/" target="_blank" rel="noopener">
+                  <span class="btn-icon">🧰</span>
+                  Flutter Docs
+                </a>
+                <a class="dart-btn secondary" href="#posts-section">
+                  <span class="btn-icon">📚</span>
+                  Browse posts
+                </a>
+                <div class="stat-item">
+                  <span class="stat-number">{{.CountPosts}}</span>
+                  <span class="stat-label">posts</span>
+                </div>
+              </div>
+            </div>
+            <div class="dart-hero-art" aria-hidden="true">
+              <div class="art-container">
+                <div class="floating-elements">
+                  <div class="float-item item-1">async</div>
+                  <div class="float-item item-2">await</div>
+                  <div class="float-item item-3">Widget</div>
+                  <div class="float-item item-4">State</div>
+                </div>
+                <div class="code-preview">
+                  <div class="code-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-title">snippet.dart</span>
+                  </div>
+                  <div class="code-content">
+                    <div class="code-line"><span class="keyword">class</span> Post {</div>
+                    <div class="code-line indent"><span class="keyword">final</span> int id;</div>
+                    <div class="code-line indent"><span class="keyword">final</span> String title;</div>
+                    <div class="code-line indent">Post(this.id, this.title);</div>
+                    <div class="code-line">}</div>
+                    <div class="code-line"></div>
+                    <div class="code-line"><span class="keyword">String</span> greet(String name) =&gt; "Hello, $name!";</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="dart-features">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🔥</div>
+              <h3>Hot Reload</h3>
+              <p>Iterate UI changes instantly</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🎨</div>
+              <h3>UI Toolkit</h3>
+              <p>Material & Cupertino widgets out of the box</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <h3>Performance</h3>
+              <p>AOT & JIT compilation modes</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔐</div>
+              <h3>Null Safety</h3>
+              <p>Sound typing catches bugs early</p>
+            </div>
+          </div>
+        </section>
+        <form action="get" class="posts-container">
+          <section id="posts-section">
+            <h2 class="section-title">Featured Posts</h2>
+            <div class="posts-container">
+              {{range .Posts}}
+              <div class="post-card">
+                <div class="post-titlebar">
+                  <div class="post-title">{{.Title}}</div>
+                  <div class="post-toolbar-buttons">
+                    <button class="minimize" title="Minimize">
+                      <svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2" /></svg>
+                    </button>
+                    <button class="maximize" value="maximize" type="submit" formaction="/post/{{.ID}}">
+                      <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" /></svg>
+                    </button>
+                    <button class="close" title="Close">
+                      <svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9" /></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <div class="post-content">{{.Preview}}</div>
+                  <div class="post-info">
+                    <small>Posted by {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small>
+                  </div>
+                </div>
+              </div>
+              {{else}}
+              <p>No posts found.</p>
+              {{end}}
+            </div>
+          </section>
+        </form>
+      </main>
+    </div>
+    <div class="bg-elements" aria-hidden="true">
+      <div class="bg-circle circle-1"></div>
+      <div class="bg-circle circle-2"></div>
+      <div class="bg-circle circle-3"></div>
+    </div>
+  </body>
+</html>

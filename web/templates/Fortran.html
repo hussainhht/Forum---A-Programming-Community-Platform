@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fortran Zone</title>
+    <link rel="stylesheet" href="/web/static/css/fortran.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="fortran-layout no-sidebar">
+      <main class="fortran-main">
+        <section class="fortran-hero">
+          <div class="fortran-hero-content">
+            <div class="fortran-hero-text">
+              <div class="hero-badge">
+                <span class="badge-icon">📐</span>
+                Fortran — HPC Legacy & Modern Speed
+              </div>
+              <h1 class="fortran-title">
+                <span class="title-highlight">The</span>
+                <span class="title-main">Fortran Zone</span>
+              </h1>
+              <p class="fortran-subtitle">Scientific computing, numerics, and performance.</p>
+              <p class="fortran-desc">
+                Explore Fortran from classic numerical roots to modern standards (2003/2008/2018):
+                modules, arrays, coarrays, interoperability with C, and blazing-fast compiled loops.
+              </p>
+              <div class="fortran-actions">
+                <a class="fortran-btn primary" href="https://fortran-lang.org/learn/" target="_blank" rel="noopener">
+                  <span class="btn-icon">🚀</span>
+                  Learn Fortran
+                </a>
+                <a class="fortran-btn secondary" href="#posts-section">
+                  <span class="btn-icon">📚</span>
+                  Browse posts
+                </a>
+                <a class="fortran-btn secondary" href="https://fortran-lang.org/packages/" target="_blank" rel="noopener">
+                  <span class="btn-icon">🧰</span>
+                  Packages
+                </a>
+                <div class="stat-item">
+                  <span class="stat-number">{{.CountPosts}}</span>
+                  <span class="stat-label">posts</span>
+                </div>
+              </div>
+            </div>
+            <div class="fortran-hero-art" aria-hidden="true">
+              <div class="art-container">
+                <div class="floating-elements">
+                  <div class="float-item item-1">module</div>
+                  <div class="float-item item-2">real*8</div>
+                  <div class="float-item item-3">do</div>
+                  <div class="float-item item-4">coarray</div>
+                </div>
+                <div class="code-preview">
+                  <div class="code-header">
+                    <div class="code-dots"><span></span><span></span><span></span></div>
+                    <span class="code-title">snippet.f90</span>
+                  </div>
+                  <div class="code-content">
+                    <div class="code-line"><span class="keyword">module</span> math_mod</div>
+                    <div class="code-line indent"><span class="keyword">contains</span></div>
+                    <div class="code-line indent">  <span class="keyword">function</span> square(x) <span class="keyword">result</span>(y)</div>
+                    <div class="code-line indent">    <span class="keyword">real</span>(8), <span class="keyword">intent</span>(in) :: x</div>
+                    <div class="code-line indent">    <span class="keyword">real</span>(8) :: y</div>
+                    <div class="code-line indent">    y = x*x</div>
+                    <div class="code-line indent">  <span class="keyword">end</span> <span class="keyword">function</span></div>
+                    <div class="code-line"><span class="keyword">end</span> <span class="keyword">module</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="fortran-features">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">🏎️</div>
+              <h3>Performance</h3>
+              <p>Highly optimized numeric execution</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔢</div>
+              <h3>Array Power</h3>
+              <p>Native multidimensional operations</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔁</div>
+              <h3>Parallelism</h3>
+              <p>Coarrays & OpenMP synergy</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔗</div>
+              <h3>C Interop</h3>
+              <p>Modern standards ease integration</p>
+            </div>
+          </div>
+        </section>
+        <form action="get" class="posts-container">
+          <section id="posts-section">
+            <h2 class="section-title">Featured Posts</h2>
+            <div class="posts-container">
+              {{range .Posts}}
+              <div class="post-card">
+                <div class="post-titlebar">
+                  <div class="post-title">{{.Title}}</div>
+                  <div class="post-toolbar-buttons">
+                    <button class="minimize" title="Minimize">
+                      <svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2" /></svg>
+                    </button>
+                    <button class="maximize" value="maximize" type="submit" formaction="/post/{{.ID}}">
+                      <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" /></svg>
+                    </button>
+                    <button class="close" title="Close">
+                      <svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9" /></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <div class="post-content">{{.Preview}}</div>
+                  <div class="post-info">
+                    <small>Posted by {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small>
+                  </div>
+                </div>
+              </div>
+              {{else}}
+              <p>No posts found.</p>
+              {{end}}
+            </div>
+          </section>
+        </form>
+      </main>
+    </div>
+    <div class="bg-elements" aria-hidden="true">
+      <div class="bg-circle circle-1"></div>
+      <div class="bg-circle circle-2"></div>
+      <div class="bg-circle circle-3"></div>
+    </div>
+  </body>
+</html>

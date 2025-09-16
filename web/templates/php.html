@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>PHP Zone</title>
+		<link rel="stylesheet" href="/web/static/css/php.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+
+	<body>
+		<div class="php-layout no-sidebar">
+			<main class="php-main">
+				<!-- Hero Section -->
+				<section class="php-hero">
+					<div class="php-hero-content">
+						<div class="php-hero-text">
+							<div class="hero-badge">
+								<span class="badge-icon">🐘</span>
+								PHP — Web Workhorse
+							</div>
+							<h1 class="php-title">
+								<span class="title-highlight">The</span>
+								<span class="title-main">PHP Zone</span>
+							</h1>
+							<p class="php-subtitle">From classic apps to modern frameworks.</p>
+							<p class="php-desc">
+								Learn PHP from fundamentals to production: Composer, PSR standards,
+								OOP, and popular frameworks like Laravel and Symfony.
+							</p>
+							<div class="php-actions">
+								<a class="php-btn primary" href="https://www.php.net/docs.php" target="_blank" rel="noopener">
+									<span class="btn-icon">🚀</span> Official Docs
+								</a>
+								<a class="php-btn secondary" href="#posts-section">
+									<span class="btn-icon">📚</span> Browse posts
+								</a>
+								<a class="php-btn secondary" href="https://getcomposer.org/" target="_blank" rel="noopener">
+									<span class="btn-icon">🧰</span> Composer
+								</a>
+								<div class="stat-item">
+									<span class="stat-number">{{.CountPosts}}</span>
+									<span class="stat-label">posts</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- Hero Art -->
+						<div class="php-hero-art" aria-hidden="true">
+							<div class="art-container">
+								<div class="floating-elements">
+									<div class="float-item item-1">echo</div>
+									<div class="float-item item-2">array</div>
+									<div class="float-item item-3">class</div>
+									<div class="float-item item-4">use</div>
+								</div>
+								<div class="code-preview">
+									<div class="code-header">
+										<div class="code-dots">
+											<span></span><span></span><span></span>
+										</div>
+										<span class="code-title">index.php</span>
+									</div>
+									<div class="code-content">
+										<div class="code-line">&lt;?php</div>
+										<div class="code-line">declare(strict_types=1);</div>
+										<div class="code-line"></div>
+										<div class="code-line">function greet(string $name): string {</div>
+										<div class="code-line indent">return "Hello, $name!";</div>
+										<div class="code-line">}</div>
+										<div class="code-line">echo greet("World");</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Features Section -->
+				<section class="php-features">
+					<div class="features-grid">
+						<div class="feature-card">
+							<div class="feature-icon">⚡</div>
+							<h3>Productive</h3>
+							<p>Ship web apps quickly with rich tooling</p>
+						</div>
+						<div class="feature-card">
+							<div class="feature-icon">🧱</div>
+							<h3>Frameworks</h3>
+							<p>Laravel, Symfony, Slim, and more</p>
+						</div>
+						<div class="feature-card">
+							<div class="feature-icon">🔌</div>
+							<h3>Interop</h3>
+							<p>PSR standards and Composer packages</p>
+						</div>
+						<div class="feature-card">
+							<div class="feature-icon">🛡️</div>
+							<h3>Modern PHP</h3>
+							<p>Types, attributes, and enums</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Posts Section -->
+				<form action="get" class="posts-container">
+					<section id="posts-section">
+						<h2 class="section-title">Featured Posts</h2>
+						<div class="posts-container">
+							{{range .Posts}}
+							<div class="post-card">
+								<div class="post-titlebar">
+									<div class="post-title">{{.Title}}</div>
+									<div class="post-toolbar-buttons">
+										<button class="minimize" title="Minimize">
+											<svg viewBox="0 0 10 10">
+												<rect x="1" y="4" width="8" height="2" />
+											</svg>
+										</button>
+										<button
+											class="maximize"
+											value="maximize"
+											type="submit"
+											formaction="/post/{{.ID}}"
+										>
+											<svg viewBox="0 0 10 10">
+												<rect x="1" y="1" width="8" height="8" />
+											</svg>
+										</button>
+										<button class="close" title="Close">
+											<svg viewBox="0 0 10 10">
+												<polygon points="1,1 9,9 9,1 1,9" />
+											</svg>
+										</button>
+									</div>
+								</div>
+								<div class="post-body">
+									<div class="post-content">{{.Preview}}</div>
+									<div class="post-info">
+										<small
+											>Posted by {{.Username}} on {{.CreatedAt.Format
+											"2006-01-02 15:04"}}</small
+										>
+									</div>
+								</div>
+							</div>
+							{{else}}
+							<p>No posts found.</p>
+							{{end}}
+						</div>
+					</section>
+				</form>
+			</main>
+		</div>
+
+		<!-- Background Elements -->
+		<div class="bg-elements" aria-hidden="true">
+			<div class="bg-circle circle-1"></div>
+			<div class="bg-circle circle-2"></div>
+			<div class="bg-circle circle-3"></div>
+		</div>
+	</body>
+	</html>

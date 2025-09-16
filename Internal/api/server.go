@@ -140,10 +140,108 @@ func (server *Server) Start() error {
 	router.HandleFunc("/HTML", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/html", http.StatusMovedPermanently)
 	})
+
+	// C++ zone
+	router.HandleFunc("/cpp", server.Get_CPPHandler)
+	router.HandleFunc("/c++", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/cpp", http.StatusMovedPermanently)
+	})
+
+	// MATLAB zone
+	router.HandleFunc("/matlab", server.Get_MATLABHandler)
+	router.HandleFunc("/MATLAB", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/matlab", http.StatusMovedPermanently)
+	})
+
+	// Bash zone
+	router.HandleFunc("/bash", server.Get_BashHandler)
+	router.HandleFunc("/Bash", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/bash", http.StatusMovedPermanently)
+	})
+
+	// Assembly zone
+	router.HandleFunc("/assembly", server.Get_AssemblyHandler)
+	router.HandleFunc("/Assembly", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/assembly", http.StatusMovedPermanently)
+	})
+
+	// Python zone
+	router.HandleFunc("/python", server.Get_PythonHandler)
+	router.HandleFunc("/Python", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/python", http.StatusMovedPermanently)
+	})
 	// JavaScript zone
 	router.HandleFunc("/javascript", server.Get_JavaScriptHandler)
 	router.HandleFunc("/js", func(w http.ResponseWriter, r *http.Request) { // short alias
 		http.Redirect(w, r, "/javascript", http.StatusMovedPermanently)
+	})
+
+	// Brainfuck (Esoteric) zone
+	router.HandleFunc("/brainfuck", server.Get_BrainfuckHandler)
+	router.HandleFunc("/Brainfuck", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/brainfuck", http.StatusMovedPermanently)
+	})
+
+	// PHP zone
+	router.HandleFunc("/php", server.Get_PHPHandler)
+	router.HandleFunc("/PHP", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/php", http.StatusMovedPermanently)
+	})
+
+	// R zone
+	router.HandleFunc("/r", server.Get_RHandler)
+	router.HandleFunc("/R", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/r", http.StatusMovedPermanently)
+	})
+
+	// Lua zone
+	router.HandleFunc("/lua", server.Get_LuaHandler)
+	router.HandleFunc("/Lua", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/lua", http.StatusMovedPermanently)
+	})
+
+	// TypeScript zone
+	router.HandleFunc("/typescript", server.Get_TypeScriptHandler)
+	router.HandleFunc("/TypeScript", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/typescript", http.StatusMovedPermanently)
+	})
+
+	// Swift zone
+	router.HandleFunc("/swift", server.Get_SwiftHandler)
+	router.HandleFunc("/Swift", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/swift", http.StatusMovedPermanently)
+	})
+
+	// Dart & Flutter zone
+	router.HandleFunc("/dart", server.Get_DartHandler)
+	router.HandleFunc("/Dart", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/dart", http.StatusMovedPermanently)
+	})
+
+	// Kotlin zone
+	router.HandleFunc("/kotlin", server.Get_KotlinHandler)
+	router.HandleFunc("/Kotlin", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/kotlin", http.StatusMovedPermanently)
+	})
+	router.HandleFunc("/flutter", server.Get_DartHandler)
+	router.HandleFunc("/Flutter", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/dart", http.StatusMovedPermanently)
+	})
+
+	// SQL page
+	router.HandleFunc("/sql", server.Get_SQLHandler)
+	router.HandleFunc("/SQL", func(w http.ResponseWriter, r *http.Request) { http.Redirect(w, r, "/sql", http.StatusMovedPermanently) })
+
+	// Fortran zone
+	router.HandleFunc("/fortran", server.Get_FortranHandler)
+	router.HandleFunc("/Fortran", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/fortran", http.StatusMovedPermanently)
+	})
+
+	// Julia zone
+	router.HandleFunc("/julia", server.Get_JuliaHandler)
+	router.HandleFunc("/Julia", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/julia", http.StatusMovedPermanently)
 	})
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
