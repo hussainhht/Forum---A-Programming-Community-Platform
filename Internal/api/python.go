@@ -58,7 +58,7 @@ func (server *Server) Get_PythonHandler(w http.ResponseWriter, r *http.Request) 
 		},
 	})
 
-	tpl, err := base.ParseGlob("./web/templates/category/phpython.html")
+	tpl, err := base.ParseGlob("./web/templates/category/python.html")
 	if err != nil {
 		log.Printf("python: template parse error: %v", err)
 		server.Service.HandleError(w, http.StatusInternalServerError)
