@@ -6,11 +6,9 @@ import (
 	"strconv"
 )
 
-
 func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Check if user is authorized
-
 
 	r.ParseForm()
 	commentID, err := strconv.Atoi(r.FormValue("comment_id"))
@@ -26,7 +24,7 @@ func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	userID, err := server.Service.GetUserIDFromSessionID(sessionID)
+	user, err := server.Service.GetUserFromSessionID(sessionID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
@@ -35,7 +33,7 @@ func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Requ
 	reactionType := r.FormValue("reaction_type")
 
 	// Call the service layer to handle the like action
-	err = server.Service.CommentReaction(commentID, userID, reactionType)
+	err = server.Service.CommentReaction(commentID, user.ID, reactionType)
 	if err != nil {
 		http.Error(w, "Failed to react to comment", http.StatusInternalServerError)
 		return
@@ -59,7 +57,7 @@ func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.R
 		return
 	}
 
-	userID, err := server.Service.GetUserIDFromSessionID(sessionID)
+	user, err := server.Service.GetUserFromSessionID(sessionID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
@@ -72,7 +70,7 @@ func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.R
 	}
 
 	// Call the service layer to create the comment
-	err = server.Service.CreateComment(postID, userID, content)
+	err = server.Service.CreateComment(postID, user.ID, content)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -80,4 +78,3 @@ func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.R
 	http.Redirect(w, r, fmt.Sprintf("/post/%s", postID), http.StatusSeeOther)
 	w.WriteHeader(http.StatusCreated)
 }
-

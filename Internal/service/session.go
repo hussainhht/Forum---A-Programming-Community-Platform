@@ -1,6 +1,7 @@
 package service
 
 import (
+	"forum/Internal/model"
 	"forum/Internal/query"
 	"net/http"
 )
@@ -28,10 +29,10 @@ func (service *Service) GetSessionIDFromCookie(r *http.Request) (string, error) 
 	return cookie.Value, nil
 }
 
-func (service *Service) GetUserIDFromSessionID(sessionID string) (int, error) {
+func (service *Service) GetUserFromSessionID(sessionID string) (*model.User, error) {
 	user, err := query.SelectUserFromSession(service.DB, sessionID)
 	if err != nil || user == nil {
-		return 0, err
+		return nil, err
 	}
-	return user.ID, nil
+	return user, nil
 }
