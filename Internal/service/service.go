@@ -10,6 +10,10 @@ type Service struct {
 	DB *sql.DB
 }
 
+func (service *Service) GetUserBySession(value string) any {
+	panic("unimplemented")
+}
+
 // ParseMarkdownLink extracts text and URL from markdown link format [text](url)
 func (s *Service) ParseMarkdownLink(content string) (text, url string, isValid bool) {
 	// Regex pattern to match [text](url) format

@@ -52,6 +52,20 @@ func (server *Server) Start() error {
 		}
 	})
 
+	//profile
+	router.HandleFunc("/profile", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			server.Get_ProfileHandler(w, r)
+		// Uncomment below if you plan to allow POST to update profile
+		// case http.MethodPost:
+		// 	server.Post_ProfileHandler(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+	
+
 	// Login
 	router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {

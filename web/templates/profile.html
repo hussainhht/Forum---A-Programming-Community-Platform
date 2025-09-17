@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.User.Username}}'s Profile</title>
+    <link rel="stylesheet" href="/web/styles.css"> <!-- optional CSS -->
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{.User.Username}}!</h1>
+        <p>Email: {{.User.Email}}</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Your Posts</h2>
+            {{if .UserPosts}}
+                <ul>
+                    {{range .UserPosts}}
+                        <li>
+                            <a href="/post/{{.ID}}">{{.Title}}</a> 
+                            ({{.CreatedAt.Format "Jan 2, 2006"}})
+                        </li>
+                    {{end}}
+                </ul>
+            {{else}}
+                <p>You haven't posted anything yet.</p>
+            {{end}}
+        </section>
+
+        <section>
+            <h2>Account Actions</h2>
+            <ul>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/edit-profile">Edit Profile</a></li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
