@@ -93,7 +93,9 @@ func (s *Service) PostReaction(postID int, userID int, reactionType string) erro
 	return query.InsertPostReaction(s.DB, postID, userID, reactionType)
 }
 
-
 func (s *Service) GetFeaturedPosts() ([]model.Post, error) {
 	return query.GetFeaturedPosts(s.DB)
+}
+func (s *Service) GetLatestPosts() ([]model.Post, error) {
+	return query.GetLatestPosts(s.DB)
 }

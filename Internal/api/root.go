@@ -42,6 +42,13 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	var LatestPosts []model.Post
+
+	LatestPosts, err = server.Service.GetLatestPosts()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	//if the user logged in this will be true
 	isLoggedIn := false
@@ -62,6 +69,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 		IsLoggedIn:    isLoggedIn,
 		User:          user,
 		FeaturedPosts: featuredPosts,
+		LatestPosts:   LatestPosts,
 		Categories:    categories,
 		CSSFile:	      "./web/static/css/newtyles.css",
 	}

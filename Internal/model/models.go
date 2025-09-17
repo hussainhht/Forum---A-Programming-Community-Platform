@@ -73,6 +73,7 @@ type Category struct {
 type PageData struct {
 	IsLoggedIn         bool
 	FeaturedPosts      []Post
+	LatestPosts        []Post
 	Post               *Post
 	LikeCount          int
 	UserLiked          bool

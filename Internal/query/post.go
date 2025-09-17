@@ -262,7 +262,7 @@ FROM posts p
 JOIN users u ON p.user_id = u.id
 JOIN engagement e ON p.id = e.post_id
 ORDER BY featured_score DESC
-LIMIT 10;
+LIMIT 6;
 `)
 	if err != nil {
 		return nil, err
@@ -283,5 +283,33 @@ LIMIT 10;
 		return nil, err
 	}
 
+	return posts, nil
+}
+
+func GetLatestPosts(db *sql.DB) ([]model.Post, error) {
+	rows, err := db.Query(`
+	SELECT p.id, p.title, p.content, p.created_at, u.username, p.user_id
+	FROM posts p
+	JOIN users u ON p.user_id = u.id
+	ORDER BY p.created_at DESC
+	LIMIT 6;
+`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var posts []model.Post
+	for rows.Next() {
+		var post model.Post
+		var contentJSON string
+		if err := rows.Scan(&post.ID, &post.Title, &contentJSON, &post.CreatedAt, &post.Username, &post.UserID); err != nil {
+			return nil, err
+		}
+		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
+		posts = append(posts, post)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
 	return posts, nil
 }

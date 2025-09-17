@@ -65,6 +65,8 @@ CREATE TABLE IF NOT EXISTS sessions (
 );
 
 INSERT OR IGNORE INTO categories (name) VALUES
+
+
 ('golang'), 
 ('javascript'), 
 ('js'), 
