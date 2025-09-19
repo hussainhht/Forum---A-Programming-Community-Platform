@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{{.DisplayName}} Zone</title>
+		<!-- Common sidebar/layout css (fallback to layout.css naming in repo) -->
+		<link rel="stylesheet" href="/web/static/css/app-sidebar.css" />
+		<!-- Per-category css if it exists, using the slug name (e.g., rust.css, python.css). -->
+		<link rel="stylesheet" href="/web/static/css/{{.Slug}}.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+		<style>
+			/* Minimal shared styles to keep layout working even if a slug css is missing */
+			body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; margin:0; color:#e6e6e6; background: #0b0e14; }
+			.zone-layout { min-height: 100dvh; display:flex; }
+			.zone-main { flex:1; padding: 24px; max-width: 1200px; margin: 0 auto; }
+			.hero { display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; align-items: center; padding: 32px 0; }
+			.hero .title { font-size: clamp(28px, 5vw, 48px); line-height: 1.1; margin: 8px 0 12px; }
+			.title .highlight { color:#7aa2f7; font-weight: 700; margin-right: 8px; }
+			.badge { display:inline-flex; align-items:center; gap:8px; font-weight:600; color:#a6accd; background:#1b1f2a; border:1px solid #2a3040; border-radius: 999px; padding: 6px 12px; }
+			.actions { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top: 14px; }
+			.btn { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:10px; border:1px solid #2a3040; text-decoration:none; color:#e6e6e6; transition:.2s ease; background:#111522; }
+			.btn.primary { background:#1f2937; border-color:#2a3344; }
+			.btn:hover { transform: translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,.25); }
+			.stat { display:inline-flex; gap:6px; align-items: baseline; margin-left: 12px; color:#a6accd; }
+			.stat .num { font-size:18px; font-weight:700; color:#e6e6e6; }
+			.art { position:relative; background:#0f1320; border:1px solid #22283a; border-radius:16px; padding:16px; min-height: 220px; }
+			.posts { padding: 8px 0 40px; }
+			.posts h2 { font-size: 20px; color:#c8d3f5; margin: 20px 0 12px; }
+			.cards { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:14px; }
+			.card { border:1px solid #232a3b; border-radius:12px; overflow:hidden; background:#0f1320; }
+			.card .bar { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-bottom:1px solid #232a3b; color:#dbe4ff; font-weight:600; }
+			.card .body { padding: 12px; color:#b5c1e6; }
+			.card .meta { color:#8b95b5; font-size:12px; margin-top:8px; }
+			.bg-elements .bg-circle { position: fixed; border-radius: 999px; filter: blur(40px); opacity:.15; z-index:-1; }
+			.bg-elements .circle-1 { width: 32vmin; height: 32vmin; background: #7aa2f7; top: -6vmin; left: -6vmin; }
+			.bg-elements .circle-2 { width: 28vmin; height: 28vmin; background: #a6da95; bottom: 5vmin; right: -8vmin; }
+			.bg-elements .circle-3 { width: 20vmin; height: 20vmin; background: #f5a97f; top: 40vh; right: 10vmin; }
+			@media (max-width: 900px){ .hero{ grid-template-columns: 1fr; } }
+		</style>
+	</head>
+	<body>
+		<div class="zone-layout no-sidebar {{.Slug}}-layout">
+			<main class="zone-main {{.Slug}}-main">
+				<section class="hero">
+					<div>
+						<div class="badge">{{.DisplayName}} — Developer Zone</div>
+						<h1 class="title"><span class="highlight">The</span> {{.DisplayName}} Zone</h1>
+						<p class="subtitle">Community picks, tips, and learning resources for {{.DisplayName}}.</p>
+						<div class="actions">
+							{{if .SourceURL}}
+							<a class="btn primary" href="{{.SourceURL}}" target="_blank" rel="noopener">
+								<span>📚</span> Official docs
+							</a>
+							{{end}}
+							<a class="btn" href="#posts">📖 Browse posts</a>
+							<span class="stat"><span class="num">{{.CountPosts}}</span> posts</span>
+						</div>
+					</div>
+					<div class="art" aria-hidden="true">
+						<!-- A minimal decorative code box, category css can improve visuals -->
+						<div style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace; font-size: 12px; color:#cbd5e1;">
+							<div style="opacity:.8;">// {{.DisplayName}} snippet</div>
+							<div style="margin-top:8px; background:#0b0f1a; border:1px solid #1a2031; border-radius:8px; padding:10px;">
+								<div><span style="color:#7aa2f7;">fn</span> <span style="color:#c8d3f5;">main</span>() {</div>
+								<div style="padding-left:16px;">println!("Hello, {{.DisplayName}}!");</div>
+								<div>}</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="posts" class="posts">
+					<h2>Featured Posts</h2>
+					<form action="get">
+						<div class="cards">
+							{{range .Posts}}
+							<div class="card">
+								<div class="bar">
+									<div class="t">{{.Title}}</div>
+									<div class="actions">
+										<button class="btn" type="submit" formaction="/post/{{.ID}}">Open</button>
+									</div>
+								</div>
+								<div class="body">
+									<div class="content">{{.Preview}}</div>
+									<div class="meta">by {{.Username}} • {{.CreatedAt.Format "2006-01-02 15:04"}}</div>
+								</div>
+							</div>
+							{{else}}
+							<p>No posts found.</p>
+							{{end}}
+						</div>
+					</form>
+				</section>
+			</main>
+		</div>
+
+		<div class="bg-elements" aria-hidden="true">
+			<div class="bg-circle circle-1"></div>
+			<div class="bg-circle circle-2"></div>
+			<div class="bg-circle circle-3"></div>
+		</div>
+	</body>
+	</html>

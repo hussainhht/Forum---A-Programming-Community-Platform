@@ -64,7 +64,6 @@ func (server *Server) Start() error {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}
 	})
-	
 
 	// Login
 	router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
@@ -107,87 +106,117 @@ func (server *Server) Start() error {
 	router.HandleFunc("/playground/preview", server.Post_PlaygroundPreviewHandler)
 	router.HandleFunc("/download", server.Post_DownloadHandler)
 
-	router.HandleFunc("/golang", server.Get_GolangHandler)
-	// Optional: redirect uppercase variant to canonical path
+	router.HandleFunc("/golang", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/golang", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Golang", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/golang", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/golang", http.StatusMovedPermanently)
 	})
 
 	// Rust zone
-	router.HandleFunc("/rust", server.Get_RustHandler)
+	router.HandleFunc("/rust", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/rust", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Rust", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/rust", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/rust", http.StatusMovedPermanently)
 	})
 
+	// Generic category route (new): /category/{slug}
+	router.HandleFunc("GET /category/{slug}", server.Get_CategoryHandler)
+
 	// Ruby zone
-	router.HandleFunc("/ruby", server.Get_RubyHandler)
+	router.HandleFunc("/ruby", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/ruby", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Ruby", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/ruby", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/ruby", http.StatusMovedPermanently)
 	})
 
 	// Java zone
-	router.HandleFunc("/java", server.Get_JavaHandler)
+	router.HandleFunc("/java", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/java", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Java", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/java", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/java", http.StatusMovedPermanently)
 	})
 
 	// C zone
-	router.HandleFunc("/c", server.Get_CHandler)
+	router.HandleFunc("/c", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/c", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/C", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/c", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/c", http.StatusMovedPermanently)
 	})
 
 	// CSS zone
-	router.HandleFunc("/css", server.Get_CSSHandler)
+	router.HandleFunc("/css", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/css", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/CSS", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/css", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/css", http.StatusMovedPermanently)
 	})
 
 	// C# zone
-	router.HandleFunc("/csharp", server.Get_CSharpHandler)
+	router.HandleFunc("/csharp", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/csharp", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/CSharp", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/csharp", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/csharp", http.StatusMovedPermanently)
 	})
 
 	// HTML zone
-	router.HandleFunc("/html", server.Get_HTMLHandler)
+	router.HandleFunc("/html", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/html", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/HTML", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/html", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/html", http.StatusMovedPermanently)
 	})
 
 	// C++ zone
-	router.HandleFunc("/cpp", server.Get_CPPHandler)
+	router.HandleFunc("/cpp", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/cpp", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/c++", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/cpp", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/cpp", http.StatusMovedPermanently)
 	})
 
 	// MATLAB zone
-	router.HandleFunc("/matlab", server.Get_MATLABHandler)
+	router.HandleFunc("/matlab", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/matlab", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/MATLAB", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/matlab", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/matlab", http.StatusMovedPermanently)
 	})
 
 	// Bash zone
-	router.HandleFunc("/bash", server.Get_BashHandler)
+	router.HandleFunc("/bash", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/bash", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Bash", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/bash", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/bash", http.StatusMovedPermanently)
 	})
 
 	// Assembly zone
-	router.HandleFunc("/assembly", server.Get_AssemblyHandler)
+	router.HandleFunc("/assembly", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/assembly", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Assembly", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/assembly", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/assembly", http.StatusMovedPermanently)
 	})
 
 	// Python zone
-	router.HandleFunc("/python", server.Get_PythonHandler)
+	router.HandleFunc("/python", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/python", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Python", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/python", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/python", http.StatusMovedPermanently)
 	})
 	// JavaScript zone
-	router.HandleFunc("/javascript", server.Get_JavaScriptHandler)
-	router.HandleFunc("/js", func(w http.ResponseWriter, r *http.Request) { // short alias
-		http.Redirect(w, r, "/javascript", http.StatusMovedPermanently)
+	router.HandleFunc("/javascript", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/javascript", http.StatusMovedPermanently)
+	})
+	router.HandleFunc("/js", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/javascript", http.StatusMovedPermanently)
 	})
 
 	// Brainfuck (Esoteric) zone
@@ -197,65 +226,89 @@ func (server *Server) Start() error {
 	})
 
 	// PHP zone
-	router.HandleFunc("/php", server.Get_PHPHandler)
+	router.HandleFunc("/php", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/php", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/PHP", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/php", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/php", http.StatusMovedPermanently)
 	})
 
 	// R zone
-	router.HandleFunc("/r", server.Get_RHandler)
+	router.HandleFunc("/r", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/r", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/R", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/r", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/r", http.StatusMovedPermanently)
 	})
 
 	// Lua zone
-	router.HandleFunc("/lua", server.Get_LuaHandler)
+	router.HandleFunc("/lua", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/lua", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Lua", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/lua", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/lua", http.StatusMovedPermanently)
 	})
 
 	// TypeScript zone
-	router.HandleFunc("/typescript", server.Get_TypeScriptHandler)
+	router.HandleFunc("/typescript", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/typescript", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/TypeScript", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/typescript", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/typescript", http.StatusMovedPermanently)
 	})
 
 	// Swift zone
-	router.HandleFunc("/swift", server.Get_SwiftHandler)
+	router.HandleFunc("/swift", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/swift", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Swift", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/swift", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/swift", http.StatusMovedPermanently)
 	})
 
 	// Dart & Flutter zone
-	router.HandleFunc("/dart", server.Get_DartHandler)
+	router.HandleFunc("/dart", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/dart", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Dart", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/dart", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/dart", http.StatusMovedPermanently)
 	})
 
 	// Kotlin zone
-	router.HandleFunc("/kotlin", server.Get_KotlinHandler)
-	router.HandleFunc("/Kotlin", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/kotlin", http.StatusMovedPermanently)
+	router.HandleFunc("/kotlin", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/kotlin", http.StatusMovedPermanently)
 	})
-	router.HandleFunc("/flutter", server.Get_DartHandler)
+	router.HandleFunc("/Kotlin", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/kotlin", http.StatusMovedPermanently)
+	})
+	router.HandleFunc("/flutter", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/dart", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Flutter", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/dart", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/dart", http.StatusMovedPermanently)
 	})
 
 	// SQL page
-	router.HandleFunc("/sql", server.Get_SQLHandler)
-	router.HandleFunc("/SQL", func(w http.ResponseWriter, r *http.Request) { http.Redirect(w, r, "/sql", http.StatusMovedPermanently) })
+	router.HandleFunc("/sql", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/sql", http.StatusMovedPermanently)
+	})
+	router.HandleFunc("/SQL", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/sql", http.StatusMovedPermanently)
+	})
 
 	// Fortran zone
-	router.HandleFunc("/fortran", server.Get_FortranHandler)
+	router.HandleFunc("/fortran", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/fortran", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Fortran", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/fortran", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/fortran", http.StatusMovedPermanently)
 	})
 
 	// Julia zone
-	router.HandleFunc("/julia", server.Get_JuliaHandler)
+	router.HandleFunc("/julia", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/category/julia", http.StatusMovedPermanently)
+	})
 	router.HandleFunc("/Julia", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/julia", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/category/julia", http.StatusMovedPermanently)
 	})
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", server.Port), router)
