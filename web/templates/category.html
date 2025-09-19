@@ -6,8 +6,8 @@
 		<title>{{.DisplayName}} Zone</title>
 		<!-- Common sidebar/layout css (fallback to layout.css naming in repo) -->
 		<link rel="stylesheet" href="/web/static/css/app-sidebar.css" />
-		<!-- Per-category css if it exists, using the slug name (e.g., rust.css, python.css). -->
-		<link rel="stylesheet" href="/web/static/css/{{.Slug}}.css" />
+		<!-- Per-category css resolved by server (e.g., rust.css, python.css). -->
+		<link rel="stylesheet" href="/web/static/css/{{.CSSFile}}" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />

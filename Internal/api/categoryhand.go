@@ -17,6 +17,7 @@ type CategoryPageData struct {
 	Posts       []model.Post
 	IsLoggedIn  bool
 	CountPosts  int
+	CSSFile     string
 }
 
 // Get_CategoryHandler serves any category at /category/{slug} using a single template.
@@ -61,6 +62,7 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 		Posts:       posts,
 		IsLoggedIn:  isLoggedIn,
 		CountPosts:  len(posts),
+		CSSFile:     cssFileFor(slug),
 	}
 
 	base := template.New("all").Funcs(template.FuncMap{
@@ -168,5 +170,24 @@ func sourceURLFor(slug string) string {
 		return "https://www.mathworks.com/help/matlab/"
 	default:
 		return "#"
+	}
+}
+
+// cssFileFor returns the css filename for a given slug.
+// It normalizes popular aliases to existing css files under web/static/css.
+func cssFileFor(slug string) string {
+	s := strings.ToLower(slug)
+	switch s {
+	case "js", "javascript":
+		return "javascript.css"
+	case "ts", "typescript":
+		return "typescript.css"
+	case "c++", "cpp":
+		return "cpp.css"
+	case "c#", "csharp":
+		return "csharp.css"
+	default:
+		// assume we have {slug}.css
+		return s + ".css"
 	}
 }
