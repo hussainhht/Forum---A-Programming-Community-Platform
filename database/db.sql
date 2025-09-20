@@ -2,6 +2,8 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    photo    image NOT NULL DEFAULT 'default.png',
+    fullname     TEXT NOT NULL,
     username TEXT NOT NULL UNIQUE,
     email    TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
