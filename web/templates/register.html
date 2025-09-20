@@ -1,90 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <link rel="stylesheet" href="/web/static/css/login.css">
-</head>
+    <link rel="stylesheet" href="/web/static/css/login.css" />
+  </head>
 
-<body>
-
+  <body>
     <div class="bg-rotator" aria-hidden="true">
-      <div class="slide" style="--bg: url('/web/static/img/bg-tech.png'); --i: 0;"></div>
-      <div class="slide" style="--bg: url('/web/static/img/bg-tech2.png'); --i: 1;"></div>
+      <div
+        class="slide"
+        style="--bg: url('/web/static/img/bg-tech.png'); --i: 0"
+      ></div>
+      <div
+        class="slide"
+        style="--bg: url('/web/static/img/bg-tech2.png'); --i: 1"
+      ></div>
     </div>
-
 
     <div class="main-card">
-
-          <div class="logos">
-            <div class="welcome">
-                <h1>Welcome To Coding Forum</h1>
-            </div>
-
-            <div class="logo-rotator" aria-label="Tech logos">
-                <img src="/web/static/login-img/logos.png" alt="" class="slide s1">
-                <img src="/web/static/login-img/golang.png" alt="" class="slide s2">
-                <img src="/web/static/login-img/javascribt.png" alt="" class="slide s3">
-                <img src="/web/static/login-img/bithon.png" alt="" class="slide s4">
-                <img src="/web/static/login-img/neonjava.png" alt="" class="slide s5">
-                <img src="/web/static/login-img/rust.png" alt="" class="slide s6">
-                <img src="/web/static/login-img/ruby.png" alt="" class="slide s7">
-                <img src="/web/static/login-img/c++.png" alt="" class="slide s8">
-                <img src="/web/static/login-img/csharp.png" alt="" class="slide s9">
-                <img src="/web/static/login-img/c.png" alt="" class="slide s10">
-            </div>
-
+      <div class="logos">
+        <div class="welcome">
+          <h1>Welcome To Coding Forum</h1>
         </div>
 
-        <div class="login-container">
-            <div class="login-header">
-                <h2>Register</h2>
-            </div>
+        <div class="logo-rotator" aria-label="Tech logos">
+          <img src="/web/static/login-img/logos.png" alt="" class="slide s1" />
+          <img src="/web/static/login-img/golang.png" alt="" class="slide s2" />
+          <img
+            src="/web/static/login-img/javascribt.png"
+            alt=""
+            class="slide s3"
+          />
+          <img src="/web/static/login-img/bithon.png" alt="" class="slide s4" />
+          <img
+            src="/web/static/login-img/neonjava.png"
+            alt=""
+            class="slide s5"
+          />
+          <img src="/web/static/login-img/rust.png" alt="" class="slide s6" />
+          <img src="/web/static/login-img/ruby.png" alt="" class="slide s7" />
+          <img src="/web/static/login-img/c++.png" alt="" class="slide s8" />
+          <img src="/web/static/login-img/csharp.png" alt="" class="slide s9" />
+          <img src="/web/static/login-img/c.png" alt="" class="slide s10" />
+          <img src="/web/static/login-img/bash.png" alt="" class="slide s11" />
+          <img src="/web/static/login-img/Flutter.png" alt="" class="slide s12" />
+        </div>
+      </div>
 
-            {{if .Error}}
-            <div class="error-box">{{.Error}}</div>
-            {{end}}
-
-            <form method="POST" action="/register">
-
-                <div class="inputbox">
-                    <input type="text" id="username" name="username" required minlength="3" maxlength="20">
-                    <span>Username</span>
-                    <i></i>
-                </div>
-
-                <div class="inputbox">
-                    <input type="email" id="email" name="email" required>
-                    <span>Email</span>
-                    <i></i>
-                </div>
-
-                <div class="inputbox">
-                    <input type="password" id="password" name="password" required minlength="8">
-                    <span>Password</span>
-                    <i></i>
-                </div>
-
-                <div class="inputbox">
-                    <input type="password" id="confirmPassword" name="confirmPassword" required>
-                    <span>Confirm Password</span>
-                    <i></i>
-                </div>
-
-                <div class="form-actions">
-                    <button type="submit">Register</button>
-                </div>
-
-                <div class="form-footer">
-                    <p>Already have an account? <a href="/login">Login here</a>.</p>
-                </div>
-
-            </form>
+      <div class="login-container">
+        <div class="login-header">
+          <h2>Register</h2>
         </div>
 
+        <form method="POST" action="/register">
+          <div class="inputbox">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              minlength="3"
+              maxlength="20"
+            />
+            <span>Username</span>
+            <i></i>
+          </div>
+
+          <div class="inputbox">
+            <input type="email" id="email" name="email" required />
+            <span>Email</span>
+            <i></i>
+          </div>
+
+          <div class="inputbox">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              minlength="8"
+            />
+            <span>Password</span>
+            <i></i>
+          </div>
+
+          <div class="inputbox">
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+            />
+            <span>Confirm Password</span>
+            <i></i>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit">Register</button>
+          </div>
+
+          <div class="form-footer">
+            <p>Already have an account? <a href="/login">Login here</a>.</p>
+          </div>
+
+          {{if .Error}}
+          <div class="error-box">{{.Error}}</div>
+          {{end}}
+        </form>
+      </div>
     </div>
-
-</body>
+  </body>
 </html>
