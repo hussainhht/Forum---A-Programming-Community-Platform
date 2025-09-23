@@ -262,7 +262,7 @@ FROM posts p
 JOIN users u ON p.user_id = u.id
 JOIN engagement e ON p.id = e.post_id
 ORDER BY featured_score DESC
-LIMIT 6;
+LIMIT 4;
 `)
 	if err != nil {
 		return nil, err
@@ -292,7 +292,7 @@ func GetLatestPosts(db *sql.DB) ([]model.Post, error) {
 	FROM posts p
 	JOIN users u ON p.user_id = u.id
 	ORDER BY p.created_at DESC
-	LIMIT 6;
+	LIMIT 4;
 `)
 	if err != nil {
 		return nil, err
