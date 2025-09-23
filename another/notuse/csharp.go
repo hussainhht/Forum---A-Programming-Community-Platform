@@ -1,3 +1,6 @@
+//go:build notuse
+// +build notuse
+
 package api
 
 import (
