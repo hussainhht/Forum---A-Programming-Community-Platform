@@ -3,13 +3,6 @@
 
 package api
 
-// Moved to Internal/api/notuse/java.go
-
-//go:build notuse
-// +build notuse
-
-package api
-
 import (
 	"forum/Internal/model"
 	"html/template"

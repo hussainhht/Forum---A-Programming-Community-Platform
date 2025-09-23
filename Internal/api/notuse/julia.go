@@ -3,13 +3,6 @@
 
 package api
 
-// Moved to Internal/api/notuse/julia.go
-
-//go:build notuse
-// +build notuse
-
-package api
-
 import (
 	"html/template"
 	"net/http"
@@ -95,7 +88,7 @@ func (server *Server) Get_JuliaHandler(w http.ResponseWriter, r *http.Request) {
 		Tagline:      "High-Performance Dynamic Technical Computing",
 		MoreLink:     "https://julialang.org/",
 		SourceLink:   "https://github.com/JuliaLang/julia",
-		Badge:        "Julia — Scientific & Parallel Power",
+		Badge:        "Julia  Scientific & Parallel Power",
 		Features: []struct{ Title, Desc string }{
 			{Title: "Multiple Dispatch", Desc: "Core paradigm enabling elegant and performant polymorphism."},
 			{Title: "High Performance", Desc: "JIT compilation via LLVM rivals C and Fortran speeds."},

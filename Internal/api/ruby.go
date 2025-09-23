@@ -1,3 +1,13 @@
+//go:build notuse
+// +build notuse
+
+package api
+
+// Moved to Internal/api/notuse/ruby.go
+
+//go:build notuse
+// +build notuse
+
 package api
 
 import (

@@ -1,4 +1,14 @@
+//go:build notuse
+// +build notuse
+
+package api
+
+// Moved to Internal/api/notuse/golang.go
+
 // Internal/api/golang.go
+//go:build notuse
+// +build notuse
+
 package api
 
 import (
