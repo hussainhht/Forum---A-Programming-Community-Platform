@@ -1,0 +1,6 @@
+{
+    "workbench.editorAssociations": {
+        "*.copilotmd": "vscode.markdown.preview.editor",
+        "*.sprite": "d2rmodding.spriteViewer"
+    }
+}
