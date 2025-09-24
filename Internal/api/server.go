@@ -106,12 +106,6 @@ func (server *Server) Start() error {
 	router.HandleFunc("/playground/preview", server.Post_PlaygroundPreviewHandler)
 	router.HandleFunc("/download", server.Post_DownloadHandler)
 
-	// router.HandleFunc("/golang", func(w http.ResponseWriter, r *http.Request) {
-	// 	http.Redirect(w, r, "/category/golang", http.StatusMovedPermanently)
-	// })
-	// router.HandleFunc("/Golang", func(w http.ResponseWriter, r *http.Request) {
-	// 	http.Redirect(w, r, "/category/golang", http.StatusMovedPermanently)
-	// })
 
 	// Generic category route: /category/{slug}
 	router.HandleFunc("GET /category/{slug}", server.Get_CategoryHandler)
