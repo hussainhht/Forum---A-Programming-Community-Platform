@@ -1,14 +1,22 @@
 /* ! ===================== VARIABLES ===================== */
 :root {
-  --card-bg: #1a0f1f; /* Dark purple card background */
-  --text: #f5e6ff;    /* Light violet text */
-  --muted: #a47bbf;   /* Muted purple text */
-  --accent: linear-gradient(80deg, #d94dff, #8a2be2); /* Neon purple gradient */
-  --shadow: 0 0 12px rgba(180, 50, 255, 0.6); /* Purple glowing shadow */
+  --card-bg: #1a0f1f;
+  /* Dark purple card background */
+  --text: #f5e6ff;
+  /* Light violet text */
+  --muted: #a47bbf;
+  /* Muted purple text */
+  --accent: linear-gradient(80deg, #d94dff, #8a2be2);
+  /* Neon purple gradient */
+  --shadow: 0 0 12px rgba(180, 50, 255, 0.6);
+  /* Purple glowing shadow */
   --radius: 10px;
-  --glass-bg: rgba(40, 0, 60, 0.25); /* Glass effect background (purple tint) */
-  --glass-border: rgba(200, 120, 255, 0.3); /* Light purple border */
-  --glass-blur: 20px; /* Blur strength */
+  --glass-bg: rgba(40, 0, 60, 0.25);
+  /* Glass effect background (purple tint) */
+  --glass-border: rgba(200, 120, 255, 0.3);
+  /* Light purple border */
+  --glass-blur: 20px;
+  /* Blur strength */
 }
 
 html,
@@ -20,13 +28,16 @@ body {
   margin: 0;
   min-height: 100vh;
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center;     /* Center vertically */
+  justify-content: center;
+  /* Center horizontally */
+  align-items: center;
+  /* Center vertically */
   background:
     linear-gradient(rgba(0, 0, 0, .45), rgba(0, 0, 0, .45)),
     url('../img/bg-tech-purple.png') no-repeat center center fixed;
   background-size: cover;
-  background-color: #0a0013; /* Extra dark background */
+  background-color: #0a0013;
+  /* Extra dark background */
   font-family: monospace;
 }
 
@@ -82,7 +93,7 @@ body {
 }
 
 .inputbox input {
-  
+
   height: 46px;
   border: 1px solid var(--glass-border);
   background: var(--glass-bg);
@@ -90,15 +101,18 @@ body {
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border-radius: 8px;
   padding: 0 14px;
-  padding-right: 44px; /* reserve space for eye */
+  padding-right: 44px;
+  /* reserve space for eye */
   font-size: 15px;
   color: var(--text);
   outline: none;
   transition: .25s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,.35);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .35);
 }
 
-.inputbox input:not(.pw-toggle):hover { border-color: rgba(200,100,255,.4); }
+.inputbox input:not(.pw-toggle):hover {
+  border-color: rgba(200, 100, 255, .4);
+}
 
 .inputbox input:not(.pw-toggle):focus {
   border-color: transparent;
@@ -106,7 +120,7 @@ body {
   box-shadow:
     0 0 0 1px rgba(200, 80, 255, .7),
     0 0 14px rgba(180, 50, 255, .6),
-    0 4px 16px rgba(0,0,0,.55);
+    0 4px 16px rgba(0, 0, 0, .55);
 }
 
 .inputbox span {
@@ -118,28 +132,105 @@ body {
   color: var(--text);
   letter-spacing: .3px;
   pointer-events: none;
-  display: inline-block;             /* allow smooth transforms */
+  display: inline-block;
+  /* allow smooth transforms */
   transition: transform .25s, color .25s, font-size .25s;
   user-select: none;
-  z-index: 1;                        /* appear above input border */
+  z-index: 1;
+  /* appear above input border */
 }
 
 /* Floating label effect (ignore hidden checkbox) */
-.inputbox input:not(.pw-toggle):focus ~ span,
-.inputbox input:not(.pw-toggle):valid ~ span {
+.inputbox input:not(.pw-toggle):focus~span,
+.inputbox input:not(.pw-toggle):valid~span {
   transform: translateY(-30px);
   font-size: 13px;
   padding-left: 2px;
-  color: #d94dff; /* Accent neon purple */
+  color: #d94dff;
+  /* Accent neon purple */
 }
 
 /* Float label on browser autofill as well */
-.inputbox input:not(.pw-toggle):-webkit-autofill ~ span {
+.inputbox input:not(.pw-toggle):-webkit-autofill~span {
   transform: translateY(-30px);
   font-size: 13px;
   padding-left: 2px;
   color: #d94dff;
 }
+
+/* ===================== FILE INPUT CUSTOM STYLE ===================== */
+/* Make file input visually consistent and keep label floated */
+.inputbox input[type=file] {
+  padding: 0;
+  /* native button handles internal spacing */
+  height: 46px;
+  line-height: 46px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Always show its label in floated position */
+.inputbox input[type=file]~span {
+  transform: translateY(-30px);
+  font-size: 13px;
+  padding-left: 2px;
+  color: #d94dff;
+}
+
+/* Modern browsers */
+.inputbox input[type=file]::file-selector-button {
+  background: var(--accent);
+  border: 0;
+  height: 100%;
+  padding: 0 18px;
+  margin: 0;
+  font-family: inherit;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  border-right: 1px solid rgba(200, 120, 255, .25);
+  border-radius: 8px 0 0 8px;
+  transition: background .25s, box-shadow .25s;
+}
+
+.inputbox input[type=file]:hover::file-selector-button {
+  background: rgba(150, 50, 200, 0.7);
+}
+
+.inputbox input[type=file]:focus-visible::file-selector-button,
+.inputbox input[type=file]:focus::file-selector-button {
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(200, 80, 255, .7), 0 0 10px rgba(180, 50, 255, .5);
+}
+
+/* Safari / older WebKit */
+.inputbox input[type=file]::-webkit-file-upload-button {
+  background: var(--accent);
+  border: 0;
+  height: 100%;
+  padding: 0 18px;
+  margin: 0;
+  font-family: inherit;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  border-right: 1px solid rgba(200, 120, 255, .25);
+  border-radius: 8px 0 0 8px;
+  transition: background .25s, box-shadow .25s;
+}
+
+.inputbox input[type=file]:hover::-webkit-file-upload-button {
+  background: rgba(150, 50, 200, 0.7);
+}
+
+.inputbox input[type=file]:focus-visible::-webkit-file-upload-button,
+.inputbox input[type=file]:focus::-webkit-file-upload-button {
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(200, 80, 255, .7), 0 0 10px rgba(180, 50, 255, .5);
+}
+
+/* ===================== END FILE INPUT CUSTOM STYLE ===================== */
 
 /* ===================== PASSWORD VISIBILITY TOGGLE ===================== */
 /* Hidden checkbox to hold state - clicks are on the label */
@@ -157,7 +248,8 @@ body {
 .eye-toggle {
   position: absolute;
   top: 50%;
-  right: 12px;           /* distance from right edge */
+  right: 12px;
+  /* distance from right edge */
   transform: translateY(-50%);
   cursor: pointer;
   display: flex;
@@ -168,19 +260,36 @@ body {
   fill: var(--muted);
 }
 
-.eye-toggle svg { pointer-events: none; }
-.eye-toggle .eye-slash { display: none; }
+.eye-toggle svg {
+  pointer-events: none;
+}
+
+.eye-toggle .eye-slash {
+  display: none;
+}
 
 /* Swap icons when checked */
-#togglePassword:checked ~ .eye-toggle .eye { display: none; }
-#togglePassword:checked ~ .eye-toggle .eye-slash { display: block; }
+#togglePassword:checked~.eye-toggle .eye {
+  display: none;
+}
+
+#togglePassword:checked~.eye-toggle .eye-slash {
+  display: block;
+}
+
 /* =================== END PASSWORD VISIBILITY TOGGLE =================== */
 
 /* ===================== CSS-ONLY PASSWORD MASK ===================== */
 /* Default: mask characters */
-#password { -webkit-text-security: disc; }
+#password {
+  -webkit-text-security: disc;
+}
+
 /* When checkbox is checked: unmask */
-#togglePassword:checked ~ #password { -webkit-text-security: none; }
+#togglePassword:checked~#password {
+  -webkit-text-security: none;
+}
+
 /* ================================================================ */
 
 
@@ -255,54 +364,108 @@ body {
 }
 
 /* ===================== LOGO ROTATOR ===================== */
-.logo-rotator{
+.logo-rotator {
   position: relative;
-  width: 500px;               
-  aspect-ratio: 1 / 1;       
+  width: 500px;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: 0 0 30px rgba(200,100,255,.15) inset, 
-              0 0 25px rgba(200,100,255,.08);
+  box-shadow: 0 0 30px rgba(200, 100, 255, .15) inset,
+    0 0 25px rgba(200, 100, 255, .08);
 }
 
-.logo-rotator .slide{
+.logo-rotator .slide {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;         
+  object-fit: contain;
   opacity: 0;
-  animation: crossfade 60s infinite;  
-  filter: drop-shadow(0 0 10px rgba(200,100,255,.25));
+  animation: crossfade 60s infinite;
+  filter: drop-shadow(0 0 10px rgba(200, 100, 255, .25));
 }
 
-.logo-rotator .s2{ animation-delay: 5s; }
-.logo-rotator .s3{ animation-delay: 10s; }
-.logo-rotator .s4{ animation-delay: 15s; }
-.logo-rotator .s5{ animation-delay: 20s; }
-.logo-rotator .s6{ animation-delay: 25s; }
-.logo-rotator .s7{ animation-delay: 30s; }
-.logo-rotator .s8{ animation-delay: 35s; }
-.logo-rotator .s9{ animation-delay: 40s; }
-.logo-rotator .s10{ animation-delay: 45s; }
-.logo-rotator .s11{ animation-delay: 50s; }
-.logo-rotator .s12{ animation-delay: 55s; }
-
-@keyframes crossfade{
-  0%   { opacity: 0;   transform: scale(1); }
-  1%   { opacity: 1; }
-  8%  { opacity: 1; }
-  10%  { opacity: 0;   transform: scale(1.03); }
-  100% { opacity: 0; }
+.logo-rotator .s2 {
+  animation-delay: 5s;
 }
 
-@media (prefers-reduced-motion: reduce){
-  .logo-rotator .slide{ animation: none; opacity: 1; }
-  .logo-rotator .slide:not(.s1){ display: none; }
+.logo-rotator .s3 {
+  animation-delay: 10s;
+}
+
+.logo-rotator .s4 {
+  animation-delay: 15s;
+}
+
+.logo-rotator .s5 {
+  animation-delay: 20s;
+}
+
+.logo-rotator .s6 {
+  animation-delay: 25s;
+}
+
+.logo-rotator .s7 {
+  animation-delay: 30s;
+}
+
+.logo-rotator .s8 {
+  animation-delay: 35s;
+}
+
+.logo-rotator .s9 {
+  animation-delay: 40s;
+}
+
+.logo-rotator .s10 {
+  animation-delay: 45s;
+}
+
+.logo-rotator .s11 {
+  animation-delay: 50s;
+}
+
+.logo-rotator .s12 {
+  animation-delay: 55s;
+}
+
+@keyframes crossfade {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  10% {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-rotator .slide {
+    animation: none;
+    opacity: 1;
+  }
+
+  .logo-rotator .slide:not(.s1) {
+    display: none;
+  }
 }
 
 /* ===================== BACKGROUND ROTATOR ===================== */
-.bg-rotator{
+.bg-rotator {
   --count: 3;
   --slot: 5s;
   --total: calc(var(--count) * var(--slot));
@@ -312,7 +475,7 @@ body {
   background: #000;
 }
 
-.bg-rotator .slide{
+.bg-rotator .slide {
   position: absolute;
   inset: 0;
   background: var(--bg) center / cover no-repeat fixed;
@@ -321,10 +484,24 @@ body {
   animation-delay: calc(var(--i) * (var(--total) / var(--count)));
 }
 
-@keyframes bg-fade{
-  0%   { opacity: 0; }
-  5%   { opacity: 1; }
-  15%  { opacity: 1; }
-  99%  { opacity: 0; }
-  100% { opacity: 0; }
+@keyframes bg-fade {
+  0% {
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  99% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
