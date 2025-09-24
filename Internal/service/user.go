@@ -35,10 +35,10 @@ func (service *Service) LoginUser(emailOrUsername, password string) (string, err
 	return newSessionID, nil
 }
 
-func (service *Service) RegisterUser(username, email, password, confirmPassword string) error {
+func (service *Service) RegisterUser(username, email, password, confirmPassword, fullname, photo string) error {
 
 	// Validate input
-	if username == "" || email == "" || password == "" || confirmPassword == "" {
+	if username == "" || email == "" || password == "" || confirmPassword == "" || fullname == "" {
 		return fmt.Errorf("all fields are required")
 	}
 
@@ -74,7 +74,11 @@ func (service *Service) RegisterUser(username, email, password, confirmPassword 
 		return fmt.Errorf("email already exists")
 	}
 
-	err = query.InsertUser(service.DB, username, email, hashPassword(password))
+	if photo == "" {
+		photo = "default.png"
+	}
+
+	err = query.InsertUser(service.DB, username, email, hashPassword(password), fullname, photo)
 	if err != nil {
 		return fmt.Errorf("failed to create account: %v", err)
 	}

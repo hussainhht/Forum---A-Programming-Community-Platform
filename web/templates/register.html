@@ -54,35 +54,36 @@
           <h2>Register</h2>
         </div>
 
-        <form method="POST" action="/register">
+  <form method="POST" action="/register" enctype="multipart/form-data">
+
+          <div class="inputbox">
+            <input type="file" id="profile-img" name="profile-img" accept="image/*" />
+            <span>Upload Photo</span>
+            <i></i>
+          </div>
 
           <div class="inputbox">
             <input
-              type="file"
-              id="profile-img"
-              name="profile-img"
-              accept="image/*"
+              type="text"
+              id="fullname"
+              name="fullname"
+              value="{{.Form.FullName}}"
+              required
+              maxlength="80"
             />
-            <span>Upload Photo</span>
+            <span>Full Name</span>
             <i></i>
           </div>
           
 
           <div class="inputbox">
-            <input
-              type="text"
-              id="username"
-              name="username"
-              required
-              minlength="3"
-              maxlength="20"
-            />
+            <input type="text" id="username" name="username" required minlength="3" maxlength="20" value="{{.Form.Username}}" />
             <span>Username</span>
             <i></i>
           </div>
 
           <div class="inputbox">
-            <input type="email" id="email" name="email" required />
+            <input type="email" id="email" name="email" required value="{{.Form.Email}}" />
             <span>Email</span>
             <i></i>
           </div>

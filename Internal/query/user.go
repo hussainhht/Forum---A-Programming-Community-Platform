@@ -7,15 +7,15 @@ import (
 )
 
 var (
-	GetUserByEmailOrUsernameQuery = "SELECT id, username, email, password FROM users WHERE email = ? OR username = ? LIMIT 1"
+	GetUserByEmailOrUsernameQuery = "SELECT id, username, email, password, fullname, photo FROM users WHERE email = ? OR username = ? LIMIT 1"
 	SelectUserWhereEmailQuery     = "SELECT email FROM users WHERE email = ? LIMIT 1"
 	SelectUserWhereUsernameQuery  = "SELECT username FROM users WHERE username = ? LIMIT 1"
-	InsertUserQuery               = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
+	InsertUserQuery               = "INSERT INTO users (username, email, password, fullname, photo) VALUES (?, ?, ?, ?, ?)"
 	SelectUserWhereIDQuery        = "SELECT username FROM users WHERE id = ? LIMIT 1"
 )
 
-func InsertUser(DB *sql.DB, username, email, password string) error {
-	_, err := DB.Exec(InsertUserQuery, username, email, password)
+func InsertUser(DB *sql.DB, username, email, password, fullname, photo string) error {
+	_, err := DB.Exec(InsertUserQuery, username, email, password, fullname, photo)
 	if err != nil {
 		return fmt.Errorf("error inserting user: %v", err)
 	}
@@ -46,8 +46,10 @@ func GetUserByUsernameOrEmail(DB *sql.DB, identifier string) (model.User, error)
 		username string
 		email    string
 		password string
+		fullname string
+		photo    string
 	)
-	err := DB.QueryRow(GetUserByEmailOrUsernameQuery, identifier, identifier).Scan(&userID, &username, &email, &password)
+	err := DB.QueryRow(GetUserByEmailOrUsernameQuery, identifier, identifier).Scan(&userID, &username, &email, &password, &fullname, &photo)
 	if err != nil {
 		return model.User{}, fmt.Errorf("error selecting user: %v", err)
 	}
@@ -56,6 +58,8 @@ func GetUserByUsernameOrEmail(DB *sql.DB, identifier string) (model.User, error)
 		Username: username,
 		Email:    email,
 		Password: password,
+		FullName: fullname,
+		Photo:    photo,
 	}, nil
 }
 

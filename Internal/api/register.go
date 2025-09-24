@@ -1,8 +1,12 @@
 package api
 
 import (
+	"fmt"
 	"html/template"
+	"io"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -11,6 +15,7 @@ type RegisterPageData struct {
 	Form  struct {
 		Username string
 		Email    string
+		FullName string
 	}
 }
 
@@ -25,8 +30,8 @@ func (server *Server) Get_RegisterHandler(w http.ResponseWriter, r *http.Request
 }
 
 func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	// Parse form data
-	if err := r.ParseForm(); err != nil {
+	// Parse multipart form for potential file upload
+	if err := r.ParseMultipartForm(10 << 20); err != nil { // 10MB limit
 		renderRegister(w, "Failed to parse form", r)
 		return
 	}
@@ -43,6 +48,7 @@ func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
+	fullname := strings.TrimSpace(r.FormValue("fullname"))
 	email := strings.TrimSpace(strings.ToLower(r.FormValue("email")))
 	if len(email) > 100 {
 		renderRegister(w, "Email is too long,(the maximum length is 50 characters)", r)
@@ -55,7 +61,26 @@ func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Reques
 	}
 	confirmPassword := r.FormValue("confirmPassword")
 
-	if err := server.Service.RegisterUser(username, email, password, confirmPassword); err != nil {
+	// Handle optional image upload
+	photoFilename := ""
+	file, header, errFile := r.FormFile("profile-img")
+	if errFile == nil && header != nil {
+		defer file.Close()
+		ext := strings.ToLower(filepath.Ext(header.Filename))
+		if ext == ".png" || ext == ".jpg" || ext == ".jpeg" || ext == ".gif" {
+			photoFilename = fmt.Sprintf("user_%s%s", username, ext)
+			outPath := filepath.Join("web", "static", "img", photoFilename)
+			out, err := os.Create(outPath)
+			if err == nil {
+				defer out.Close()
+				_, _ = io.Copy(out, file)
+			} else {
+				photoFilename = "" // fallback to default later
+			}
+		}
+	}
+
+	if err := server.Service.RegisterUser(username, email, password, confirmPassword, fullname, photoFilename); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		renderRegister(w, err.Error(), r)
 		return
@@ -72,8 +97,9 @@ func renderRegister(w http.ResponseWriter, errMsg string, r *http.Request) {
 	data := RegisterPageData{
 		Error: errMsg,
 	}
-	
+
 	data.Form.Username = r.FormValue("username")
 	data.Form.Email = r.FormValue("email")
+	data.Form.FullName = r.FormValue("fullname")
 	_ = tmpl.Execute(w, data)
 }
