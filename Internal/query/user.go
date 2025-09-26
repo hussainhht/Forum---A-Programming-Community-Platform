@@ -65,7 +65,8 @@ func GetUserByUsernameOrEmail(DB *sql.DB, identifier string) (model.User, error)
 
 func GetUserByID(DB *sql.DB, userID int) (*model.User, error) {
 	var user model.User
-	err := DB.QueryRow("SELECT id, username, email, password FROM users WHERE id = ?", userID).Scan(&user.ID, &user.Username, &user.Email, &user.Password)
+	// Include fullname and photo so templates can render avatar and name
+	err := DB.QueryRow("SELECT id, username, email, password, fullname, photo FROM users WHERE id = ?", userID).Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.FullName, &user.Photo)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil

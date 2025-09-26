@@ -104,7 +104,7 @@
                                 <div class="sidebar-section-container" id="sidebar-profile-container">
                                         {{if .IsLoggedIn}}
                                         <div class="sidebar-profile-img-container">
-                                                <img id="sidebar-profile-img" src="/web/static/img/gopher.svg" alt="">
+                                                <img id="sidebar-profile-img" src="/web/static/img/{{if and .User .User.Photo}}{{.User.Photo}}{{else}}default.png{{end}}" alt="{{if .User}}{{.User.Username}}{{else}}User Avatar{{end}}">
                                         </div>
                                         <div class="sidebar-profile-username-container">
                                                 <span id="sidebar-profile-username-text"
