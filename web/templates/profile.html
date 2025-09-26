@@ -10,6 +10,7 @@
     <header>
         <h1>Welcome, {{.User.Username}}!</h1>
         <p>Email: {{.User.Email}}</p>
+        <img src="/web/static/img/{{.User.Photo}}" alt="Profile Photo" style="max-width: 150px; max-height: 150px;">
     </header>
 
     <main>
@@ -26,6 +27,23 @@
                 </ul>
             {{else}}
                 <p>You haven't posted anything yet.</p>
+            {{end}}
+        </section>
+
+        <section>
+            <h2>Liked Posts</h2>
+            {{if .LikedPosts}}
+                <ul>
+                    {{range .LikedPosts}}
+                        <li>
+                            <a href="/post/{{.ID}}">{{.Title}}</a> 
+                            ({{.CreatedAt.Format "Jan 2, 2006"}})
+                            ({{.LikeCount}} likes, {{.CommentCount}} comments)
+                        </li>
+                    {{end}}
+                </ul>
+            {{else}}
+                <p>You haven't liked any posts yet.</p>
             {{end}}
         </section>
 

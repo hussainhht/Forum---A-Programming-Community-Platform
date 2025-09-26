@@ -11,23 +11,26 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 
 	postID := r.PathValue("id") // Extract ID from URL pattern /post/{id}
 
+	isLoggedIn := false
+	var user *model.User
+
+	if cookie, err := r.Cookie("session_id"); err == nil {
+		if server.Service.IsValidSession(cookie.Value) {
+			isLoggedIn = true
+			user, _ = server.Service.GetUserFromSessionID(cookie.Value)
+		}
+	}
+
 	post, err := server.Service.GetPostByID(postID)
 	if err != nil {
 		server.Service.HandleError(w, http.StatusNotFound)
 		return
 	}
 
-	isLoggedIn := false
-
-	if cookie, err := r.Cookie("session_id"); err == nil {
-		if server.Service.IsValidSession(cookie.Value) {
-			isLoggedIn = true
-		}
-	}
-
 	pageData := model.PageData{
 		IsLoggedIn: isLoggedIn,
 		Post:       post,
+		User:       user,
 	}
 	// Render the post using a template
 	tmpl, tmplErr := template.ParseFiles("./web/templates/view-post.html", "./web/templates/sidebar.html")

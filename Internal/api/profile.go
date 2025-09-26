@@ -8,8 +8,9 @@ import (
 
 // ProfilePageData holds data passed to profile template
 type ProfilePageData struct {
-	User      *model.User
-	UserPosts []model.Post
+	User       *model.User
+	UserPosts  []model.Post
+	LikedPosts []model.Post
 }
 
 // Get_ProfileHandler renders the user's profile page
@@ -35,10 +36,18 @@ func (server *Server) Get_ProfileHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// 4️⃣ Render template
+	// 4️⃣ Get user's liked posts
+	likedPosts, err := server.Service.Get_LikedPostsByUser(user.ID)
+	if err != nil {
+		server.Service.HandleError(w, http.StatusInternalServerError)
+		return
+	}
+
+	// 5️⃣ Render template
 	data := ProfilePageData{
-		User:      user,
-		UserPosts: posts,
+		User:       user,
+		UserPosts:  posts,
+		LikedPosts: likedPosts,
 	}
 
 	tmpl, err := template.ParseFiles("./web/templates/profile.html")

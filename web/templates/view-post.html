@@ -44,11 +44,12 @@
                         {{if .IsLoggedIn}}
                         <form action="/post-reaction" method="POST" class="vp-like-form">
                             <input type="hidden" name="post_id" value="{{.Post.ID}}" />
-                            <button class="vp-btn vp-like" type="submit" name="reaction_type" value="like">👍 Like</button>
-                            <button class="vp-btn vp-dislike" type="submit" name="reaction_type" value="dislike">👎 Dislike</button>
+                            <button class="vp-btn vp-like {{if .Post.UserLiked}}active{{end}}" type="submit" name="reaction_type" value="like">👍 {{if .Post.UserLiked}}Unlike{{else}}Like{{end}}</button>
+                            <button class="vp-btn vp-dislike {{if .Post.UserDisliked}}active{{end}}" type="submit" name="reaction_type" value="dislike">👎 {{if .Post.UserDisliked}}Unlike{{else}}Dislike{{end}}</button>
                         </form>
                         {{end}}
                         <span class="vp-like-count">{{.Post.LikeCount}} likes</span>
+                        <span class="vp-dislike-count">{{.Post.DislikeCount}} dislikes</span>
                     </div>
                 </div>
             </div>

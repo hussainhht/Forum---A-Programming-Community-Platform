@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/json"
 	"forum/Internal/model"
+	"forum/Internal/query"
 )
 
 
@@ -64,5 +65,10 @@ func (s *Service) Get_PostsByUser(userID int) ([]model.Post, error) {
 	}
 
 	return posts, nil
+}
+
+// Get liked posts by user
+func (s *Service) Get_LikedPostsByUser(userID int) ([]model.Post, error) {
+	return query.GetLikedPostsByUser(s.DB, userID)
 }
 

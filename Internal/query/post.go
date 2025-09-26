@@ -286,6 +286,42 @@ LIMIT 4;
 	return posts, nil
 }
 
+func GetLikedPostsByUser(db *sql.DB, userID int) ([]model.Post, error) {
+	query := `
+	SELECT p.id, p.title, p.content, p.created_at,
+	       (SELECT COUNT(*) FROM post_reactions WHERE post_id = p.id AND reaction_type='like') as like_count,
+	       (SELECT COUNT(*) FROM comments WHERE post_id = p.id) as comment_count
+	FROM posts p
+	JOIN post_reactions pr ON p.id = pr.post_id
+	WHERE pr.user_id = ? AND pr.reaction_type = 'like'
+	ORDER BY p.created_at DESC
+	`
+	rows, err := db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var posts []model.Post
+	for rows.Next() {
+		var p model.Post
+		var contentJSON string
+		if err := rows.Scan(&p.ID, &p.Title, &contentJSON, &p.CreatedAt, &p.LikeCount, &p.CommentCount); err != nil {
+			return nil, err
+		}
+		// Convert JSON content to []Block
+		var blocks []model.Block
+		if err := json.Unmarshal([]byte(contentJSON), &blocks); err != nil {
+			p.Content = nil
+		} else {
+			p.Content = blocks
+		}
+		posts = append(posts, p)
+	}
+
+	return posts, nil
+}
+
 func GetLatestPosts(db *sql.DB) ([]model.Post, error) {
 	rows, err := db.Query(`
 	SELECT p.id, p.title, p.content, p.created_at, u.username, p.user_id
