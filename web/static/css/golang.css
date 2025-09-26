@@ -207,7 +207,7 @@ body {
   flex-direction: column;
   gap: var(--go-spacing);
 }
-.go-hero {
+.go-hero, .golang-hero {
   background: linear-gradient(
     135deg,
     var(--go-bg-card) 0%,
@@ -220,7 +220,7 @@ body {
   position: relative;
   overflow: hidden;
 }
-.go-hero::before {
+.go-hero::before, .golang-hero::before {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
@@ -232,7 +232,7 @@ body {
     var(--go-accent)
   );
 }
-.go-hero-content {
+.go-hero-content, .golang-hero-content {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 40px;
@@ -256,7 +256,7 @@ body {
   font-size: 1.1rem;
 }
 
-.go-title {
+.go-title, .golang-title {
   font-size: 3.5rem;
   font-weight: 700;
   margin-bottom: 16px;
@@ -276,25 +276,25 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.go-subtitle {
+.go-subtitle, .golang-subtitle {
   font-size: 1.3rem;
   color: var(--go-accent);
   margin-bottom: 16px;
   font-weight: 600;
 }
-.go-desc {
+.go-desc, .golang-desc {
   font-size: 1.1rem;
   color: var(--go-text-secondary);
   line-height: 1.7;
   margin-bottom: 32px;
 }
 
-.go-actions {
+.go-actions, .golang-actions {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
 }
-.go-btn {
+.go-btn, .golang-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -307,21 +307,21 @@ body {
   position: relative;
   overflow: hidden;
 }
-.go-btn.primary {
+.go-btn.primary, .golang-btn.primary {
   background: linear-gradient(135deg, var(--go-accent), var(--go-accent-dark));
   color: #fff;
   box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
 }
-.go-btn.primary:hover {
+.go-btn.primary:hover, .golang-btn.primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 212, 255, 0.6);
 }
-.go-btn.secondary {
+.go-btn.secondary, .golang-btn.secondary {
   background: var(--go-bg-elevated);
   color: var(--go-accent);
   border: 2px solid var(--go-accent);
 }
-.go-btn.secondary:hover {
+.go-btn.secondary:hover, .golang-btn.secondary:hover {
   background: var(--go-accent);
   color: #fff;
   transform: translateY(-2px);
@@ -329,7 +329,7 @@ body {
 .btn-icon {
   font-size: 1.1rem;
 }
-.go-hero-art {
+.go-hero-art, .golang-hero-art {
   position: relative;
 }
 .art-container {
@@ -1002,12 +1002,12 @@ body {
     order: 1;
   }
 
-  .go-hero-content {
+  .go-hero-content, .golang-hero-content {
     grid-template-columns: 1fr;
     gap: 24px;
     text-align: center;
   }
-  .go-title {
+  .go-title, .golang-title {
     font-size: 2.5rem;
   }
 
@@ -1025,16 +1025,16 @@ body {
 }
 
 @media (max-width: 768px) {
-  .go-hero {
+  .go-hero, .golang-hero {
     padding: 24px;
   }
-  .go-title {
+  .go-title, .golang-title {
     font-size: 2rem;
   }
-  .go-actions {
+  .go-actions, .golang-actions {
     justify-content: center;
   }
-  .go-btn {
+  .go-btn, .golang-btn {
     padding: 12px 20px;
     font-size: 0.9rem;
   }

@@ -110,7 +110,7 @@ body {
   flex-direction: column;
   gap: var(--rs-spacing);
 }
-.rs-hero {
+.rs-hero, .rust-hero {
   background: linear-gradient(
     135deg,
     var(--rs-bg-card) 0%,
@@ -123,7 +123,7 @@ body {
   position: relative;
   overflow: hidden;
 }
-.rs-hero::before {
+.rs-hero::before, .rust-hero::before {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
@@ -135,7 +135,7 @@ body {
     var(--rs-accent)
   );
 }
-.rs-hero-content {
+.rs-hero-content, .rust-hero-content {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 40px;
@@ -157,7 +157,7 @@ body {
 .badge-icon {
   font-size: 1.1rem;
 }
-.rs-title {
+.rs-title, .rust-title {
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 16px;
@@ -177,24 +177,24 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-.rs-subtitle {
+.rs-subtitle, .rust-subtitle {
   font-size: 1.3rem;
   color: var(--rs-accent);
   margin-bottom: 16px;
   font-weight: 600;
 }
-.rs-desc {
+.rs-desc, .rust-desc {
   font-size: 1.1rem;
   color: var(--rs-text-secondary);
   line-height: 1.7;
   margin-bottom: 32px;
 }
-.rs-actions {
+.rs-actions, .rust-actions {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
 }
-.rs-btn {
+.rs-btn, .rust-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -229,7 +229,7 @@ body {
 .btn-icon {
   font-size: 1.1rem;
 }
-.rs-hero-art {
+.rs-hero-art, .rust-hero-art {
   position: relative;
 }
 .art-container {
@@ -544,12 +544,12 @@ body {
   .rust-main {
     order: 1;
   }
-  .rs-hero-content {
+  .rs-hero-content, .rust-hero-content {
     grid-template-columns: 1fr;
     gap: 24px;
     text-align: center;
   }
-  .rs-title {
+  .rs-title, .rust-title {
     font-size: 2.5rem;
   }
   .features-grid {
@@ -557,16 +557,16 @@ body {
   }
 }
 @media (max-width: 768px) {
-  .rs-hero {
+  .rs-hero, .rust-hero {
     padding: 24px;
   }
-  .rs-title {
+  .rs-title, .rust-title {
     font-size: 2rem;
   }
-  .rs-actions {
+  .rs-actions, .rust-actions {
     justify-content: center;
   }
-  .rs-btn {
+  .rs-btn, .rust-btn {
     padding: 12px 20px;
     font-size: 0.9rem;
   }

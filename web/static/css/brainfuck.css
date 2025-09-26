@@ -36,24 +36,24 @@ body {
 .brainfuck-layout { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: var(--space); padding: var(--space); min-height: 100vh; }
 .brainfuck-layout.no-sidebar { grid-template-columns: 1fr; }
 .brainfuck-main { display: flex; flex-direction: column; gap: var(--space); }
-.bf-hero { background: linear-gradient(135deg, var(--bf-bg-card) 0%, var(--bf-bg-elevated) 100%); border-radius: var(--radius); padding: 40px; border: 1px solid var(--bf-border); position: relative; overflow: hidden; }
-.bf-hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: linear-gradient(90deg, var(--bf-pink), var(--bf-purple), var(--bf-pink)); }
-.bf-hero-content { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
+.bf-hero, .brainfuck-hero { background: linear-gradient(135deg, var(--bf-bg-card) 0%, var(--bf-bg-elevated) 100%); border-radius: var(--radius); padding: 40px; border: 1px solid var(--bf-border); position: relative; overflow: hidden; }
+.bf-hero::before, .brainfuck-hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: linear-gradient(90deg, var(--bf-pink), var(--bf-purple), var(--bf-pink)); }
+.bf-hero-content, .brainfuck-hero-content { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--bf-pink), var(--bf-purple)); color: #0b0a12; padding: 8px 16px; border-radius: 20px; font-size: .9rem; font-weight: 800; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,.35); }
 .badge-icon { font-size: 1.1rem; }
-.bf-title { font-size: 3.2rem; font-weight: 800; margin-bottom: 16px; line-height: 1.1; }
+.bf-title, .brainfuck-title { font-size: 3.2rem; font-weight: 800; margin-bottom: 16px; line-height: 1.1; }
 .title-highlight { color: var(--bf-pink); display: block; }
 .title-main { background: linear-gradient(135deg, var(--bf-text-primary), #e6d6ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.bf-subtitle { font-size: 1.2rem; color: var(--bf-pink); margin-bottom: 12px; font-weight: 600; }
-.bf-desc { font-size: 1.05rem; color: var(--bf-text-secondary); line-height: 1.7; margin-bottom: 28px; }
-.bf-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-.bf-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: var(--radius-sm); text-decoration: none; font-weight: 800; font-size: 1rem; transition: all .25s ease; }
+.bf-subtitle, .brainfuck-subtitle { font-size: 1.2rem; color: var(--bf-pink); margin-bottom: 12px; font-weight: 600; }
+.bf-desc, .brainfuck-desc { font-size: 1.05rem; color: var(--bf-text-secondary); line-height: 1.7; margin-bottom: 28px; }
+.bf-actions, .brainfuck-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.bf-btn, .brainfuck-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 22px; border-radius: var(--radius-sm); text-decoration: none; font-weight: 800; font-size: 1rem; transition: all .25s ease; }
 .bf-btn.primary { background: linear-gradient(135deg, var(--bf-pink), var(--bf-purple)); color: #0b0a12; }
 .bf-btn.primary:hover { transform: translateY(-2px); }
 .bf-btn.secondary { background: #0f0c18; color: var(--bf-pink); border: 2px solid var(--bf-pink); }
 .bf-btn.secondary:hover { background: var(--bf-pink); color: #0b0a12; }
 .btn-icon { font-size: 1.05rem; }
-.bf-hero-art { position: relative; }
+.bf-hero-art, .brainfuck-hero-art { position: relative; }
 .art-container { position: relative; height: 400px; }
 .floating-elements { position: absolute; inset: 0; }
 .float-item { position: absolute; background: linear-gradient(135deg, var(--bf-purple), var(--bf-pink)); color: #0b0a12; padding: 8px 16px; border-radius: var(--radius-sm); font-weight: 800; font-size: .9rem; box-shadow: 0 4px 12px rgba(0,0,0,.35); animation: floatAround 15s infinite ease-in-out; }
@@ -104,8 +104,8 @@ body {
 #posts-section .post-info small { color: var(--bf-text-muted); font-size: .88rem; }
 #posts-section .post-body.is-collapsed { display:none; }
 #posts-section .post-card.is-expanded { grid-column: 1 / -1; }
-@media (max-width: 1024px) { .brainfuck-layout { grid-template-columns: 1fr; gap: 16px; padding: 16px; } .brainfuck-main { order: 1; } .bf-hero-content { grid-template-columns: 1fr; gap: 24px; text-align: center; } .bf-title { font-size: 2.4rem; } .features-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
-@media (max-width: 768px) { .bf-hero { padding: 24px; } .bf-title { font-size: 2rem; } .bf-actions { justify-content: center; } .bf-btn { padding: 12px 20px; font-size: .9rem; } .features-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) { .brainfuck-layout { grid-template-columns: 1fr; gap: 16px; padding: 16px; } .brainfuck-main { order: 1; } .bf-hero-content, .brainfuck-hero-content { grid-template-columns: 1fr; gap: 24px; text-align: center; } .bf-title, .brainfuck-title { font-size: 2.4rem; } .features-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
+@media (max-width: 768px) { .bf-hero, .brainfuck-hero { padding: 24px; } .bf-title, .brainfuck-title { font-size: 2rem; } .bf-actions, .brainfuck-actions { justify-content: center; } .bf-btn, .brainfuck-btn { padding: 12px 20px; font-size: .9rem; } .features-grid { grid-template-columns: 1fr; } }
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bf-bg-secondary); }
 ::-webkit-scrollbar-thumb { background: var(--bf-pink); border-radius: 4px; }
