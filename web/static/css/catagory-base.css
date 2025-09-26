@@ -1,4 +1,25 @@
 /* Base layout & component styles copied from golang.css (variables excluded) */
+/* Fallback variables for pages that don't inject a dynamic theme */
+:root {
+	--go-accent: #00d4ff;
+	--go-accent-dark: #0099cc;
+	--go-accent-light: #33ddff;
+	--go-secondary: #7c3aed;
+	--go-bg-primary: #0a0e1a;
+	--go-bg-secondary: #1a1f2e;
+	--go-bg-card: #242938;
+	--go-bg-elevated: #2d3748;
+	--go-text-primary: #f7fafc;
+	--go-text-secondary: #cbd5e0;
+	--go-text-muted: #a0aec0;
+	--go-border: #4a5568;
+	--go-border-light: #2d3748;
+	--go-shadow: 0 10px 25px rgba(0, 212, 255, 0.1);
+	--go-shadow-strong: 0 20px 40px rgba(0, 212, 255, 0.2);
+	--go-radius: 16px;
+	--go-radius-small: 8px;
+	--go-spacing: 24px;
+}
 * {
 	margin: 0;
 	padding: 0;

@@ -73,6 +73,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 		Categories:    categories,
 		CSSFile:       "/web/static/css/newtyles.css",
 		ExtraCSS:      nil,
+		Theme:         nil, // home uses fallback variables defined in catagory-base.css
 	}
 
 	// Pass posts to the template

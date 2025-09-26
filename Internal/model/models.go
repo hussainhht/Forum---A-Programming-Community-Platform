@@ -86,6 +86,7 @@ type PageData struct {
 	ErrorCode          int
 	CSSFile            string
 	ExtraCSS           []string
+	Theme              any // dynamic theme (struct with exported color fields) or nil
 }
 
 type Cell struct {
