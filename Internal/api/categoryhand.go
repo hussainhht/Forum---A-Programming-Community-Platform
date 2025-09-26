@@ -72,7 +72,8 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 			IsLoggedIn: isLoggedIn,
 			User:       user,
 			Categories: allCats,
-			CSSFile:    "/web/static/css/" + cssFileFor(slug),
+			CSSFile:    "/web/static/css/newtyles.css", // base styling
+			ExtraCSS:   []string{"/web/static/css/" + cssFileFor(slug)},
 		},
 	}
 

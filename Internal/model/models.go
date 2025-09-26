@@ -85,6 +85,7 @@ type PageData struct {
 	ErrorMsg           string
 	ErrorCode          int
 	CSSFile            string
+	ExtraCSS           []string
 }
 
 type Cell struct {

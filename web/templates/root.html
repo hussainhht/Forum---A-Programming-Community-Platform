@@ -7,6 +7,7 @@
         <title>Document</title>
         <link rel="stylesheet" href="/web/static/css/root.css">
         <link rel="stylesheet" href="{{.CSSFile}}">
+        {{range .ExtraCSS}}<link rel="stylesheet" href="{{.}}">{{end}}
 </head>
 
 <body id="root-body">
@@ -18,23 +19,23 @@
                                         <div id="sidebar-header-container" class="sidebar-section-container">
                                                 <label id="sidebar-toggle-button" class="sidebar-button"
                                                         for="sidebar-toggle"><img class="sidebar-button-icon"
-                                                                src="./web/static/icons/menu.svg" alt=""></label>
+                                                                src="/web/static/icons/menu.svg" alt=""></label>
                                         </div>
                                 </section>
                                 <section class="sidebar-section" id="sidebar-main-section">
                                         <div class="sidebar-main-container sidebar-section-container">
                                                 <button class="sidebar-button" onclick="location.href='/'"><img
                                                                 class="sidebar-button-icon"
-                                                                src="./web/static/icons/home.svg" alt=""><span
+                                                                src="/web/static/icons/home.svg" alt=""><span
                                                                 class="sidebar-button-text sidebar-text">Home</span></button>
                                                 <button class="sidebar-button"
                                                         onclick="location.href='/create-post'"><img
                                                                 class="sidebar-button-icon"
-                                                                src="./web/static/icons/add_post.svg" alt=""><span
+                                                                src="/web/static/icons/add_post.svg" alt=""><span
                                                                 class="sidebar-button-text sidebar-text">Create&nbsp;Post</span></button>
                                                 <button class="sidebar-button" onclick="location.href='/posts'"><img
                                                                 class="sidebar-button-icon"
-                                                                src="./web/static/icons/read_more.svg" alt=""><span
+                                                                src="/web/static/icons/read_more.svg" alt=""><span
                                                                 class="sidebar-button-text sidebar-text">Discover&nbsp;Posts</span></button>
                                         </div>
                                 </section>
@@ -43,9 +44,9 @@
                                                 <input type="checkbox" id="sidebar-categories-toggle" hidden>
                                                 {{range $i, $cat := .Categories}}
                                                 {{if lt $i 3}}
-                                                <button class="sidebar-button" onclick="location.href='/{{.Name}}'"><img
+                                                <button class="sidebar-button" onclick="location.href='/category/{{.Name}}'"><img
                                                                 class="sidebar-button-icon"
-                                                                src="./web/static/icons/categories/{{.Name}}.svg"
+                                                                src="/web/static/icons/categories/{{.Name}}.svg"
                                                                 alt=""><span
                                                                 class="sidebar-button-text sidebar-text">{{.Name}}</span></button>
                                                 {{end}}
@@ -55,9 +56,9 @@
                                                         {{range $i, $cat := .Categories}}
                                                         {{if ge $i 3}}
                                                         <button class="sidebar-button"
-                                                                onclick="location.href='/{{.Name}}'"><img
+                                                                onclick="location.href='/category/{{.Name}}'"><img
                                                                         class="sidebar-button-icon"
-                                                                        src="./web/static/icons/categories/{{.Name}}.svg"
+                                                                        src="/web/static/icons/categories/{{.Name}}.svg"
                                                                         alt=""><span
                                                                         class="sidebar-button-text sidebar-text">{{.Name}}</span></button>
                                                         {{end}}
@@ -67,7 +68,7 @@
                                                         id="sidebar-categories-toggle-button"
                                                         class="sidebar-button"><img id="sidebar-categories-arrow-img"
                                                                 class="sidebar-button-icon"
-                                                                src="./web/static/icons/arrow_down.svg" alt=""><span
+                                                                src="/web/static/icons/arrow_down.svg" alt=""><span
                                                                 class="sidebar-button-text sidebar-text">Show&nbsp;More</span></label>
 
                                         </div>
@@ -82,19 +83,19 @@
                                                 {{if .IsLoggedIn}}
                                                 <button onclick="location.href='/logout'" class="sidebar-button"> <img
                                                                 class="sidebar-button-icon"
-                                                                src="./web/static/icons/logout.svg" alt=""> <span
+                                                                src="/web/static/icons/logout.svg" alt=""> <span
                                                                 class="sidebar-button-text sidebar-text">Logout</span></button>
                                                 {{end}}
                                                 <button class="sidebar-button"><img class="sidebar-button-icon"
-                                                                src="./web/static/icons/settings.svg" alt=""> <span
+                                                                src="/web/static/icons/settings.svg" alt=""> <span
                                                                 class="sidebar-button-text sidebar-text">Settings</span></button>
                                                 <button id="sidebar-help-button" class="sidebar-button"><img
                                                                 class="sidebar-button-icon"
-                                                                src="./web/static/icons/help.svg" alt=""> <span
+                                                                src="/web/static/icons/help.svg" alt=""> <span
                                                                 class="sidebar-button-text sidebar-text">Help</span></button>
                                                 <button id="sidebar-privacy-button" class="sidebar-button"><img
                                                                 class="sidebar-button-icon"
-                                                                src="./web/static/icons/Terms.svg" alt=""> <span
+                                                                src="/web/static/icons/Terms.svg" alt=""> <span
                                                                 class="sidebar-button-text sidebar-text">Privacy&nbsp;&amp;&nbsp;Terms</span></button>
                                         </div>
                                 </section>
@@ -112,10 +113,10 @@
                                         </div>
                                         {{else}}
                                         <button onclick="location.href='/login'" class="sidebar-button"><img class="sidebar-button-icon"
-                                                        src="./web/static/icons/login.svg" alt=""> <span
+                                                        src="/web/static/icons/login.svg" alt=""> <span
                                                         class="sidebar-button-text sidebar-text">Login&nbsp;In</span></button>
                                         <button onclick="location.href='/register'" class="sidebar-button"><img class="sidebar-button-icon"
-                                                        src="./web/static/icons/register.svg" alt=""> <span
+                                                        src="/web/static/icons/register.svg" alt=""> <span
                                                         class="sidebar-button-text sidebar-text">Register</span></button>
                                         {{end}}
                                 </div>
