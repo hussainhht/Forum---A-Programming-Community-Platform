@@ -71,7 +71,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 		FeaturedPosts: featuredPosts,
 		LatestPosts:   LatestPosts,
 		Categories:    categories,
-		CSSFile:	      "./web/static/css/newtyles.css",
+		CSSFile:       "/web/static/css/newtyles.css",
 	}
 
 	// Pass posts to the template

@@ -11,13 +11,12 @@ import (
 
 // CategoryPageData is a unified view model for all category pages
 type CategoryPageData struct {
+	model.PageData
 	Slug        string
 	DisplayName string
 	SourceURL   string
 	Posts       []model.Post
-	IsLoggedIn  bool
 	CountPosts  int
-	CSSFile     string
 }
 
 // Get_CategoryHandler serves any category at /category/{slug} using a single template.
@@ -28,10 +27,12 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// session check
+	// session & user
+	var user *model.User
 	isLoggedIn := false
 	if c, err := r.Cookie("session_id"); err == nil && server.Service.IsValidSession(c.Value) {
 		isLoggedIn = true
+		user, _ = server.Service.GetUserFromSessionID(c.Value)
 	}
 
 	// Resolve category by slug
@@ -55,17 +56,27 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 	// best-effort display name
 	display := prettifyName(slug)
 
+	allCats, err := server.Service.GetCategories()
+	if err != nil {
+		server.Service.HandleError(w, http.StatusInternalServerError)
+		return
+	}
+
 	data := CategoryPageData{
 		Slug:        strings.ToLower(slug),
 		DisplayName: display,
 		SourceURL:   sourceURLFor(slug),
 		Posts:       posts,
-		IsLoggedIn:  isLoggedIn,
 		CountPosts:  len(posts),
-		CSSFile:     cssFileFor(slug),
+		PageData: model.PageData{
+			IsLoggedIn: isLoggedIn,
+			User:       user,
+			Categories: allCats,
+			CSSFile:    "/web/static/css/" + cssFileFor(slug),
+		},
 	}
 
-	base := template.New("all").Funcs(template.FuncMap{
+	base := template.New("root.html").Funcs(template.FuncMap{
 		"contains": func(slice []int, val int) bool {
 			for _, s := range slice {
 				if s == val {
@@ -76,7 +87,7 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 		},
 	})
 
-	tpl, err := base.ParseFiles("./web/templates/category.html")
+	tpl, err := base.ParseFiles("./web/templates/root.html", "./web/templates/category.html")
 	if err != nil {
 		log.Printf("category[%s]: template parse error: %v", slug, err)
 		server.Service.HandleError(w, http.StatusInternalServerError)
@@ -84,7 +95,7 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := tpl.ExecuteTemplate(w, "category.html", data); err != nil {
+	if err := tpl.Execute(w, data); err != nil {
 		log.Printf("category[%s]: execute error: %v", slug, err)
 		server.Service.HandleError(w, http.StatusInternalServerError)
 	}

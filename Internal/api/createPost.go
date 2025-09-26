@@ -54,7 +54,7 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 			IsLoggedIn: true,
 			User:       user,
 			Categories: categories,
-			CSSFile:    "./web/static/css/newtyles.css",
+			CSSFile:    "/web/static/css/newtyles.css",
 		},
 	}
 
@@ -213,7 +213,7 @@ func renderCreatePost(
 	pageData := model.PageData{
 		IsLoggedIn: true,
 		Categories: categories,
-		CSSFile:    "./web/static/css/newtyles.css",
+		CSSFile:    "/web/static/css/newtyles.css",
 	}
 
 	data := CreatePostPageData{
