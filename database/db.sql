@@ -127,7 +127,6 @@ VALUES
 
     ('golang'),
     ('javascript'),
-    ('js'),
     ('rust'),
     ('ruby'),
     ('java'),

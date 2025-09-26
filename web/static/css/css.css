@@ -12,6 +12,13 @@
   --css-shadow-1: 0 10px 30px rgba(124, 58, 237, 0.25);
   --css-radius: 16px;
   --css-space: 24px;
+
+  --primary-color: #c042ff;
+  --secondary-color: #2e004300;
+  --border-color: #c042ff00;
+  --background-color: #0e001500;
+  --quaternary-color: #15001f00;
+  --text-color: white;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: linear-gradient(135deg, var(--css-bg-1) 0%, var(--css-bg-2) 100%); color: var(--css-text); font-family: "Inter", system-ui, -apple-system, sans-serif; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
