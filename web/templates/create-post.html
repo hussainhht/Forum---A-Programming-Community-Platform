@@ -1,17 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+{{define "mainBlock"}}
+<div id="create-post-wrapper">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create Post</title>
 
-  <link rel="stylesheet" href="web/static/css/editor.css" />
-  <link rel="stylesheet" href="/web/static/css/sidebar.css" />
-</head>
-
-<body>
-  {{template "sidebar" .}}
+  <link rel="stylesheet" href="/web/static/css/editor.css" />
+  <style>
+    /* Category selector styles (borrowed/adapted from index.html) */
+    .categories-wrapper { margin: 18px 0 8px; }
+    .categories-header {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      padding: 10px 15px;
+      background: linear-gradient(145deg, #2a0040, #200030);
+      border: 1px solid #5c2a82;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #eee;
+    }
+    .categories-header:hover { background: linear-gradient(145deg, #33004f, #28003d); border-color:#c042ff; }
+    .categories-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #220032;
+      border: 1px solid #c042ff;
+      border-radius: 6px;
+      box-shadow: 0 5px 15px rgba(192, 66, 255, 0.3);
+      min-width: 240px;
+      z-index: 150;
+      display: none;
+      padding: 10px;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .categories-header:hover .categories-dropdown { display: block; }
+    .category-option {
+      display: block;
+      padding: 8px 12px;
+      background: linear-gradient(145deg, #220032, #1a0026);
+      border: 1px solid #4a1a6b;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      font-size: 13px;
+      color: #ddd;
+      user-select: none;
+    }
+    .category-option:last-child { margin-bottom: 0; }
+    .category-option:hover { background: linear-gradient(145deg, #c042ff, #9c2bff); border-color:#c042ff; color:#fff; }
+    .category-option input { position: absolute; opacity: 0; pointer-events: none; }
+    .category-option span.selected-indicator {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      background: #ffffff;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .category-option input:checked ~ span.selected-indicator { opacity: 1; }
+    .category-option input:checked + span { font-weight: 600; }
+    .selected-categories { margin-top: 14px; background: linear-gradient(145deg,#220032,#1a0026); border:1px solid #4a1a6b; padding:12px 14px; border-radius:8px; }
+    .selected-categories h5 { margin:0 0 8px; font-size:13px; color:#c042ff; letter-spacing: .5px; }
+    .selected-items { display:flex; flex-wrap:wrap; gap:8px; }
+    .selected-item { background: linear-gradient(145deg,#c042ff,#9c2bff); padding:4px 10px; border-radius:14px; font-size:12px; display:flex; align-items:center; gap:6px; }
+    .selected-item button { background:transparent; border:0; color:#fff; font-weight:700; cursor:pointer; line-height:1; padding:0 2px; }
+    .no-selection { color:#888; font-style:italic; font-size:12px; }
+    @media (max-width: 720px){
+      .categories-dropdown { max-height:200px; }
+    }
+  </style>
   <div class="container">
 
     <!-- First Card: Editor -->
@@ -31,15 +97,26 @@
 
 
 
-        <!-- Categories -->
+        <!-- Categories (Styled Dropdown Selection) -->
         <h4>Categories:</h4>
-        <div class="checkbox-group">
-          {{range .Categories}}
-            <label>
-              <input type="checkbox" name="category" value="{{.ID}}" {{if contains $.SelectedCategories .ID}}checked{{end}}>
-              {{.Name}}
-            </label>
-          {{end}}
+        <div class="categories-wrapper">
+          <div class="categories-header">Select Categories ▾
+            <div class="categories-dropdown">
+              {{range .Categories}}
+              <label class="category-option">
+                <input type="checkbox" name="category" value="{{.ID}}" {{if contains $.SelectedCategories .ID}}checked{{end}}>
+                <span>{{.Name}}</span>
+                <span class="selected-indicator"></span>
+              </label>
+              {{end}}
+            </div>
+          </div>
+          <div class="selected-categories">
+            <h5>Selected:</h5>
+            <div class="selected-items" id="selectedCategories">
+              <div class="no-selection">No categories selected yet</div>
+            </div>
+          </div>
         </div>
 
 
@@ -108,6 +185,38 @@
     </div>
 
   </div>
-</body>
-
-</html>
+  <script>
+    (function(){
+      const container = document.getElementById('selectedCategories');
+      const form = document.querySelector('form');
+      function updateSelected(){
+        const checks = form.querySelectorAll('input[name="category"]');
+        const selected = Array.from(checks).filter(c=>c.checked);
+        container.innerHTML = '';
+        if(!selected.length){
+          container.innerHTML = '<div class="no-selection">No categories selected yet</div>';
+          return;
+        }
+        selected.forEach(chk => {
+          const pill = document.createElement('div');
+            pill.className = 'selected-item';
+            pill.textContent = chk.parentElement.querySelector('span').textContent.trim();
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.setAttribute('aria-label','Remove');
+            removeBtn.textContent = '×';
+            removeBtn.addEventListener('click', () => { chk.checked = false; updateSelected(); });
+            pill.appendChild(removeBtn);
+            container.appendChild(pill);
+        });
+      }
+      document.addEventListener('change', (e)=>{
+        if(e.target && e.target.matches('input[name="category"]')) updateSelected();
+      });
+      // initial population (in case of validation error retaining selections)
+      updateSelected();
+    })();
+  </script>
+  </div>
+</div>
+{{end}}

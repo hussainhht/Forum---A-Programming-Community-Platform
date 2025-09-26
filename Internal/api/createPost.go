@@ -9,9 +9,10 @@ import (
 )
 
 // CreatePostPageData holds the data for rendering the create post page
+// CreatePostPageData now embeds model.PageData so it can be rendered inside the root layout.
 type CreatePostPageData struct {
+	model.PageData
 	Error              string
-	Categories         []model.Category
 	SelectedCategories []int
 	Title              string
 	TempBlocks         []model.Block
@@ -41,16 +42,24 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	// User data
+	user, _ := server.Service.GetUserFromSessionID(sessionID)
+
 	data := CreatePostPageData{
 		Title:              "",
-		Categories:         categories,
 		SelectedCategories: []int{},
 		TempBlocks:         server.TempBlocks[sessionID],
 		Error:              "",
+		PageData: model.PageData{
+			IsLoggedIn: true,
+			User:       user,
+			Categories: categories,
+			CSSFile:    "./web/static/css/newtyles.css",
+		},
 	}
 
-	// Use a template with FuncMap providing "contains" like in renderCreatePost
-	tmpl := template.New("create-post.html").Funcs(template.FuncMap{
+	// Use root layout + create-post block
+	tmpl := template.New("root.html").Funcs(template.FuncMap{
 		"contains": func(slice []int, val int) bool {
 			for _, s := range slice {
 				if s == val {
@@ -61,7 +70,7 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 		},
 	})
 
-	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html", "./web/templates/sidebar.html")
+	tmpl, err = tmpl.ParseFiles("./web/templates/root.html", "./web/templates/create-post.html")
 	if err != nil {
 		http.Error(w, "Error parsing template", http.StatusInternalServerError)
 		return
@@ -199,17 +208,23 @@ func renderCreatePost(
 		return
 	}
 
-	// Prepare page data for template
+	// Session & user already validated in caller; user retrieval omitted here for simplicity.
+
+	pageData := model.PageData{
+		IsLoggedIn: true,
+		Categories: categories,
+		CSSFile:    "./web/static/css/newtyles.css",
+	}
+
 	data := CreatePostPageData{
+		PageData:           pageData,
 		Title:              title,
-		Categories:         categories,
 		SelectedCategories: selectedCats,
 		TempBlocks:         tempBlocks,
 		Error:              errMsg,
 	}
 
-	// Create template with FuncMap for "contains"
-	tmpl := template.New("create-post.html").Funcs(template.FuncMap{
+	tmpl := template.New("root.html").Funcs(template.FuncMap{
 		"contains": func(slice []int, val int) bool {
 			for _, s := range slice {
 				if s == val {
@@ -220,14 +235,11 @@ func renderCreatePost(
 		},
 	})
 
-	// Parse the template file
-	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html", "./web/templates/sidebar.html")
+	tmpl, err = tmpl.ParseFiles("./web/templates/root.html", "./web/templates/create-post.html")
 	if err != nil {
 		http.Error(w, "Error parsing template", http.StatusInternalServerError)
 		return
 	}
-
-	// Execute template
 	if err := tmpl.Execute(w, data); err != nil {
 		http.Error(w, "Error rendering page", http.StatusInternalServerError)
 		return
