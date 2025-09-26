@@ -17,6 +17,14 @@
   --js-radius: 16px;
   --js-radius-small: 8px;
   --js-spacing: 24px;
+
+  /* added shared color variables */
+  --primary-color: #c042ff;
+  --secondary-color: #2e004300;
+  --border-color: #c042ff00;
+  --background-color: #0e001500;
+  --quaternary-color: #15001f00;
+  --text-color: white;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 body {

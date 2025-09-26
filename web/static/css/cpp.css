@@ -4,6 +4,12 @@
   --cpp-bg-1:#0a0d14; --cpp-bg-2:#141a26; --cpp-card:#192032; --cpp-elev:#222a42;
   --cpp-text:#eef2f7; --cpp-text-2:#c5cede; --cpp-muted:#9aa6bd; --cpp-border:#2a3550;
   --cpp-radius:16px; --cpp-space:24px; --cpp-shadow:0 12px 32px rgba(0,89,156,.3);
+  --primary-color: #c042ff;
+  --secondary-color: #2e004300;
+  --border-color: #c042ff00;
+  --background-color: #0e001500;
+  --quaternary-color: #15001f00;
+  --text-color: white;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:linear-gradient(135deg,var(--cpp-bg-1) 0%,var(--cpp-bg-2) 100%);color:var(--cpp-text);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden}

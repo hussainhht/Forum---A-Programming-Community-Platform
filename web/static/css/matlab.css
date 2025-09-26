@@ -4,6 +4,12 @@
   --ml-bg-1:#0a0b10; --ml-bg-2:#131725; --ml-card:#1a1f33; --ml-elev:#232949;
   --ml-text:#f8fafc; --ml-text-2:#cbd5e1; --ml-muted:#94a3b8; --ml-border:#2b3158;
   --ml-radius:16px; --ml-space:24px; --ml-shadow:0 12px 32px rgba(31,119,180,.28);
+  --primary-color: #c042ff;
+  --secondary-color: #2e004300;
+  --border-color: #c042ff00;
+  --background-color: #0e001500;
+  --quaternary-color: #15001f00;
+  --text-color: white;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:linear-gradient(135deg,var(--ml-bg-1) 0%,var(--ml-bg-2) 100%);color:var(--ml-text);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.6;min-height:100vh;overflow-x:hidden}

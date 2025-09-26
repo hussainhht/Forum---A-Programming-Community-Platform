@@ -12,6 +12,12 @@
   --radius: 16px;
   --radius-sm: 8px;
   --space: 24px;
+  --primary-color: #c042ff;
+  --secondary-color: #2e004300;
+  --border-color: #c042ff00;
+  --background-color: #0e001500;
+  --quaternary-color: #15001f00;
+  --text-color: white;
 }
 * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
 body { background:linear-gradient(135deg,var(--ft-bg-primary) 0%,var(--ft-bg-secondary) 100%); font-family:"Inter",system-ui,-apple-system,sans-serif; color:var(--ft-text-primary); line-height:1.6; min-height:100vh; overflow-x:hidden; }
