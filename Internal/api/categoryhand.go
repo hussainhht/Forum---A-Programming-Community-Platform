@@ -17,6 +17,131 @@ type CategoryPageData struct {
 	SourceURL   string
 	Posts       []model.Post
 	CountPosts  int
+	Theme       *CategoryTheme // dynamic color theme injected into template
+}
+
+// CategoryTheme holds CSS variable values for category theming.
+// These map onto the variables consumed by catagory-base.css (named with --go-* for now).
+type CategoryTheme struct {
+	Accent        string
+	AccentDark    string
+	AccentLight   string
+	Secondary     string
+	BgPrimary     string
+	BgSecondary   string
+	BgCard        string
+	BgElevated    string
+	TextPrimary   string
+	TextSecondary string
+	TextMuted     string
+	Border        string
+	BorderLight   string
+	Shadow        string
+	ShadowStrong  string
+	Radius        string
+	RadiusSmall   string
+	Spacing       string
+}
+
+// themeFor returns a CategoryTheme with sensible defaults per language slug.
+// If a slug is unknown, a generic purple/blue theme is returned.
+func themeFor(slug string) *CategoryTheme {
+	base := &CategoryTheme{
+		Accent:        "#00d4ff",
+		AccentDark:    "#0099cc",
+		AccentLight:   "#33ddff",
+		Secondary:     "#7c3aed",
+		BgPrimary:     "#0a0e1a",
+		BgSecondary:   "#1a1f2e",
+		BgCard:        "#242938",
+		BgElevated:    "#2d3748",
+		TextPrimary:   "#f7fafc",
+		TextSecondary: "#cbd5e0",
+		TextMuted:     "#a0aec0",
+		Border:        "#4a5568",
+		BorderLight:   "#2d3748",
+		Shadow:        "0 10px 25px rgba(0, 212, 255, 0.1)",
+		ShadowStrong:  "0 20px 40px rgba(0, 212, 255, 0.2)",
+		Radius:        "16px",
+		RadiusSmall:   "8px",
+		Spacing:       "24px",
+	}
+
+	switch strings.ToLower(slug) {
+	case "golang": // keep defaults (Go cyan + purple)
+		return base
+	case "python":
+		base.Accent = "#3776ab"
+		base.AccentDark = "#27567e"
+		base.AccentLight = "#4d8ec4"
+		base.Secondary = "#ffdf5a"
+		base.Shadow = "0 10px 25px rgba(55,118,171,0.18)"
+		base.ShadowStrong = "0 20px 40px rgba(55,118,171,0.30)"
+	case "javascript", "js":
+		base.Accent = "#f7df1e"
+		base.AccentDark = "#d4b400"
+		base.AccentLight = "#ffe955"
+		base.Secondary = "#323330"
+		base.Shadow = "0 10px 25px rgba(247,223,30,0.15)"
+		base.ShadowStrong = "0 20px 40px rgba(247,223,30,0.28)"
+	case "typescript", "ts":
+		base.Accent = "#3178c6"
+		base.AccentDark = "#255a92"
+		base.AccentLight = "#4b8fd2"
+		base.Secondary = "#2d2d30"
+		base.Shadow = "0 10px 25px rgba(49,120,198,0.18)"
+		base.ShadowStrong = "0 20px 40px rgba(49,120,198,0.30)"
+	case "rust":
+		base.Accent = "#dea584"
+		base.AccentDark = "#b06a44"
+		base.AccentLight = "#efbfa8"
+		base.Secondary = "#ce422b"
+		base.Shadow = "0 10px 25px rgba(206,66,43,0.15)"
+		base.ShadowStrong = "0 20px 40px rgba(206,66,43,0.28)"
+	case "java":
+		base.Accent = "#ff4f4f"
+		base.AccentDark = "#cc3d3d"
+		base.AccentLight = "#ff7777"
+		base.Secondary = "#007396"
+		base.Shadow = "0 10px 25px rgba(255,79,79,0.15)"
+		base.ShadowStrong = "0 20px 40px rgba(255,79,79,0.30)"
+	case "cpp", "c++":
+		base.Accent = "#00599c"
+		base.AccentDark = "#00426f"
+		base.AccentLight = "#1a6fb0"
+		base.Secondary = "#9c033a"
+	case "csharp", "c#":
+		base.Accent = "#68217a"
+		base.AccentDark = "#4d1859"
+		base.AccentLight = "#8630a0"
+		base.Secondary = "#239120"
+	case "php":
+		base.Accent = "#777bb3"
+		base.AccentDark = "#5a5d85"
+		base.AccentLight = "#8f93c3"
+		base.Secondary = "#4f5b93"
+	case "swift":
+		base.Accent = "#fa7343"
+		base.AccentDark = "#cc5930"
+		base.AccentLight = "#ff8a60"
+		base.Secondary = "#ffaf43"
+	case "kotlin":
+		base.Accent = "#7f52ff"
+		base.AccentDark = "#623fcc"
+		base.AccentLight = "#9875ff"
+		base.Secondary = "#ff8a00"
+	case "dart", "flutter":
+		base.Accent = "#0175c2"
+		base.AccentDark = "#015a95"
+		base.AccentLight = "#2990d4"
+		base.Secondary = "#13b9fd"
+	case "bash":
+		base.Accent = "#3eaf2c"
+		base.AccentDark = "#2d7f20"
+		base.AccentLight = "#56c645"
+		base.Secondary = "#5c5c5c"
+	}
+	return base
 }
 
 // Get_CategoryHandler serves any category at /category/{slug} using a single template.
@@ -68,12 +193,13 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 		SourceURL:   sourceURLFor(slug),
 		Posts:       posts,
 		CountPosts:  len(posts),
+		Theme:       themeFor(slug),
 		PageData: model.PageData{
 			IsLoggedIn: isLoggedIn,
 			User:       user,
 			Categories: allCats,
-			CSSFile:    "/web/static/css/newtyles.css", // base styling
-			ExtraCSS:   []string{"/web/static/css/" + cssFileFor(slug)},
+			CSSFile:    "/web/static/css/newtyles.css",                  // (unused old base)
+			ExtraCSS:   []string{"/web/static/css/" + cssFileFor(slug)}, // still load category specific overrides if exist
 		},
 	}
 

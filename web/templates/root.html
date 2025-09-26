@@ -5,9 +5,34 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" href="{{.CSSFile}}">
+        <!-- <link rel="stylesheet" href="{{.CSSFile}}"> -->
+         <link rel="stylesheet" href="/web/static/css/catagory-base.css">
         <link rel="stylesheet" href="/web/static/css/root.css">
         {{range .ExtraCSS}}<link rel="stylesheet" href="{{.}}">{{end}}
+        {{if .Theme}}
+        <style id="dynamic-category-theme">
+                :root {
+                        --go-accent: {{.Theme.Accent}};
+                        --go-accent-dark: {{.Theme.AccentDark}};
+                        --go-accent-light: {{.Theme.AccentLight}};
+                        --go-secondary: {{.Theme.Secondary}};
+                        --go-bg-primary: {{.Theme.BgPrimary}};
+                        --go-bg-secondary: {{.Theme.BgSecondary}};
+                        --go-bg-card: {{.Theme.BgCard}};
+                        --go-bg-elevated: {{.Theme.BgElevated}};
+                        --go-text-primary: {{.Theme.TextPrimary}};
+                        --go-text-secondary: {{.Theme.TextSecondary}};
+                        --go-text-muted: {{.Theme.TextMuted}};
+                        --go-border: {{.Theme.Border}};
+                        --go-border-light: {{.Theme.BorderLight}};
+                        --go-shadow: {{.Theme.Shadow}};
+                        --go-shadow-strong: {{.Theme.ShadowStrong}};
+                        --go-radius: {{.Theme.Radius}};
+                        --go-radius-small: {{.Theme.RadiusSmall}};
+                        --go-spacing: {{.Theme.Spacing}};
+                }
+        </style>
+        {{end}}
 </head>
 
 <body id="root-body">
