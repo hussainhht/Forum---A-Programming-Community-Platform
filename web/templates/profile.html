@@ -4,56 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.User.Username}}'s Profile</title>
-    <link rel="stylesheet" href="/web/styles.css"> <!-- optional CSS -->
+    <link rel="stylesheet" href="/web/static/css/profile.css">
 </head>
-<body>
-    <header>
-        <h1>Welcome, {{.User.Username}}!</h1>
-        <p>Email: {{.User.Email}}</p>
-        <img src="/web/static/img/{{.User.Photo}}" alt="Profile Photo" style="max-width: 150px; max-height: 150px;">
-    </header>
+<body class="profile-page">
+    <div class="container">
+    <header class="profile-header">
+            <div class="profile-info">
+                <img src="/web/static/img/{{.User.Photo}}" alt="Profile Photo" class="profile-photo">
+                <div class="user-details">
+                    <h1 class="typing-effect">{{.User.Username}}</h1>
+                    <p>{{.User.Email}}</p>
+                </div>
+            </div>
+        </header>
 
-    <main>
-        <section>
-            <h2>Your Posts</h2>
-            {{if .UserPosts}}
-                <ul>
-                    {{range .UserPosts}}
-                        <li>
-                            <a href="/post/{{.ID}}">{{.Title}}</a> 
-                            ({{.CreatedAt.Format "Jan 2, 2006"}})
-                        </li>
-                    {{end}}
-                </ul>
-            {{else}}
-                <p>You haven't posted anything yet.</p>
-            {{end}}
-        </section>
+    <main class="profile-main">
+        <section class="profile-section">
+                <h2>Your Posts</h2>
+                {{if .UserPosts}}
+            <ul class="profile-list">
+                        {{range .UserPosts}}
+                            <li>
+                                <a href="/post/{{.ID}}">{{.Title}}</a>
+                                <div class="post-meta">Created: {{.CreatedAt.Format "Jan 2, 2006"}}</div>
+                            </li>
+                        {{end}}
+                    </ul>
+                {{else}}
+                    <div class="empty-state">You haven't posted anything yet.</div>
+                {{end}}
+            </section>
 
-        <section>
-            <h2>Liked Posts</h2>
-            {{if .LikedPosts}}
-                <ul>
-                    {{range .LikedPosts}}
-                        <li>
-                            <a href="/post/{{.ID}}">{{.Title}}</a> 
-                            ({{.CreatedAt.Format "Jan 2, 2006"}})
-                            ({{.LikeCount}} likes, {{.CommentCount}} comments)
-                        </li>
-                    {{end}}
-                </ul>
-            {{else}}
-                <p>You haven't liked any posts yet.</p>
-            {{end}}
-        </section>
+        <section class="profile-section">
+                <h2>Liked Posts</h2>
+                {{if .LikedPosts}}
+            <ul class="profile-list">
+                        {{range .LikedPosts}}
+                            <li>
+                                <a href="/post/{{.ID}}">{{.Title}}</a>
+                                <div class="post-meta">
+                                    {{.CreatedAt.Format "Jan 2, 2006"}} • 
+                                    {{.LikeCount}} likes • {{.CommentCount}} comments
+                                </div>
+                            </li>
+                        {{end}}
+                    </ul>
+                {{else}}
+                    <div class="empty-state">You haven't liked any posts yet.</div>
+                {{end}}
+            </section>
 
-        <section>
-            <h2>Account Actions</h2>
-            <ul>
-                <li><a href="/logout">Logout</a></li>
-                <li><a href="/edit-profile">Edit Profile</a></li>
-            </ul>
-        </section>
-    </main>
+        <section class="profile-section">
+                <h2>Account Actions</h2>
+                <div class="actions">
+                    <ul>
+                        <li><a href="/logout">Logout</a></li>
+                        <li><a href="/edit-profile">Edit Profile</a></li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
