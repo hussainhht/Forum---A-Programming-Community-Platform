@@ -41,6 +41,7 @@ type CategoryTheme struct {
 	Radius        string
 	RadiusSmall   string
 	Spacing       string
+	BoxShadow     string
 }
 
 // themeFor returns a CategoryTheme with sensible defaults per language slug.
@@ -62,6 +63,7 @@ func themeFor(slug string) *CategoryTheme {
 		BorderLight:   "#2d3748",
 		Shadow:        "0 10px 25px rgba(0, 212, 255, 0.1)",
 		ShadowStrong:  "0 20px 40px rgba(0, 212, 255, 0.2)",
+		BoxShadow:     "0 4px 12px rgba(255, 255, 255, 0)", // added for lang buttons and floating tags
 		Radius:        "16px",
 		RadiusSmall:   "8px",
 		Spacing:       "24px",
@@ -77,6 +79,7 @@ func themeFor(slug string) *CategoryTheme {
 		base.Secondary = "#ffdf5a"
 		base.Shadow = "0 10px 25px rgba(55,118,171,0.18)"
 		base.ShadowStrong = "0 20px 40px rgba(55,118,171,0.30)"
+		base.BoxShadow = "0 4px 12px rgba(55,118,171,0.3)"
 	case "javascript", "js":
 		base.Accent = "#f7df1e"
 		base.AccentDark = "#d4b400"
@@ -84,6 +87,9 @@ func themeFor(slug string) *CategoryTheme {
 		base.Secondary = "#323330"
 		base.Shadow = "0 10px 25px rgba(247,223,30,0.15)"
 		base.ShadowStrong = "0 20px 40px rgba(247,223,30,0.28)"
+		base.BoxShadow = "0 4px 12px rgba(255, 233, 0, 0.3)"
+		// base.AccentLight = "#ffe955"
+		
 	case "typescript", "ts":
 		base.Accent = "#3178c6"
 		base.AccentDark = "#255a92"
@@ -91,6 +97,7 @@ func themeFor(slug string) *CategoryTheme {
 		base.Secondary = "#2d2d30"
 		base.Shadow = "0 10px 25px rgba(49,120,198,0.18)"
 		base.ShadowStrong = "0 20px 40px rgba(49,120,198,0.30)"
+		base.BoxShadow = "0 4px 12px rgba(49,120,198,0.3)"
 	case "rust":
 		base.Accent = "#dea584"
 		base.AccentDark = "#b06a44"
@@ -98,13 +105,24 @@ func themeFor(slug string) *CategoryTheme {
 		base.Secondary = "#ce422b"
 		base.Shadow = "0 10px 25px rgba(206,66,43,0.15)"
 		base.ShadowStrong = "0 20px 40px rgba(206,66,43,0.28)"
+		base.BoxShadow = "0 4px 12px rgba(206,66,43,0.3)"
 	case "java":
-		base.Accent = "#ff4f4f"
-		base.AccentDark = "#cc3d3d"
+		base.Accent = "#d34949ff"
+		base.AccentDark = "#ed5555ff"
 		base.AccentLight = "#ff7777"
 		base.Secondary = "#007396"
 		base.Shadow = "0 10px 25px rgba(255,79,79,0.15)"
 		base.ShadowStrong = "0 20px 40px rgba(255,79,79,0.30)"
+		base.BoxShadow = "0 4px 12px rgba(255,79,79,0.3)"
+
+	case "ruby":
+		base.Accent = "#d70037"
+		base.AccentDark = "#a40026"
+		base.AccentLight = "#ff5f7f"
+		base.Secondary = "#701c3f"
+		base.Shadow = "0 10px 25px rgba(215,0,55,0.15)"
+		base.ShadowStrong = "0 20px 40px rgba(215,0,55,0.30)"
+		base.BoxShadow = "0 4px 12px rgba(215,0,55,0.3)"
 	case "cpp", "c++":
 		base.Accent = "#00599c"
 		base.AccentDark = "#00426f"
