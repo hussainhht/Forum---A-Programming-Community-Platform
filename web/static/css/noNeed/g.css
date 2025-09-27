@@ -866,6 +866,16 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 18px;
 }
+#posts-section .posts-container { /* override: make cards narrower & centered when few items */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 320px));
+  justify-content: center; /* center the explicit columns */
+  gap: 32px; /* consistent spacing */
+  max-width: 1100px; /* prevents huge empty middle space */
+  margin-inline: auto;
+}
+@media (max-width: 640px){
+  #posts-section .posts-container { grid-template-columns: 1fr; gap: 20px; }
+}
 #posts-section .post-card {
   background: linear-gradient(
     135deg,

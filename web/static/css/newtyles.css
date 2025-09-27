@@ -34,6 +34,7 @@
 
 #posts-section {
     width: 100%;
+    margin-top: 48px;
 }
 
 .posts-container {
@@ -41,7 +42,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 16px;
+    gap: 28px !important;
 }
 
 .post-card {
@@ -57,6 +58,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-color: color-mix(in oklab, var(--go-secondary) 55%, transparent);
 }
 
 .post-card {
@@ -75,12 +77,14 @@
     padding: 4px 8px;
     gap: 8px;
     box-sizing: border-box;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--go-secondary) 55%, transparent), color-mix(in oklab, var(--go-secondary) 25%, transparent));
 }
 
 .post-title {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: color-mix(in oklab, var(--go-secondary) 20%, #fff);
 }
 
 .post-card button {
@@ -141,4 +145,64 @@ button svg {
     gap: 8px;
 }
 
-/* ----------------------------------------------------------------------------------- */
+#posts-section .post-card::before {
+    background: linear-gradient(180deg, var(--go-secondary), transparent);
+}
+
+#posts-section .post-toolbar-buttons .maximize {
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.45) inset;
+    background: linear-gradient(#c084fc, #7c3aed);
+    border-color: rgba(124, 58, 237, 0.55);
+}
+
+#posts-section .post-toolbar-buttons .maximize:hover {
+    filter: brightness(1.1);
+}
+
+/* Home posts flexible layout */
+.home-posts .posts-container { 
+  display: flex !important; 
+  flex-wrap: wrap; 
+  justify-content: center; 
+  gap: 36px !important; 
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+}
+.home-posts .post-card { 
+  flex: 1 1 clamp(280px, 38%, 420px);
+  max-width: 420px;
+  min-width: 260px;
+  height: 230px;
+}
+@media (max-width: 860px){
+  .home-posts .post-card{ flex: 1 1 100%; max-width: 560px; }
+}
+
+/* Strong purple theme overrides */
+:root {
+  --home-purple-base: #5b21b6; /* deep */
+  --home-purple: #7c3aed; /* main */
+  --home-purple-light: #a78bfa; /* light */
+  --home-purple-fade: #312e81; /* dark backdrop */
+}
+.home-posts .post-card { 
+  background: linear-gradient(145deg, var(--home-purple-fade) 0%, #1e1b4b 35%, #111827 100%);
+  border: 1px solid color-mix(in oklab, var(--home-purple) 55%, transparent);
+  box-shadow: 0 4px 18px color-mix(in oklab, var(--home-purple) 35%, #000);
+  border-radius: 14px;
+}
+.home-posts .post-card::before { 
+  background: linear-gradient(180deg, var(--home-purple), var(--home-purple-base));
+}
+.home-posts .post-titlebar { 
+  background: linear-gradient(160deg, color-mix(in oklab, var(--home-purple) 65%, transparent), color-mix(in oklab, var(--home-purple-base) 45%, transparent));
+  border-bottom: 1px solid color-mix(in oklab, var(--home-purple) 55%, transparent);
+  padding: 8px 12px;
+}
+.home-posts .post-title { color: color-mix(in oklab, var(--home-purple-light) 70%, #ffffff); font-weight: 700; }
+.home-posts .post-content { color: color-mix(in oklab, var(--home-purple-light) 25%, #e2e8f0); font-size: 0.9rem; line-height: 1.5; }
+.home-posts .post-info small { color: color-mix(in oklab, var(--home-purple-light) 30%, #94a3b8); }
+.home-posts .post-toolbar-buttons button { border: 1px solid color-mix(in oklab, var(--home-purple) 55%, transparent); background: linear-gradient(145deg, #4338ca, var(--home-purple)); width: 18px; height: 18px; border-radius: 4px; }
+.home-posts .post-toolbar-buttons button:hover { filter: brightness(1.15); transform: translateY(-2px); }
+.home-posts .post-toolbar-buttons svg rect, .home-posts .post-toolbar-buttons svg polygon { fill: #fff; }

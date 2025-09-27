@@ -1,245 +1,352 @@
 {{define "mainBlock"}}
-    <div class="{{.Slug}}-layout no-sidebar">
-      <main class="{{.Slug}}-main">
-        <!-- Hero Section -->
-        <section class="{{.Slug}}-hero">
-          <div class="{{.Slug}}-hero-content">
-            <div class="{{.Slug}}-hero-text">
-              <div class="hero-badge">
-                <span class="badge-icon">⚡</span>
-                {{.DisplayName}} Language — Power & Performance
+<div class="{{.Slug}}-layout no-sidebar">
+  <main class="{{.Slug}}-main">
+    <!-- Hero Section -->
+    <section class="{{.Slug}}-hero">
+      <div class="{{.Slug}}-hero-content">
+        <div class="{{.Slug}}-hero-text">
+          <div class="hero-badge">
+            <span class="badge-icon">⚡</span>
+            {{.DisplayName}} Language — Power & Performance
+          </div>
+          <h1 class="{{.Slug}}-title">
+            <span class="title-highlight">The</span>
+            <span class="title-main">{{.DisplayName}} Zone</span>
+          </h1>
+          <p class="{{.Slug}}-subtitle">
+            Discover the power of {{.DisplayName}} with our developer community.
+          </p>
+          <p class="{{.Slug}}-desc">
+            Find everything you need to learn and master {{.DisplayName}} — from
+            basics to advanced projects, with hands-on examples and interactive
+            lessons.
+          </p>
+          <div class="{{.Slug}}-actions">
+            <a
+              class="{{.Slug}}-btn primary"
+              href="{{.SourceURL}}"
+              target="_blank"
+              rel="noopener"
+            >
+              <span class="btn-icon">🚀</span>
+              Start learning now
+            </a>
+            <a class="{{.Slug}}-btn secondary" href="#posts-section">
+              <span class="btn-icon">📖</span>
+              Browse posts
+            </a>
+            <div class="stat-item">
+              <span class="stat-number">{{.CountPosts}}</span>
+              <span class="stat-label">posts</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Art -->
+        <div class="{{.Slug}}-hero-art" aria-hidden="true">
+          <div class="art-container">
+            <div class="floating-elements">
+              <div class="float-item item-1">
+                {{if eq .Slug "golang"}}func{{else if eq .Slug
+                "python"}}def{{else if eq .Slug "javascript"}}function{{else if
+                eq .Slug "rust"}}fn{{else if eq .Slug "java"}}class{{else if eq
+                .Slug "cpp"}}int{{else if eq .Slug
+                "csharp"}}var{{else}}code{{end}}
               </div>
-              <h1 class="{{.Slug}}-title">
-                <span class="title-highlight">The</span>
-                <span class="title-main">{{.DisplayName}} Zone</span>
-              </h1>
-              <p class="{{.Slug}}-subtitle">
-                Discover the power of {{.DisplayName}} with our developer community.
-              </p>
-              <p class="{{.Slug}}-desc">
-                Find everything you need to learn and master {{.DisplayName}} — from basics to
-                advanced projects, with hands-on examples and interactive
-                lessons.
-              </p>
-              <div class="{{.Slug}}-actions">
-                <a
-                  class="{{.Slug}}-btn primary"
-                  href="{{.SourceURL}}"
-                  target="_blank"
-                  rel="noopener"
+              <div class="float-item item-2">
+                {{if eq .Slug "golang"}}go{{else if eq .Slug
+                "python"}}python{{else if eq .Slug "javascript"}}js{{else if eq
+                .Slug "rust"}}rust{{else if eq .Slug "java"}}java{{else if eq
+                .Slug "cpp"}}cpp{{else if eq .Slug
+                "csharp"}}c#{{else}}{{.Slug}}{{end}}
+              </div>
+              <div class="float-item item-3">
+                {{if eq .Slug "golang"}}chan{{else if eq .Slug
+                "python"}}import{{else if eq .Slug "javascript"}}const{{else if
+                eq .Slug "rust"}}match{{else if eq .Slug "java"}}public{{else if
+                eq .Slug "cpp"}}std{{else if eq .Slug
+                "csharp"}}using{{else}}lib{{end}}
+              </div>
+              <div class="float-item item-4">
+                {{if eq .Slug "golang"}}defer{{else if eq .Slug
+                "python"}}async{{else if eq .Slug "javascript"}}await{{else if
+                eq .Slug "rust"}}impl{{else if eq .Slug "java"}}static{{else if
+                eq .Slug "cpp"}}auto{{else if eq .Slug
+                "csharp"}}async{{else}}type{{end}}
+              </div>
+            </div>
+            <div class="code-preview">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span></span><span></span><span></span>
+                </div>
+                <span class="code-title"
+                  >{{if eq .Slug "golang"}}main.go{{else if eq .Slug
+                  "python"}}main.py{{else if eq .Slug
+                  "javascript"}}main.js{{else if eq .Slug "rust"}}main.rs{{else
+                  if eq .Slug "java"}}Main.java{{else if eq .Slug
+                  "cpp"}}main.cpp{{else if eq .Slug
+                  "csharp"}}Program.cs{{else}}main.{{.Slug}}{{end}}</span
                 >
-                  <span class="btn-icon">🚀</span>
-                  Start learning now
-                </a>
-                <a class="{{.Slug}}-btn secondary" href="#posts-section">
-                  <span class="btn-icon">📖</span>
-                  Browse posts
-                </a>
-                <div class="stat-item">
-                  <span class="stat-number">{{.CountPosts}}</span>
-                  <span class="stat-label">posts</span>
-                </div>
               </div>
-            </div>
-
-            <!-- Hero Art -->
-            <div class="{{.Slug}}-hero-art" aria-hidden="true">
-              <div class="art-container">
-                <div class="floating-elements">
-                  <div class="float-item item-1">{{if eq .Slug "golang"}}func{{else if eq .Slug "python"}}def{{else if eq .Slug "javascript"}}function{{else if eq .Slug "rust"}}fn{{else if eq .Slug "java"}}class{{else if eq .Slug "cpp"}}int{{else if eq .Slug "csharp"}}var{{else}}code{{end}}</div>
-                  <div class="float-item item-2">{{if eq .Slug "golang"}}go{{else if eq .Slug "python"}}python{{else if eq .Slug "javascript"}}js{{else if eq .Slug "rust"}}rust{{else if eq .Slug "java"}}java{{else if eq .Slug "cpp"}}cpp{{else if eq .Slug "csharp"}}c#{{else}}{{.Slug}}{{end}}</div>
-                  <div class="float-item item-3">{{if eq .Slug "golang"}}chan{{else if eq .Slug "python"}}import{{else if eq .Slug "javascript"}}const{{else if eq .Slug "rust"}}match{{else if eq .Slug "java"}}public{{else if eq .Slug "cpp"}}std{{else if eq .Slug "csharp"}}using{{else}}lib{{end}}</div>
-                  <div class="float-item item-4">{{if eq .Slug "golang"}}defer{{else if eq .Slug "python"}}async{{else if eq .Slug "javascript"}}await{{else if eq .Slug "rust"}}impl{{else if eq .Slug "java"}}static{{else if eq .Slug "cpp"}}auto{{else if eq .Slug "csharp"}}async{{else}}type{{end}}</div>
+              <div class="code-content">
+                {{if eq .Slug "golang"}}
+                <div class="code-line">
+                  <span class="keyword">package</span>
+                  <span class="identifier">main</span>
                 </div>
-                <div class="code-preview">
-                  <div class="code-header">
-                    <div class="code-dots">
-                      <span></span><span></span><span></span>
-                    </div>
-                    <span class="code-title">{{if eq .Slug "golang"}}main.go{{else if eq .Slug "python"}}main.py{{else if eq .Slug "javascript"}}main.js{{else if eq .Slug "rust"}}main.rs{{else if eq .Slug "java"}}Main.java{{else if eq .Slug "cpp"}}main.cpp{{else if eq .Slug "csharp"}}Program.cs{{else}}main.{{.Slug}}{{end}}</span>
-                  </div>
-                  <div class="code-content">
-                    {{if eq .Slug "golang"}}
-                    <div class="code-line">
-                      <span class="keyword">package</span>
-                      <span class="identifier">main</span>
-                    </div>
-                    <div class="code-line">
-                      <span class="keyword">import</span>
-                      <span class="string">"fmt"</span>
-                    </div>
-                    <div class="code-line">
-                      <span class="keyword">func</span>
-                      <span class="function">main</span>() {
-                    </div>
-                    <div class="code-line indent">
-                      fmt.<span class="function">Println</span>(<span
-                        class="string"
-                        >"Welcome to Go!"</span
-                      >)
-                    </div>
-                    <div class="code-line">}</div>
-                    {{else if eq .Slug "python"}}
-                    <div class="code-line">
-                      <span class="keyword">def</span>
-                      <span class="function">main</span>():
-                    </div>
-                    <div class="code-line indent">
-                      <span class="function">print</span>(<span
-                        class="string"
-                        >"Welcome to Python!"</span
-                      >)
-                    </div>
-                    <div class="code-line"></div>
-                    <div class="code-line">
-                      <span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
-                    </div>
-                    <div class="code-line indent">
-                      <span class="function">main</span>()
-                    </div>
-                    {{else if eq .Slug "javascript"}}
-                    <div class="code-line">
-                      <span class="keyword">function</span>
-                      <span class="function">main</span>() {
-                    </div>
-                    <div class="code-line indent">
-                      console.<span class="function">log</span>(<span
-                        class="string"
-                        >"Welcome to JavaScript!"</span
-                      >);
-                    </div>
-                    <div class="code-line">}</div>
-                    <div class="code-line"></div>
-                    <div class="code-line">
-                      <span class="function">main</span>();
-                    </div>
-                    {{else if eq .Slug "rust"}}
-                    <div class="code-line">
-                      <span class="keyword">fn</span>
-                      <span class="function">main</span>() {
-                    </div>
-                    <div class="code-line indent">
-                      <span class="function">println!</span>(<span
-                        class="string"
-                        >"Welcome to Rust!"</span
-                      >);
-                    </div>
-                    <div class="code-line">}</div>
-                    {{else if eq .Slug "java"}}
-                    <div class="code-line">
-                      <span class="keyword">public class</span>
-                      <span class="identifier">Main</span> {
-                    </div>
-                    <div class="code-line indent">
-                      <span class="keyword">public static void</span>
-                      <span class="function">main</span>(String[] args) {
-                    </div>
-                    <div class="code-line indent indent">
-                      System.out.<span class="function">println</span>(<span
-                        class="string"
-                        >"Welcome to Java!"</span
-                      >);
-                    </div>
-                    <div class="code-line indent">}</div>
-                    <div class="code-line">}</div>
-                    {{else}}
-                    <div class="code-line">
-                      <span class="comment">// Welcome to {{.DisplayName}}!</span>
-                    </div>
-                    <div class="code-line">
-                      <span class="keyword">{{if eq .Slug "cpp"}}#include{{else if eq .Slug "csharp"}}using{{else}}import{{end}}</span>
-                      <span class="string">{{if eq .Slug "cpp"}}&lt;iostream&gt;{{else if eq .Slug "csharp"}}System;{{else}}"main"{{end}}</span>
-                    </div>
-                    <div class="code-line">
-                      <span class="keyword">{{if eq .Slug "cpp"}}int{{else if eq .Slug "csharp"}}static void{{else}}function{{end}}</span>
-                      <span class="function">main</span>() {
-                    </div>
-                    <div class="code-line indent">
-                      <span class="function">{{if eq .Slug "cpp"}}std::cout{{else if eq .Slug "csharp"}}Console.WriteLine{{else}}print{{end}}</span>(<span
-                        class="string"
-                        >"Hello {{.DisplayName}}!"</span
-                      >);
-                    </div>
-                    <div class="code-line">}</div>
-                    {{end}}
-                  </div>
+                <div class="code-line">
+                  <span class="keyword">import</span>
+                  <span class="string">"fmt"</span>
                 </div>
+                <div class="code-line">
+                  <span class="keyword">func</span>
+                  <span class="function">main</span>() {
+                </div>
+                <div class="code-line indent">
+                  fmt.<span class="function">Println</span>(<span class="string"
+                    >"Welcome to Go!"</span
+                  >)
+                </div>
+                <div class="code-line">}</div>
+                {{else if eq .Slug "python"}}
+                <div class="code-line">
+                  <span class="keyword">def</span>
+                  <span class="function">main</span>():
+                </div>
+                <div class="code-line indent">
+                  <span class="function">print</span>(<span class="string"
+                    >"Welcome to Python!"</span
+                  >)
+                </div>
+                <div class="code-line"></div>
+                <div class="code-line">
+                  <span class="keyword">if</span> __name__ ==
+                  <span class="string">"__main__"</span>:
+                </div>
+                <div class="code-line indent">
+                  <span class="function">main</span>()
+                </div>
+                {{else if eq .Slug "javascript"}}
+                <div class="code-line">
+                  <span class="keyword">function</span>
+                  <span class="function">main</span>() {
+                </div>
+                <div class="code-line indent">
+                  console.<span class="function">log</span>(<span class="string"
+                    >"Welcome to JavaScript!"</span
+                  >);
+                </div>
+                <div class="code-line">}</div>
+                <div class="code-line"></div>
+                <div class="code-line">
+                  <span class="function">main</span>();
+                </div>
+                {{else if eq .Slug "rust"}}
+                <div class="code-line">
+                  <span class="keyword">fn</span>
+                  <span class="function">main</span>() {
+                </div>
+                <div class="code-line indent">
+                  <span class="function">println!</span>(<span class="string"
+                    >"Welcome to Rust!"</span
+                  >);
+                </div>
+                <div class="code-line">}</div>
+                {{else if eq .Slug "java"}}
+                <div class="code-line">
+                  <span class="keyword">public class</span>
+                  <span class="identifier">Main</span> {
+                </div>
+                <div class="code-line indent">
+                  <span class="keyword">public static void</span>
+                  <span class="function">main</span>(String[] args) {
+                </div>
+                <div class="code-line indent indent">
+                  System.out.<span class="function">println</span>(<span
+                    class="string"
+                    >"Welcome to Java!"</span
+                  >);
+                </div>
+                <div class="code-line indent">}</div>
+                <div class="code-line">}</div>
+                {{else}}
+                <div class="code-line">
+                  <span class="comment">// Welcome to {{.DisplayName}}!</span>
+                </div>
+                <div class="code-line">
+                  <span class="keyword"
+                    >{{if eq .Slug "cpp"}}#include{{else if eq .Slug
+                    "csharp"}}using{{else}}import{{end}}</span
+                  >
+                  <span class="string"
+                    >{{if eq .Slug "cpp"}}&lt;iostream&gt;{{else if eq .Slug
+                    "csharp"}}System;{{else}}"main"{{end}}</span
+                  >
+                </div>
+                <div class="code-line">
+                  <span class="keyword"
+                    >{{if eq .Slug "cpp"}}int{{else if eq .Slug "csharp"}}static
+                    void{{else}}function{{end}}</span
+                  >
+                  <span class="function">main</span>() {
+                </div>
+                <div class="code-line indent">
+                  <span class="function"
+                    >{{if eq .Slug "cpp"}}std::cout{{else if eq .Slug
+                    "csharp"}}Console.WriteLine{{else}}print{{end}}</span
+                  >(<span class="string">"Hello {{.DisplayName}}!"</span>);
+                </div>
+                <div class="code-line">}</div>
+                {{end}}
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </div>
+    </section>
 
-        <!-- Features Section -->
-        <section class="{{.Slug}}-features">
-          <div class="features-grid">
-            <div class="feature-card">
-              <div class="feature-icon">⚡</div>
-              <h3>{{if eq .Slug "golang"}}Blazing Fast{{else if eq .Slug "python"}}Simple & Powerful{{else if eq .Slug "javascript"}}Versatile{{else if eq .Slug "rust"}}Memory Safe{{else if eq .Slug "java"}}Platform Independent{{else if eq .Slug "cpp"}}High Performance{{else if eq .Slug "csharp"}}Modern & Robust{{else}}Fast & Efficient{{end}}</h3>
-              <p>{{if eq .Slug "golang"}}High performance and fast execution{{else if eq .Slug "python"}}Easy to learn and incredibly powerful{{else if eq .Slug "javascript"}}Runs everywhere - browser, server, mobile{{else if eq .Slug "rust"}}Zero-cost abstractions with memory safety{{else if eq .Slug "java"}}Write once, run anywhere{{else if eq .Slug "cpp"}}Close to the metal performance{{else if eq .Slug "csharp"}}Type-safe and feature-rich{{else}}Optimized for performance{{end}}</p>
+    <!-- Features Section -->
+    <section class="{{.Slug}}-features">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>
+            {{if eq .Slug "golang"}}Blazing Fast{{else if eq .Slug
+            "python"}}Simple & Powerful{{else if eq .Slug
+            "javascript"}}Versatile{{else if eq .Slug "rust"}}Memory Safe{{else
+            if eq .Slug "java"}}Platform Independent{{else if eq .Slug
+            "cpp"}}High Performance{{else if eq .Slug "csharp"}}Modern &
+            Robust{{else}}Fast & Efficient{{end}}
+          </h3>
+          <p>
+            {{if eq .Slug "golang"}}High performance and fast execution{{else if
+            eq .Slug "python"}}Easy to learn and incredibly powerful{{else if eq
+            .Slug "javascript"}}Runs everywhere - browser, server, mobile{{else
+            if eq .Slug "rust"}}Zero-cost abstractions with memory safety{{else
+            if eq .Slug "java"}}Write once, run anywhere{{else if eq .Slug
+            "cpp"}}Close to the metal performance{{else if eq .Slug
+            "csharp"}}Type-safe and feature-rich{{else}}Optimized for
+            performance{{end}}
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h3>
+            {{if eq .Slug "golang"}}Simple Development{{else if eq .Slug
+            "python"}}Rich Ecosystem{{else if eq .Slug
+            "javascript"}}Dynamic{{else if eq .Slug "rust"}}Modern Tooling{{else
+            if eq .Slug "java"}}Rich Libraries{{else if eq .Slug
+            "cpp"}}Standards Compliant{{else if eq .Slug "csharp"}}Integrated
+            Development{{else}}Developer Friendly{{end}}
+          </h3>
+          <p>
+            {{if eq .Slug "golang"}}Clean syntax that's easy to learn{{else if
+            eq .Slug "python"}}Vast library ecosystem and frameworks{{else if eq
+            .Slug "javascript"}}Flexible and dynamic programming{{else if eq
+            .Slug "rust"}}Cargo package manager and modern tools{{else if eq
+            .Slug "java"}}Extensive standard library and frameworks{{else if eq
+            .Slug "cpp"}}ISO standard with modern features{{else if eq .Slug
+            "csharp"}}Visual Studio and .NET ecosystem{{else}}Great development
+            experience{{end}}
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>
+            {{if eq .Slug "golang"}}Concurrency{{else if eq .Slug
+            "python"}}Cross-Platform{{else if eq .Slug
+            "javascript"}}Event-Driven{{else if eq .Slug
+            "rust"}}Concurrent{{else if eq .Slug "java"}}Multithreaded{{else if
+            eq .Slug "cpp"}}Portable{{else if eq .Slug
+            "csharp"}}Cloud-Ready{{else}}Scalable{{end}}
+          </h3>
+          <p>
+            {{if eq .Slug "golang"}}First-class Goroutines & Channels{{else if
+            eq .Slug "python"}}Runs on Windows, macOS, Linux{{else if eq .Slug
+            "javascript"}}Asynchronous and event-driven{{else if eq .Slug
+            "rust"}}Fearless concurrency with ownership{{else if eq .Slug
+            "java"}}Built-in multithreading support{{else if eq .Slug
+            "cpp"}}Write once, compile anywhere{{else if eq .Slug
+            "csharp"}}Built for modern cloud applications{{else}}Designed for
+            scalability{{end}}
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h3>
+            {{if eq .Slug "golang"}}Safe & Reliable{{else if eq .Slug
+            "python"}}Productive{{else if eq .Slug "javascript"}}Community{{else
+            if eq .Slug "rust"}}Zero-Cost{{else if eq .Slug "java"}}Enterprise
+            Ready{{else if eq .Slug "cpp"}}Control{{else if eq .Slug
+            "csharp"}}Type Safe{{else}}Reliable{{end}}
+          </h3>
+          <p>
+            {{if eq .Slug "golang"}}Smart memory management and type
+            safety{{else if eq .Slug "python"}}Rapid development and
+            prototyping{{else if eq .Slug "javascript"}}Huge community and
+            resources{{else if eq .Slug "rust"}}Zero-cost abstractions{{else if
+            eq .Slug "java"}}Battle-tested in enterprise{{else if eq .Slug
+            "cpp"}}Complete control over system resources{{else if eq .Slug
+            "csharp"}}Strong typing and null safety{{else}}Built for
+            reliability{{end}}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Posts Section -->
+    <!-- Changed outer wrapper class from posts-container (which conflicts with inner grid and causes spacing issues) to posts-form -->
+    <section id="posts-section">
+      <h2 class="section-title">Featured Posts</h2>
+      <div class="posts-form">
+        {{range .Posts}}
+          <div class="post-card">
+            <div class="post-titlebar">
+              <div class="post-title">{{.Title}}</div>
+              <div class="post-toolbar-buttons">
+                <button class="minimize">
+                  <svg viewBox="0 0 10 10">
+                    <rect x="1" y="4" width="8" height="2" />
+                  </svg>
+                </button>
+                <button
+                  class="maximize"
+                  value="maximize"
+                  type="submit"
+                  formaction="/post/{{.ID}}"
+                >
+                  <svg viewBox="0 0 10 10">
+                    <rect x="1" y="1" width="8" height="8" />
+                  </svg>
+                </button>
+                <button class="close">
+                  <svg viewBox="0 0 10 10">
+                    <polygon points="1,1 9,9 9,1 1,9" />
+                  </svg>
+                </button>
+              </div>
             </div>
-            <div class="feature-card">
-              <div class="feature-icon">🔧</div>
-              <h3>{{if eq .Slug "golang"}}Simple Development{{else if eq .Slug "python"}}Rich Ecosystem{{else if eq .Slug "javascript"}}Dynamic{{else if eq .Slug "rust"}}Modern Tooling{{else if eq .Slug "java"}}Rich Libraries{{else if eq .Slug "cpp"}}Standards Compliant{{else if eq .Slug "csharp"}}Integrated Development{{else}}Developer Friendly{{end}}</h3>
-              <p>{{if eq .Slug "golang"}}Clean syntax that's easy to learn{{else if eq .Slug "python"}}Vast library ecosystem and frameworks{{else if eq .Slug "javascript"}}Flexible and dynamic programming{{else if eq .Slug "rust"}}Cargo package manager and modern tools{{else if eq .Slug "java"}}Extensive standard library and frameworks{{else if eq .Slug "cpp"}}ISO standard with modern features{{else if eq .Slug "csharp"}}Visual Studio and .NET ecosystem{{else}}Great development experience{{end}}</p>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">🌐</div>
-              <h3>{{if eq .Slug "golang"}}Concurrency{{else if eq .Slug "python"}}Cross-Platform{{else if eq .Slug "javascript"}}Event-Driven{{else if eq .Slug "rust"}}Concurrent{{else if eq .Slug "java"}}Multithreaded{{else if eq .Slug "cpp"}}Portable{{else if eq .Slug "csharp"}}Cloud-Ready{{else}}Scalable{{end}}</h3>
-              <p>{{if eq .Slug "golang"}}First-class Goroutines & Channels{{else if eq .Slug "python"}}Runs on Windows, macOS, Linux{{else if eq .Slug "javascript"}}Asynchronous and event-driven{{else if eq .Slug "rust"}}Fearless concurrency with ownership{{else if eq .Slug "java"}}Built-in multithreading support{{else if eq .Slug "cpp"}}Write once, compile anywhere{{else if eq .Slug "csharp"}}Built for modern cloud applications{{else}}Designed for scalability{{end}}</p>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">🛡️</div>
-              <h3>{{if eq .Slug "golang"}}Safe & Reliable{{else if eq .Slug "python"}}Productive{{else if eq .Slug "javascript"}}Community{{else if eq .Slug "rust"}}Zero-Cost{{else if eq .Slug "java"}}Enterprise Ready{{else if eq .Slug "cpp"}}Control{{else if eq .Slug "csharp"}}Type Safe{{else}}Reliable{{end}}</h3>
-              <p>{{if eq .Slug "golang"}}Smart memory management and type safety{{else if eq .Slug "python"}}Rapid development and prototyping{{else if eq .Slug "javascript"}}Huge community and resources{{else if eq .Slug "rust"}}Zero-cost abstractions{{else if eq .Slug "java"}}Battle-tested in enterprise{{else if eq .Slug "cpp"}}Complete control over system resources{{else if eq .Slug "csharp"}}Strong typing and null safety{{else}}Built for reliability{{end}}</p>
+            <div class="post-body">
+              <div class="post-content">{{.Preview}}</div>
+              <div class="post-info">
+                <small>Posted by {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small>
+              </div>
             </div>
           </div>
-        </section>
 
-        <!-- Posts Section -->
-        <form action="get" class="posts-container">
-          <section id="posts-section">
-            <h2 class="section-title">Featured Posts</h2>
-            <div class="posts-container">
-              {{range .Posts}}
-            <div class="post-card">
-                <div class="post-titlebar">
-                    <div class="post-title">{{.Title}}</div>
-                    <div class="post-toolbar-buttons">
-                        <button class="minimize">
-                            <svg viewBox="0 0 10 10">
-                                <rect x="1" y="4" width="8" height="2" />
-                            </svg>
-                        </button>
-                        <button class="maximize" value="maximize" type="submit" formaction="/post/{{.ID}}">
-                            <svg viewBox="0 0 10 10">
-                                <rect x="1" y="1" width="8" height="8" />
-                            </svg>
-                        </button>
-                        <button class="close">
-                            <svg viewBox="0 0 10 10">
-                                <polygon points="1,1 9,9 9,1 1,9" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="post-body">
-                    <div class="post-content">{{.Preview}}</div>
-                    <div class="post-info"><small>Posted by {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small></div>
-                </div>
-            </div>
-              {{else}}
-              <p>No posts found.</p>
-              {{end}}
-            </div>
-          </section>
-        </form>
-      </main>
-    </div>
+        {{else}}
+        <p>No posts found.</p>
+        {{end}}
+      </div>
+    </section>
+  </main>
+</div>
 
-    <!-- Background Elements -->
-    <div class="bg-elements" aria-hidden="true">
-      <div class="bg-circle circle-1"></div>
-      <div class="bg-circle circle-2"></div>
-      <div class="bg-circle circle-3"></div>
-    </div>
+<!-- Background Elements -->
+<div class="bg-elements" aria-hidden="true">
+  <div class="bg-circle circle-1"></div>
+  <div class="bg-circle circle-2"></div>
+  <div class="bg-circle circle-3"></div>
+</div>
 {{end}}
