@@ -6,30 +6,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         {{if .CSSFile}}<link rel="stylesheet" href="{{.CSSFile}}">{{end}}
-        <link rel="stylesheet" href="/web/static/css/catagory-base.css">
+        <link rel="stylesheet" href="/web/static/css/category-base.css">
         <link rel="stylesheet" href="/web/static/css/root.css">
         {{range .ExtraCSS}}<link rel="stylesheet" href="{{.}}">{{end}}
         {{if .Theme}}
         <style id="dynamic-category-theme">
                 :root {
-                        --go-accent: {{.Theme.Accent}};
-                        --go-accent-dark: {{.Theme.AccentDark}};
-                        --go-accent-light: {{.Theme.AccentLight}};
-                        --go-secondary: {{.Theme.Secondary}};
-                        --go-bg-primary: {{.Theme.BgPrimary}};
-                        --go-bg-secondary: {{.Theme.BgSecondary}};
-                        --go-bg-card: {{.Theme.BgCard}};
-                        --go-bg-elevated: {{.Theme.BgElevated}};
-                        --go-text-primary: {{.Theme.TextPrimary}};
-                        --go-text-secondary: {{.Theme.TextSecondary}};
-                        --go-text-muted: {{.Theme.TextMuted}};
-                        --go-border: {{.Theme.Border}};
-                        --go-border-light: {{.Theme.BorderLight}};
-                        --go-shadow: {{.Theme.Shadow}};
-                        --go-shadow-strong: {{.Theme.ShadowStrong}};
-                        --go-radius: {{.Theme.Radius}};
-                        --go-radius-small: {{.Theme.RadiusSmall}};
-                        --go-spacing: {{.Theme.Spacing}};
+                        --lang-accent: {{.Theme.Accent}};
+                        --lang-accent-dark: {{.Theme.AccentDark}};
+                        --lang-accent-light: {{.Theme.AccentLight}};
+                        --lang-secondary: {{.Theme.Secondary}};
+                        --lang-bg-primary: {{.Theme.BgPrimary}};
+                        --lang-bg-secondary: {{.Theme.BgSecondary}};
+                        --lang-bg-card: {{.Theme.BgCard}};
+                        --lang-bg-elevated: {{.Theme.BgElevated}};
+                        --lang-text-primary: {{.Theme.TextPrimary}};
+                        --lang-text-secondary: {{.Theme.TextSecondary}};
+                        --lang-text-muted: {{.Theme.TextMuted}};
+                        --lang-border: {{.Theme.Border}};
+                        --lang-border-light: {{.Theme.BorderLight}};
+                        --lang-shadow: {{.Theme.Shadow}};
+                        --lang-shadow-strong: {{.Theme.ShadowStrong}};
+                        --lang-radius: {{.Theme.Radius}};
+                        --lang-radius-small: {{.Theme.RadiusSmall}};
+                        --lang-spacing: {{.Theme.Spacing}};
                 }
         </style>
         {{end}}

@@ -21,7 +21,7 @@ type CategoryPageData struct {
 }
 
 // CategoryTheme holds CSS variable values for category theming.
-// These map onto the variables consumed by catagory-base.css (named with --go-* for now).
+// These map onto the variables consumed by category-base.css (legacy --go-* kept for compatibility).
 type CategoryTheme struct {
 	Accent        string
 	AccentDark    string
