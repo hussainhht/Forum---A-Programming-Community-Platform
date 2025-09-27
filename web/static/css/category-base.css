@@ -18,7 +18,8 @@
   --lang-radius: 16px;
   --lang-radius-small: 8px;
   --lang-spacing: 24px;
-  --lang-box-shadow: 0 4px 12px rgba(255, 255, 255, 0); 
+  /* Fallback accent shadow (will be overridden per-category via inline style) */
+  --lang-box-shadow: 0 8px 24px color-mix(in oklab, var(--lang-accent) 28%, transparent);
 }
 
 body {
@@ -65,7 +66,7 @@ body {
   );
   border-radius: var(--lang-radius);
   padding: 40px;
-  box-shadow: var(--lang-shadow-strong);
+  box-shadow: var(--lang-box-shadow);
   border: 1px solid var(--lang-border);
   position: relative;
   overflow: hidden;
@@ -103,7 +104,7 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 20px;
-  box-shadow: var(--lang-shadow-strong);
+  box-shadow: var(--lang-box-shadow), var(--lang-shadow-strong);
 }
 .lang-title {
   font-size: 3.5rem;
@@ -162,11 +163,11 @@ body {
     var(--lang-accent-dark)
   );
   color: #fff;
-  box-shadow: var(--lang-shadow);
+  box-shadow: var(--lang-box-shadow), var(--lang-shadow);
 }
 .lang-btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: var(--lang-shadow-strong);
+  box-shadow: var(--lang-box-shadow), var(--lang-shadow-strong);
 }
 .lang-btn.secondary {
   background: var(--lang-bg-elevated);
@@ -206,7 +207,7 @@ body {
   border-radius: var(--lang-radius-small);
   font-weight: 600;
   font-size: 0.9rem;
-  box-shadow: var(--lang-shadow);
+  box-shadow: var(--lang-box-shadow), var(--lang-shadow);
   animation: floatAround 15s infinite ease-in-out;
 }
 .item-1 {
@@ -254,7 +255,7 @@ body {
   background: var(--lang-bg-primary);
   border-radius: var(--lang-radius);
   width: 280px;
-  box-shadow: var(--lang-shadow-strong);
+  box-shadow: var(--lang-box-shadow), var(--lang-shadow-strong);
   border: 1px solid var(--lang-border);
 }
 .code-header {
@@ -347,7 +348,7 @@ body {
 }
 .feature-card:hover {
   transform: translateY(-5px);
-  box-shadow: var(--lang-shadow-strong);
+  box-shadow: var(--lang-box-shadow), var(--lang-shadow-strong);
   border-color: var(--lang-accent);
 }
 .feature-icon {
@@ -380,29 +381,20 @@ body {
   gap: 24px;
 }
 #posts-section .post-card {
-  background: linear-gradient(
-    135deg,
-    var(--lang-bg-elevated) 0%,
-    var(--lang-bg-card) 100%
-  );
+  background: linear-gradient(135deg, var(--lang-bg-elevated) 0%, var(--lang-bg-card) 100%);
   border: 1px solid color-mix(in oklab, var(--lang-accent) 35%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--lang-accent) 12%, transparent)
-      inset,
-    0 10px 28px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--lang-box-shadow), 0 0 0 1px color-mix(in oklab, var(--lang-accent) 12%, transparent) inset, 0 10px 28px rgba(0, 0, 0, 0.35);
   border-radius: 14px;
   overflow: hidden;
   padding: 0;
   position: relative;
-  transition: transform 0.15s ease, box-shadow 0.15s ease,
-    border-color 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   flex: 1 1 clamp(300px, 32%, 420px);
 }
 #posts-section .post-card:hover {
   transform: translateY(-2px);
   border-color: color-mix(in oklab, var(--lang-accent) 55%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--lang-accent) 20%, transparent)
-      inset,
-    0 16px 36px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--lang-box-shadow), 0 0 0 1px color-mix(in oklab, var(--lang-accent) 20%, transparent) inset, 0 16px 36px rgba(0, 0, 0, 0.45);
 }
 #posts-section .post-card::before {
   content: "";
