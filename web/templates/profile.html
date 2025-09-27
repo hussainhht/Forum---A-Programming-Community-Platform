@@ -8,7 +8,12 @@
 </head>
 <body class="profile-page">
     <div class="container">
-    <header class="profile-header">
+        <nav class="top-nav">
+            <a href="/edit-profile" class="nav-action">Edit Profile</a>
+            <a href="/logout" class="nav-action">Logout</a>
+        </nav>
+
+        <header class="profile-header">
             <div class="profile-info">
                 <img src="/web/static/img/{{.User.Photo}}" alt="Profile Photo" class="profile-photo">
                 <div class="user-details">
@@ -18,11 +23,36 @@
             </div>
         </header>
 
-    <main class="profile-main">
-        <section class="profile-section">
+        <div class="stats-section">
+            <div class="stat-item">
+                <span class="stat-number">{{len .UserPosts}}</span>
+                <div class="stat-label">Posts</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{len .LikedPosts}}</span>
+                <div class="stat-label">Liked</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">0</span>
+                <div class="stat-label">Followers</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">0</span>
+                <div class="stat-label">Following</div>
+            </div>
+        </div>
+
+         Added tabbed posts container 
+    <div class="posts-container">
+            <div class="tab-navigation">
+                <button class="tab-button active" onclick="showTab('your-posts')">Your Posts</button>
+                <button class="tab-button" onclick="showTab('liked-posts')">Liked Posts</button>
+            </div>
+
+            <div id="your-posts" class="tab-content active">
                 <h2>Your Posts</h2>
                 {{if .UserPosts}}
-            <ul class="profile-list">
+                    <ul>
                         {{range .UserPosts}}
                             <li>
                                 <a href="/post/{{.ID}}">{{.Title}}</a>
@@ -33,12 +63,12 @@
                 {{else}}
                     <div class="empty-state">You haven't posted anything yet.</div>
                 {{end}}
-            </section>
+            </div>
 
-        <section class="profile-section">
+            <div id="liked-posts" class="tab-content">
                 <h2>Liked Posts</h2>
                 {{if .LikedPosts}}
-            <ul class="profile-list">
+                    <ul>
                         {{range .LikedPosts}}
                             <li>
                                 <a href="/post/{{.ID}}">{{.Title}}</a>
@@ -52,18 +82,30 @@
                 {{else}}
                     <div class="empty-state">You haven't liked any posts yet.</div>
                 {{end}}
-            </section>
-
-        <section class="profile-section">
-                <h2>Account Actions</h2>
-                <div class="actions">
-                    <ul>
-                        <li><a href="/logout">Logout</a></li>
-                        <li><a href="/edit-profile">Edit Profile</a></li>
-                    </ul>
-                </div>
-            </section>
-        </main>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
 </body>
 </html>
