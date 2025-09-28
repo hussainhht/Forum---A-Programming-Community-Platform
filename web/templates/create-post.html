@@ -185,38 +185,6 @@
     </div>
 
   </div>
-  <script>
-    (function(){
-      const container = document.getElementById('selectedCategories');
-      const form = document.querySelector('form');
-      function updateSelected(){
-        const checks = form.querySelectorAll('input[name="category"]');
-        const selected = Array.from(checks).filter(c=>c.checked);
-        container.innerHTML = '';
-        if(!selected.length){
-          container.innerHTML = '<div class="no-selection">No categories selected yet</div>';
-          return;
-        }
-        selected.forEach(chk => {
-          const pill = document.createElement('div');
-            pill.className = 'selected-item';
-            pill.textContent = chk.parentElement.querySelector('span').textContent.trim();
-            const removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.setAttribute('aria-label','Remove');
-            removeBtn.textContent = '×';
-            removeBtn.addEventListener('click', () => { chk.checked = false; updateSelected(); });
-            pill.appendChild(removeBtn);
-            container.appendChild(pill);
-        });
-      }
-      document.addEventListener('change', (e)=>{
-        if(e.target && e.target.matches('input[name="category"]')) updateSelected();
-      });
-      // initial population (in case of validation error retaining selections)
-      updateSelected();
-    })();
-  </script>
   </div>
 </div>
 {{end}}
