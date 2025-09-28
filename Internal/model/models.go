@@ -76,11 +76,19 @@ type PageData struct {
 	IsLoggedIn         bool
 	FeaturedPosts      []Post
 	LatestPosts        []Post
+	Posts              []Post // generic list for discover page
 	Post               *Post
 	LikeCount          int
 	UserLiked          bool
 	Categories         []Category
 	SelectedCategories []string
+	SelectedCategory   string
+	SearchQuery        string
+	Sort               string
+	HasNextPage        bool
+	HasPrevPage        bool
+	NextPage           int
+	PrevPage           int
 	User               *User
 	ErrorMsg           string
 	ErrorCode          int

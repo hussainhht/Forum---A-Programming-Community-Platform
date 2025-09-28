@@ -99,3 +99,7 @@ func (s *Service) GetFeaturedPosts() ([]model.Post, error) {
 func (s *Service) GetLatestPosts() ([]model.Post, error) {
 	return query.GetLatestPosts(s.DB)
 }
+
+func (s *Service) GetDiscoverPosts(search, category, sort string, limit, offset int) ([]model.Post, bool, error) {
+	return query.GetDiscoverPosts(s.DB, search, category, sort, limit, offset)
+}

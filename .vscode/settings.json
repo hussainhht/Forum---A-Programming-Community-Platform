@@ -2,5 +2,6 @@
     "workbench.editorAssociations": {
         "*.copilotmd": "vscode.markdown.preview.editor",
         "*.sprite": "d2rmodding.spriteViewer"
-    }
+    },
+    "liveServer.settings.port": 5501
 }

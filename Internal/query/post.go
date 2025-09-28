@@ -3,7 +3,9 @@ package query
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"forum/Internal/model"
+	"strings"
 )
 
 var (
@@ -348,4 +350,70 @@ func GetLatestPosts(db *sql.DB) ([]model.Post, error) {
 		return nil, err
 	}
 	return posts, nil
+}
+
+// GetDiscoverPosts provides filtered, searched, sorted, paginated posts
+func GetDiscoverPosts(db *sql.DB, search, category, sort string, limit, offset int) ([]model.Post, bool, error) {
+	// base select
+	base := `SELECT DISTINCT p.id, p.title, p.content, p.created_at, u.username, p.user_id,
+		(SELECT COUNT(*) FROM post_reactions pr WHERE pr.post_id = p.id AND pr.reaction_type='like') as like_count,
+		(SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as comment_count
+		FROM posts p
+		JOIN users u ON p.user_id = u.id
+		LEFT JOIN post_categories pc ON p.id = pc.post_id
+		LEFT JOIN categories c ON pc.category_id = c.id`
+	var where []string
+	var args []interface{}
+	if search != "" {
+		where = append(where, "(p.title LIKE ? OR p.content LIKE ?)")
+		like := fmt.Sprintf("%%%s%%", search)
+		args = append(args, like, like)
+	}
+	if category != "" {
+		where = append(where, "c.name = ?")
+		args = append(args, category)
+	}
+	if len(where) > 0 {
+		base += " WHERE " + strings.Join(where, " AND ")
+	}
+	// sorting
+	switch sort {
+	case "popular":
+		base += " ORDER BY like_count DESC, p.created_at DESC"
+	case "comments":
+		base += " ORDER BY comment_count DESC, p.created_at DESC"
+	default:
+		base += " ORDER BY p.created_at DESC"
+	}
+	// pagination fetch limit+1 to detect next page
+	base += " LIMIT ? OFFSET ?"
+	args = append(args, limit+1, offset)
+	rows, err := db.Query(base, args...)
+	if err != nil {
+		return nil, false, err
+	}
+	defer rows.Close()
+	posts := []model.Post{}
+	for rows.Next() {
+		var post model.Post
+		var contentJSON string
+		if err := rows.Scan(&post.ID, &post.Title, &contentJSON, &post.CreatedAt, &post.Username, &post.UserID, &post.LikeCount, &post.CommentCount); err != nil {
+			return nil, false, err
+		}
+		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
+		// derive preview
+		for _, b := range post.Content {
+			if b.Type == "text" {
+				post.Preview = b.Content
+				break
+			}
+		}
+		posts = append(posts, post)
+	}
+	hasNext := false
+	if len(posts) > limit {
+		hasNext = true
+		posts = posts[:limit]
+	}
+	return posts, hasNext, rows.Err()
 }

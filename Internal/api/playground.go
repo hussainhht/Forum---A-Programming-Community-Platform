@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"forum/Internal/model"
 	"forum/Internal/service"
 )
 
@@ -25,16 +26,40 @@ type PlaygroundPageData struct {
 }
 
 func (server *Server) Get_PlaygroundHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("./web/templates/startcoding.html") // relative path
+	// gather shared layout data
+	sessionIDCookie, _ := r.Cookie("session_id")
+	categories, _ := server.Service.GetCategories()
+	isLoggedIn := false
+	var user *model.User
+	if sessionIDCookie != nil && server.Service.IsValidSession(sessionIDCookie.Value) {
+		isLoggedIn = true
+		u, err := server.Service.GetUserFromSessionID(sessionIDCookie.Value)
+		if err == nil { // ignore error gracefully for playground
+			user = u
+		}
+	}
+
+	// base layout data
+	base := model.PageData{
+		IsLoggedIn: isLoggedIn,
+		User:       user,
+		Categories: categories,
+		CSSFile:    "/web/static/css/newtyles.css",
+		ExtraCSS:   []string{"/web/static/css/coding.css"},
+	}
+
+	pg := PlaygroundPageData{Language: "go", LineEnd: "lf", BOM: "nobom"}
+
+	// compose data passed to template (embedding both structs)
+	data := struct {
+		model.PageData
+		PlaygroundPageData
+	}{base, pg}
+
+	tmpl, err := template.ParseFiles("./web/templates/root.html", "./web/templates/startcoding.html")
 	if err != nil {
 		server.Service.HandleError(w, http.StatusInternalServerError)
 		return
-	}
-
-	data := PlaygroundPageData{
-		Language: "go",
-		LineEnd:  "lf",
-		BOM:      "nobom",
 	}
 	_ = tmpl.Execute(w, data)
 }
@@ -71,7 +96,27 @@ func (server *Server) Post_PlaygroundPreviewHandler(w http.ResponseWriter, r *ht
 		return
 	}
 
-	data := PlaygroundPageData{
+	// layout data
+	sessionIDCookie, _ := r.Cookie("session_id")
+	categories, _ := server.Service.GetCategories()
+	isLoggedIn := false
+	var user *model.User
+	if sessionIDCookie != nil && server.Service.IsValidSession(sessionIDCookie.Value) {
+		isLoggedIn = true
+		u, err := server.Service.GetUserFromSessionID(sessionIDCookie.Value)
+		if err == nil {
+			user = u
+		}
+	}
+	base := model.PageData{
+		IsLoggedIn: isLoggedIn,
+		User:       user,
+		Categories: categories,
+		CSSFile:    "/web/static/css/newtyles.css",
+		ExtraCSS:   []string{"/web/static/css/coding.css"},
+	}
+
+	pg := PlaygroundPageData{
 		Language:        lang,
 		Filename:        filename,
 		LineEnd:         lineEnd,
@@ -80,7 +125,12 @@ func (server *Server) Post_PlaygroundPreviewHandler(w http.ResponseWriter, r *ht
 		HighlightedHTML: htmlPreview,
 	}
 
-	tmpl, tErr := template.ParseFiles("./web/templates/startcoding.html")
+	data := struct {
+		model.PageData
+		PlaygroundPageData
+	}{base, pg}
+
+	tmpl, tErr := template.ParseFiles("./web/templates/root.html", "./web/templates/startcoding.html")
 	if tErr != nil {
 		server.Service.HandleError(w, http.StatusInternalServerError)
 		return

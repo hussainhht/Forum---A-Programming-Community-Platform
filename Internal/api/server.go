@@ -40,6 +40,9 @@ func (server *Server) Start() error {
 	// Root
 	router.HandleFunc("/", server.Get_HomeHandler)
 
+	// Discover Posts
+	router.HandleFunc("GET /posts", server.Get_DiscoverPostsHandler)
+
 	// Register
 	router.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
@@ -105,7 +108,6 @@ func (server *Server) Start() error {
 	router.HandleFunc("/playground", server.Get_PlaygroundHandler)
 	router.HandleFunc("/playground/preview", server.Post_PlaygroundPreviewHandler)
 	router.HandleFunc("/download", server.Post_DownloadHandler)
-
 
 	// Generic category route: /category/{slug}
 	router.HandleFunc("GET /category/{slug}", server.Get_CategoryHandler)
