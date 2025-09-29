@@ -6,6 +6,7 @@ import (
 	m "forum/Internal/model"
 	"forum/Internal/service"
 	"net/http"
+	"os"
 )
 
 // Server represents the HTTP server and its dependencies
@@ -39,6 +40,18 @@ func (server *Server) Start() error {
 
 	// Root
 	router.HandleFunc("/", server.Get_HomeHandler)
+
+	// Dynamic CSS assets (example: profile.css served only when needed)
+	router.HandleFunc("GET /assets/profile.css", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/css; charset=utf-8")
+		w.Header().Set("Cache-Control", "public, max-age=300") // 5 minutes
+		data, err := os.ReadFile("./web/static/css/profile.css")
+		if err != nil {
+			http.Error(w, "/* missing profile.css */", http.StatusNotFound)
+			return
+		}
+		w.Write(data)
+	})
 
 	// Discover Posts
 	router.HandleFunc("GET /posts", server.Get_DiscoverPostsHandler)
