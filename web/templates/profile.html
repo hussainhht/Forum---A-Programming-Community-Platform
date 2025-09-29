@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{.User.Username}}'s Profile</title>
-    <link rel="stylesheet" href="/web/static/css/profile.css">
-</head>
-<body class="profile-page">
-    <div class="container">
+{{define "mainBlock"}}
+    <div class="container profile-page">
         <nav class="top-nav">
             <a href="/edit-profile" class="nav-action">Edit Profile</a>
             <a href="/logout" class="nav-action">Logout</a>
@@ -42,7 +34,7 @@
             </div>
         </div>
 
-        <div class="posts-container">
+    <div class="posts-container profile-posts">
             <div class="tab-navigation">
                 <button class="tab-button active" onclick="showTab('your-posts')">Your Posts</button>
                 <button class="tab-button" onclick="showTab('liked-posts')">Liked Posts</button>
@@ -50,39 +42,67 @@
 
             <div id="your-posts" class="tab-content active">
                 <h2>Your Posts</h2>
+                <div class="posts-grid">
                 {{if .UserPosts}}
-                    <ul>
-                        {{range .UserPosts}}
-                            <li>
-                                <a href="/post/{{.ID}}">{{.Title}}</a>
-                                <div class="post-meta">Created: {{.CreatedAt.Format "Jan 2, 2006"}}</div>
-                            </li>
-                        {{end}}
-                    </ul>
+                    {{range .UserPosts}}
+                    <div class="post-card">
+                        <div class="post-titlebar">
+                            <div class="post-title">{{.Title}}</div>
+                            <div class="post-toolbar-buttons">
+                                <button class="minimize" type="button">
+                                    <svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2" /></svg>
+                                </button>
+                                <a class="maximize" href="/post/{{.ID}}" aria-label="Open post">
+                                    <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" /></svg>
+                                </a>
+                                <button class="close" type="button">
+                                    <svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            <div class="post-content">{{if .Preview}}{{.Preview}}{{else}}<em>No preview available.</em>{{end}}</div>
+                            <div class="post-info"><small>Created {{.CreatedAt.Format "2006-01-02 15:04"}}</small></div>
+                        </div>
+                    </div>
+                    {{end}}
                 {{else}}
                     <div class="empty-state">You haven't posted anything yet.</div>
                 {{end}}
+                </div>
             </div>
 
             <div id="liked-posts" class="tab-content">
                 <h2>Liked Posts</h2>
+                <div class="posts-grid">
                 {{if .LikedPosts}}
-                    <ul>
-                        {{range .LikedPosts}}
-                            <li>
-                                <a href="/post/{{.ID}}">{{.Title}}</a>
-                                <div class="post-meta">
-                                    {{.CreatedAt.Format "Jan 2, 2006"}} • 
-                                    {{.LikeCount}} likes • {{.CommentCount}} comments
-                                </div>
-                            </li>
-                        {{end}}
-                    </ul>
+                    {{range .LikedPosts}}
+                    <div class="post-card">
+                        <div class="post-titlebar">
+                            <div class="post-title">{{.Title}}</div>
+                            <div class="post-toolbar-buttons">
+                                <button class="minimize" type="button">
+                                    <svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2" /></svg>
+                                </button>
+                                <a class="maximize" href="/post/{{.ID}}" aria-label="Open post">
+                                    <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" /></svg>
+                                </a>
+                                <button class="close" type="button">
+                                    <svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            <div class="post-content">{{if .Preview}}{{.Preview}}{{else}}<em>No preview available.</em>{{end}}</div>
+                            <div class="post-info"><small>{{.CreatedAt.Format "2006-01-02 15:04"}} • {{.LikeCount}} likes • {{.CommentCount}} comments</small></div>
+                        </div>
+                    </div>
+                    {{end}}
                 {{else}}
                     <div class="empty-state">You haven't liked any posts yet.</div>
                 {{end}}
+                </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+{{end}}

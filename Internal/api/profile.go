@@ -7,7 +7,7 @@ import (
 )
 
 // ProfilePageData holds data passed to profile template
-type ProfilePageData struct {
+type ProfilePageData struct { // kept for backwards compatibility (unused externally now)
 	User       *model.User
 	UserPosts  []model.Post
 	LikedPosts []model.Post
@@ -43,18 +43,30 @@ func (server *Server) Get_ProfileHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// 5️⃣ Render template
-	data := ProfilePageData{
+	categories, _ := server.Service.GetCategories()
+	// Build unified PageData
+	page := model.PageData{
+		IsLoggedIn: true,
 		User:       user,
-		UserPosts:  posts,
-		LikedPosts: likedPosts,
+		Categories: categories,
 	}
-
-	tmpl, err := template.ParseFiles("./web/templates/profile.html")
+	// Reuse Posts slice for user's own posts; provide liked posts via ExtraCSS hack not appropriate -> embed in User field custom? Simpler: extend PageData via template dot chaining with a small struct
+	// We'll execute with a composite map to expose additional fields expected by profile template.
+	data := map[string]any{
+		"Page":       page,
+		"User":       user,
+		"UserPosts":  posts,
+		"LikedPosts": likedPosts,
+		"Categories": categories,
+	}
+	// Parse root + profile
+	tmpl, err := template.ParseFiles("./web/templates/root.html", "./web/templates/profile.html")
 	if err != nil {
 		server.Service.HandleError(w, http.StatusInternalServerError)
 		return
 	}
-
-	tmpl.Execute(w, data)
+	if err := tmpl.Execute(w, data); err != nil {
+		server.Service.HandleError(w, http.StatusInternalServerError)
+		return
+	}
 }
