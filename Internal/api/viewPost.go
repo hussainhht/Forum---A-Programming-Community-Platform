@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"forum/Internal/model"
 	"html/template"
 	"net/http"
@@ -23,6 +24,7 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 
 	post, err := server.Service.GetPostByID(postID)
 	if err != nil {
+		log.Printf("viewPost: failed to get post id=%s: %v", postID, err)
 		server.Service.HandleError(w, http.StatusNotFound)
 		return
 	}
@@ -33,13 +35,16 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 		User:       user,
 	}
 	// Render the post using a template
-	tmpl, tmplErr := template.ParseFiles("./web/templates/view-post.html", "./web/templates/sidebar.html")
+	// Parse with sidebar (if sidebar defines template name 'sidebar')
+	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/view-post.html")
 	if tmplErr != nil {
+		log.Printf("viewPost: template parse error: %v", tmplErr)
 		server.Service.HandleError(w, http.StatusInternalServerError)
 		return
 	}
 	// fmt.Println(post).
 	if err := tmpl.Execute(w, pageData); err != nil {
+		log.Printf("viewPost: execute error: %v", err)
 		http.Error(w, "Failed to render template", http.StatusInternalServerError)
 		return
 	}

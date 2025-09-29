@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>{{.Post.Title}} - Forum</title>
-        <link rel="stylesheet" href="/web/static/css/newtyles.css" />
-        <link rel="stylesheet" href="/web/static/css/view-post.css" />
-        <link rel="stylesheet" href="/web/static/css/sidebar.css" />
-    </head>
-    <body class="vp has-sidebar">
-        {{template "sidebar" .}}
-
-        <div class="container vp-container">
+{{define "mainBlock"}}
+    <link rel="stylesheet" href="/web/static/css/view-post.css" />
+    <div class="container vp-container">
             <!-- Post Card -->
             <div class="card vp-post">
                 <div class="titlebar">
@@ -88,6 +78,5 @@
                     {{end}}
                 </div>
             </div>
-        </div>
-    </body>
-</html>
+    </div>
+{{end}}
