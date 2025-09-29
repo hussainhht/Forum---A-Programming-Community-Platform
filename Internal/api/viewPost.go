@@ -1,9 +1,9 @@
 package api
 
 import (
-	"log"
 	"forum/Internal/model"
 	"html/template"
+	"log"
 	"net/http"
 )
 

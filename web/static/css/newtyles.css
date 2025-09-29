@@ -140,24 +140,23 @@ button svg {
     background-color: #d94145;
 }
 
-.post-toolbar-buttons {
-    display: flex;
-    gap: 8px;
-}
+.post-toolbar-buttons { display:flex; gap:8px; }
+/* Normalize button + anchor styling */
+.post-toolbar-buttons button,
+.post-toolbar-buttons a.maximize { -webkit-appearance:none; appearance:none; border:1px solid rgba(255,255,255,.25); width:16px; height:16px; padding:0; border-radius:4px; background:rgba(0,0,0,.15); display:grid; place-items:center; cursor:pointer; transition:transform .12s ease, filter .12s ease, background .2s ease; text-decoration:none; }
+.post-toolbar-buttons a.maximize svg { pointer-events:none; }
+.post-toolbar-buttons button:hover,
+.post-toolbar-buttons a.maximize:hover { transform:translateY(-1px); filter:brightness(1.08); }
 
 #posts-section .post-card::before {
     background: linear-gradient(180deg, var(--lang-secondary), transparent);
 }
 
-#posts-section .post-toolbar-buttons .maximize {
-    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.45) inset;
-    background: linear-gradient(#c084fc, #7c3aed);
-    border-color: rgba(124, 58, 237, 0.55);
-}
-
-#posts-section .post-toolbar-buttons .maximize:hover {
-    filter: brightness(1.1);
-}
+/* Traffic-light style colors (minimize=green, maximize=purple, close=red) */
+#posts-section .post-toolbar-buttons .minimize { background:linear-gradient(#6ee7b7,#10b981); border-color:rgba(16,185,129,.55); }
+#posts-section .post-toolbar-buttons .maximize { background:linear-gradient(#c084fc,#7c3aed); border-color:rgba(124,58,237,.55); box-shadow:0 0 0 1px rgba(124,58,237,.35) inset; }
+#posts-section .post-toolbar-buttons .close { background:linear-gradient(#fca5a5,#ef4444); border-color:rgba(239,68,68,.55); }
+#posts-section .post-toolbar-buttons .maximize:hover { filter:brightness(1.1); }
 
 /* Home posts flexible layout */
 .home-posts .posts-container { 
@@ -203,6 +202,8 @@ button svg {
 .home-posts .post-title { color: color-mix(in oklab, var(--home-purple-light) 70%, #ffffff); font-weight: 700; }
 .home-posts .post-content { color: color-mix(in oklab, var(--home-purple-light) 25%, #e2e8f0); font-size: 0.9rem; line-height: 1.5; }
 .home-posts .post-info small { color: color-mix(in oklab, var(--home-purple-light) 30%, #94a3b8); }
-.home-posts .post-toolbar-buttons button { border: 1px solid color-mix(in oklab, var(--home-purple) 55%, transparent); background: linear-gradient(145deg, #4338ca, var(--home-purple)); width: 18px; height: 18px; border-radius: 4px; }
-.home-posts .post-toolbar-buttons button:hover { filter: brightness(1.15); transform: translateY(-2px); }
-.home-posts .post-toolbar-buttons svg rect, .home-posts .post-toolbar-buttons svg polygon { fill: #fff; }
+.home-posts .post-toolbar-buttons button,
+.home-posts .post-toolbar-buttons a.maximize { border:1px solid color-mix(in oklab, var(--home-purple) 55%, transparent); background: linear-gradient(145deg, #4338ca, var(--home-purple)); width:18px; height:18px; border-radius:4px; }
+.home-posts .post-toolbar-buttons button:hover,
+.home-posts .post-toolbar-buttons a.maximize:hover { filter: brightness(1.15); transform: translateY(-2px); }
+.home-posts .post-toolbar-buttons svg rect, .home-posts .post-toolbar-buttons svg polygon { fill:#fff; }

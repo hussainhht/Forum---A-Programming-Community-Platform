@@ -310,16 +310,11 @@
                     <rect x="1" y="4" width="8" height="2" />
                   </svg>
                 </button>
-                <button
-                  class="maximize"
-                  value="maximize"
-                  type="submit"
-                  formaction="/post/{{.ID}}"
-                >
+                <a class="maximize" href="/post/{{.ID}}" aria-label="Open post">
                   <svg viewBox="0 0 10 10">
                     <rect x="1" y="1" width="8" height="8" />
                   </svg>
-                </button>
+                </a>
                 <button class="close">
                   <svg viewBox="0 0 10 10">
                     <polygon points="1,1 9,9 9,1 1,9" />
