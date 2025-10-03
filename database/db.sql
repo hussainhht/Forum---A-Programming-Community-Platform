@@ -129,6 +129,7 @@ VALUES
     ('javascript'),
     ('rust'),
     ('ruby'),
+    ('python'),
     ('java');
     -- ('c'),
     -- ('csharp'),
