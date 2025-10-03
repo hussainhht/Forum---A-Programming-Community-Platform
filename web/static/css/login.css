@@ -268,12 +268,14 @@ body {
   display: none;
 }
 
-/* Swap icons when checked */
-#togglePassword:checked~.eye-toggle .eye {
+/* Swap icons when checked (support multiple password fields) */
+#togglePassword:checked~.eye-toggle .eye,
+#toggleConfirmPassword:checked~.eye-toggle .eye {
   display: none;
 }
 
-#togglePassword:checked~.eye-toggle .eye-slash {
+#togglePassword:checked~.eye-toggle .eye-slash,
+#toggleConfirmPassword:checked~.eye-toggle .eye-slash {
   display: block;
 }
 
@@ -281,13 +283,23 @@ body {
 
 /* ===================== CSS-ONLY PASSWORD MASK ===================== */
 /* Default: mask characters */
-#password {
+#password,
+#confirmPassword {
   -webkit-text-security: disc;
 }
 
 /* When checkbox is checked: unmask */
 #togglePassword:checked~#password {
   -webkit-text-security: none;
+}
+
+#toggleConfirmPassword:checked~#confirmPassword {
+  -webkit-text-security: none;
+}
+
+/* Extra spacing only between password & confirm password on register form */
+.pw-gap {
+  margin-top: 14px;
 }
 
 /* ================================================================ */
