@@ -224,6 +224,11 @@ func UpdatePostReaction(db *sql.DB, postID int, userID int, reactionType string)
 	return err
 }
 
+func DeletePostReaction(db *sql.DB, postID int, userID int) error {
+	_, err := db.Exec("DELETE FROM post_reactions WHERE post_id = ? AND user_id = ?", postID, userID)
+	return err
+}
+
 func GetPostLikeCount(db *sql.DB, postID int) (int, error) {
 	var likeCount int
 	err := db.QueryRow("SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND reaction_type = ?", postID, "like").Scan(&likeCount)
@@ -231,6 +236,15 @@ func GetPostLikeCount(db *sql.DB, postID int) (int, error) {
 		return 0, err
 	}
 	return likeCount, nil
+}
+
+func GetPostDislikeCount(db *sql.DB, postID int) (int, error) {
+	var dislikeCount int
+	err := db.QueryRow("SELECT COUNT(*) FROM post_reactions WHERE post_id = ? AND reaction_type = ?", postID, "dislike").Scan(&dislikeCount)
+	if err != nil {
+		return 0, err
+	}
+	return dislikeCount, nil
 }
 
 func GetFeaturedPosts(db *sql.DB) ([]model.Post, error) {

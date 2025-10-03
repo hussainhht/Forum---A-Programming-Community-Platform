@@ -64,6 +64,10 @@ func (s *Service) GetPostByID(postID string) (*model.Post, error) {
 	if err != nil {
 		return nil, err
 	}
+	post.DislikeCount, err = query.GetPostDislikeCount(s.DB, post.ID)
+	if err != nil {
+		return nil, err
+	}
 	post.Comments, err = s.GetCommentsByPostID(post.ID)
 	if err != nil {
 		return nil, err
@@ -85,7 +89,8 @@ func (s *Service) PostReaction(postID int, userID int, reactionType string) erro
 	if existingReaction != nil {
 		// If the reaction already exists, update it
 		if existingReaction.ReactionType == reactionType {
-			return nil // No change needed
+			// If user clicks the same reaction again, remove the reaction (toggle off)
+			return query.DeletePostReaction(s.DB, postID, userID)
 		}
 		return query.UpdatePostReaction(s.DB, postID, userID, reactionType)
 	}
@@ -102,4 +107,8 @@ func (s *Service) GetLatestPosts() ([]model.Post, error) {
 
 func (s *Service) GetDiscoverPosts(search, category, sort string, limit, offset int) ([]model.Post, bool, error) {
 	return query.GetDiscoverPosts(s.DB, search, category, sort, limit, offset)
+}
+
+func (s *Service) GetPostReaction(postID, userID int) (*model.PostReaction, error) {
+	return query.GetPostReaction(s.DB, postID, userID)
 }

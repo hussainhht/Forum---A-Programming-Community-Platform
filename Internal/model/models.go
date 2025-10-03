@@ -27,6 +27,9 @@ type Post struct {
 	CreatedAt     time.Time
 	Username      string // For display purposes (not stored in DB)
 	LikeCount     int
+	DislikeCount  int
+	UserLiked     bool
+	UserDisliked  bool
 	Comments      []Comment
 	Preview       string
 	CommentCount  int

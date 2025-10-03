@@ -38,8 +38,8 @@
                             <button class="vp-btn vp-dislike {{if .Post.UserDisliked}}active{{end}}" type="submit" name="reaction_type" value="dislike">👎 {{if .Post.UserDisliked}}Unlike{{else}}Dislike{{end}}</button>
                         </form>
                         {{end}}
-                        <span class="vp-like-count">{{.Post.LikeCount}} likes</span>
-                        <span class="vp-dislike-count">{{.Post.DislikeCount}} dislikes</span>
+                        <span class="vp-like-count">{{.Post.LikeCount}} like{{if ne .Post.LikeCount 1}}s{{end}}</span>
+                        <span class="vp-dislike-count">{{.Post.DislikeCount}} dislike{{if ne .Post.DislikeCount 1}}s{{end}}</span>
                     </div>
                 </div>
             </div>

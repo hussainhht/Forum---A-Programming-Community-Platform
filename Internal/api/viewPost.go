@@ -29,6 +29,15 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Set user reaction flags if user is logged in
+	if user != nil {
+		reaction, err := server.Service.GetPostReaction(post.ID, user.ID)
+		if err == nil && reaction != nil {
+			post.UserLiked = reaction.ReactionType == "like"
+			post.UserDisliked = reaction.ReactionType == "dislike"
+		}
+	}
+
 	pageData := model.PageData{
 		IsLoggedIn: isLoggedIn,
 		Post:       post,
