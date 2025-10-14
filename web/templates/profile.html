@@ -35,12 +35,15 @@
         </div>
 
     <div class="posts-container profile-posts">
+            <input type="radio" name="tabs" id="tab-your-posts" class="tab-radio" checked>
+            <input type="radio" name="tabs" id="tab-liked-posts" class="tab-radio">
+            
             <div class="tab-navigation">
-                <button class="tab-button active" onclick="showTab('your-posts')">Your Posts</button>
-                <button class="tab-button" onclick="showTab('liked-posts')">Liked Posts</button>
+                <label for="tab-your-posts" class="tab-button">Your Posts</label>
+                <label for="tab-liked-posts" class="tab-button">Liked Posts</label>
             </div>
 
-            <div id="your-posts" class="tab-content active">
+            <div id="your-posts" class="tab-content">
                 <h2>Your Posts</h2>
                 <div class="posts-grid">
                 {{if .UserPosts}}

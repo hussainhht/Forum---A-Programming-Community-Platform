@@ -188,6 +188,11 @@ body {
   overflow: hidden;
 }
 
+/* Hide radio buttons */
+.tab-radio {
+  display: none;
+}
+
 /* Tab Navigation */
 .tab-navigation {
   display: flex;
@@ -205,6 +210,8 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
+  text-align: center;
+  display: block;
 }
 
 .tab-button::after {
@@ -224,12 +231,15 @@ body {
   background: rgba(51, 65, 85, 0.3);
 }
 
-.tab-button.active {
+/* Active state for labels when their radio is checked */
+#tab-your-posts:checked ~ .tab-navigation label[for="tab-your-posts"],
+#tab-liked-posts:checked ~ .tab-navigation label[for="tab-liked-posts"] {
   color: #f8fafc;
   background: rgba(51, 65, 85, 0.4);
 }
 
-.tab-button.active::after {
+#tab-your-posts:checked ~ .tab-navigation label[for="tab-your-posts"]::after,
+#tab-liked-posts:checked ~ .tab-navigation label[for="tab-liked-posts"]::after {
   transform: scaleX(1);
 }
 
@@ -239,7 +249,9 @@ body {
   padding: 2rem;
 }
 
-.tab-content.active {
+/* Show tab content based on which radio is checked */
+#tab-your-posts:checked ~ #your-posts,
+#tab-liked-posts:checked ~ #liked-posts {
   display: block;
 }
 
