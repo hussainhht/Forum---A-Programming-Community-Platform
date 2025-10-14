@@ -58,8 +58,8 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 		},
 	}
 
-	// Use root layout + create-post block
-	tmpl := template.New("root.html").Funcs(template.FuncMap{
+	// Use standalone create-post template (no root layout)
+	tmpl := template.New("create-post.html").Funcs(template.FuncMap{
 		"contains": func(slice []int, val int) bool {
 			for _, s := range slice {
 				if s == val {
@@ -70,7 +70,7 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 		},
 	})
 
-	tmpl, err = tmpl.ParseFiles("./web/templates/root.html", "./web/templates/create-post.html")
+	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html")
 	if err != nil {
 		http.Error(w, "Error parsing template", http.StatusInternalServerError)
 		return
@@ -224,7 +224,7 @@ func renderCreatePost(
 		Error:              errMsg,
 	}
 
-	tmpl := template.New("root.html").Funcs(template.FuncMap{
+	tmpl := template.New("create-post.html").Funcs(template.FuncMap{
 		"contains": func(slice []int, val int) bool {
 			for _, s := range slice {
 				if s == val {
@@ -235,7 +235,7 @@ func renderCreatePost(
 		},
 	})
 
-	tmpl, err = tmpl.ParseFiles("./web/templates/root.html", "./web/templates/create-post.html")
+	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html")
 	if err != nil {
 		http.Error(w, "Error parsing template", http.StatusInternalServerError)
 		return
