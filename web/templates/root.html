@@ -1,304 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <!-- <link rel="stylesheet" href="/web/static/css/profile.css" /> -->
+    {{if .CSSFile}}
+    <link rel="stylesheet" href="{{.CSSFile}}" />
+    {{end}}
+    <link rel="stylesheet" href="/web/static/css/category-base.css" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home</title>
-  <!-- <link rel="stylesheet" href="/web/static/css/profile.css" /> -->
-  {{if .CSSFile}}
-  <link rel="stylesheet" href="{{.CSSFile}}" />
-  {{end}}
+    {{range .ExtraCSS}}
+    <link rel="stylesheet" href="{{.}}" />
+    {{end}} {{if .Theme}}
+    <style id="dynamic-category-theme">
+      :root {
+                    --lang-accent: {{.Theme.Accent}};
+                    --lang-accent-dark: {{.Theme.AccentDark}};
+                    --lang-accent-light: {{.Theme.AccentLight}};
+                    --lang-secondary: {{.Theme.Secondary}};
+                    --lang-bg-primary: {{.Theme.BgPrimary}};
+                    --lang-bg-secondary: {{.Theme.BgSecondary}};
+                    --lang-bg-card: {{.Theme.BgCard}};
+                    --lang-bg-elevated: {{.Theme.BgElevated}};
+                    --lang-text-primary: {{.Theme.TextPrimary}};
+                    --lang-text-secondary: {{.Theme.TextSecondary}};
+                    --lang-text-muted: {{.Theme.TextMuted}};
+                    --lang-border: {{.Theme.Border}};
+                    --lang-border-light: {{.Theme.BorderLight}};
+                    --lang-shadow: {{.Theme.Shadow}};
+                    --lang-shadow-strong: {{.Theme.ShadowStrong}};
+                    --lang-radius: {{.Theme.Radius}};
+                    --lang-radius-small: {{.Theme.RadiusSmall}};
+                    --lang-spacing: {{.Theme.Spacing}};
+                    --lang-box-shadow: {{if .Theme.BoxShadow}}{{.Theme.BoxShadow}}{{else}}0 8px 24px rgba(0,0,0,0.35){{end}};
+            }
+    </style>
+    {{end}}
+    <link rel="stylesheet" href="/web/static/css/root.css" />
+  </head>
 
-  {{range .ExtraCSS}}
-  <link rel="stylesheet" href="{{.}}" />
-  {{end}} {{if .Theme}}
-  <style id="dynamic-category-theme">
-    :root {
-      --lang-accent: {
-          {
-          .Theme.Accent
-        }
-      }
-
-      ;
-
-      --lang-accent-dark: {
-          {
-          .Theme.AccentDark
-        }
-      }
-
-      ;
-
-      --lang-accent-light: {
-          {
-          .Theme.AccentLight
-        }
-      }
-
-      ;
-
-      --lang-secondary: {
-          {
-          .Theme.Secondary
-        }
-      }
-
-      ;
-
-      --lang-bg-primary: {
-          {
-          .Theme.BgPrimary
-        }
-      }
-
-      ;
-
-      --lang-bg-secondary: {
-          {
-          .Theme.BgSecondary
-        }
-      }
-
-      ;
-
-      --lang-bg-card: {
-          {
-          .Theme.BgCard
-        }
-      }
-
-      ;
-
-      --lang-bg-elevated: {
-          {
-          .Theme.BgElevated
-        }
-      }
-
-      ;
-
-      --lang-text-primary: {
-          {
-          .Theme.TextPrimary
-        }
-      }
-
-      ;
-
-      --lang-text-secondary: {
-          {
-          .Theme.TextSecondary
-        }
-      }
-
-      ;
-
-      --lang-text-muted: {
-          {
-          .Theme.TextMuted
-        }
-      }
-
-      ;
-
-      --lang-border: {
-          {
-          .Theme.Border
-        }
-      }
-
-      ;
-
-      --lang-border-light: {
-          {
-          .Theme.BorderLight
-        }
-      }
-
-      ;
-
-      --lang-shadow: {
-          {
-          .Theme.Shadow
-        }
-      }
-
-      ;
-
-      --lang-shadow-strong: {
-          {
-          .Theme.ShadowStrong
-        }
-      }
-
-      ;
-
-      --lang-radius: {
-          {
-          .Theme.Radius
-        }
-      }
-
-      ;
-
-      --lang-radius-small: {
-          {
-          .Theme.RadiusSmall
-        }
-      }
-
-      ;
-
-      --lang-spacing: {
-          {
-          .Theme.Spacing
-        }
-      }
-
-      ;
-
-      --lang-box-shadow: {
-          {
-          if .Theme.BoxShadow
-        }
-      }
-
-        {
-          {
-          .Theme.BoxShadow
-        }
-      }
-
-        {
-          {
-          else
-        }
-      }
-
-      0 8px 24px rgba(0, 0, 0, 0.35) {
-          {
-          end
-        }
-      }
-
-      ;
-    }
-  </style>
-  {{end}}
-  <link rel="stylesheet" href="/web/static/css/root.css" />
-</head>
-
-<body id="root-body">
-  <nav id="sidebar">
-    <div class="sidebar-container">
-      <input hidden type="checkbox" name="sidebar-toggle" id="sidebar-toggle" />
-      <div id="sidebar-sections-container">
-        <section class="sidebar-section" id="sidebar-header-section">
-          <div id="sidebar-header-container" class="sidebar-section-container">
-            <label id="sidebar-toggle-button" class="sidebar-button" for="sidebar-toggle"><img
-                class="sidebar-button-icon" src="/web/static/icons/menu.svg" alt="" /></label>
-          </div>
-        </section>
-        <section class="sidebar-section" id="sidebar-main-section">
-          <div class="sidebar-main-container sidebar-section-container">
-            <button class="sidebar-button" onclick="location.href='/'">
-              <img class="sidebar-button-icon" src="/web/static/icons/home.svg" alt="" /><span
-                class="sidebar-button-text sidebar-text">Home</span>
-            </button>
-            <button class="sidebar-button" onclick="location.href='/create-post'">
-              <img class="sidebar-button-icon" src="/web/static/icons/add_post.svg" alt="" /><span
-                class="sidebar-button-text sidebar-text">Create&nbsp;Post</span>
-            </button>
-            <button class="sidebar-button" onclick="location.href='/posts'">
-              <img class="sidebar-button-icon" src="/web/static/icons/read_more.svg" alt="" /><span
-                class="sidebar-button-text sidebar-text">Discover&nbsp;Posts</span>
-            </button>
-            <button class="sidebar-button" onclick="location.href='/playground'">
-              <img class="sidebar-button-icon" src="/web/static/icons/code.svg" alt="" /><span
-                class="sidebar-button-text sidebar-text">Playground</span>
-            </button>
-          </div>
-        </section>
-        <section class="sidebar-section" id="sidebar-categories-section">
-          <div class="sidebar-categories-container sidebar-section-container">
-            <input type="checkbox" id="sidebar-categories-toggle" hidden />
-            {{range $i, $cat := .Categories}} {{if lt $i 3}}
-            <button class="sidebar-button" onclick="location.href='/category/{{.Name}}'">
-              <img class="sidebar-button-icon" src="/web/static/icons/categories/{{.Name}}.svg" alt="" /><span
-                class="sidebar-button-text sidebar-text">{{.Name}}</span>
-            </button>
-            {{end}} {{end}}
-
-            <div id="sidebar-hidden-categories">
-              {{range $i, $cat := .Categories}} {{if ge $i 3}}
-              <button class="sidebar-button" onclick="location.href='/category/{{.Name}}'">
-                <img class="sidebar-button-icon" src="/web/static/icons/categories/{{.Name}}.svg" alt="" /><span
-                  class="sidebar-button-text sidebar-text">{{.Name}}</span>
+  <body id="root-body">
+    <nav id="sidebar">
+      <div class="sidebar-container">
+        <input
+          hidden
+          type="checkbox"
+          name="sidebar-toggle"
+          id="sidebar-toggle"
+        />
+        <div id="sidebar-sections-container">
+          <section class="sidebar-section" id="sidebar-header-section">
+            <div
+              id="sidebar-header-container"
+              class="sidebar-section-container"
+            >
+              <label
+                id="sidebar-toggle-button"
+                class="sidebar-button"
+                for="sidebar-toggle"
+                ><img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/menu.svg"
+                  alt=""
+              /></label>
+            </div>
+          </section>
+          <section class="sidebar-section" id="sidebar-main-section">
+            <div class="sidebar-main-container sidebar-section-container">
+              <button class="sidebar-button" onclick="location.href='/'">
+                <img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/home.svg"
+                  alt=""
+                /><span class="sidebar-button-text sidebar-text">Home</span>
+              </button>
+              <button
+                class="sidebar-button"
+                onclick="location.href='/create-post'"
+              >
+                <img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/add_post.svg"
+                  alt=""
+                /><span class="sidebar-button-text sidebar-text"
+                  >Create&nbsp;Post</span
+                >
+              </button>
+              <button class="sidebar-button" onclick="location.href='/posts'">
+                <img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/read_more.svg"
+                  alt=""
+                /><span class="sidebar-button-text sidebar-text"
+                  >Discover&nbsp;Posts</span
+                >
+              </button>
+              <button
+                class="sidebar-button"
+                onclick="location.href='/playground'"
+              >
+                <img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/code.svg"
+                  alt=""
+                /><span class="sidebar-button-text sidebar-text"
+                  >Playground</span
+                >
+              </button>
+            </div>
+          </section>
+          <section class="sidebar-section" id="sidebar-categories-section">
+            <div class="sidebar-categories-container sidebar-section-container">
+              <input type="checkbox" id="sidebar-categories-toggle" hidden />
+              {{range $i, $cat := .Categories}} {{if lt $i 3}}
+              <button
+                class="sidebar-button"
+                onclick="location.href='/category/{{.Name}}'"
+              >
+                <img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/categories/{{.Name}}.svg"
+                  alt=""
+                /><span class="sidebar-button-text sidebar-text"
+                  >{{.Name}}</span
+                >
               </button>
               {{end}} {{end}}
+
+              <div id="sidebar-hidden-categories">
+                {{range $i, $cat := .Categories}} {{if ge $i 3}}
+                <button
+                  class="sidebar-button"
+                  onclick="location.href='/category/{{.Name}}'"
+                >
+                  <img
+                    class="sidebar-button-icon"
+                    src="/web/static/icons/categories/{{.Name}}.svg"
+                    alt=""
+                  /><span class="sidebar-button-text sidebar-text"
+                    >{{.Name}}</span
+                  >
+                </button>
+                {{end}} {{end}}
+              </div>
+              <label
+                for="sidebar-categories-toggle"
+                id="sidebar-categories-toggle-button"
+                class="sidebar-button"
+                ><img
+                  id="sidebar-categories-arrow-img"
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/arrow_down.svg"
+                  alt=""
+                /><span class="sidebar-button-text sidebar-text"
+                  >Show&nbsp;More</span
+                ></label
+              >
             </div>
-            <label for="sidebar-categories-toggle" id="sidebar-categories-toggle-button" class="sidebar-button"><img
-                id="sidebar-categories-arrow-img" class="sidebar-button-icon" src="/web/static/icons/arrow_down.svg"
-                alt="" /><span class="sidebar-button-text sidebar-text">Show&nbsp;More</span></label>
-          </div>
-        </section>
-        <!-- <section class="sidebar-section" id="sidebar-auth-section">
+          </section>
+          <!-- <section class="sidebar-section" id="sidebar-auth-section">
                                         <div class="sidebar-auth-container sidebar-section-container">
                                           
                                         </div>
                                 </section> -->
-        <section class="sidebar-section" id="sidebar-footer-section">
-          <div class="sidebar-footer-container sidebar-section-container">
+          <section class="sidebar-section" id="sidebar-footer-section">
+            <div class="sidebar-footer-container sidebar-section-container">
+              {{if .IsLoggedIn}}
+              <button onclick="location.href='/logout'" class="sidebar-button">
+                <img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/logout.svg"
+                  alt=""
+                />
+                <span class="sidebar-button-text sidebar-text">Logout</span>
+              </button>
+              {{end}}
+              <button class="sidebar-button">
+                <img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/settings.svg"
+                  alt=""
+                />
+                <span class="sidebar-button-text sidebar-text">Settings</span>
+              </button>
+              <button id="sidebar-help-button" class="sidebar-button">
+                <img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/help.svg"
+                  alt=""
+                />
+                <span class="sidebar-button-text sidebar-text">Help</span>
+              </button>
+              <button id="sidebar-privacy-button" class="sidebar-button">
+                <img
+                  class="sidebar-button-icon"
+                  src="/web/static/icons/Terms.svg"
+                  alt=""
+                />
+                <span class="sidebar-button-text sidebar-text"
+                  >Privacy&nbsp;&amp;&nbsp;Terms</span
+                >
+              </button>
+            </div>
+          </section>
+        </div>
+        <section class="sidebar-section" id="sidebar-profile-section">
+          <div class="sidebar-section-container" id="sidebar-profile-container">
             {{if .IsLoggedIn}}
-            <button onclick="location.href='/logout'" class="sidebar-button">
-              <img class="sidebar-button-icon" src="/web/static/icons/logout.svg" alt="" />
-              <span class="sidebar-button-text sidebar-text">Logout</span>
+            <div class="sidebar-profile-img-container">
+              <img
+                id="sidebar-profile-img"
+                src="/web/static/img/{{if and .User .User.Photo}}{{.User.Photo}}{{else}}default.png{{end}}"
+                alt="{{if .User}}{{.User.Username}}{{else}}User Avatar{{end}}"
+              />
+            </div>
+            <div class="sidebar-profile-username-container">
+              <span
+                id="sidebar-profile-username-text"
+                class="sidebar-text sidebar-button-text"
+                ><a href="/profile">{{.User.Username}}</a></span
+              >
+            </div>
+            {{else}}
+            <button onclick="location.href='/login'" class="sidebar-button">
+              <img
+                class="sidebar-button-icon"
+                src="/web/static/icons/login.svg"
+                alt=""
+              />
+              <span class="sidebar-button-text sidebar-text"
+                >Login&nbsp;In</span
+              >
+            </button>
+            <button onclick="location.href='/register'" class="sidebar-button">
+              <img
+                class="sidebar-button-icon"
+                src="/web/static/icons/register.svg"
+                alt=""
+              />
+              <span class="sidebar-button-text sidebar-text">Register</span>
             </button>
             {{end}}
-            <button class="sidebar-button">
-              <img class="sidebar-button-icon" src="/web/static/icons/settings.svg" alt="" />
-              <span class="sidebar-button-text sidebar-text">Settings</span>
-            </button>
-            <button id="sidebar-help-button" class="sidebar-button">
-              <img class="sidebar-button-icon" src="/web/static/icons/help.svg" alt="" />
-              <span class="sidebar-button-text sidebar-text">Help</span>
-            </button>
-            <button id="sidebar-privacy-button" class="sidebar-button">
-              <img class="sidebar-button-icon" src="/web/static/icons/Terms.svg" alt="" />
-              <span class="sidebar-button-text sidebar-text">Privacy&nbsp;&amp;&nbsp;Terms</span>
-            </button>
           </div>
         </section>
       </div>
-      <section class="sidebar-section" id="sidebar-profile-section">
-        <div class="sidebar-section-container" id="sidebar-profile-container">
-          {{if .IsLoggedIn}}
-          <div class="sidebar-profile-img-container">
-            <img id="sidebar-profile-img"
-              src="/web/static/img/{{if and .User .User.Photo}}{{.User.Photo}}{{else}}default.png{{end}}"
-              alt="{{if .User}}{{.User.Username}}{{else}}User Avatar{{end}}" />
-          </div>
-          <div class="sidebar-profile-username-container">
-            <span id="sidebar-profile-username-text" class="sidebar-text sidebar-button-text"><a
-                href="/profile">{{.User.Username}}</a></span>
-          </div>
-          {{else}}
-          <button onclick="location.href='/login'" class="sidebar-button">
-            <img class="sidebar-button-icon" src="/web/static/icons/login.svg" alt="" />
-            <span class="sidebar-button-text sidebar-text">Login&nbsp;In</span>
-          </button>
-          <button onclick="location.href='/register'" class="sidebar-button">
-            <img class="sidebar-button-icon" src="/web/static/icons/register.svg" alt="" />
-            <span class="sidebar-button-text sidebar-text">Register</span>
-          </button>
-          {{end}}
-        </div>
-      </section>
-    </div>
-  </nav>
-  <main>{{template "mainBlock" .}}</main>
-</body>
-
+    </nav>
+    <main>{{template "mainBlock" .}}</main>
+  </body>
 </html>
