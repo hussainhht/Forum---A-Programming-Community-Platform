@@ -71,9 +71,9 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 		FeaturedPosts: featuredPosts,
 		LatestPosts:   LatestPosts,
 		Categories:    categories,
-		CSSFile:       "/web/static/css/newtyles.css",
+		CSSFile:       "/web/static/css/home.css",
 		ExtraCSS:      nil,
-		Theme:         nil, // home uses fallback variables defined in category-base.css
+		Theme:         nil, // home uses fallback variables defined in category-base
 	}
 
 	// Pass posts to the template

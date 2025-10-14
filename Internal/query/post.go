@@ -293,12 +293,13 @@ LIMIT 4;
 			return nil, err
 		}
 		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
+
 		posts = append(posts, post)
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-
+	fmt.Println(posts[0].Preview)
 	return posts, nil
 }
 
@@ -430,4 +431,17 @@ func GetDiscoverPosts(db *sql.DB, search, category, sort string, limit, offset i
 		posts = posts[:limit]
 	}
 	return posts, hasNext, rows.Err()
+}
+
+func getPostReview(content []model.Block) string {
+	var preview string
+	wordCount := 0
+	for _, block := range content {
+		wordCount += len(strings.Fields(block.Content))
+		preview += block.Content + " "
+		if wordCount >= 30 {
+			break
+		}
+	}
+	return preview
 }
