@@ -22,7 +22,9 @@
         <div class="edit-section photo-section">
             <h2>Profile Photo</h2>
             <div class="photo-preview-container">
-                <img src="/web/static/img/{{.User.Photo}}" alt="Profile Photo"
+                <img
+                    src="/web/static/img/{{if .User.Photo}}{{.User.Photo}}{{else}}default.png{{end}}"
+                    alt="Profile Photo"
                     class="photo-preview" id="photoPreview">
             </div>
             <form method="POST" action="/edit-profile/photo"

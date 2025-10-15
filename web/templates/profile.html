@@ -1,111 +1,130 @@
 {{define "mainBlock"}}
-    <div class="container profile-page">
-        <nav class="top-nav">
-            <a href="/edit-profile" class="nav-action">Edit Profile</a>
-            <a href="/logout" class="nav-action">Logout</a>
-        </nav>
+<div class="container profile-page">
+    <nav class="top-nav">
+        <a href="/edit-profile" class="nav-action">Edit Profile</a>
+        <a href="/logout" class="nav-action">Logout</a>
+    </nav>
 
-        <header class="profile-header">
-            <div class="profile-info">
-                <img src="/web/static/img/{{.User.Photo}}" alt="Profile Photo" class="profile-photo">
-                <div class="user-details">
-                    <h1 class="typing-effect">{{.User.Username}}</h1>
-                    <p>{{.User.Email}}</p>
+    <header class="profile-header">
+        <div class="profile-info">
+            <img
+                src="/web/static/img/{{if .User.Photo}}{{.User.Photo}}{{else}}default.png{{end}}"
+                alt="Profile Photo" class="profile-photo">
+            <div class="user-details">
+                <h1 class="typing-effect">{{.User.Username}}</h1>
+                <p>{{.User.Email}}</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="stats-section">
+        <div class="stat-item">
+            <span class="stat-number">{{len .UserPosts}}</span>
+            <div class="stat-label">Posts</div>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">{{len .LikedPosts}}</span>
+            <div class="stat-label">Liked</div>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">0</span>
+            <div class="stat-label">Followers</div>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">0</span>
+            <div class="stat-label">Following</div>
+        </div>
+    </div>
+
+    <div class="posts-container profile-posts">
+        <input type="radio" name="tabs" id="tab-your-posts" class="tab-radio"
+            checked>
+        <input type="radio" name="tabs" id="tab-liked-posts" class="tab-radio">
+
+        <div class="tab-navigation">
+            <label for="tab-your-posts" class="tab-button">Your Posts</label>
+            <label for="tab-liked-posts" class="tab-button">Liked Posts</label>
+        </div>
+
+        <div id="your-posts" class="tab-content">
+            <h2>Your Posts</h2>
+            <div class="posts-grid">
+                {{if .UserPosts}}
+                {{range .UserPosts}}
+                <div class="post-card">
+                    <div class="post-titlebar">
+                        <div class="post-title">{{.Title}}</div>
+                        <div class="post-toolbar-buttons">
+                            <button class="minimize" type="button">
+                                <svg viewBox="0 0 10 10"><rect x="1" y="4"
+                                        width="8" height="2" /></svg>
+                            </button>
+                            <a class="maximize" href="/post/{{.ID}}"
+                                aria-label="Open post">
+                                <svg viewBox="0 0 10 10"><rect x="1" y="1"
+                                        width="8" height="8" /></svg>
+                            </a>
+                            <button class="close" type="button">
+                                <svg viewBox="0 0 10 10"><polygon
+                                        points="1,1 9,9 9,1 1,9" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="post-body">
+                        <div class="post-content">{{if
+                            .Preview}}{{.Preview}}{{else}}<em>No preview
+                                available.</em>{{end}}</div>
+                        <div class="post-info"><small>Created
+                                {{.CreatedAt.Format
+                                "2006-01-02 15:04"}}</small></div>
+                    </div>
                 </div>
-            </div>
-        </header>
-
-        <div class="stats-section">
-            <div class="stat-item">
-                <span class="stat-number">{{len .UserPosts}}</span>
-                <div class="stat-label">Posts</div>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">{{len .LikedPosts}}</span>
-                <div class="stat-label">Liked</div>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">0</span>
-                <div class="stat-label">Followers</div>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">0</span>
-                <div class="stat-label">Following</div>
+                {{end}}
+                {{else}}
+                <div class="empty-state">You haven't posted anything yet.</div>
+                {{end}}
             </div>
         </div>
 
-    <div class="posts-container profile-posts">
-            <input type="radio" name="tabs" id="tab-your-posts" class="tab-radio" checked>
-            <input type="radio" name="tabs" id="tab-liked-posts" class="tab-radio">
-            
-            <div class="tab-navigation">
-                <label for="tab-your-posts" class="tab-button">Your Posts</label>
-                <label for="tab-liked-posts" class="tab-button">Liked Posts</label>
-            </div>
-
-            <div id="your-posts" class="tab-content">
-                <h2>Your Posts</h2>
-                <div class="posts-grid">
-                {{if .UserPosts}}
-                    {{range .UserPosts}}
-                    <div class="post-card">
-                        <div class="post-titlebar">
-                            <div class="post-title">{{.Title}}</div>
-                            <div class="post-toolbar-buttons">
-                                <button class="minimize" type="button">
-                                    <svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2" /></svg>
-                                </button>
-                                <a class="maximize" href="/post/{{.ID}}" aria-label="Open post">
-                                    <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" /></svg>
-                                </a>
-                                <button class="close" type="button">
-                                    <svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9" /></svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="post-body">
-                            <div class="post-content">{{if .Preview}}{{.Preview}}{{else}}<em>No preview available.</em>{{end}}</div>
-                            <div class="post-info"><small>Created {{.CreatedAt.Format "2006-01-02 15:04"}}</small></div>
-                        </div>
-                    </div>
-                    {{end}}
-                {{else}}
-                    <div class="empty-state">You haven't posted anything yet.</div>
-                {{end}}
-                </div>
-            </div>
-
-            <div id="liked-posts" class="tab-content">
-                <h2>Liked Posts</h2>
-                <div class="posts-grid">
+        <div id="liked-posts" class="tab-content">
+            <h2>Liked Posts</h2>
+            <div class="posts-grid">
                 {{if .LikedPosts}}
-                    {{range .LikedPosts}}
-                    <div class="post-card">
-                        <div class="post-titlebar">
-                            <div class="post-title">{{.Title}}</div>
-                            <div class="post-toolbar-buttons">
-                                <button class="minimize" type="button">
-                                    <svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2" /></svg>
-                                </button>
-                                <a class="maximize" href="/post/{{.ID}}" aria-label="Open post">
-                                    <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" /></svg>
-                                </a>
-                                <button class="close" type="button">
-                                    <svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9" /></svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="post-body">
-                            <div class="post-content">{{if .Preview}}{{.Preview}}{{else}}<em>No preview available.</em>{{end}}</div>
-                            <div class="post-info"><small>{{.CreatedAt.Format "2006-01-02 15:04"}} • {{.LikeCount}} likes • {{.CommentCount}} comments</small></div>
+                {{range .LikedPosts}}
+                <div class="post-card">
+                    <div class="post-titlebar">
+                        <div class="post-title">{{.Title}}</div>
+                        <div class="post-toolbar-buttons">
+                            <button class="minimize" type="button">
+                                <svg viewBox="0 0 10 10"><rect x="1" y="4"
+                                        width="8" height="2" /></svg>
+                            </button>
+                            <a class="maximize" href="/post/{{.ID}}"
+                                aria-label="Open post">
+                                <svg viewBox="0 0 10 10"><rect x="1" y="1"
+                                        width="8" height="8" /></svg>
+                            </a>
+                            <button class="close" type="button">
+                                <svg viewBox="0 0 10 10"><polygon
+                                        points="1,1 9,9 9,1 1,9" /></svg>
+                            </button>
                         </div>
                     </div>
-                    {{end}}
-                {{else}}
-                    <div class="empty-state">You haven't liked any posts yet.</div>
-                {{end}}
+                    <div class="post-body">
+                        <div class="post-content">{{if
+                            .Preview}}{{.Preview}}{{else}}<em>No preview
+                                available.</em>{{end}}</div>
+                        <div class="post-info"><small>{{.CreatedAt.Format
+                                "2006-01-02 15:04"}} • {{.LikeCount}} likes •
+                                {{.CommentCount}} comments</small></div>
+                    </div>
                 </div>
+                {{end}}
+                {{else}}
+                <div class="empty-state">You haven't liked any posts yet.</div>
+                {{end}}
             </div>
         </div>
     </div>
+</div>
 {{end}}
