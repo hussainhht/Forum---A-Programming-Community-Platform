@@ -328,6 +328,29 @@ body {
   background: rgba(150, 50, 200, 0.7);
 }
 
+/* Guest button styling */
+.guest-button {
+  display: block;
+  padding: 12px 14px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: .25s;
+  font-family: monospace;
+}
+
+.guest-button:hover {
+  background: rgba(200, 120, 255, 0.1);
+  color: #d94dff;
+  border-color: #d94dff;
+  transform: translateY(-2px);
+}
+
 /* ===================== FOOTER ===================== */
 .form-footer {
   text-align: center;
