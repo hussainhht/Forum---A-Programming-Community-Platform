@@ -439,6 +439,100 @@ func GetDiscoverPosts(db *sql.DB, search, category, sort string, limit, offset i
 	return posts, hasNext, rows.Err()
 }
 
+// GetDiscoverPostsMultiCategory provides filtered, searched, sorted, paginated posts with multiple category support
+func GetDiscoverPostsMultiCategory(db *sql.DB, search string, categories []string, sort string, limit, offset int) ([]model.Post, bool, error) {
+	// Base query without category filter
+	baseQuery := `SELECT DISTINCT p.id, p.title, p.content, p.created_at, u.username, p.user_id,
+		(SELECT COUNT(*) FROM post_reactions pr WHERE pr.post_id = p.id AND pr.reaction_type='like') as like_count,
+		(SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as comment_count
+		FROM posts p
+		JOIN users u ON p.user_id = u.id`
+
+	var where []string
+	var args []interface{}
+
+	// Add category filter if categories are provided
+	if len(categories) > 0 {
+		// Filter out empty strings
+		validCategories := []string{}
+		for _, cat := range categories {
+			if strings.TrimSpace(cat) != "" {
+				validCategories = append(validCategories, cat)
+			}
+		}
+
+		if len(validCategories) > 0 {
+			baseQuery += `
+			JOIN post_categories pc ON p.id = pc.post_id
+			JOIN categories c ON pc.category_id = c.id`
+
+			// Build OR condition for multiple categories
+			catPlaceholders := make([]string, len(validCategories))
+			for i := range validCategories {
+				catPlaceholders[i] = "c.name = ?"
+				args = append(args, validCategories[i])
+			}
+			where = append(where, "("+strings.Join(catPlaceholders, " OR ")+")")
+		}
+	}
+
+	// Apply search filter if search term is not empty
+	if search != "" && strings.TrimSpace(search) != "" {
+		where = append(where, "(p.title LIKE ? OR p.content LIKE ?)")
+		like := fmt.Sprintf("%%%s%%", search)
+		args = append(args, like, like)
+	}
+
+	if len(where) > 0 {
+		baseQuery += " WHERE " + strings.Join(where, " AND ")
+	}
+
+	// Sorting
+	switch sort {
+	case "popular":
+		baseQuery += " ORDER BY like_count DESC, p.created_at DESC"
+	case "comments":
+		baseQuery += " ORDER BY comment_count DESC, p.created_at DESC"
+	default:
+		baseQuery += " ORDER BY p.created_at DESC"
+	}
+
+	// Pagination: fetch limit+1 to detect next page
+	baseQuery += " LIMIT ? OFFSET ?"
+	args = append(args, limit+1, offset)
+
+	rows, err := db.Query(baseQuery, args...)
+	if err != nil {
+		return nil, false, err
+	}
+	defer rows.Close()
+
+	posts := []model.Post{}
+	for rows.Next() {
+		var post model.Post
+		var contentJSON string
+		if err := rows.Scan(&post.ID, &post.Title, &contentJSON, &post.CreatedAt, &post.Username, &post.UserID, &post.LikeCount, &post.CommentCount); err != nil {
+			return nil, false, err
+		}
+		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
+		// Derive preview
+		for _, b := range post.Content {
+			if b.Type == "text" {
+				post.Preview = b.Content
+				break
+			}
+		}
+		posts = append(posts, post)
+	}
+
+	hasNext := false
+	if len(posts) > limit {
+		hasNext = true
+		posts = posts[:limit]
+	}
+	return posts, hasNext, rows.Err()
+}
+
 func getPostReview(content []model.Block) string {
 	var preview string
 	wordCount := 0

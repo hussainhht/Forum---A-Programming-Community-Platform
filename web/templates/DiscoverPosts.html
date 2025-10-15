@@ -17,16 +17,23 @@
                     placeholder="Search posts..." value="{{.SearchQuery}}" />
             </div>
             <div class="filter-group category-group">
-                <label for="filter-category"
-                    class="filter-label">Category</label>
-                <select id="filter-category" name="category">
-                    <option value>All</option>
-                    {{range .Categories}}
-                    <option value="{{.Name}}" {{if (and $.SelectedCategory (eq
-                        $.SelectedCategory
-                        .Name))}}selected{{end}}>{{.Name}}</option>
-                    {{end}}
-                </select>
+                <label class="filter-label">Categories</label>
+                <div class="categories-wrapper">
+                    <div class="categories-header">Select Categories ▾
+                        <div class="categories-dropdown">
+                            {{range .Categories}}
+                            <label class="category-option">
+                                <input type="checkbox" name="category"
+                                    value="{{.Name}}"
+                                    {{if contains $.SelectedCategories
+                                    .Name}}checked{{end}}>
+                                <span>{{.Name}}</span>
+                                <span class="selected-indicator"></span>
+                            </label>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="filter-group sort-group">
                 <label for="filter-sort" class="filter-label">Sort</label>
@@ -47,8 +54,9 @@
     </section>
 
     <section id="posts-section" class="main-section discover-posts">
-        <h2 class="section-title">Results{{if .SelectedCategory}} in
-            {{.SelectedCategory}}{{end}}{{if .SearchQuery}} for
+        <h2 class="section-title">Results{{if .SelectedCategories}} in {{range
+            $i, $cat := .SelectedCategories}}{{if $i}},
+            {{end}}{{$cat}}{{end}}{{end}}{{if .SearchQuery}} for
             "{{.SearchQuery}}"{{end}}</h2>
         <div class="posts-container">
             <form method="get" class="posts-form"
@@ -86,11 +94,11 @@
         <div class="posts-pagination">
             {{if .HasPrevPage}}
             <a class="page-btn"
-                href="/posts?page={{.PrevPage}}{{if .SelectedCategory}}&category={{.SelectedCategory}}{{end}}{{if .SearchQuery}}&q={{.SearchQuery}}{{end}}{{if .Sort}}&sort={{.Sort}}{{end}}">Prev</a>
+                href="/posts?page={{.PrevPage}}{{range .SelectedCategories}}&category={{.}}{{end}}{{if .SearchQuery}}&q={{.SearchQuery}}{{end}}{{if .Sort}}&sort={{.Sort}}{{end}}">Prev</a>
             {{end}}
             {{if .HasNextPage}}
             <a class="page-btn"
-                href="/posts?page={{.NextPage}}{{if .SelectedCategory}}&category={{.SelectedCategory}}{{end}}{{if .SearchQuery}}&q={{.SearchQuery}}{{end}}{{if .Sort}}&sort={{.Sort}}{{end}}">Next</a>
+                href="/posts?page={{.NextPage}}{{range .SelectedCategories}}&category={{.}}{{end}}{{if .SearchQuery}}&q={{.SearchQuery}}{{end}}{{if .Sort}}&sort={{.Sort}}{{end}}">Next</a>
             {{end}}
         </div>
         {{end}}

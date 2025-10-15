@@ -11,17 +11,14 @@ import (
 func (server *Server) Get_DiscoverPostsHandler(w http.ResponseWriter, r *http.Request) {
 	sessionIDCookie, _ := r.Cookie("session_id")
 
-	// Parse query params
+	// Parse query params - get multiple categories
 	q := r.URL.Query().Get("q")
-	category := r.URL.Query().Get("category")
+	categories := r.URL.Query()["category"] // Get array of categories
 	sort := r.URL.Query().Get("sort")
 
-	// Normalize empty strings to empty (to show all posts initially)
+	// Normalize empty strings
 	if q == "" {
 		q = ""
-	}
-	if category == "" || category == "All" {
-		category = ""
 	}
 	if sort == "" {
 		sort = "latest"
@@ -35,22 +32,32 @@ func (server *Server) Get_DiscoverPostsHandler(w http.ResponseWriter, r *http.Re
 	const pageSize = 12
 	offset := (page - 1) * pageSize
 
-	// template
-	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/DiscoverPosts.html")
+	// template with custom function
+	tmpl := template.New("root.html").Funcs(template.FuncMap{
+		"contains": func(slice []string, item string) bool {
+			for _, s := range slice {
+				if s == item {
+					return true
+				}
+			}
+			return false
+		},
+	})
+	tmpl, tmplErr := tmpl.ParseFiles("./web/templates/root.html", "./web/templates/DiscoverPosts.html")
 	if tmplErr != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
 	// categories for select
-	categories, err := server.Service.GetCategories()
+	allCategories, err := server.Service.GetCategories()
 	if err != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
-	// fetch posts
-	posts, hasNext, err := server.Service.GetDiscoverPosts(q, category, sort, pageSize, offset)
+	// fetch posts with multiple categories
+	posts, hasNext, err := server.Service.GetDiscoverPostsMultiCategory(q, categories, sort, pageSize, offset)
 	if err != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
@@ -66,19 +73,19 @@ func (server *Server) Get_DiscoverPostsHandler(w http.ResponseWriter, r *http.Re
 	}
 
 	pageData := model.PageData{
-		IsLoggedIn:       isLoggedIn,
-		User:             user,
-		Categories:       categories,
-		Posts:            posts,
-		SelectedCategory: category,
-		SearchQuery:      q,
-		Sort:             sort,
-		HasNextPage:      hasNext,
-		HasPrevPage:      page > 1,
-		NextPage:         page + 1,
-		PrevPage:         page - 1,
-		CSSFile:          "/web/static/css/newtyles.css",
-		ExtraCSS:         []string{"/web/static/css/discover.css"},
+		IsLoggedIn:         isLoggedIn,
+		User:               user,
+		Categories:         allCategories,
+		Posts:              posts,
+		SelectedCategories: categories,
+		SearchQuery:        q,
+		Sort:               sort,
+		HasNextPage:        hasNext,
+		HasPrevPage:        page > 1,
+		NextPage:           page + 1,
+		PrevPage:           page - 1,
+		CSSFile:            "/web/static/css/newtyles.css",
+		ExtraCSS:           []string{"/web/static/css/discover.css"},
 	}
 
 	tmpl.Execute(w, pageData)

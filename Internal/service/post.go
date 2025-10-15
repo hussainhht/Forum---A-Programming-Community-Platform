@@ -109,6 +109,11 @@ func (s *Service) GetDiscoverPosts(search, category, sort string, limit, offset 
 	return query.GetDiscoverPosts(s.DB, search, category, sort, limit, offset)
 }
 
+// GetDiscoverPostsMultiCategory retrieves posts filtered by multiple categories
+func (s *Service) GetDiscoverPostsMultiCategory(search string, categories []string, sort string, limit, offset int) ([]model.Post, bool, error) {
+	return query.GetDiscoverPostsMultiCategory(s.DB, search, categories, sort, limit, offset)
+}
+
 func (s *Service) GetPostReaction(postID, userID int) (*model.PostReaction, error) {
 	return query.GetPostReaction(s.DB, postID, userID)
 }
