@@ -237,14 +237,40 @@ main {
     aspect-ratio: 1/1;
     width: 100%;
     max-width: 128px;
+    border: 1px solid rgba(192, 66, 255, 0.6);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(192, 66, 255, 0.3);
 }
 
 #sidebar-profile-username-text {
-    padding: 8px;
+    padding: 8px 12px;
     display: block;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
 }
 
 #sidebar-profile-username-text a {
-    border-bottom: 1px white solid;
-    display: block;
+    color: #ffffff;
+    text-decoration: none;
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(192, 66, 255, 0.25), rgba(192, 66, 255, 0.1));
+    border: 1px solid rgba(192, 66, 255, 0.4);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(192, 66, 255, 0.2);
+}
+
+#sidebar-profile-username-text a:hover {
+    background: linear-gradient(135deg, rgba(192, 66, 255, 0.4), rgba(192, 66, 255, 0.2));
+    border-color: rgba(192, 66, 255, 0.6);
+    box-shadow: 0 4px 12px rgba(192, 66, 255, 0.35);
+    transform: translateY(-2px);
+}
+
+#sidebar-profile-username-text a:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(192, 66, 255, 0.3);
 }
