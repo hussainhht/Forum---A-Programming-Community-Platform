@@ -240,6 +240,7 @@ body {
 /* Posts grid refined */
 #posts-section.discover-posts {
   scroll-margin-top: 60px;
+  
 }
 
 #posts-section.discover-posts .posts-container {
@@ -267,6 +268,8 @@ body {
     0 0 22px -4px rgba(var(--discover-accent-rgb) / 0.35);
   overflow: hidden;
   transition: 0.35s;
+    margin-bottom: 30px;
+
 }
 
 #posts-section.discover-posts .post-card:before {

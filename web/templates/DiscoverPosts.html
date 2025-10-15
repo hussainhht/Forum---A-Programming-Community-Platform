@@ -3,31 +3,40 @@
     <section class="main-section" id="discover-hero-section">
         <div class="hero-container">
             <h1 class="section-title">Discover Posts</h1>
-            <p class="section-subtitle">Explore community knowledge, filter by category, and find what interests you.</p>
+            <p class="section-subtitle">Explore community knowledge, filter by
+                category, and find what interests you.</p>
         </div>
     </section>
 
     <section class="main-section" id="posts-filters-section">
-        <form id="posts-filter-form" class="posts-filter-form" method="get" action="/posts">
+        <form id="posts-filter-form" class="posts-filter-form" method="get"
+            action="/posts">
             <div class="filter-group search-group">
                 <label for="search-q" class="filter-label">Search</label>
-                <input id="search-q" name="q" type="text" placeholder="Search posts..." value="{{.SearchQuery}}" />
+                <input id="search-q" name="q" type="text"
+                    placeholder="Search posts..." value="{{.SearchQuery}}" />
             </div>
             <div class="filter-group category-group">
-                <label for="filter-category" class="filter-label">Category</label>
+                <label for="filter-category"
+                    class="filter-label">Category</label>
                 <select id="filter-category" name="category">
-                    <option value="" {{if not .SelectedCategory}}selected{{end}}>All</option>
+                    <option value>All</option>
                     {{range .Categories}}
-                    <option value="{{.Name}}" {{if (and $.SelectedCategory (eq $.SelectedCategory .Name))}}selected{{end}}>{{.Name}}</option>
+                    <option value="{{.Name}}" {{if (and $.SelectedCategory (eq
+                        $.SelectedCategory
+                        .Name))}}selected{{end}}>{{.Name}}</option>
                     {{end}}
                 </select>
             </div>
             <div class="filter-group sort-group">
                 <label for="filter-sort" class="filter-label">Sort</label>
                 <select id="filter-sort" name="sort">
-                    <option value="latest" {{if or (not .Sort) (eq .Sort "latest")}}selected{{end}}>Latest</option>
-                    <option value="popular" {{if eq .Sort "popular"}}selected{{end}}>Most Popular</option>
-                    <option value="comments" {{if eq .Sort "comments"}}selected{{end}}>Most Commented</option>
+                    <option value="latest" {{if or (not .Sort) (eq .Sort
+                        "latest")}}selected{{end}}>Latest</option>
+                    <option value="popular" {{if eq .Sort
+                        "popular"}}selected{{end}}>Most Popular</option>
+                    <option value="comments" {{if eq .Sort
+                        "comments"}}selected{{end}}>Most Commented</option>
                 </select>
             </div>
             <div class="filter-actions">
@@ -38,25 +47,33 @@
     </section>
 
     <section id="posts-section" class="main-section discover-posts">
-        <h2 class="section-title">Results{{if .SelectedCategory}} in {{.SelectedCategory}}{{end}}{{if .SearchQuery}} for "{{.SearchQuery}}"{{end}}</h2>
+        <h2 class="section-title">Results{{if .SelectedCategory}} in
+            {{.SelectedCategory}}{{end}}{{if .SearchQuery}} for
+            "{{.SearchQuery}}"{{end}}</h2>
         <div class="posts-container">
-            <form method="get" class="posts-form" style="all:unset;display:contents;">
+            <form method="get" class="posts-form"
+                style="all:unset;display:contents;">
                 {{range .Posts}}
                 <div class="post-card">
                     <div class="post-titlebar">
                         <div class="post-title">{{.Title}}</div>
                         <div class="post-toolbar-buttons">
-                            <button class="maximize" type="submit" formaction="/post/{{.ID}}">
-                                <svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8" /></svg>
+                            <button class="maximize" type="submit"
+                                formaction="/post/{{.ID}}">
+                                <svg viewBox="0 0 10 10"><rect x="1" y="1"
+                                        width="8" height="8" /></svg>
                             </button>
                         </div>
                     </div>
                     <div class="post-body">
                         <div class="post-meta-line">
-                            {{if .Category}}<span class="post-category-badge">{{.Category}}</span>{{end}}
+                            {{if .Category}}<span
+                                class="post-category-badge">{{.Category}}</span>{{end}}
                         </div>
                         <div class="post-content">{{.Preview}}</div>
-                        <div class="post-info"><small>By {{.Username}} on {{.CreatedAt.Format "2006-01-02 15:04"}}</small></div>
+                        <div class="post-info"><small>By {{.Username}} on
+                                {{.CreatedAt.Format
+                                "2006-01-02 15:04"}}</small></div>
                     </div>
                 </div>
                 {{else}}
@@ -68,10 +85,12 @@
         {{if or .HasPrevPage .HasNextPage}}
         <div class="posts-pagination">
             {{if .HasPrevPage}}
-            <a class="page-btn" href="/posts?page={{.PrevPage}}{{if .SelectedCategory}}&category={{.SelectedCategory}}{{end}}{{if .SearchQuery}}&q={{.SearchQuery}}{{end}}{{if .Sort}}&sort={{.Sort}}{{end}}">Prev</a>
+            <a class="page-btn"
+                href="/posts?page={{.PrevPage}}{{if .SelectedCategory}}&category={{.SelectedCategory}}{{end}}{{if .SearchQuery}}&q={{.SearchQuery}}{{end}}{{if .Sort}}&sort={{.Sort}}{{end}}">Prev</a>
             {{end}}
             {{if .HasNextPage}}
-            <a class="page-btn" href="/posts?page={{.NextPage}}{{if .SelectedCategory}}&category={{.SelectedCategory}}{{end}}{{if .SearchQuery}}&q={{.SearchQuery}}{{end}}{{if .Sort}}&sort={{.Sort}}{{end}}">Next</a>
+            <a class="page-btn"
+                href="/posts?page={{.NextPage}}{{if .SelectedCategory}}&category={{.SelectedCategory}}{{end}}{{if .SearchQuery}}&q={{.SearchQuery}}{{end}}{{if .Sort}}&sort={{.Sort}}{{end}}">Next</a>
             {{end}}
         </div>
         {{end}}

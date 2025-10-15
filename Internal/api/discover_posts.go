@@ -15,6 +15,18 @@ func (server *Server) Get_DiscoverPostsHandler(w http.ResponseWriter, r *http.Re
 	q := r.URL.Query().Get("q")
 	category := r.URL.Query().Get("category")
 	sort := r.URL.Query().Get("sort")
+
+	// Normalize empty strings to empty (to show all posts initially)
+	if q == "" {
+		q = ""
+	}
+	if category == "" || category == "All" {
+		category = ""
+	}
+	if sort == "" {
+		sort = "latest"
+	}
+
 	pageStr := r.URL.Query().Get("page")
 	page := 1
 	if p, err := strconv.Atoi(pageStr); err == nil && p > 0 {

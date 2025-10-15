@@ -26,6 +26,7 @@ type Post struct {
 	Content       []Block `json:"content"`
 	CreatedAt     time.Time
 	Username      string // For display purposes (not stored in DB)
+	Category      string // Category name for display
 	LikeCount     int
 	DislikeCount  int
 	UserLiked     bool

@@ -369,25 +369,31 @@ func GetLatestPosts(db *sql.DB) ([]model.Post, error) {
 
 // GetDiscoverPosts provides filtered, searched, sorted, paginated posts
 func GetDiscoverPosts(db *sql.DB, search, category, sort string, limit, offset int) ([]model.Post, bool, error) {
-	// base select
+	// base select - now includes category name
 	base := `SELECT DISTINCT p.id, p.title, p.content, p.created_at, u.username, p.user_id,
 		(SELECT COUNT(*) FROM post_reactions pr WHERE pr.post_id = p.id AND pr.reaction_type='like') as like_count,
-		(SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as comment_count
+		(SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as comment_count,
+		COALESCE(c.name, '') as category_name
 		FROM posts p
 		JOIN users u ON p.user_id = u.id
 		LEFT JOIN post_categories pc ON p.id = pc.post_id
 		LEFT JOIN categories c ON pc.category_id = c.id`
 	var where []string
 	var args []interface{}
-	if search != "" {
+
+	// Only apply search filter if search term is not empty
+	if search != "" && strings.TrimSpace(search) != "" {
 		where = append(where, "(p.title LIKE ? OR p.content LIKE ?)")
 		like := fmt.Sprintf("%%%s%%", search)
 		args = append(args, like, like)
 	}
-	if category != "" {
+
+	// Only apply category filter if category is not empty
+	if category != "" && strings.TrimSpace(category) != "" {
 		where = append(where, "c.name = ?")
 		args = append(args, category)
 	}
+
 	if len(where) > 0 {
 		base += " WHERE " + strings.Join(where, " AND ")
 	}
@@ -412,7 +418,7 @@ func GetDiscoverPosts(db *sql.DB, search, category, sort string, limit, offset i
 	for rows.Next() {
 		var post model.Post
 		var contentJSON string
-		if err := rows.Scan(&post.ID, &post.Title, &contentJSON, &post.CreatedAt, &post.Username, &post.UserID, &post.LikeCount, &post.CommentCount); err != nil {
+		if err := rows.Scan(&post.ID, &post.Title, &contentJSON, &post.CreatedAt, &post.Username, &post.UserID, &post.LikeCount, &post.CommentCount, &post.Category); err != nil {
 			return nil, false, err
 		}
 		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
