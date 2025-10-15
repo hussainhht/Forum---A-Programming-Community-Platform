@@ -13,20 +13,20 @@ func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Requ
 	r.ParseForm()
 	commentID, err := strconv.Atoi(r.FormValue("comment_id"))
 	if err != nil {
-		http.Error(w, "Invalid comment ID", http.StatusBadRequest)
+		server.Service.HandleError(w, r, http.StatusBadRequest)
 		return
 	}
 
 	// Get the session ID from the session
 	sessionID, err := server.Service.GetSessionIDFromCookie(r)
 	if err != nil {
-		http.Error(w, "Failed to get session ID", http.StatusUnauthorized)
+		server.Service.HandleError(w, r, http.StatusUnauthorized)
 		return
 	}
 
 	user, err := server.Service.GetUserFromSessionID(sessionID)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
+		server.Service.HandleError(w, r, http.StatusUnauthorized)
 		return
 	}
 
@@ -35,7 +35,7 @@ func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Requ
 	// Call the service layer to handle the like action
 	err = server.Service.CommentReaction(commentID, user.ID, reactionType)
 	if err != nil {
-		http.Error(w, "Failed to react to comment", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -46,33 +46,33 @@ func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.R
 	r.ParseForm()
 	postID := r.FormValue("post_id")
 	if postID == "" {
-		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		server.Service.HandleError(w, r, http.StatusBadRequest)
 		return
 	}
 
 	// Get the session ID from the session
 	sessionID, err := server.Service.GetSessionIDFromCookie(r)
 	if err != nil {
-		http.Error(w, "Failed to get session ID", http.StatusUnauthorized)
+		server.Service.HandleError(w, r, http.StatusUnauthorized)
 		return
 	}
 
 	user, err := server.Service.GetUserFromSessionID(sessionID)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
+		server.Service.HandleError(w, r, http.StatusUnauthorized)
 		return
 	}
 
 	content := r.FormValue("content")
 	if len(content) > 1000 {
-		http.Error(w, "Comment content is too long", http.StatusBadRequest)
+		server.Service.HandleError(w, r, http.StatusBadRequest)
 		return
 	}
 
 	// Call the service layer to create the comment
 	err = server.Service.CreateComment(postID, user.ID, content)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 	http.Redirect(w, r, fmt.Sprintf("/post/%s", postID), http.StatusSeeOther)

@@ -22,7 +22,7 @@ type RegisterPageData struct {
 func (server *Server) Get_RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, tmplErr := template.ParseFiles("./web/templates/register.html")
 	if tmplErr != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 

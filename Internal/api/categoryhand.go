@@ -181,7 +181,7 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 	// Resolve category by slug
 	catID, err := server.Service.GetCategoryIDByName(strings.ToLower(slug))
 	if err != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -189,7 +189,7 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 	if catID != 0 {
 		posts, err = server.Service.GetPostsByCategories([]string{fmt.Sprintf("%d", catID)})
 		if err != nil {
-			server.Service.HandleError(w, http.StatusInternalServerError)
+			server.Service.HandleError(w, r, http.StatusInternalServerError)
 			return
 		}
 	} else {
@@ -201,7 +201,7 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 
 	allCats, err := server.Service.GetCategories()
 	if err != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -235,14 +235,14 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 	tpl, err := base.ParseFiles("./web/templates/root.html", "./web/templates/category.html")
 	if err != nil {
 		log.Printf("category[%s]: template parse error: %v", slug, err)
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := tpl.Execute(w, data); err != nil {
 		log.Printf("category[%s]: execute error: %v", slug, err)
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 	}
 }
 

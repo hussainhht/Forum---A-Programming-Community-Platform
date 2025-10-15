@@ -25,7 +25,7 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 	post, err := server.Service.GetPostByID(postID)
 	if err != nil {
 		log.Printf("viewPost: failed to get post id=%s: %v", postID, err)
-		server.Service.HandleError(w, http.StatusNotFound)
+		server.Service.HandleError(w, r, http.StatusNotFound)
 		return
 	}
 
@@ -48,13 +48,13 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/view-post.html")
 	if tmplErr != nil {
 		log.Printf("viewPost: template parse error: %v", tmplErr)
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 	// fmt.Println(post).
 	if err := tmpl.Execute(w, pageData); err != nil {
 		log.Printf("viewPost: execute error: %v", err)
-		http.Error(w, "Failed to render template", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 }

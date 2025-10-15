@@ -10,19 +10,19 @@ func (server *Server) Post_ReactionHandler(w http.ResponseWriter, r *http.Reques
 	r.ParseForm()
 	postID, err := strconv.Atoi(r.FormValue("post_id"))
 	if err != nil {
-		http.Error(w, "Invalid post ID", http.StatusBadRequest)
+		server.Service.HandleError(w, r, http.StatusBadRequest)
 		return
 	}
 
 	// Get the session ID from the session
 	sessionID, err := server.Service.GetSessionIDFromCookie(r)
 	if err != nil {
-		server.Service.HandleError(w, http.StatusUnauthorized)
+		server.Service.HandleError(w, r, http.StatusUnauthorized)
 		return
 	}
 	user, err := server.Service.GetUserFromSessionID(sessionID)
 	if err != nil {
-		server.Service.HandleError(w, http.StatusUnauthorized)
+		server.Service.HandleError(w, r, http.StatusUnauthorized)
 		return
 	}
 
@@ -32,7 +32,7 @@ func (server *Server) Post_ReactionHandler(w http.ResponseWriter, r *http.Reques
 	err = server.Service.PostReaction(postID, user.ID, reactionType)
 	if err != nil {
 		fmt.Println(err)
-		http.Error(w, "Failed to react to post", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 

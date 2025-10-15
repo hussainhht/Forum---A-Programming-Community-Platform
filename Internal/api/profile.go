@@ -34,14 +34,14 @@ func (server *Server) Get_ProfileHandler(w http.ResponseWriter, r *http.Request)
 	// 3️⃣ Get user's posts with like/comment counts
 	posts, err := server.Service.Get_PostsByUser(user.ID)
 	if err != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
 	// 4️⃣ Get user's liked posts
 	likedPosts, err := server.Service.Get_LikedPostsByUser(user.ID)
 	if err != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -58,11 +58,11 @@ func (server *Server) Get_ProfileHandler(w http.ResponseWriter, r *http.Request)
 	}
 	tmpl, err := template.ParseFiles("./web/templates/root.html", "./web/templates/profile.html")
 	if err != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 	if err := tmpl.Execute(w, data); err != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 }

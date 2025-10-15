@@ -38,7 +38,7 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 	// Get categories
 	categories, err := server.Service.GetCategories()
 	if err != nil {
-		http.Error(w, "Error loading categories", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -72,7 +72,7 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 
 	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html")
 	if err != nil {
-		http.Error(w, "Error parsing template", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 	_ = tmpl.Execute(w, data)
@@ -93,7 +93,7 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	if err := r.ParseForm(); err != nil {
-		server.Service.HandleError(w, http.StatusBadRequest)
+		server.Service.HandleError(w, r, http.StatusBadRequest)
 		return
 	}
 
@@ -137,7 +137,7 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 			tempBlocks = append(tempBlocks, block)
 			server.TempBlocks[sessionID] = tempBlocks
 		}
-		renderCreatePost(w, server, title, catIDs, tempBlocks, "")
+		renderCreatePost(w, r, server, title, catIDs, tempBlocks, "")
 		return
 
 	case "remove-block":
@@ -145,19 +145,19 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 			tempBlocks = tempBlocks[:len(tempBlocks)-1]
 			server.TempBlocks[sessionID] = tempBlocks
 		}
-		renderCreatePost(w, server, title, catIDs, tempBlocks, "")
+		renderCreatePost(w, r, server, title, catIDs, tempBlocks, "")
 		return
 
 	case "submit-post":
 		if title == "" || len(tempBlocks) == 0 || len(catIDs) == 0 {
-			renderCreatePost(w, server, title, catIDs, tempBlocks, "Title, categories, and blocks are required")
+			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "Title, categories, and blocks are required")
 			return
 		}
 
 		// Convert blocks to JSON
 		blocksJSON, err := json.Marshal(tempBlocks)
 		if err != nil {
-			renderCreatePost(w, server, title, catIDs, tempBlocks, "Failed to encode blocks")
+			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "Failed to encode blocks")
 			return
 		}
 
@@ -169,7 +169,7 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 
 		// Call service to create post
 		if err := server.Service.CreatePost(sessionID, title, string(blocksJSON), catIDsStr); err != nil {
-			renderCreatePost(w, server, title, catIDs, tempBlocks, "Failed to create post: "+err.Error())
+			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "Failed to create post: "+err.Error())
 			return
 		}
 
@@ -183,11 +183,11 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 	case "clear-session":
 		// Clear temp blocks when user wants to start fresh
 		server.TempBlocks[sessionID] = []model.Block{}
-		renderCreatePost(w, server, "", []int{}, []model.Block{}, "")
+		renderCreatePost(w, r, server, "", []int{}, []model.Block{}, "")
 		return
 
 	default:
-		renderCreatePost(w, server, title, catIDs, tempBlocks, "")
+		renderCreatePost(w, r, server, title, catIDs, tempBlocks, "")
 		return
 	}
 }
@@ -195,6 +195,7 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 // Common renderer for Create Post page
 func renderCreatePost(
 	w http.ResponseWriter,
+	r *http.Request,
 	server *Server,
 	title string,
 	selectedCats []int,
@@ -204,7 +205,7 @@ func renderCreatePost(
 	// Fetch all categories from service
 	categories, err := server.Service.GetCategories()
 	if err != nil {
-		http.Error(w, "Error loading categories", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -237,11 +238,11 @@ func renderCreatePost(
 
 	tmpl, err = tmpl.ParseFiles("./web/templates/create-post.html")
 	if err != nil {
-		http.Error(w, "Error parsing template", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 	if err := tmpl.Execute(w, data); err != nil {
-		http.Error(w, "Error rendering page", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 }

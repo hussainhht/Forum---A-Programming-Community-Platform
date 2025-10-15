@@ -26,7 +26,7 @@ func (server *Server) Get_LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, tmplErr := template.ParseFiles("./web/templates/login.html")
 	if tmplErr != nil {
-		http.Error(w, "Error loading template", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -34,12 +34,12 @@ func (server *Server) Get_LoginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (server *Server) Post_LoginHandler(w http.ResponseWriter, r *http.Request) {
-	
+
 	if err := r.ParseForm(); err != nil {
 		renderLogin(w, r, "Failed to parse form")
 		return
 	}
-	
+
 	emailOrUsername := strings.TrimSpace(r.FormValue("emailORUsername"))
 	password := r.FormValue("password")
 

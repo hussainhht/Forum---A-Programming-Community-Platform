@@ -11,7 +11,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path != "/" && r.URL.Path != "" {
 		fmt.Println("Path not found:", r.URL.Path)
-		server.Service.HandleError(w, http.StatusNotFound)
+		server.Service.HandleError(w, r, http.StatusNotFound)
 		return
 	}
 
@@ -21,7 +21,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/home.html")
 
 	if tmplErr != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		fmt.Println("Error creating template:", tmplErr)
 		return
 	}
@@ -29,7 +29,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	// Get categories for the filter
 	categories, err := server.Service.GetCategories()
 	if err != nil {
-		http.Error(w, "Error fetching categories", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -39,14 +39,14 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	featuredPosts, err = server.Service.GetFeaturedPosts()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 	var LatestPosts []model.Post
 
 	LatestPosts, err = server.Service.GetLatestPosts()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -60,7 +60,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	if isLoggedIn {
 		user, err = server.Service.GetUserFromSessionID(sessionIDCookie.Value)
 		if err != nil {
-			http.Error(w, "Error fetching user info", http.StatusInternalServerError)
+			server.Service.HandleError(w, r, http.StatusInternalServerError)
 			return
 		}
 	}

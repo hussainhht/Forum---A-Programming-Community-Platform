@@ -47,7 +47,7 @@ func (server *Server) Start() error {
 		w.Header().Set("Cache-Control", "public, max-age=300") // 5 minutes
 		data, err := os.ReadFile("./web/static/css/profile.css")
 		if err != nil {
-			http.Error(w, "/* missing profile.css */", http.StatusNotFound)
+			server.Service.HandleError(w, r, http.StatusNotFound)
 			return
 		}
 		w.Write(data)
@@ -64,7 +64,7 @@ func (server *Server) Start() error {
 		case http.MethodPost:
 			server.Post_RegisterHandler(w, r)
 		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			server.Service.HandleError(w, r, http.StatusMethodNotAllowed)
 		}
 	})
 
@@ -77,7 +77,7 @@ func (server *Server) Start() error {
 		// case http.MethodPost:
 		// 	server.Post_ProfileHandler(w, r)
 		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			server.Service.HandleError(w, r, http.StatusMethodNotAllowed)
 		}
 	})
 
@@ -89,7 +89,7 @@ func (server *Server) Start() error {
 		case http.MethodPost:
 			server.Post_LoginHandler(w, r)
 		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			server.Service.HandleError(w, r, http.StatusMethodNotAllowed)
 		}
 	})
 
@@ -104,7 +104,7 @@ func (server *Server) Start() error {
 		case http.MethodPost:
 			server.Post_CreatePostHandler(w, r)
 		default:
-			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			server.Service.HandleError(w, r, http.StatusMethodNotAllowed)
 		}
 	})
 

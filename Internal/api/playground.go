@@ -58,7 +58,7 @@ func (server *Server) Get_PlaygroundHandler(w http.ResponseWriter, r *http.Reque
 
 	tmpl, err := template.ParseFiles("./web/templates/root.html", "./web/templates/startcoding.html")
 	if err != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 	_ = tmpl.Execute(w, data)
@@ -70,7 +70,7 @@ func (server *Server) Post_PlaygroundPreviewHandler(w http.ResponseWriter, r *ht
 		return
 	}
 	if err := r.ParseForm(); err != nil {
-		server.Service.HandleError(w, http.StatusBadRequest)
+		server.Service.HandleError(w, r, http.StatusBadRequest)
 		return
 	}
 
@@ -81,7 +81,7 @@ func (server *Server) Post_PlaygroundPreviewHandler(w http.ResponseWriter, r *ht
 	code := r.FormValue("code")
 
 	if len(code) > service.MaxCodeBytes {
-		http.Error(w, "Code too large", http.StatusRequestEntityTooLarge)
+		server.Service.HandleError(w, r, http.StatusRequestEntityTooLarge)
 		return
 	}
 
@@ -92,7 +92,7 @@ func (server *Server) Post_PlaygroundPreviewHandler(w http.ResponseWriter, r *ht
 	// Render safe highlighted HTML (your service.HighlightHTML handles both dev/audit versions)
 	htmlPreview, err := service.HighlightHTML(string(codeBytes), lang)
 	if err != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
@@ -132,7 +132,7 @@ func (server *Server) Post_PlaygroundPreviewHandler(w http.ResponseWriter, r *ht
 
 	tmpl, tErr := template.ParseFiles("./web/templates/root.html", "./web/templates/startcoding.html")
 	if tErr != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 	_ = tmpl.Execute(w, data)
@@ -144,7 +144,7 @@ func (server *Server) Post_DownloadHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 	if err := r.ParseForm(); err != nil {
-		server.Service.HandleError(w, http.StatusBadRequest)
+		server.Service.HandleError(w, r, http.StatusBadRequest)
 		return
 	}
 
@@ -155,7 +155,7 @@ func (server *Server) Post_DownloadHandler(w http.ResponseWriter, r *http.Reques
 	code := r.FormValue("code")
 
 	if len(code) > service.MaxCodeBytes {
-		http.Error(w, "File too large", http.StatusRequestEntityTooLarge)
+		server.Service.HandleError(w, r, http.StatusRequestEntityTooLarge)
 		return
 	}
 

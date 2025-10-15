@@ -26,21 +26,21 @@ func (server *Server) Get_DiscoverPostsHandler(w http.ResponseWriter, r *http.Re
 	// template
 	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/DiscoverPosts.html")
 	if tmplErr != nil {
-		server.Service.HandleError(w, http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
 	// categories for select
 	categories, err := server.Service.GetCategories()
 	if err != nil {
-		http.Error(w, "Error fetching categories", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
 	// fetch posts
 	posts, hasNext, err := server.Service.GetDiscoverPosts(q, category, sort, pageSize, offset)
 	if err != nil {
-		http.Error(w, "Error fetching posts", http.StatusInternalServerError)
+		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
