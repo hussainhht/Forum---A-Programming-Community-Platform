@@ -122,6 +122,9 @@ func (server *Server) Start() error {
 	router.HandleFunc("/playground/preview", server.Post_PlaygroundPreviewHandler)
 	router.HandleFunc("/download", server.Post_DownloadHandler)
 
+	// Help page
+	router.HandleFunc("GET /help", server.Get_HelpHandler)
+
 	// Generic category route: /category/{slug}
 	router.HandleFunc("GET /category/{slug}", server.Get_CategoryHandler)
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)
