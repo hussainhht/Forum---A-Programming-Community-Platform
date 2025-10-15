@@ -53,6 +53,17 @@ func (server *Server) Start() error {
 		w.Write(data)
 	})
 
+	router.HandleFunc("GET /assets/edit-profile.css", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/css; charset=utf-8")
+		w.Header().Set("Cache-Control", "public, max-age=300") // 5 minutes
+		data, err := os.ReadFile("./web/static/css/edit-profile.css")
+		if err != nil {
+			server.Service.HandleError(w, r, http.StatusNotFound)
+			return
+		}
+		w.Write(data)
+	})
+
 	// Discover Posts
 	router.HandleFunc("GET /posts", server.Get_DiscoverPostsHandler)
 
@@ -80,6 +91,12 @@ func (server *Server) Start() error {
 			server.Service.HandleError(w, r, http.StatusMethodNotAllowed)
 		}
 	})
+
+	// Edit Profile
+	router.HandleFunc("GET /edit-profile", server.Get_EditProfileHandler)
+	router.HandleFunc("POST /edit-profile/fullname", server.Post_UpdateFullNameHandler)
+	router.HandleFunc("POST /edit-profile/password", server.Post_UpdatePasswordHandler)
+	router.HandleFunc("POST /edit-profile/photo", server.Post_UpdatePhotoHandler)
 
 	// Login
 	router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {

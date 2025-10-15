@@ -93,3 +93,48 @@ func (service *Service) LogoutUser(session_id string) {
 	}
 
 }
+
+// UpdateUserFullName updates the full name for a user
+func (service *Service) UpdateUserFullName(userID int, fullname string) error {
+	if fullname == "" {
+		return fmt.Errorf("full name cannot be empty")
+	}
+	if len(fullname) < 2 || len(fullname) > 100 {
+		return fmt.Errorf("full name must be between 2 and 100 characters")
+	}
+	return query.UpdateUserFullName(service.DB, userID, fullname)
+}
+
+// UpdateUserPassword updates the password for a user after verifying current password
+func (service *Service) UpdateUserPassword(userID int, currentPassword, newPassword string) error {
+	// Get user
+	user, err := query.GetUserByID(service.DB, userID)
+	if err != nil {
+		return fmt.Errorf("user not found")
+	}
+
+	// Verify current password
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(currentPassword))
+	if err != nil {
+		return fmt.Errorf("current password is incorrect")
+	}
+
+	// Validate new password
+	if len(newPassword) < 6 {
+		return fmt.Errorf("new password must be at least 6 characters")
+	}
+
+	// Hash new password
+	hashedPassword := hashPassword(newPassword)
+
+	// Update password
+	return query.UpdateUserPassword(service.DB, userID, hashedPassword)
+}
+
+// UpdateUserPhoto updates the profile photo for a user
+func (service *Service) UpdateUserPhoto(userID int, photoPath string) error {
+	if photoPath == "" {
+		return fmt.Errorf("photo path cannot be empty")
+	}
+	return query.UpdateUserPhoto(service.DB, userID, photoPath)
+}

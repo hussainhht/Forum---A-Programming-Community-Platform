@@ -12,6 +12,9 @@ var (
 	SelectUserWhereUsernameQuery  = "SELECT username FROM users WHERE username = ? LIMIT 1"
 	InsertUserQuery               = "INSERT INTO users (username, email, password, fullname, photo) VALUES (?, ?, ?, ?, ?)"
 	SelectUserWhereIDQuery        = "SELECT username FROM users WHERE id = ? LIMIT 1"
+	UpdateUserFullNameQuery       = "UPDATE users SET fullname = ? WHERE id = ?"
+	UpdateUserPasswordQuery       = "UPDATE users SET password = ? WHERE id = ?"
+	UpdateUserPhotoQuery          = "UPDATE users SET photo = ? WHERE id = ?"
 )
 
 func InsertUser(DB *sql.DB, username, email, password, fullname, photo string) error {
@@ -83,4 +86,31 @@ func GetUsernameByUserID(DB *sql.DB, userID int) (string, error) {
 		return "", fmt.Errorf("error selecting username: %v", err)
 	}
 	return username, nil
+}
+
+// UpdateUserFullName updates the full name for a user
+func UpdateUserFullName(DB *sql.DB, userID int, fullname string) error {
+	_, err := DB.Exec(UpdateUserFullNameQuery, fullname, userID)
+	if err != nil {
+		return fmt.Errorf("error updating fullname: %v", err)
+	}
+	return nil
+}
+
+// UpdateUserPassword updates the password for a user
+func UpdateUserPassword(DB *sql.DB, userID int, hashedPassword string) error {
+	_, err := DB.Exec(UpdateUserPasswordQuery, hashedPassword, userID)
+	if err != nil {
+		return fmt.Errorf("error updating password: %v", err)
+	}
+	return nil
+}
+
+// UpdateUserPhoto updates the profile photo for a user
+func UpdateUserPhoto(DB *sql.DB, userID int, photoPath string) error {
+	_, err := DB.Exec(UpdateUserPhotoQuery, photoPath, userID)
+	if err != nil {
+		return fmt.Errorf("error updating photo: %v", err)
+	}
+	return nil
 }
