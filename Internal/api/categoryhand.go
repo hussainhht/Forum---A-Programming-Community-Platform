@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	// "slices"
 	"strings"
 )
 
@@ -89,7 +90,7 @@ func themeFor(slug string) *CategoryTheme {
 		base.ShadowStrong = "0 20px 40px rgba(247,223,30,0.28)"
 		base.BoxShadow = "0 4px 12px rgba(255, 233, 0, 0.3)"
 		// base.AccentLight = "#ffe955"
-		
+
 	case "typescript", "ts":
 		base.Accent = "#3178c6"
 		base.AccentDark = "#255a92"
@@ -165,10 +166,11 @@ func themeFor(slug string) *CategoryTheme {
 // Get_CategoryHandler serves any category at /category/{slug} using a single template.
 func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request) {
 	slug := r.PathValue("slug")
-	if slug == "" {
-		http.NotFound(w, r)
-		return
-	}
+	// categories := server.Service.GetCategoriesNames()
+	// if slug == "" || !slices.Contains(categories, strings.ToLower(slug)) {
+	// 	server.Service.HandleError(w, r, http.StatusNotFound)
+	// 	return
+	// }
 
 	// session & user
 	var user *model.User
@@ -182,6 +184,7 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 	catID, err := server.Service.GetCategoryIDByName(strings.ToLower(slug))
 	if err != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
+		fmt.Println("Error getting category ID by name:", err)
 		return
 	}
 

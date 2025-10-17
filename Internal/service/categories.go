@@ -8,22 +8,23 @@ import (
 )
 
 func (service *Service) GetCategories() ([]model.Category, error) {
-	rows, err := service.DB.Query("SELECT id, name FROM categories")
+	categories, err := query.GetCategories(service.DB)
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
-
-	var categories []model.Category
-	for rows.Next() {
-		var cat model.Category
-		if err := rows.Scan(&cat.ID, &cat.Name); err != nil {
-			return nil, err
-		}
-		categories = append(categories, cat)
-	}
-
 	return categories, nil
+}
+
+func (service *Service) GetCategoriesNames() []string {
+	categories, err := query.GetCategories(service.DB)
+	if err != nil {
+		return nil
+	}
+	var names []string
+	for _, c := range categories {
+		names = append(names, c.Name)
+	}
+	return names
 }
 
 func (service *Service) validateCategories(categories []string) error {

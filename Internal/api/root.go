@@ -30,6 +30,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	categories, err := server.Service.GetCategories()
 	if err != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
+		fmt.Println("Error getting categories:", err)
 		return
 	}
 
@@ -40,6 +41,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
+		fmt.Println("Error getting featured posts:", err)
 		return
 	}
 	var LatestPosts []model.Post
@@ -47,6 +49,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 	LatestPosts, err = server.Service.GetLatestPosts()
 	if err != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
+		fmt.Println("Error getting latest posts:", err)
 		return
 	}
 
@@ -61,6 +64,7 @@ func (server *Server) Get_HomeHandler(w http.ResponseWriter, r *http.Request) {
 		user, err = server.Service.GetUserFromSessionID(sessionIDCookie.Value)
 		if err != nil {
 			server.Service.HandleError(w, r, http.StatusInternalServerError)
+			fmt.Println("Error getting user from session ID:", err)
 			return
 		}
 	}
