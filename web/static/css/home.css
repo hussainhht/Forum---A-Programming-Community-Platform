@@ -55,7 +55,7 @@
 }
 
 .post-title {
-    display: flex; 
+    display: flex;
     text-align: left;
     align-items: center;
     padding-left: 8px;
@@ -69,6 +69,11 @@
     outline: 0;
     background: transparent;
     transition: 0.2s;
+}
+
+.post-card-body {
+    height: auto;
+    padding: 8px;
 }
 
 button svg path,
