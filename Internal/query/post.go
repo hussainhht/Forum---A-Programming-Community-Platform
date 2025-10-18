@@ -293,7 +293,7 @@ LIMIT 4;
 			return nil, err
 		}
 		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
-
+		post.Preview = getPostPreview(post.Content)
 		posts = append(posts, post)
 	}
 	if err := rows.Err(); err != nil {
@@ -358,7 +358,9 @@ func GetLatestPosts(db *sql.DB) ([]model.Post, error) {
 		if err := rows.Scan(&post.ID, &post.Title, &contentJSON, &post.CreatedAt, &post.Username, &post.UserID); err != nil {
 			return nil, err
 		}
+
 		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
+		post.Preview = getPostPreview(post.Content)
 		posts = append(posts, post)
 	}
 	if err := rows.Err(); err != nil {
@@ -533,7 +535,8 @@ func GetDiscoverPostsMultiCategory(db *sql.DB, search string, categories []strin
 	return posts, hasNext, rows.Err()
 }
 
-func getPostReview(content []model.Block) string {
+func getPostPreview(content []model.Block) string {
+	fmt.Println(content)
 	var preview string
 	wordCount := 0
 	for _, block := range content {
