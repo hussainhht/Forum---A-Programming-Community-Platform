@@ -270,11 +270,13 @@ body {
 
 /* Swap icons when checked (support multiple password fields) */
 #togglePassword:checked~.eye-toggle .eye,
+#togglePasswordReg:checked~.eye-toggle .eye,
 #toggleConfirmPassword:checked~.eye-toggle .eye {
   display: none;
 }
 
 #togglePassword:checked~.eye-toggle .eye-slash,
+#togglePasswordReg:checked~.eye-toggle .eye-slash,
 #toggleConfirmPassword:checked~.eye-toggle .eye-slash {
   display: block;
 }
@@ -284,12 +286,17 @@ body {
 /* ===================== CSS-ONLY PASSWORD MASK ===================== */
 /* Default: mask characters */
 #password,
+#password-reg,
 #confirmPassword {
   -webkit-text-security: disc;
 }
 
 /* When checkbox is checked: unmask */
 #togglePassword:checked~#password {
+  -webkit-text-security: none;
+}
+
+#togglePasswordReg:checked~#password-reg {
   -webkit-text-security: none;
 }
 

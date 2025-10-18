@@ -11,8 +11,9 @@ import (
 )
 
 type RegisterPageData struct {
-	Error string
-	Form  struct {
+	Error        string
+	ShowRegister bool // Flag to show register form by default
+	Form         struct {
 		Username string
 		Email    string
 		FullName string
@@ -20,13 +21,17 @@ type RegisterPageData struct {
 }
 
 func (server *Server) Get_RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, tmplErr := template.ParseFiles("./web/templates/register.html")
+	// When accessing /register, show the register form (checkbox checked)
+	tmpl, tmplErr := template.ParseFiles("./web/templates/login.html")
 	if tmplErr != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
 		return
 	}
 
-	tmpl.Execute(w, nil)
+	data := RegisterPageData{
+		ShowRegister: true, // This will be used to check the checkbox
+	}
+	tmpl.Execute(w, data)
 }
 
 func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -92,10 +97,11 @@ func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Reques
 
 func renderRegister(w http.ResponseWriter, errMsg string, r *http.Request) {
 
-	tmpl, _ := template.ParseFiles("./web/templates/register.html")
+	tmpl, _ := template.ParseFiles("./web/templates/login.html")
 
 	data := RegisterPageData{
-		Error: errMsg,
+		Error:        errMsg,
+		ShowRegister: true, // Keep register form visible on error
 	}
 
 	data.Form.Username = r.FormValue("username")

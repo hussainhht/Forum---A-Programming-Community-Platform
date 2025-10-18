@@ -8,8 +8,9 @@ import (
 )
 
 type LoginPageData struct {
-	Error string
-	Form  struct {
+	Error        string
+	ShowRegister bool // Flag to show register form instead
+	Form         struct {
 		EmailOrUsername string
 	}
 }
