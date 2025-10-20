@@ -130,6 +130,7 @@ VALUES
     ('rust'),
     ('ruby'),
     ('python'),
+    ('matlab'),
     ('java');
     -- ('c'),
     -- ('csharp'),

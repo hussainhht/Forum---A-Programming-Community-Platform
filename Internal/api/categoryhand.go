@@ -134,11 +134,14 @@ func themeFor(slug string) *CategoryTheme {
 		base.AccentDark = "#4d1859"
 		base.AccentLight = "#8630a0"
 		base.Secondary = "#239120"
-	case "php":
-		base.Accent = "#777bb3"
-		base.AccentDark = "#5a5d85"
-		base.AccentLight = "#8f93c3"
-		base.Secondary = "#4f5b93"
+	case "matlab":
+		base.Accent = "#c042ff"
+		base.AccentDark = "#e76b00"
+		base.AccentLight = "#ff9f40"
+		base.Secondary = "#1f77b4"
+		base.Shadow = "0 10px 25px rgba(255,119,14,0.15)"
+		base.ShadowStrong = "0 20px 40px rgba(255,119,14,0.30)"
+		base.BoxShadow = "0 4px 12px rgba(255,119,14,0.3)"
 	case "swift":
 		base.Accent = "#fa7343"
 		base.AccentDark = "#cc5930"
