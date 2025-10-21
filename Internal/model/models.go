@@ -49,7 +49,6 @@ type User struct {
 	Username  string
 	Email     string
 	Password  string
-	FullName  string
 	Photo     string
 	CreatedAt time.Time
 }

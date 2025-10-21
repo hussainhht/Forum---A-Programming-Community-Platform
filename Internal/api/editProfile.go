@@ -59,39 +59,6 @@ func (server *Server) Get_EditProfileHandler(w http.ResponseWriter, r *http.Requ
 	}
 }
 
-// Post_UpdateFullNameHandler handles updating full name
-func (server *Server) Post_UpdateFullNameHandler(w http.ResponseWriter, r *http.Request) {
-	// Get session cookie
-	cookie, err := r.Cookie("session_id")
-	if err != nil || !server.Service.ValidSessions(cookie.Value) {
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
-		return
-	}
-
-	// Get user from session
-	user := server.Service.Get_UserBySession(cookie.Value)
-	if user == nil {
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
-		return
-	}
-
-	// Parse form
-	if err := r.ParseForm(); err != nil {
-		http.Redirect(w, r, "/edit-profile?error=Invalid+form+data", http.StatusSeeOther)
-		return
-	}
-
-	fullname := strings.TrimSpace(r.FormValue("fullname"))
-
-	// Update full name
-	if err := server.Service.UpdateUserFullName(user.ID, fullname); err != nil {
-		http.Redirect(w, r, "/edit-profile?error="+err.Error(), http.StatusSeeOther)
-		return
-	}
-
-	http.Redirect(w, r, "/edit-profile?success=Full+name+updated+successfully", http.StatusSeeOther)
-}
-
 // Post_UpdatePasswordHandler handles changing password
 func (server *Server) Post_UpdatePasswordHandler(w http.ResponseWriter, r *http.Request) {
 	// Get session cookie

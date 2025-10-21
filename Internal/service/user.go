@@ -35,10 +35,10 @@ func (service *Service) LoginUser(emailOrUsername, password string) (string, err
 	return newSessionID, nil
 }
 
-func (service *Service) RegisterUser(username, email, password, confirmPassword, fullname, photo string) error {
+func (service *Service) RegisterUser(username, email, password, confirmPassword, photo string) error {
 
 	// Validate input
-	if username == "" || email == "" || password == "" || confirmPassword == "" || fullname == "" {
+	if username == "" || email == "" || password == "" || confirmPassword == "" {
 		return fmt.Errorf("all fields are required")
 	}
 
@@ -78,7 +78,7 @@ func (service *Service) RegisterUser(username, email, password, confirmPassword,
 		photo = "default.png"
 	}
 
-	err = query.InsertUser(service.DB, username, email, hashPassword(password), fullname, photo)
+	err = query.InsertUser(service.DB, username, email, hashPassword(password), photo)
 	if err != nil {
 		return fmt.Errorf("failed to create account: %v", err)
 	}
@@ -92,17 +92,6 @@ func (service *Service) LogoutUser(session_id string) {
 		_ = query.RemoveSession(service.DB, user.ID)
 	}
 
-}
-
-// UpdateUserFullName updates the full name for a user
-func (service *Service) UpdateUserFullName(userID int, fullname string) error {
-	if fullname == "" {
-		return fmt.Errorf("full name cannot be empty")
-	}
-	if len(fullname) < 2 || len(fullname) > 100 {
-		return fmt.Errorf("full name must be between 2 and 100 characters")
-	}
-	return query.UpdateUserFullName(service.DB, userID, fullname)
 }
 
 // UpdateUserPassword updates the password for a user after verifying current password

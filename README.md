@@ -185,7 +185,7 @@ forum/
 
 ### Registration
 1. Navigate to `/register`
-2. Fill in your full name, username, email, and password
+2. Fill in your username, email, and password
 3. Click "Register" to create your account
 
 ### Login
@@ -215,7 +215,6 @@ forum/
 users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     photo TEXT DEFAULT 'default.png',
-    fullname TEXT NOT NULL,
     username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL

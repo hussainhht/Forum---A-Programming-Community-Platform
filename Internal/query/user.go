@@ -7,18 +7,17 @@ import (
 )
 
 var (
-	GetUserByEmailOrUsernameQuery = "SELECT id, username, email, password, fullname, photo FROM users WHERE email = ? OR username = ? LIMIT 1"
+	GetUserByEmailOrUsernameQuery = "SELECT id, username, email, password, photo FROM users WHERE email = ? OR username = ? LIMIT 1"
 	SelectUserWhereEmailQuery     = "SELECT email FROM users WHERE email = ? LIMIT 1"
 	SelectUserWhereUsernameQuery  = "SELECT username FROM users WHERE username = ? LIMIT 1"
-	InsertUserQuery               = "INSERT INTO users (username, email, password, fullname, photo) VALUES (?, ?, ?, ?, ?)"
+	InsertUserQuery               = "INSERT INTO users (username, email, password, photo) VALUES (?, ?, ?, ?)"
 	SelectUserWhereIDQuery        = "SELECT username FROM users WHERE id = ? LIMIT 1"
-	UpdateUserFullNameQuery       = "UPDATE users SET fullname = ? WHERE id = ?"
 	UpdateUserPasswordQuery       = "UPDATE users SET password = ? WHERE id = ?"
 	UpdateUserPhotoQuery          = "UPDATE users SET photo = ? WHERE id = ?"
 )
 
-func InsertUser(DB *sql.DB, username, email, password, fullname, photo string) error {
-	_, err := DB.Exec(InsertUserQuery, username, email, password, fullname, photo)
+func InsertUser(DB *sql.DB, username, email, password, photo string) error {
+	_, err := DB.Exec(InsertUserQuery, username, email, password, photo)
 	if err != nil {
 		return fmt.Errorf("error inserting user: %v", err)
 	}
@@ -49,10 +48,9 @@ func GetUserByUsernameOrEmail(DB *sql.DB, identifier string) (model.User, error)
 		username string
 		email    string
 		password string
-		fullname string
 		photo    string
 	)
-	err := DB.QueryRow(GetUserByEmailOrUsernameQuery, identifier, identifier).Scan(&userID, &username, &email, &password, &fullname, &photo)
+	err := DB.QueryRow(GetUserByEmailOrUsernameQuery, identifier, identifier).Scan(&userID, &username, &email, &password, &photo)
 	if err != nil {
 		return model.User{}, fmt.Errorf("error selecting user: %v", err)
 	}
@@ -61,15 +59,14 @@ func GetUserByUsernameOrEmail(DB *sql.DB, identifier string) (model.User, error)
 		Username: username,
 		Email:    email,
 		Password: password,
-		FullName: fullname,
 		Photo:    photo,
 	}, nil
 }
 
 func GetUserByID(DB *sql.DB, userID int) (*model.User, error) {
 	var user model.User
-	// Include fullname and photo so templates can render avatar and name
-	err := DB.QueryRow("SELECT id, username, email, password, fullname, photo FROM users WHERE id = ?", userID).Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.FullName, &user.Photo)
+	// Include photo so templates can render avatar
+	err := DB.QueryRow("SELECT id, username, email, password, photo FROM users WHERE id = ?", userID).Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.Photo)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
@@ -86,15 +83,6 @@ func GetUsernameByUserID(DB *sql.DB, userID int) (string, error) {
 		return "", fmt.Errorf("error selecting username: %v", err)
 	}
 	return username, nil
-}
-
-// UpdateUserFullName updates the full name for a user
-func UpdateUserFullName(DB *sql.DB, userID int, fullname string) error {
-	_, err := DB.Exec(UpdateUserFullNameQuery, fullname, userID)
-	if err != nil {
-		return fmt.Errorf("error updating fullname: %v", err)
-	}
-	return nil
 }
 
 // UpdateUserPassword updates the password for a user

@@ -94,7 +94,6 @@ func (server *Server) Start() error {
 
 	// Edit Profile
 	router.HandleFunc("GET /edit-profile", server.Get_EditProfileHandler)
-	router.HandleFunc("POST /edit-profile/fullname", server.Post_UpdateFullNameHandler)
 	router.HandleFunc("POST /edit-profile/password", server.Post_UpdatePasswordHandler)
 	router.HandleFunc("POST /edit-profile/photo", server.Post_UpdatePhotoHandler)
 
