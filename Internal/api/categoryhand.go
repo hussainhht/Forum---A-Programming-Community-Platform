@@ -157,11 +157,14 @@ func themeFor(slug string) *CategoryTheme {
 		base.AccentDark = "#015a95"
 		base.AccentLight = "#2990d4"
 		base.Secondary = "#13b9fd"
-	case "bash":
-		base.Accent = "#3eaf2c"
-		base.AccentDark = "#2d7f20"
-		base.AccentLight = "#56c645"
-		base.Secondary = "#5c5c5c"
+	case "brainfuck":
+		base.Accent = "#ff6ad5"
+		base.AccentDark = "#7c3aed"
+		base.AccentLight = "#0d0b14"
+		base.Secondary = "#171227"
+		base.Shadow = "0 10px 25px rgba(255,106,213,0.15)"
+		base.ShadowStrong = "0 20px 40px rgba(255,106,213,0.30)"
+		base.BoxShadow = "0 4px 12px rgba(255,106,213,0.3)"
 	}
 	return base
 }

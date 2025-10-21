@@ -142,6 +142,9 @@ func (server *Server) Start() error {
 	// Help page
 	router.HandleFunc("GET /help", server.Get_HelpHandler)
 
+	// Privacy & Terms page
+	router.HandleFunc("GET /privacy-terms", server.Get_PrivacyTermsHandler)
+
 	// Generic category route: /category/{slug}
 	router.HandleFunc("GET /category/{slug}", server.Get_CategoryHandler)
 	fmt.Printf("Server running at http://localhost:%d\n", server.Port)

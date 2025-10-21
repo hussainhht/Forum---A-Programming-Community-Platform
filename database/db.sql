@@ -131,6 +131,7 @@ VALUES
     ('ruby'),
     ('python'),
     ('matlab'),
+    ('brainfuck'),
     ('java');
     -- ('c'),
     -- ('csharp'),
