@@ -8,16 +8,6 @@ import (
 	"strconv"
 )
 
-// CreatePostPageData holds the data for rendering the create post page
-// CreatePostPageData now embeds model.PageData so it can be rendered inside the root layout.
-type CreatePostPageData struct {
-	model.PageData
-	Error              string
-	SelectedCategories []int
-	Title              string
-	TempBlocks         []model.Block
-}
-
 // GET handler for creating a post
 func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("session_id")
@@ -45,7 +35,7 @@ func (server *Server) Get_CreatePostHandler(w http.ResponseWriter, r *http.Reque
 	// User data
 	user, _ := server.Service.GetUserFromSessionID(sessionID)
 
-	data := CreatePostPageData{
+	data := model.CreatePostPageData{
 		Title:              "",
 		SelectedCategories: []int{},
 		TempBlocks:         server.TempBlocks[sessionID],
@@ -217,7 +207,7 @@ func renderCreatePost(
 		CSSFile:    "./web/static/css/newtyles.css",
 	}
 
-	data := CreatePostPageData{
+	data := model.CreatePostPageData{
 		PageData:           pageData,
 		Title:              title,
 		SelectedCategories: selectedCats,

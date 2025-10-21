@@ -6,15 +6,6 @@ import (
 	"net/http"
 )
 
-// ProfilePageData holds data passed to profile template
-// ProfileViewData embeds PageData so root layout can access shared fields while
-// exposing profile-specific collections.
-type ProfileViewData struct {
-	model.PageData
-	UserPosts  []model.Post
-	LikedPosts []model.Post
-}
-
 // Get_ProfileHandler renders the user's profile page
 func (server *Server) Get_ProfileHandler(w http.ResponseWriter, r *http.Request) {
 	// 1️⃣ Get session cookie
@@ -46,7 +37,7 @@ func (server *Server) Get_ProfileHandler(w http.ResponseWriter, r *http.Request)
 	}
 
 	categories, _ := server.Service.GetCategories()
-	data := ProfileViewData{
+	data := model.ProfileViewData{
 		PageData: model.PageData{
 			IsLoggedIn: true,
 			User:       user,

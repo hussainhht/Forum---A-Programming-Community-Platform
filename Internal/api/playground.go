@@ -10,21 +10,6 @@ import (
 	"forum/Internal/service"
 )
 
-type PlaygroundPageData struct {
-	// sticky form values
-	Language string
-	Filename string
-	LineEnd  string // "lf" | "crlf"
-	BOM      string // "nobom" | "bom"
-	Code     string
-
-	// server-generated preview
-	HighlightedHTML template.HTML
-
-	// optional error
-	Error string
-}
-
 func (server *Server) Get_PlaygroundHandler(w http.ResponseWriter, r *http.Request) {
 	// gather shared layout data
 	sessionIDCookie, _ := r.Cookie("session_id")
@@ -48,12 +33,12 @@ func (server *Server) Get_PlaygroundHandler(w http.ResponseWriter, r *http.Reque
 		ExtraCSS:   []string{"/web/static/css/coding.css"},
 	}
 
-	pg := PlaygroundPageData{Language: "go", LineEnd: "lf", BOM: "nobom"}
+	pg := model.PlaygroundPageData{Language: "go", LineEnd: "lf", BOM: "nobom"}
 
 	// compose data passed to template (embedding both structs)
 	data := struct {
 		model.PageData
-		PlaygroundPageData
+		model.PlaygroundPageData
 	}{base, pg}
 
 	tmpl, err := template.ParseFiles("./web/templates/root.html", "./web/templates/startcoding.html")
@@ -116,7 +101,7 @@ func (server *Server) Post_PlaygroundPreviewHandler(w http.ResponseWriter, r *ht
 		ExtraCSS:   []string{"/web/static/css/coding.css"},
 	}
 
-	pg := PlaygroundPageData{
+	pg := model.PlaygroundPageData{
 		Language:        lang,
 		Filename:        filename,
 		LineEnd:         lineEnd,
@@ -127,7 +112,7 @@ func (server *Server) Post_PlaygroundPreviewHandler(w http.ResponseWriter, r *ht
 
 	data := struct {
 		model.PageData
-		PlaygroundPageData
+		model.PlaygroundPageData
 	}{base, pg}
 
 	tmpl, tErr := template.ParseFiles("./web/templates/root.html", "./web/templates/startcoding.html")

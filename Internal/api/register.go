@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"forum/Internal/model"
 	"html/template"
 	"io"
 	"net/http"
@@ -9,15 +10,6 @@ import (
 	"path/filepath"
 	"strings"
 )
-
-type RegisterPageData struct {
-	Error        string
-	ShowRegister bool // Flag to show register form by default
-	Form         struct {
-		Username string
-		Email    string
-	}
-}
 
 func (server *Server) Get_RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	// When accessing /register, show the register form (checkbox checked)
@@ -27,7 +19,7 @@ func (server *Server) Get_RegisterHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	data := RegisterPageData{
+	data := model.RegisterPageData{
 		ShowRegister: true, // This will be used to check the checkbox
 	}
 	tmpl.Execute(w, data)
@@ -97,7 +89,7 @@ func renderRegister(w http.ResponseWriter, errMsg string, r *http.Request) {
 
 	tmpl, _ := template.ParseFiles("./web/templates/login.html")
 
-	data := RegisterPageData{
+	data := model.RegisterPageData{
 		Error:        errMsg,
 		ShowRegister: true, // Keep register form visible on error
 	}

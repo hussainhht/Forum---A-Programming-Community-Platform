@@ -104,3 +104,95 @@ type Cell struct {
 	Row int
 	Col int
 }
+
+// CategoryPageData is a unified view model for all category pages
+type CategoryPageData struct {
+	PageData
+	Slug        string
+	DisplayName string
+	SourceURL   string
+	Posts       []Post
+	CountPosts  int
+	Theme       *CategoryTheme // dynamic color theme injected into template
+}
+
+// CategoryTheme holds CSS variable values for category theming.
+// These map onto the variables consumed by category-base.css (legacy --go-* kept for compatibility).
+type CategoryTheme struct {
+	Accent        string
+	AccentDark    string
+	AccentLight   string
+	Secondary     string
+	BgPrimary     string
+	BgSecondary   string
+	BgCard        string
+	BgElevated    string
+	TextPrimary   string
+	TextSecondary string
+	TextMuted     string
+	Border        string
+	BorderLight   string
+	Shadow        string
+	ShadowStrong  string
+	Radius        string
+	RadiusSmall   string
+	Spacing       string
+	BoxShadow     string
+}
+
+// ProfileViewData embeds PageData so root layout can access shared fields while
+// exposing profile-specific collections.
+type ProfileViewData struct {
+	PageData
+	UserPosts  []Post
+	LikedPosts []Post
+}
+
+// CreatePostPageData holds the data for rendering the create post page
+// CreatePostPageData now embeds model.PageData so it can be rendered inside the root layout.
+type CreatePostPageData struct {
+	PageData
+	Error              string
+	SelectedCategories []int
+	Title              string
+	TempBlocks         []Block
+}
+
+// EditProfilePageData holds data for edit profile template
+type EditProfilePageData struct {
+	PageData
+	Error   string
+	Success string
+}
+
+type LoginPageData struct {
+	Error        string
+	ShowRegister bool // Flag to show register form instead
+	Form         struct {
+		EmailOrUsername string
+	}
+}
+
+type RegisterPageData struct {
+	Error        string
+	ShowRegister bool // Flag to show register form by default
+	Form         struct {
+		Username string
+		Email    string
+	}
+}
+
+type PlaygroundPageData struct {
+	// sticky form values
+	Language string
+	Filename string
+	LineEnd  string // "lf" | "crlf"
+	BOM      string // "nobom" | "bom"
+	Code     string
+
+	// server-generated preview
+	HighlightedHTML any
+
+	// optional error
+	Error string
+}

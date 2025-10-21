@@ -6,49 +6,15 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+
 	// "slices"
 	"strings"
 )
 
-// CategoryPageData is a unified view model for all category pages
-type CategoryPageData struct {
-	model.PageData
-	Slug        string
-	DisplayName string
-	SourceURL   string
-	Posts       []model.Post
-	CountPosts  int
-	Theme       *CategoryTheme // dynamic color theme injected into template
-}
-
-// CategoryTheme holds CSS variable values for category theming.
-// These map onto the variables consumed by category-base.css (legacy --go-* kept for compatibility).
-type CategoryTheme struct {
-	Accent        string
-	AccentDark    string
-	AccentLight   string
-	Secondary     string
-	BgPrimary     string
-	BgSecondary   string
-	BgCard        string
-	BgElevated    string
-	TextPrimary   string
-	TextSecondary string
-	TextMuted     string
-	Border        string
-	BorderLight   string
-	Shadow        string
-	ShadowStrong  string
-	Radius        string
-	RadiusSmall   string
-	Spacing       string
-	BoxShadow     string
-}
-
 // themeFor returns a CategoryTheme with sensible defaults per language slug.
 // If a slug is unknown, a generic purple/blue theme is returned.
-func themeFor(slug string) *CategoryTheme {
-	base := &CategoryTheme{
+func themeFor(slug string) *model.CategoryTheme {
+	base := &model.CategoryTheme{
 		Accent:        "#00d4ff",
 		AccentDark:    "#0099cc",
 		AccentLight:   "#33ddff",
@@ -214,7 +180,7 @@ func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	data := CategoryPageData{
+	data := model.CategoryPageData{
 		Slug:        strings.ToLower(slug),
 		DisplayName: display,
 		SourceURL:   sourceURLFor(slug),

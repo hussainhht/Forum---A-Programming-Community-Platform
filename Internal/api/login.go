@@ -1,19 +1,12 @@
 package api
 
 import (
+	"forum/Internal/model"
 	"html/template"
 	"net/http"
 	"strings"
 	"time"
 )
-
-type LoginPageData struct {
-	Error        string
-	ShowRegister bool // Flag to show register form instead
-	Form         struct {
-		EmailOrUsername string
-	}
-}
 
 func (server *Server) Get_LoginHandler(w http.ResponseWriter, r *http.Request) {
 	//check if user is already logged in
@@ -65,7 +58,7 @@ func (server *Server) Post_LoginHandler(w http.ResponseWriter, r *http.Request) 
 
 func renderLogin(w http.ResponseWriter, r *http.Request, errMsg string) {
 	tmpl, _ := template.ParseFiles("./web/templates/login.html")
-	data := LoginPageData{Error: errMsg}
+	data := model.LoginPageData{Error: errMsg}
 	data.Form.EmailOrUsername = r.FormValue("emailORUsername")
 	_ = tmpl.Execute(w, data)
 }

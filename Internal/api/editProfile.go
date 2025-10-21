@@ -12,13 +12,6 @@ import (
 	"time"
 )
 
-// EditProfilePageData holds data for edit profile template
-type EditProfilePageData struct {
-	model.PageData
-	Error   string
-	Success string
-}
-
 // Get_EditProfileHandler renders the edit profile page
 func (server *Server) Get_EditProfileHandler(w http.ResponseWriter, r *http.Request) {
 	// Get session cookie
@@ -36,7 +29,7 @@ func (server *Server) Get_EditProfileHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	categories, _ := server.Service.GetCategories()
-	data := EditProfilePageData{
+	data := model.EditProfilePageData{
 		PageData: model.PageData{
 			IsLoggedIn: true,
 			User:       user,
