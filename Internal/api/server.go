@@ -38,6 +38,10 @@ func (server *Server) Start() error {
 	fs := http.FileServer(http.Dir("./web"))
 	router.Handle("/web/", http.StripPrefix("/web/", fs))
 
+	// Serve profile images from database folder
+	profileImgFS := http.FileServer(http.Dir("./database/profile-img"))
+	router.Handle("/profile-img/", http.StripPrefix("/profile-img/", profileImgFS))
+
 	// Root
 	router.HandleFunc("/", server.Get_HomeHandler)
 

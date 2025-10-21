@@ -64,7 +64,7 @@ func (server *Server) Post_RegisterHandler(w http.ResponseWriter, r *http.Reques
 		ext := strings.ToLower(filepath.Ext(header.Filename))
 		if ext == ".png" || ext == ".jpg" || ext == ".jpeg" || ext == ".gif" {
 			photoFilename = fmt.Sprintf("user_%s%s", username, ext)
-			outPath := filepath.Join("web", "static", "img", photoFilename)
+			outPath := filepath.Join("database", "profile-img", photoFilename)
 			out, err := os.Create(outPath)
 			if err == nil {
 				defer out.Close()

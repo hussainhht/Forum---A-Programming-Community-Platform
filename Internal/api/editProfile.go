@@ -132,7 +132,7 @@ func (server *Server) Post_UpdatePhotoHandler(w http.ResponseWriter, r *http.Req
 
 	// Create unique filename
 	filename := fmt.Sprintf("profile_%d_%d%s", user.ID, time.Now().Unix(), ext)
-	uploadPath := filepath.Join(".", "web", "static", "img", filename)
+	uploadPath := filepath.Join(".", "database", "profile-img", filename)
 
 	// Create destination file
 	dst, err := os.Create(uploadPath)
@@ -158,7 +158,7 @@ func (server *Server) Post_UpdatePhotoHandler(w http.ResponseWriter, r *http.Req
 
 	// Delete old photo if it's not the default
 	if user.Photo != "default.png" && user.Photo != "" {
-		oldPhotoPath := filepath.Join(".", "web", "static", "img", user.Photo)
+		oldPhotoPath := filepath.Join(".", "database", "profile-img", user.Photo)
 		os.Remove(oldPhotoPath) // Ignore error if file doesn't exist
 	}
 

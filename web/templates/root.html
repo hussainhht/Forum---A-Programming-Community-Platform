@@ -187,7 +187,7 @@
             <div class="sidebar-profile-img-container">
               <img
                 id="sidebar-profile-img"
-                src="/web/static/img/{{if and .User .User.Photo}}{{.User.Photo}}{{else}}default.png{{end}}"
+                src="/profile-img/{{if and .User .User.Photo}}{{.User.Photo}}{{else}}default.png{{end}}"
                 alt="{{if .User}}{{.User.Username}}{{else}}User Avatar{{end}}" />
             </div>
             <div class="sidebar-profile-username-container">
