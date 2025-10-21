@@ -7,7 +7,8 @@ import (
 	"net/http"
 )
 
-func (server *Server) Get_HelpHandler(w http.ResponseWriter, r *http.Request) {
+// Common handler function for both Help and Privacy pages
+func (server *Server) handleHelpPrivacy(w http.ResponseWriter, r *http.Request, showPrivacy bool) {
 	// Parse the templates
 	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/help-privacy.html")
 
@@ -54,9 +55,17 @@ func (server *Server) Get_HelpHandler(w http.ResponseWriter, r *http.Request) {
 			ExtraCSS:   nil,
 			Theme:      nil,
 		},
-		ShowPrivacy: false, // Show help panel by default
+		ShowPrivacy: showPrivacy,
 	}
 
 	// Execute the template
 	tmpl.Execute(w, pageData)
+}
+
+func (server *Server) Get_HelpHandler(w http.ResponseWriter, r *http.Request) {
+	server.handleHelpPrivacy(w, r, false) // Show help panel by default
+}
+
+func (server *Server) Get_PrivacyTermsHandler(w http.ResponseWriter, r *http.Request) {
+	server.handleHelpPrivacy(w, r, true) // Show privacy panel by default
 }
