@@ -68,7 +68,36 @@ func (s *Service) GetPostByID(postID string) (*model.Post, error) {
 	if err != nil {
 		return nil, err
 	}
-	post.Comments, err = s.GetCommentsByPostID(post.ID)
+	// Pass 0 for userID since we'll populate user reactions separately in the handler
+	post.Comments, err = s.GetCommentsByPostID(post.ID, 0)
+	if err != nil {
+		return nil, err
+	}
+	return post, nil
+}
+
+func (s *Service) GetPostByIDWithUser(postID string, userID int) (*model.Post, error) {
+	var post *model.Post
+	var err error
+	post, err = query.GetPostByID(s.DB, postID)
+	if err != nil {
+		return nil, err
+	}
+	post.Username, err = query.GetUsernameByUserID(s.DB, post.UserID)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(post.Username)
+	post.LikeCount, err = query.GetPostLikeCount(s.DB, post.ID)
+	if err != nil {
+		return nil, err
+	}
+	post.DislikeCount, err = query.GetPostDislikeCount(s.DB, post.ID)
+	if err != nil {
+		return nil, err
+	}
+	// Pass userID to populate user reactions
+	post.Comments, err = s.GetCommentsByPostID(post.ID, userID)
 	if err != nil {
 		return nil, err
 	}

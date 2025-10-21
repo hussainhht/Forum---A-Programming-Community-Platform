@@ -43,6 +43,12 @@ type PostReaction struct {
 	ReactionType string
 }
 
+type CommentReaction struct {
+	CommentID    int // FK to Comment
+	UserID       int // FK to User
+	ReactionType string
+}
+
 type User struct {
 	ID        int
 	SessionID string
@@ -54,13 +60,16 @@ type User struct {
 }
 
 type Comment struct {
-	ID        int
-	PostID    int // FK to Post
-	UserID    int // FK to User
-	Content   string
-	CreatedAt time.Time
-	Username  string // For display purposes (not stored in DB)
-
+	ID           int
+	PostID       int // FK to Post
+	UserID       int // FK to User
+	Content      string
+	CreatedAt    time.Time
+	Username     string // For display purposes (not stored in DB)
+	LikeCount    int
+	DislikeCount int
+	UserLiked    bool
+	UserDisliked bool
 }
 
 type Reaction struct {

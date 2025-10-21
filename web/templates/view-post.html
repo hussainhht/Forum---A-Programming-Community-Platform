@@ -62,6 +62,18 @@
                                         <small class="vp-comment-date">({{.CreatedAt.Format "Jan 2, 15:04"}})</small>
                                     </div>
                                     <div class="vp-comment-text">{{.Content}}</div>
+                                    <div class="vp-comment-reactions">
+                                        {{if $.IsLoggedIn}}
+                                        <form action="/comment-reaction" method="POST" class="vp-comment-reaction-form">
+                                            <input type="hidden" name="comment_id" value="{{.ID}}" />
+                                            <input type="hidden" name="post_id" value="{{$.Post.ID}}" />
+                                            <button class="vp-btn-small vp-like {{if .UserLiked}}active{{end}}" type="submit" name="reaction_type" value="like">👍</button>
+                                            <button class="vp-btn-small vp-dislike {{if .UserDisliked}}active{{end}}" type="submit" name="reaction_type" value="dislike">👎</button>
+                                        </form>
+                                        {{end}}
+                                        <span class="vp-reaction-count">{{.LikeCount}} like{{if ne .LikeCount 1}}s{{end}}</span>
+                                        <span class="vp-reaction-count">{{.DislikeCount}} dislike{{if ne .DislikeCount 1}}s{{end}}</span>
+                                    </div>
                                 </div>
                             {{end}}
                         {{else}}

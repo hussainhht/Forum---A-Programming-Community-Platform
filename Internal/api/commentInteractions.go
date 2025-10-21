@@ -17,6 +17,12 @@ func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
+	postID := r.FormValue("post_id")
+	if postID == "" {
+		server.Service.HandleError(w, r, http.StatusBadRequest)
+		return
+	}
+
 	// Get the session ID from the session
 	sessionID, err := server.Service.GetSessionIDFromCookie(r)
 	if err != nil {
@@ -39,7 +45,7 @@ func (server *Server) CommentReactionHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	http.Redirect(w, r, fmt.Sprintf("/post/%s", postID), http.StatusSeeOther)
 }
 
 func (server *Server) Post_CreateCommentHandler(w http.ResponseWriter, r *http.Request) {

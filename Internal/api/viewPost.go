@@ -22,7 +22,16 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	post, err := server.Service.GetPostByID(postID)
+	var post *model.Post
+	var err error
+
+	// Get post with user reactions if logged in
+	if user != nil {
+		post, err = server.Service.GetPostByIDWithUser(postID, user.ID)
+	} else {
+		post, err = server.Service.GetPostByID(postID)
+	}
+
 	if err != nil {
 		log.Printf("viewPost: failed to get post id=%s: %v", postID, err)
 		server.Service.HandleError(w, r, http.StatusNotFound)

@@ -43,11 +43,12 @@ body.vp { background: var(--vp-bg); margin:0; font-family: monospace; color: var
 /* Likes */
 .vp-likes { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
 .vp-like-form { display:flex; gap:8px; }
-.vp-like-count { font-size:12px; color: var(--vp-muted); }
+.vp-like-count, .vp-dislike-count { font-size:12px; color: var(--vp-muted); }
 .vp-btn { background: var(--vp-primary); color:#fff; border:none; border-radius:6px; padding:8px 14px; font-weight:600; cursor:pointer; font-family:monospace; transition:.18s; }
 .vp-btn:hover { background:#9e2bd1; }
-.vp-dislike { background:#342038; }
-.vp-dislike:hover { background:#4a2b53; }
+.vp-btn.vp-dislike { background:#342038; }
+.vp-btn.vp-dislike:hover { background:#4a2b53; }
+.vp-btn.active { box-shadow: 0 0 10px var(--vp-primary-glow); border: 1px solid var(--vp-primary); }
 
 /* Comments */
 .vp-comments-body { padding:16px; display:flex; flex-direction:column; gap:14px; }
@@ -59,6 +60,16 @@ body.vp { background: var(--vp-bg); margin:0; font-family: monospace; color: var
 .vp-comment-user { color:#fff; font-weight:600; }
 .vp-comment-date { color: var(--vp-muted); }
 .vp-comment-text { margin-top:6px; white-space:pre-wrap; word-break:break-word; font-family:cursive; }
+
+/* Comment reactions */
+.vp-comment-reactions { display:flex; align-items:center; gap:8px; margin-top:8px; flex-wrap:wrap; }
+.vp-comment-reaction-form { display:flex; gap:6px; }
+.vp-btn-small { background: var(--vp-primary); color:#fff; border:none; border-radius:4px; padding:4px 10px; font-size:14px; cursor:pointer; font-family:monospace; transition:.18s; }
+.vp-btn-small:hover { background:#9e2bd1; }
+.vp-btn-small.vp-dislike { background:#342038; }
+.vp-btn-small.vp-dislike:hover { background:#4a2b53; }
+.vp-btn-small.active { box-shadow: 0 0 8px var(--vp-primary-glow); border: 1px solid var(--vp-primary); }
+.vp-reaction-count { font-size:11px; color: var(--vp-muted); }
 
 .vp-comment-form { display:flex; flex-direction:column; gap:10px; }
 .vp-comment-form textarea { background:#220032; border:1px solid #432051; border-radius:6px; padding:10px 12px; resize:vertical; min-height:110px; font-family:monospace; color:#fff; }

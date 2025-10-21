@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	InsertCommentReactionQuery = "INSERT INTO comment_reactions (comment_id, user_id, reaction_type) VALUES (?, ?, ?)"
+	InsertCommentReactionQuery = "INSERT INTO comments_reactions (comment_id, user_id, reaction_type) VALUES (?, ?, ?)"
 )
 
 func InsertComment(db *sql.DB, postID int, userID int, content string) error {
@@ -17,6 +17,50 @@ func InsertComment(db *sql.DB, postID int, userID int, content string) error {
 func InsertCommentReaction(db *sql.DB, commentID int, userID int, reactionType string) error {
 	_, err := db.Exec(InsertCommentReactionQuery, commentID, userID, reactionType)
 	return err
+}
+
+func GetCommentReaction(db *sql.DB, commentID int, userID int) (*model.CommentReaction, error) {
+	row := db.QueryRow("SELECT reaction_type FROM comments_reactions WHERE comment_id = ? AND user_id = ?", commentID, userID)
+
+	var reaction model.CommentReaction
+	reaction.UserID = userID
+	reaction.CommentID = commentID
+	if err := row.Scan(&reaction.ReactionType); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &reaction, nil
+}
+
+func UpdateCommentReaction(db *sql.DB, commentID int, userID int, reactionType string) error {
+	_, err := db.Exec("UPDATE comments_reactions SET reaction_type = ? WHERE comment_id = ? AND user_id = ?", reactionType, commentID, userID)
+	return err
+}
+
+func DeleteCommentReaction(db *sql.DB, commentID int, userID int) error {
+	_, err := db.Exec("DELETE FROM comments_reactions WHERE comment_id = ? AND user_id = ?", commentID, userID)
+	return err
+}
+
+func GetCommentLikeCount(db *sql.DB, commentID int) (int, error) {
+	var likeCount int
+	err := db.QueryRow("SELECT COUNT(*) FROM comments_reactions WHERE comment_id = ? AND reaction_type = ?", commentID, "like").Scan(&likeCount)
+	if err != nil {
+		return 0, err
+	}
+	return likeCount, nil
+}
+
+func GetCommentDislikeCount(db *sql.DB, commentID int) (int, error) {
+	var dislikeCount int
+	err := db.QueryRow("SELECT COUNT(*) FROM comments_reactions WHERE comment_id = ? AND reaction_type = ?", commentID, "dislike").Scan(&dislikeCount)
+	if err != nil {
+		return 0, err
+	}
+	return dislikeCount, nil
 }
 
 func GetCommentsByPostID(db *sql.DB, postID int) ([]model.Comment, error) {
