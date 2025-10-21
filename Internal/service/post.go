@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"forum/Internal/model"
 	"forum/Internal/query"
+	"strings"
 )
 
 func (service *Service) CreatePost(sessionID, title, content string, categories []string) error {
@@ -11,6 +12,9 @@ func (service *Service) CreatePost(sessionID, title, content string, categories 
 
 	// get user from session
 	userID, err := query.GetUserIDFromSession(DB, sessionID)
+	if strings.TrimSpace(content) == "" {
+		return fmt.Errorf("content cannot be empty")
+	}
 	if err != nil {
 		return fmt.Errorf("failed to get user ID from session: %w", err)
 	}

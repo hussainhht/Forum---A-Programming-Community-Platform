@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 // GET handler for creating a post
@@ -90,7 +91,6 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 	action := r.FormValue("action")
 	title := r.FormValue("title")
 	blockType := r.FormValue("type")
-	content := r.FormValue("content")
 	categories := r.Form["category"]
 
 	// Convert categories to []int
@@ -104,10 +104,21 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 
 	switch action {
 	case "add-block":
-		if content != "" && (blockType == "code" || blockType == "text" || blockType == "link") {
+		// Get content and validate it's not empty or whitespace-only
+		content := r.FormValue("content")
+
+		// Trim spaces, tabs, and newlines to check if content is meaningful
+		trimmedContent := strings.TrimSpace(content)
+
+		if trimmedContent == "" {
+			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "Block content cannot be empty, contain only spaces, or only newlines")
+			return
+		}
+
+		if blockType == "code" || blockType == "text" || blockType == "link" {
 			block := model.Block{
 				Type:    blockType,
-				Content: content,
+				Content: content, // Keep original content to preserve intentional formatting
 			}
 
 			// Handle link blocks
@@ -139,34 +150,24 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 		return
 
 	case "submit-post":
-		// If there's content in the textarea but not yet added as a block, add it automatically
-		if content != "" && blockType != "" {
-			block := model.Block{
-				Type:    blockType,
-				Content: content,
-			}
+		// Don't automatically add content that wasn't explicitly added as a block
+		// Users must use "Add Block" button to add content
 
-			// Handle link blocks
-			if blockType == "link" {
-				text, url, isValid := server.Service.ParseMarkdownLink(content)
-				if isValid {
-					block.Link = &model.Link{
-						Text: text,
-						URL:  url,
-					}
-				} else {
-					// If not valid markdown format, treat as regular content
-					block.Type = "text"
-				}
-			}
-
-			tempBlocks = append(tempBlocks, block)
-			server.TempBlocks[sessionID] = tempBlocks
+		// Validate title is not empty
+		if title == "" {
+			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "Title is required")
+			return
 		}
 
-		// Check if we have required fields (after potentially adding the current content)
-		if title == "" || len(tempBlocks) == 0 || len(catIDs) == 0 {
-			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "Title, categories, and content are required")
+		// Validate at least one category is selected
+		if len(catIDs) == 0 {
+			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "At least one category is required")
+			return
+		}
+
+		// Validate at least one block exists
+		if len(tempBlocks) == 0 {
+			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "Post must have at least one block. Please add content using 'Add Block' button")
 			return
 		}
 
