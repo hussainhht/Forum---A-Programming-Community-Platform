@@ -6,6 +6,51 @@
     <title>Login / Register</title>
     <link rel="stylesheet" href="/web/static/css/login.css" />
     <style>
+      /* Notification Popup Styles */
+      .notification-popup {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+        animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-out 4.5s forwards;
+        max-width: 400px;
+        font-family: monospace;
+        border: 2px solid;
+      }
+      
+      .notification-popup.success {
+        background: #1a3a1a;
+        color: #4ade80;
+        border-color: #22c55e;
+      }
+      
+      .notification-popup.error {
+        background: #3a1a1a;
+        color: #f87171;
+        border-color: #ef4444;
+      }
+      
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+          transform: translateX(400px);
+        }
+      }
+      
       /* Toggle switch styling */
       .form-toggle {
         display: none;
@@ -68,6 +113,13 @@
   </head>
 
   <body>
+    <!-- Notification Popup Container -->
+    {{if .Error}}
+    <div class="notification-popup error">
+      {{.Error}}
+    </div>
+    {{end}}
+    
     <div class="bg-rotator" aria-hidden="true">
       <div
         class="slide"
@@ -166,10 +218,6 @@
               <button type="submit">Login</button>
               <a href="/" class="guest-button">Continue as Guest</a>
             </div>
-
-            {{if .Error}}
-            <div class="error-box">{{.Error}}</div>
-            {{end}}
           </form>
         </div>
 
@@ -189,14 +237,14 @@
 
             <div class="inputbox">
               <input type="text" id="username" name="username" required
-                minlength="3" maxlength="20" value="{{.Form.Username}}" />
+                minlength="3" maxlength="20" value="" />
               <span>Username</span>
               <i></i>
             </div>
 
             <div class="inputbox">
               <input type="email" id="email-reg" name="email" required
-                value="{{.Form.Email}}" />
+                value="" />
               <span>Email</span>
               <i></i>
             </div>
@@ -251,10 +299,6 @@
             <div class="form-actions">
               <button type="submit">Register</button>
             </div>
-
-            {{if .Error}}
-            <div class="error-box">{{.Error}}</div>
-            {{end}}
           </form>
         </div>
       </div>

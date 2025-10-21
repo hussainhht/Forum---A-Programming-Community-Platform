@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"forum/Internal/model"
 	"html/template"
 	"net/http"
@@ -59,6 +60,8 @@ func (server *Server) Post_LoginHandler(w http.ResponseWriter, r *http.Request) 
 func renderLogin(w http.ResponseWriter, r *http.Request, errMsg string) {
 	tmpl, _ := template.ParseFiles("./web/templates/login.html")
 	data := model.LoginPageData{Error: errMsg}
-	data.Form.EmailOrUsername = r.FormValue("emailORUsername")
+	nameorEmail := r.FormValue("emailORUsername")
+	fmt.Println(nameorEmail)
+	data.Form.EmailOrUsername = nameorEmail
 	_ = tmpl.Execute(w, data)
 }
