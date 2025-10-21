@@ -22,8 +22,8 @@ func (server *Server) Get_EditProfileHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	// Get user from session
-	user := server.Service.Get_UserBySession(cookie.Value)
-	if user == nil {
+	user, err := server.Service.GetUserFromSessionID(cookie.Value)
+	if err != nil {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}

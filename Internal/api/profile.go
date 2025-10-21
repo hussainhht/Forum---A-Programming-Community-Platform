@@ -16,8 +16,8 @@ func (server *Server) Get_ProfileHandler(w http.ResponseWriter, r *http.Request)
 	}
 
 	// 2️⃣ Get user from DB
-	user := server.Service.Get_UserBySession(cookie.Value)
-	if user == nil {
+	user, err := server.Service.GetUserFromSessionID(cookie.Value)
+	if err != nil || user == nil {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
