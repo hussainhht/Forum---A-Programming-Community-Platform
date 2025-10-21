@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"slices"
 
 	// "slices"
 	"strings"
@@ -138,11 +139,11 @@ func themeFor(slug string) *model.CategoryTheme {
 // Get_CategoryHandler serves any category at /category/{slug} using a single template.
 func (server *Server) Get_CategoryHandler(w http.ResponseWriter, r *http.Request) {
 	slug := r.PathValue("slug")
-	// categories := server.Service.GetCategoriesNames()
-	// if slug == "" || !slices.Contains(categories, strings.ToLower(slug)) {
-	// 	server.Service.HandleError(w, r, http.StatusNotFound)
-	// 	return
-	// }
+	categories := server.Service.GetCategoriesNames()
+	if slug == "" || !slices.Contains(categories, strings.ToLower(slug)) {
+		server.Service.HandleError(w, r, http.StatusNotFound)
+		return
+	}
 
 	// session & user
 	var user *model.User

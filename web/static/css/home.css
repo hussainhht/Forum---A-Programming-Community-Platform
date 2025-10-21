@@ -52,13 +52,19 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .post-title {
+    font-size: 20px;
     display: flex;
     text-align: left;
     align-items: center;
     padding-left: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: none;
+    height: fit-content;
 }
 
 .card button {
@@ -85,6 +91,16 @@ button svg polygon {
 button svg {
     width: 10px;
     height: 10px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: fit-content;
+}
+.buttons * {
+    box-sizing: border-box;
 }
 
 .close:hover {
