@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    <!-- <link rel="stylesheet" href="/web/static/css/profile.css" /> -->
     {{if .CSSFile}}
     <link rel="stylesheet" href="{{.CSSFile}}" />
     {{end}}
@@ -137,11 +136,6 @@
                   class="sidebar-button-text sidebar-text">Show&nbsp;More</span></label>
             </div>
           </section>
-          <!-- <section class="sidebar-section" id="sidebar-auth-section">
-                                        <div class="sidebar-auth-container sidebar-section-container">
-                                          
-                                        </div>
-                                </section> -->
           <section class="sidebar-section" id="sidebar-footer-section">
             <div class="sidebar-footer-container sidebar-section-container">
               {{if .IsLoggedIn}}

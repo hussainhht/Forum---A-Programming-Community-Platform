@@ -107,8 +107,3 @@ func getErrorSubtitle(status int) string {
 		return "An unexpected error occurred. Please try again later."
 	}
 }
-
-// HandleErrorWithoutRequest is a wrapper for backward compatibility when request is not available
-func (service *Service) HandleErrorWithoutRequest(w http.ResponseWriter, status int) {
-	service.HandleError(w, nil, status)
-}

@@ -2,7 +2,6 @@ package service
 
 import (
 	"bytes"
-	//stdhtml "html" // alias for EscapeString in the audit-safe version
 	"html/template"
 	"strings"
 

@@ -10,8 +10,6 @@ type Service struct {
 	DB *sql.DB
 }
 
-
-
 // ParseMarkdownLink extracts text and URL from markdown link format [text](url)
 func (s *Service) ParseMarkdownLink(content string) (text, url string, isValid bool) {
 	// Regex pattern to match [text](url) format
@@ -34,15 +32,4 @@ func (s *Service) ParseMarkdownLink(content string) (text, url string, isValid b
 	}
 
 	return "", "", false
-}
-
-// DetectMarkdownLink checks if content contains a markdown link pattern
-func (s *Service) DetectMarkdownLink(content string) bool {
-	pattern := `\[([^\]]+)\]\(([^)]+)\)`
-	re := regexp.MustCompile(pattern)
-	return re.MatchString(content)
-}
-
-func (s *Service) GetLinkPlaceholder() string {
-	return "[test](google.com)"
 }
