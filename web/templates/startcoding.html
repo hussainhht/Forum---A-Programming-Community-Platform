@@ -68,117 +68,7 @@
 
 
 
-          <!-- !-----------------------------------------------------<script> -->
-          <script>
-            // DEV-ONLY: lightweight editor helpers for the <textarea id="code">
-            // Features: auto-pair (), {}, [], "", '', ``, smart Enter indent, Tab inserts spaces,
-            // skip-over closing chars, and smart backspace on empty pairs.
-
-            (function () {
-              const ta = document.getElementById('code');
-              if (!ta) return;
-
-              const TAB = '    '; // 4 spaces
-              const pairs = { '(': ')', '{': '}', '[': ']', '"': '"', "'": "'", '`': '`' };
-              const closers = new Set(Object.values(pairs));
-
-              function getLineStart(text, pos) {
-                const i = text.lastIndexOf('\n', pos - 1);
-                return i === -1 ? 0 : i + 1;
-              }
-
-              function currentLineIndent(text, pos) {
-                const ls = getLineStart(text, pos);
-                const line = text.slice(ls, pos);
-                const m = line.match(/^\s*/);
-                return m ? m[0] : '';
-              }
-
-              ta.addEventListener('keydown', function (e) {
-                const { selectionStart: start, selectionEnd: end, value: v } = ta;
-                const hasSel = start !== end;
-                const before = v.slice(0, start);
-                const sel = v.slice(start, end);
-                const after = v.slice(end);
-                const nextCh = after[0] || '';
-
-                // TAB -> insert spaces
-                if (e.key === 'Tab') {
-                  e.preventDefault();
-                  const insert = TAB;
-                  ta.value = before + insert + after;
-                  const caret = start + insert.length;
-                  ta.selectionStart = ta.selectionEnd = caret;
-                  return;
-                }
-
-                // ENTER -> keep indent, and add block indent if previous line ends with { [ (
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  const indent = currentLineIndent(v, start);
-                  const lineStart = getLineStart(v, start);
-                  const line = v.slice(lineStart, start);
-                  const needsExtra = /[\{\[\(]\s*$/.test(line);
-                  const extra = needsExtra ? TAB : '';
-
-                  // If the next char is a closer and we just opened a block, do a split:
-                  if (needsExtra && /[\}\]\)]/.test(nextCh)) {
-                    const insert = `\n${indent}${extra}\n${indent}`;
-                    ta.value = before + insert + after;
-                    const caret = start + 1 + indent.length + extra.length; // on the inner line
-                    ta.selectionStart = ta.selectionEnd = caret;
-                  } else {
-                    const insert = `\n${indent}${extra}`;
-                    ta.value = before + insert + after;
-                    const caret = start + 1 + indent.length + extra.length;
-                    ta.selectionStart = ta.selectionEnd = caret;
-                  }
-                  return;
-                }
-
-                // Auto-pair opening chars and wrap selection
-                if (pairs[e.key]) {
-                  e.preventDefault();
-                  const open = e.key;
-                  const close = pairs[e.key];
-
-                  if (hasSel) {
-                    // Wrap selection
-                    ta.value = before + open + sel + close + after;
-                    ta.selectionStart = start + 1;
-                    ta.selectionEnd = end + 1;
-                  } else {
-                    // Insert pair and place caret between
-                    ta.value = before + open + close + after;
-                    const caret = start + 1;
-                    ta.selectionStart = ta.selectionEnd = caret;
-                  }
-                  return;
-                }
-
-                // Skip over existing closer if the same char is ahead
-                if (closers.has(e.key) && nextCh === e.key && !hasSel) {
-                  e.preventDefault();
-                  const caret = start + 1;
-                  ta.selectionStart = ta.selectionEnd = caret;
-                  return;
-                }
-
-                // Smart backspace on empty pairs: | inside () {} [] "" '' ``
-                if (e.key === 'Backspace' && !hasSel && start > 0 && end === start) {
-                  const prev = v[start - 1];
-                  const ahead = v[start] || '';
-                  if (pairs[prev] === ahead) {
-                    e.preventDefault();
-                    ta.value = v.slice(0, start - 1) + v.slice(start + 1);
-                    ta.selectionStart = ta.selectionEnd = start - 1;
-                    return;
-                  }
-                }
-              });
-            })();
-          </script>
-
+        
 
 
           <!-- Settings -->
@@ -237,6 +127,7 @@
           </svg>
           <h2 class="preview-title">Preview</h2>
         </div>
+
         <div class="preview-content">
           {{if .HighlightedHTML}}
           {{.HighlightedHTML}}
