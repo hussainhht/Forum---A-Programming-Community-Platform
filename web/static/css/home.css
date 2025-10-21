@@ -80,6 +80,14 @@
 .post-card-body {
     height: auto;
     padding: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    line-clamp: 8;
+    -webkit-box-orient: vertical;
+    line-height: 1.5;
+    max-height: 12em;
 }
 
 button svg path,

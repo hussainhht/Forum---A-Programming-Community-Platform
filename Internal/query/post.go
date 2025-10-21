@@ -85,12 +85,7 @@ func GetAllPosts(db *sql.DB) ([]model.Post, error) {
 		}
 		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
 		// derive preview: first text block
-		for _, b := range post.Content {
-			if b.Type == "text" && post.Preview == "" {
-				post.Preview = b.Content
-				break
-			}
-		}
+		post.Preview = getPostPreview(post.Content)
 		posts = append(posts, post)
 	}
 
@@ -148,12 +143,7 @@ func GetPostsByCategories(db *sql.DB, categoryIDs []string) ([]model.Post, error
 			return nil, err
 		}
 		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
-		for _, b := range post.Content {
-			if b.Type == "text" && post.Preview == "" {
-				post.Preview = b.Content
-				break
-			}
-		}
+		post.Preview = getPostPreview(post.Content)
 		posts = append(posts, post)
 	}
 
@@ -424,12 +414,7 @@ func GetDiscoverPosts(db *sql.DB, search, category, sort string, limit, offset i
 		}
 		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
 		// derive preview
-		for _, b := range post.Content {
-			if b.Type == "text" {
-				post.Preview = b.Content
-				break
-			}
-		}
+		post.Preview = getPostPreview(post.Content)
 		posts = append(posts, post)
 	}
 	hasNext := false
@@ -517,12 +502,7 @@ func GetDiscoverPostsMultiCategory(db *sql.DB, search string, categories []strin
 		}
 		_ = json.Unmarshal([]byte(contentJSON), &post.Content)
 		// Derive preview
-		for _, b := range post.Content {
-			if b.Type == "text" {
-				post.Preview = b.Content
-				break
-			}
-		}
+		post.Preview = getPostPreview(post.Content)
 		posts = append(posts, post)
 	}
 
@@ -537,12 +517,42 @@ func GetDiscoverPostsMultiCategory(db *sql.DB, search string, categories []strin
 func getPostPreview(content []model.Block) string {
 	var preview string
 	wordCount := 0
+	const maxWords = 30
+	const maxChars = 100
+
 	for _, block := range content {
-		wordCount += len(strings.Fields(block.Content))
-		preview += block.Content + " "
-		if wordCount >= 30 {
+		if block.Type != "text" {
+			continue
+		}
+
+		words := strings.Fields(block.Content)
+		for _, word := range words {
+			if wordCount >= maxWords {
+				break
+			}
+			preview += word + " "
+			wordCount++
+		}
+
+		if wordCount >= maxWords {
 			break
 		}
 	}
+
+	// Trim whitespace
+	preview = strings.TrimSpace(preview)
+
+	// Also enforce character limit
+	if len(preview) > maxChars {
+		preview = preview[:maxChars]
+		// Find last space to avoid cutting mid-word
+		if lastSpace := strings.LastIndex(preview, " "); lastSpace > 0 {
+			preview = preview[:lastSpace]
+		}
+		preview += "..."
+	} else if wordCount >= maxWords && len(preview) > 0 {
+		preview += "..."
+	}
+
 	return preview
 }
