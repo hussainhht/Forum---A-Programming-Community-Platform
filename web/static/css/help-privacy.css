@@ -1,0 +1,263 @@
+/* Combined Help & Privacy Page Styles */
+
+.help-container,
+.privacy-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.help-header,
+.privacy-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--lang-border, #e0e0e0);
+}
+
+.help-header h1,
+.privacy-header h1 {
+    font-size: 2.5rem;
+    color: var(--lang-text-primary, #1a1a1a);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.help-subtitle,
+.privacy-subtitle {
+    font-size: 1.1rem;
+    color: var(--lang-text-secondary, #666);
+    margin: 0;
+}
+
+.help-content,
+.privacy-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.help-section,
+.privacy-section {
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.help-section h2,
+.privacy-section h2 {
+    font-size: 1.8rem;
+    color: var(--lang-accent, #007bff);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+}
+
+.section-icon {
+    width: 32px;
+    height: 32px;
+    filter: var(--icon-filter, invert(27%) sepia(86%) saturate(2466%) hue-rotate(197deg) brightness(95%) contrast(101%));
+}
+
+.help-card,
+.privacy-card {
+    background: var(--lang-bg-card, #ffffff);
+    border: 1px solid var(--lang-border-light, #e8e8e8);
+    border-radius: var(--lang-radius, 12px);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--lang-box-shadow, 0 2px 8px rgba(0, 0, 0, 0.08));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.help-card:hover,
+.privacy-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--lang-shadow, 0 4px 12px rgba(0, 0, 0, 0.12));
+}
+
+.help-card h3,
+.privacy-card h3 {
+    font-size: 1.3rem;
+    color: var(--lang-text-primary, #1a1a1a);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.help-card h4,
+.privacy-card h4 {
+    font-size: 1.1rem;
+    color: var(--lang-accent, #007bff);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.help-card p,
+.privacy-card p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--lang-text-secondary, #4a4a4a);
+    margin-bottom: 1rem;
+}
+
+.help-card ul,
+.help-card ol,
+.privacy-card ul,
+.privacy-card ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.help-card li,
+.privacy-card li {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--lang-text-secondary, #4a4a4a);
+    margin-bottom: 0.5rem;
+}
+
+.help-card li strong,
+.privacy-card li strong {
+    color: var(--lang-text-primary, #1a1a1a);
+    font-weight: 600;
+}
+
+.help-note,
+.privacy-note {
+    background: var(--lang-bg-elevated, #f8f9fa);
+    border-left: 4px solid var(--lang-accent, #007bff);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--lang-border-light, #e8e8e8);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.contact-card {
+    background: linear-gradient(135deg, var(--lang-accent-light, #e3f2fd) 0%, var(--lang-bg-card, #ffffff) 100%);
+    border-color: var(--lang-accent, #007bff);
+}
+
+.last-updated {
+    background: var(--lang-bg-elevated, #f8f9fa);
+    border-left: 4px solid var(--lang-accent, #007bff);
+    text-align: center;
+}
+
+.last-updated p {
+    margin-bottom: 0.5rem;
+}
+
+.last-updated p:last-child {
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+
+    .help-container,
+    .privacy-container {
+        padding: 1rem;
+    }
+
+    .help-header h1,
+    .privacy-header h1 {
+        font-size: 2rem;
+    }
+
+    .help-subtitle,
+    .privacy-subtitle {
+        font-size: 1rem;
+    }
+
+    .help-section h2,
+    .privacy-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .section-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .help-card,
+    .privacy-card {
+        padding: 1rem;
+    }
+
+    .help-card h3,
+    .privacy-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .help-card ul,
+    .help-card ol,
+    .privacy-card ul,
+    .privacy-card ol {
+        margin-left: 1rem;
+    }
+
+    .toggle-container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .help-header h1,
+    .privacy-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .help-section h2,
+    .privacy-section h2 {
+        font-size: 1.3rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .toggle-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .toggle-label {
+        text-align: center;
+        width: 100%;
+    }
+}

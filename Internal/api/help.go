@@ -9,7 +9,7 @@ import (
 
 func (server *Server) Get_HelpHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse the templates
-	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/help.html")
+	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/help-privacy.html")
 
 	if tmplErr != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
@@ -42,13 +42,19 @@ func (server *Server) Get_HelpHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pageData := model.PageData{
-		IsLoggedIn: isLoggedIn,
-		User:       user,
-		Categories: categories,
-		CSSFile:    "/web/static/css/help.css",
-		ExtraCSS:   nil,
-		Theme:      nil,
+	pageData := struct {
+		model.PageData
+		ShowPrivacy bool
+	}{
+		PageData: model.PageData{
+			IsLoggedIn: isLoggedIn,
+			User:       user,
+			Categories: categories,
+			CSSFile:    "/web/static/css/help-privacy.css",
+			ExtraCSS:   nil,
+			Theme:      nil,
+		},
+		ShowPrivacy: false, // Show help panel by default
 	}
 
 	// Execute the template

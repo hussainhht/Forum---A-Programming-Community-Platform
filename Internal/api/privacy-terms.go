@@ -9,7 +9,7 @@ import (
 
 func (server *Server) Get_PrivacyTermsHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse the templates
-	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/privacy-terms.html")
+	tmpl, tmplErr := template.ParseFiles("./web/templates/root.html", "./web/templates/help-privacy.html")
 
 	if tmplErr != nil {
 		server.Service.HandleError(w, r, http.StatusInternalServerError)
@@ -42,13 +42,19 @@ func (server *Server) Get_PrivacyTermsHandler(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	pageData := model.PageData{
-		IsLoggedIn: isLoggedIn,
-		User:       user,
-		Categories: categories,
-		CSSFile:    "/web/static/css/privacy-terms.css",
-		ExtraCSS:   nil,
-		Theme:      nil,
+	pageData := struct {
+		model.PageData
+		ShowPrivacy bool
+	}{
+		PageData: model.PageData{
+			IsLoggedIn: isLoggedIn,
+			User:       user,
+			Categories: categories,
+			CSSFile:    "/web/static/css/help-privacy.css",
+			ExtraCSS:   nil,
+			Theme:      nil,
+		},
+		ShowPrivacy: true, // Show privacy panel by default
 	}
 
 	// Execute the template

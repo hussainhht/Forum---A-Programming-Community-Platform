@@ -1,0 +1,556 @@
+{{define "mainBlock"}}
+<style>
+  /* Toggle switch styling */
+  .panel-toggle {
+    display: none;
+  }
+
+  .toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 2rem;
+  }
+
+  .toggle-label {
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border: 2px solid var(--lang-border, #e0e0e0);
+    background: var(--lang-bg-card, #ffffff);
+    color: var(--lang-text-secondary, #666);
+  }
+
+  .toggle-label:hover {
+    background: var(--lang-bg-elevated, #f8f9fa);
+    color: var(--lang-text-primary, #1a1a1a);
+    border-color: var(--lang-accent, #007bff);
+  }
+
+  /* Show help panel by default */
+  #help-panel {
+    display: block;
+  }
+
+  #privacy-panel {
+    display: none;
+  }
+
+  /* When privacy is checked, hide help and show privacy */
+  #toggle-privacy:checked ~ .content-wrapper #help-panel {
+    display: none;
+  }
+
+  #toggle-privacy:checked ~ .content-wrapper #privacy-panel {
+    display: block;
+  }
+
+  /* Active state for toggle buttons */
+  #toggle-privacy:not(:checked) ~ .content-wrapper .toggle-container .toggle-help {
+    background: var(--lang-accent, #007bff);
+    color: white;
+    border-color: var(--lang-accent, #007bff);
+  }
+
+  #toggle-privacy:checked ~ .content-wrapper .toggle-container .toggle-privacy {
+    background: var(--lang-accent, #007bff);
+    color: white;
+    border-color: var(--lang-accent, #007bff);
+  }
+
+  .content-wrapper {
+    width: 100%;
+  }
+</style>
+
+<!-- Hidden checkbox to toggle between panels -->
+<input type="checkbox" id="toggle-privacy" class="panel-toggle" {{if
+    .ShowPrivacy}}checked{{end}} />
+
+<div class="content-wrapper">
+    <!-- Toggle buttons -->
+    <div class="toggle-container">
+        <label for="toggle-privacy" class="toggle-label toggle-help">Help &
+            Support</label>
+        <label for="toggle-privacy" class="toggle-label toggle-privacy">Privacy
+            & Terms</label>
+    </div>
+
+    <!-- HELP PANEL -->
+    <div id="help-panel">
+        <div class="help-container">
+            <div class="help-header">
+                <h1>Help & Support</h1>
+                <p class="help-subtitle">Everything you need to know about using
+                    our forum</p>
+            </div>
+
+            <div class="help-content">
+                <!-- Getting Started Section -->
+                <section class="help-section">
+                    <h2><img src="/web/static/icons/home.svg"
+                            alt="Getting Started" class="section-icon"> Getting
+                        Started</h2>
+                    <div class="help-card">
+                        <h3>Welcome to the Forum!</h3>
+                        <p>Our forum is a community-driven platform where you
+                            can share knowledge, ask questions, and engage with
+                            other developers. Here's how to get started:</p>
+                        <ul>
+                            <li><strong>Create an Account:</strong> Click the
+                                "Register" button to create your account</li>
+                            <li><strong>Login:</strong> Use your credentials to
+                                access all forum features</li>
+                            <li><strong>Browse Posts:</strong> Explore posts on
+                                the home page or discover more content</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Creating Posts Section -->
+                <section class="help-section">
+                    <h2><img src="/web/static/icons/add_post.svg"
+                            alt="Creating Posts" class="section-icon"> Creating
+                        Posts</h2>
+                    <div class="help-card">
+                        <h3>How to Create a Post</h3>
+                        <ol>
+                            <li>Click on "Create Post" in the sidebar</li>
+                            <li>Select a category for your post (e.g., Python,
+                                JavaScript, Go, etc.)</li>
+                            <li>Add a title and description for your post</li>
+                            <li>Use the editor to format your content with text,
+                                code blocks, and images</li>
+                            <li>Preview your post before publishing</li>
+                            <li>Click "Publish" to share your post with the
+                                community</li>
+                        </ol>
+                    </div>
+                    <div class="help-card">
+                        <h3>Post Guidelines</h3>
+                        <ul>
+                            <li>Choose the most relevant category for your
+                                post</li>
+                            <li>Write clear, descriptive titles</li>
+                            <li>Use code blocks for sharing code snippets</li>
+                            <li>Be respectful and constructive in your
+                                content</li>
+                            <li>Avoid duplicate posts - search first!</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Interacting Section -->
+                <section class="help-section">
+                    <h2><img src="/web/static/icons/read_more.svg"
+                            alt="Interacting" class="section-icon"> Interacting
+                        with Posts</h2>
+                    <div class="help-card">
+                        <h3>Comments</h3>
+                        <p>Engage with posts by leaving comments. Share your
+                            thoughts, ask questions, or provide solutions.</p>
+                        <ul>
+                            <li>Click on a post to view its full content</li>
+                            <li>Scroll to the comments section</li>
+                            <li>Write your comment and submit</li>
+                        </ul>
+                    </div>
+                    <div class="help-card">
+                        <h3>Reactions</h3>
+                        <p>Show your appreciation or disagreement with
+                            reactions:</p>
+                        <ul>
+                            <li><strong>Like:</strong> Express agreement or
+                                appreciation</li>
+                            <li><strong>Dislike:</strong> Express disagreement
+                                (use constructively)</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Playground Section -->
+                <section class="help-section">
+                    <h2><img src="/web/static/icons/code.svg" alt="Playground"
+                            class="section-icon"> Code Playground</h2>
+                    <div class="help-card">
+                        <h3>Using the Playground</h3>
+                        <p>Test and run code directly in your browser without
+                            leaving the forum!</p>
+                        <ul>
+                            <li>Navigate to the "Playground" from the
+                                sidebar</li>
+                            <li>Select your programming language</li>
+                            <li>Write or paste your code</li>
+                            <li>Click "Run" to execute and see the output</li>
+                            <li>Share your code snippets with others</li>
+                        </ul>
+                        <p class="help-note"><strong>Note:</strong> Supported
+                            languages include Python, JavaScript, Go, Java, C++,
+                            and many more!</p>
+                    </div>
+                </section>
+
+                <!-- Categories Section -->
+                <section class="help-section">
+                    <h2><img src="/web/static/icons/categories/python.svg"
+                            alt="Categories" class="section-icon">
+                        Categories</h2>
+                    <div class="help-card">
+                        <h3>Browse by Category</h3>
+                        <p>Posts are organized by programming languages and
+                            topics. Use the sidebar to filter content:</p>
+                        <ul>
+                            <li>Click on any category to view related posts</li>
+                            <li>Click "Show More" to see all available
+                                categories</li>
+                            <li>Each category has its own theme and styling</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Profile Section -->
+                <section class="help-section">
+                    <h2><img src="/web/static/icons/settings.svg" alt="Profile"
+                            class="section-icon"> Your Profile</h2>
+                    <div class="help-card">
+                        <h3>Managing Your Account</h3>
+                        <p>Click on your username in the sidebar to access your
+                            profile where you can:</p>
+                        <ul>
+                            <li>View your posts and comments</li>
+                            <li>Update your profile information</li>
+                            <li>Track your contributions to the community</li>
+                            <li>See posts you've interacted with</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- FAQ Section -->
+                <section class="help-section">
+                    <h2>Frequently Asked Questions</h2>
+                    <div class="help-card">
+                        <div class="faq-item">
+                            <h4>How do I reset my password?</h4>
+                            <p>Contact the administrator or use the password
+                                reset feature on the login page.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>Can I delete my posts or comments?</h4>
+                            <p>Post and comment management features depend on
+                                your account permissions. Contact a moderator if
+                                needed.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>How do I report inappropriate content?</h4>
+                            <p>Contact the forum administrators with details
+                                about the content in question.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>Is my code in the playground private?</h4>
+                            <p>Code run in the playground is executed on the
+                                server. Avoid sharing sensitive information.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section class="help-section">
+                    <h2>Need More Help?</h2>
+                    <div class="help-card contact-card">
+                        <p>If you couldn't find the answer to your question,
+                            feel free to reach out:</p>
+                        <ul>
+                            <li>Create a post in the "General" category</li>
+                            <li>Contact the forum administrators</li>
+                            <li>Check our community guidelines and terms of
+                                service</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY & TERMS PANEL -->
+    <div id="privacy-panel">
+        <div class="privacy-container">
+            <div class="privacy-header">
+                <h1>Privacy & Terms</h1>
+                <p class="privacy-subtitle">Your privacy and rights matter to
+                    us</p>
+            </div>
+
+            <div class="privacy-content">
+                <!-- Privacy Policy Section -->
+                <section class="privacy-section">
+                    <h2><img src="/web/static/icons/help.svg"
+                            alt="Privacy Policy" class="section-icon"> Privacy
+                        Policy</h2>
+                    <div class="privacy-card">
+                        <h3>Introduction</h3>
+                        <p>We are committed to protecting your privacy and
+                            ensuring you have a positive experience on our
+                            forum. This Privacy Policy outlines how we collect,
+                            use, and protect your information.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Information We Collect</h3>
+                        <ul>
+                            <li><strong>Account Information:</strong> When you
+                                register, we collect your username, email
+                                address, and password.</li>
+                            <li><strong>Profile Information:</strong> Additional
+                                details such as profile photo, bio, and
+                                preferences.</li>
+                            <li><strong>Content:</strong> Posts, comments, and
+                                code you share on the forum.</li>
+                            <li><strong>Usage Data:</strong> Information about
+                                how you interact with our site (pages visited,
+                                time spent, etc).</li>
+                            <li><strong>Technical Data:</strong> IP address,
+                                browser type, and device information.</li>
+                        </ul>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>How We Use Your Information</h3>
+                        <ul>
+                            <li>To provide and maintain our forum services</li>
+                            <li>To authenticate your account and verify your
+                                identity</li>
+                            <li>To improve our site's functionality and user
+                                experience</li>
+                            <li>To communicate with you about updates and
+                                changes</li>
+                            <li>To comply with legal obligations</li>
+                            <li>To prevent fraud and misuse of our services</li>
+                        </ul>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Data Security</h3>
+                        <p>We implement industry-standard security measures to
+                            protect your personal information. Your passwords
+                            are encrypted, and we use SSL/TLS protocols for data
+                            transmission. However, no method of transmission
+                            over the Internet is 100% secure.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Third-Party Services</h3>
+                        <p>We may use third-party services for analytics and
+                            functionality. These services have their own privacy
+                            policies, and we are not responsible for their
+                            practices. We recommend reviewing their policies as
+                            well.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Your Rights</h3>
+                        <ul>
+                            <li><strong>Access:</strong> You can request access
+                                to your personal data.</li>
+                            <li><strong>Correction:</strong> You can update or
+                                correct your information at any time.</li>
+                            <li><strong>Deletion:</strong> You can request
+                                deletion of your account and associated
+                                data.</li>
+                            <li><strong>Opt-Out:</strong> You can opt-out of
+                                certain communications.</li>
+                        </ul>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Cookies</h3>
+                        <p>Our forum uses cookies to remember your preferences
+                            and maintain your login session. You can control
+                            cookie settings through your browser. Disabling
+                            cookies may affect site functionality.</p>
+                    </div>
+                </section>
+
+                <!-- Terms of Service Section -->
+                <section class="privacy-section">
+                    <h2><img src="/web/static/icons/Terms.svg"
+                            alt="Terms of Service" class="section-icon"> Terms
+                        of Service</h2>
+
+                    <div class="privacy-card">
+                        <h3>Agreement to Terms</h3>
+                        <p>By accessing and using this forum, you accept and
+                            agree to be bound by the terms and provision of this
+                            agreement. If you do not agree to abide by the
+                            above, please do not use this service.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>User Responsibilities</h3>
+                        <ul>
+                            <li>You are responsible for maintaining the
+                                confidentiality of your account and
+                                password</li>
+                            <li>You agree not to share your account with
+                                others</li>
+                            <li>You are responsible for all activities that
+                                occur under your account</li>
+                            <li>You agree to provide accurate and complete
+                                information</li>
+                        </ul>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Prohibited Content & Conduct</h3>
+                        <p>You agree not to post or transmit:</p>
+                        <ul>
+                            <li>Illegal content or instructions for illegal
+                                activities</li>
+                            <li>Defamatory, abusive, or harassing content</li>
+                            <li>Spam or unsolicited advertisements</li>
+                            <li>Malware, viruses, or harmful code</li>
+                            <li>Content that infringes on intellectual property
+                                rights</li>
+                            <li>Personal information of others without
+                                consent</li>
+                            <li>Explicit or inappropriate content</li>
+                        </ul>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Content Ownership</h3>
+                        <p>You retain all rights to content you create and post
+                            on the forum. By posting content, you grant us a
+                            license to use, display, and distribute your content
+                            on our platform. You are responsible for ensuring
+                            you have the right to share any content you
+                            post.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Intellectual Property Rights</h3>
+                        <p>The forum and its content (excluding user-generated
+                            content) are owned or controlled by us. All
+                            software, design, text, graphics, and other elements
+                            are protected by copyright and other intellectual
+                            property laws.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Disclaimer of Warranties</h3>
+                        <p>The forum is provided on an "AS IS" basis. We do not
+                            warrant that the forum will be uninterrupted,
+                            error-free, or free from viruses. We are not
+                            responsible for any loss of data, damage to devices,
+                            or other consequences resulting from your use of the
+                            forum.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Limitation of Liability</h3>
+                        <p>In no event shall we be liable for any indirect,
+                            incidental, special, or consequential damages
+                            arising out of or in connection with your use of the
+                            forum, even if we have been advised of the
+                            possibility of such damages.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Termination</h3>
+                        <p>We reserve the right to suspend or terminate your
+                            account and access to the forum at any time, with or
+                            without cause, and with or without notice. Causes
+                            for termination include violation of these terms,
+                            abuse, or suspicious activity.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Changes to Terms</h3>
+                        <p>We reserve the right to modify these terms at any
+                            time. Your continued use of the forum after changes
+                            indicates your acceptance of the updated terms. We
+                            will notify users of significant changes via email
+                            or a prominent notice on the forum.</p>
+                    </div>
+                </section>
+
+                <!-- Community Guidelines Section -->
+                <section class="privacy-section">
+                    <h2><img src="/web/static/icons/home.svg"
+                            alt="Community Guidelines" class="section-icon">
+                        Community Guidelines</h2>
+
+                    <div class="privacy-card">
+                        <h3>Be Respectful</h3>
+                        <p>Treat all community members with respect.
+                            Disagreement is healthy, but personal attacks,
+                            harassment, and discrimination are not
+                            tolerated.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Be Helpful</h3>
+                        <p>The forum thrives when members help each other. Share
+                            your knowledge, answer questions, and provide
+                            constructive feedback.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Stay On Topic</h3>
+                        <p>Keep discussions relevant to the selected category
+                            and forum purpose. Use appropriate categories for
+                            your posts.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Search Before Posting</h3>
+                        <p>Before creating a new post, search to see if your
+                            question has already been answered. This helps keep
+                            the forum organized and reduces duplication.</p>
+                    </div>
+
+                    <div class="privacy-card">
+                        <h3>Report Violations</h3>
+                        <p>If you encounter content that violates these
+                            guidelines, please report it to the forum
+                            administrators immediately. Do not engage with
+                            violating content.</p>
+                    </div>
+                </section>
+
+                <!-- Contact Section -->
+                <section class="privacy-section">
+                    <h2>Questions or Concerns?</h2>
+                    <div class="privacy-card contact-card">
+                        <p>If you have any questions about our Privacy Policy or
+                            Terms of Service, or if you would like to exercise
+                            any of your rights regarding your data, please
+                            contact us:</p>
+                        <ul>
+                            <li>Create a post in the forum and tag it with
+                                "Support"</li>
+                            <li>Contact the forum administrators directly</li>
+                            <li>Check back regularly for any updates to these
+                                policies</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Last Updated -->
+                <section class="privacy-section">
+                    <div class="privacy-card last-updated">
+                        <p><strong>Last Updated:</strong> October 21, 2025</p>
+                        <p>We reserve the right to update these policies at any
+                            time. Check this page regularly for updates.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
