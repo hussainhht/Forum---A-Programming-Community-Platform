@@ -139,8 +139,34 @@ func (server *Server) Post_CreatePostHandler(w http.ResponseWriter, r *http.Requ
 		return
 
 	case "submit-post":
+		// If there's content in the textarea but not yet added as a block, add it automatically
+		if content != "" && blockType != "" {
+			block := model.Block{
+				Type:    blockType,
+				Content: content,
+			}
+
+			// Handle link blocks
+			if blockType == "link" {
+				text, url, isValid := server.Service.ParseMarkdownLink(content)
+				if isValid {
+					block.Link = &model.Link{
+						Text: text,
+						URL:  url,
+					}
+				} else {
+					// If not valid markdown format, treat as regular content
+					block.Type = "text"
+				}
+			}
+
+			tempBlocks = append(tempBlocks, block)
+			server.TempBlocks[sessionID] = tempBlocks
+		}
+
+		// Check if we have required fields (after potentially adding the current content)
 		if title == "" || len(tempBlocks) == 0 || len(catIDs) == 0 {
-			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "Title, categories, and blocks are required")
+			renderCreatePost(w, r, server, title, catIDs, tempBlocks, "Title, categories, and content are required")
 			return
 		}
 
