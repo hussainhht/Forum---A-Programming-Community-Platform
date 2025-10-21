@@ -299,7 +299,6 @@ LIMIT 4;
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-	fmt.Println(posts[0].Preview)
 	return posts, nil
 }
 
@@ -536,7 +535,6 @@ func GetDiscoverPostsMultiCategory(db *sql.DB, search string, categories []strin
 }
 
 func getPostPreview(content []model.Block) string {
-	fmt.Println(content)
 	var preview string
 	wordCount := 0
 	for _, block := range content {

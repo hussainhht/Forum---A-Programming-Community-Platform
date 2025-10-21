@@ -59,7 +59,6 @@ func (s *Service) GetPostByID(postID string) (*model.Post, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(post.Username)
 	post.LikeCount, err = query.GetPostLikeCount(s.DB, post.ID)
 	if err != nil {
 		return nil, err
@@ -87,7 +86,6 @@ func (s *Service) GetPostByIDWithUser(postID string, userID int) (*model.Post, e
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(post.Username)
 	post.LikeCount, err = query.GetPostLikeCount(s.DB, post.ID)
 	if err != nil {
 		return nil, err
