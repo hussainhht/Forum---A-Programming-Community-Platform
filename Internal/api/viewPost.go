@@ -47,10 +47,16 @@ func (server *Server) Get_PostHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// Parse URL query parameters for notifications
+	errorMsg := r.URL.Query().Get("error")
+	successMsg := r.URL.Query().Get("success")
+
 	pageData := model.PageData{
 		IsLoggedIn: isLoggedIn,
 		Post:       post,
 		User:       user,
+		ErrorMsg:   errorMsg,
+		SuccessMsg: successMsg,
 	}
 	// Render the post using a template
 	// Parse with sidebar (if sidebar defines template name 'sidebar')

@@ -103,6 +103,7 @@ type PageData struct {
 	PrevPage           int
 	User               *User
 	ErrorMsg           string
+	SuccessMsg         string
 	ErrorCode          int
 	CSSFile            string
 	ExtraCSS           []string

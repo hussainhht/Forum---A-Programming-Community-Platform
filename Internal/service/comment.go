@@ -5,6 +5,7 @@ import (
 	"forum/Internal/model"
 	"forum/Internal/query"
 	"strconv"
+	"strings"
 )
 
 func (service *Service) CommentReaction(commentID int, userID int, reactionType string) error {
@@ -75,7 +76,8 @@ func (service *Service) GetCommentsByPostID(postID int, userID int) ([]model.Com
 
 func (service *Service) CreateComment(postID string, userID int, content string) error {
 	// make sure content isnt empty
-	if content == "" {
+	fmt.Println("Creating comment with content:", content)
+	if strings.TrimSpace(content) == "" {
 		return fmt.Errorf("comment content cannot be empty")
 	}
 	// Convert postID string to int

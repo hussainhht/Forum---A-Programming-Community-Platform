@@ -1,5 +1,64 @@
 {{define "mainBlock"}}
     <link rel="stylesheet" href="/web/static/css/view-post.css" />
+    
+    <!-- Notification Popup Styles -->
+    <style>
+        .notification-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-out 4.5s forwards;
+            max-width: 400px;
+            font-family: monospace;
+            border: 2px solid;
+        }
+        
+        .notification-popup.success {
+            background: #1a3a1a;
+            color: #4ade80;
+            border-color: #22c55e;
+        }
+        
+        .notification-popup.error {
+            background: #3a1a1a;
+            color: #f87171;
+            border-color: #ef4444;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(400px);
+            }
+        }
+    </style>
+    
+    <!-- Notification Popup Container -->
+    {{if .ErrorMsg}}
+    <div class="notification-popup error">
+        {{.ErrorMsg}}
+    </div>
+    {{else if .SuccessMsg}}
+    <div class="notification-popup success">
+        {{.SuccessMsg}}
+    </div>
+    {{end}}
+    
     <div class="container vp-container">
             <!-- Post Card -->
             <div class="card vp-post">
