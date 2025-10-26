@@ -1,12 +1,12 @@
 /* Discover Posts Page - premium styling */
 :root {
-  --discover-accent: #6366f1;
-  --discover-accent-rgb: 99 102 241;
-  --discover-accent-alt: #4338ca;
+  --discover-accent: #a855f7;
+  --discover-accent-rgb: 168 85 247;
+  --discover-accent-alt: #7e22ce;
   --discover-surface: #111827;
   --discover-surface-alt: #0f172a;
   --discover-border: 220 220 255 / 6%;
-  --discover-glow: 99 102 241;
+  --discover-glow: 168 85 247;
 }
 
 * {
@@ -46,7 +46,7 @@ body {
 }
 
 #discover-hero-section .section-subtitle {
-  color: #94a3b8;
+  color: #b194b8;
   font-size: clamp(0.9rem, 1.3vw, 1.05rem);
   max-width: 780px;
   margin: 10px auto 0;
@@ -112,7 +112,7 @@ body {
   cursor: pointer;
   padding: 12px 18px;
   background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid rgba(168, 85, 247, 0.3);
   border-radius: 10px;
   font-size: 0.9rem;
   color: #e2e8f0;
@@ -123,9 +123,9 @@ body {
 }
 
 .categories-header:hover {
-  background: linear-gradient(145deg, rgba(99, 102, 241, 0.2), rgba(79, 70, 229, 0.15));
-  border-color: rgba(99, 102, 241, 0.6);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  background: linear-gradient(145deg, rgba(168, 85, 247, 0.2), rgba(126, 34, 206, 0.15));
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
 }
 
 .categories-dropdown {
@@ -134,9 +134,9 @@ body {
   left: 0;
   right: 0;
   background: linear-gradient(145deg, rgba(17, 24, 39, 0.98), rgba(15, 23, 42, 0.98));
-  border: 1px solid rgba(99, 102, 241, 0.4);
+  border: 1px solid rgba(168, 85, 247, 0.4);
   border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(168, 85, 247, 0.2);
   backdrop-filter: blur(12px);
   z-index: 150;
   display: none;
@@ -153,14 +153,14 @@ body {
   display: block;
   padding: 10px 14px;
   background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.6));
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(168, 85, 247, 0.2);
   border-radius: 8px;
   margin-bottom: 8px;
   cursor: pointer;
   transition: all 0.25s ease;
   position: relative;
   font-size: 0.875rem;
-  color: #cbd5e1;
+  color: #d7cbe1;
   user-select: none;
 }
 
@@ -169,8 +169,8 @@ body {
 }
 
 .category-option:hover {
-  background: linear-gradient(145deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
-  border-color: rgba(99, 102, 241, 0.6);
+  background: linear-gradient(145deg, rgba(168, 85, 247, 0.3), rgba(192, 132, 252, 0.3));
+  border-color: rgba(168, 85, 247, 0.6);
   color: #fff;
   transform: translateX(4px);
 }
@@ -188,11 +188,11 @@ body {
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #a855f7, #c084fc);
   border-radius: 50%;
   opacity: 0;
   transition: all 0.25s ease;
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
 }
 
 .category-option input:checked~span.selected-indicator {
@@ -215,12 +215,12 @@ body {
 }
 
 .categories-dropdown::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.4);
+  background: rgba(168, 85, 247, 0.4);
   border-radius: 10px;
 }
 
 .categories-dropdown::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.6);
+  background: rgba(168, 85, 247, 0.6);
 }
 
 #posts-filters-section label {
@@ -279,7 +279,7 @@ body {
 
 #posts-filters-section select option:hover,
 #posts-filters-section select option:checked {
-  background: linear-gradient(145deg, rgba(99, 102, 241, 0.3), rgba(79, 70, 229, 0.2));
+  background: linear-gradient(145deg, rgba(168, 85, 247, 0.3), rgba(126, 34, 206, 0.2));
   color: #fff;
 }
 
@@ -509,8 +509,8 @@ body {
 }
 
 .post-category-badge {
-  background: linear-gradient(145deg, #312e81, #1e1b4b);
-  color: #c7d2fe;
+  background: linear-gradient(145deg, #581c87, #3b0764);
+  color: #e9d5ff;
   font-size: 11px;
   padding: 6px 12px 5px;
   border-radius: 999px;
@@ -539,7 +539,7 @@ body {
   letter-spacing: 0.25px;
   max-height: 168px;
   overflow: hidden;
-  color: color-mix(in oklab, #a5b4fc 25%, #e2e8f0);
+  color: color-mix(in oklab, #d8b4fe 25%, #e2e8f0);
   mask: linear-gradient(to bottom, #000 calc(100% - 40px), transparent 100%);
 }
 

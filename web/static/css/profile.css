@@ -67,13 +67,13 @@ body {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 3px solid rgba(59, 130, 246, 0.5);
+  border: 3px solid rgba(168, 85, 247, 0.5);
   object-fit: cover;
   transition: all 0.3s ease;
 }
 
 .profile-photo:hover {
-  border-color: rgba(59, 130, 246, 0.8);
+  border-color: rgba(168, 85, 247, 0.8);
   transform: scale(1.05);
 }
 
@@ -97,7 +97,7 @@ body {
 /* Typing Effect */
 .typing-effect {
   overflow: hidden;
-  border-right: 2px solid #3b82f6;
+  border-right: 2px solid #a855f7;
   white-space: nowrap;
   animation: typing 2s steps(20, end), blink-caret 0.75s step-end infinite;
 }
@@ -106,18 +106,21 @@ body {
   from {
     width: 0;
   }
+
   to {
     width: 100%;
   }
 }
 
 @keyframes blink-caret {
+
   from,
   to {
     border-color: transparent;
   }
+
   50% {
-    border-color: #3b82f6;
+    border-color: #a855f7;
   }
 }
 
@@ -148,7 +151,7 @@ body {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  background: linear-gradient(90deg, #a855f7, #c084fc);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -167,7 +170,7 @@ body {
   display: block;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #3b82f6;
+  color: #a855f7;
   margin-bottom: 0.5rem;
 }
 
@@ -221,7 +224,7 @@ body {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  background: linear-gradient(90deg, #a855f7, #c084fc);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -232,14 +235,14 @@ body {
 }
 
 /* Active state for labels when their radio is checked */
-#tab-your-posts:checked ~ .tab-navigation label[for="tab-your-posts"],
-#tab-liked-posts:checked ~ .tab-navigation label[for="tab-liked-posts"] {
+#tab-your-posts:checked~.tab-navigation label[for="tab-your-posts"],
+#tab-liked-posts:checked~.tab-navigation label[for="tab-liked-posts"] {
   color: #f8fafc;
   background: rgba(51, 65, 85, 0.4);
 }
 
-#tab-your-posts:checked ~ .tab-navigation label[for="tab-your-posts"]::after,
-#tab-liked-posts:checked ~ .tab-navigation label[for="tab-liked-posts"]::after {
+#tab-your-posts:checked~.tab-navigation label[for="tab-your-posts"]::after,
+#tab-liked-posts:checked~.tab-navigation label[for="tab-liked-posts"]::after {
   transform: scaleX(1);
 }
 
@@ -250,8 +253,8 @@ body {
 }
 
 /* Show tab content based on which radio is checked */
-#tab-your-posts:checked ~ #your-posts,
-#tab-liked-posts:checked ~ #liked-posts {
+#tab-your-posts:checked~#your-posts,
+#tab-liked-posts:checked~#liked-posts {
   display: block;
 }
 
@@ -299,7 +302,7 @@ body {
 }
 
 .tab-content a:hover {
-  color: #3b82f6;
+  color: #a855f7;
 }
 
 .post-meta {
@@ -320,23 +323,111 @@ body {
 }
 
 /* Unified post card styling reuse */
-.profile-posts .posts-grid { display:flex; flex-wrap:wrap; gap:28px; justify-content:center; }
-.profile-posts .post-card { flex:1 1 clamp(260px,34%,380px); max-width:400px; min-width:240px; height:230px; position:relative; background:linear-gradient(145deg,#1e293b 0%,#0f172a 60%,#0b1120 100%); border:1px solid rgba(59,130,246,.25); box-shadow:0 4px 16px rgba(0,0,0,.4); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; }
-.profile-posts .post-card::before { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(59,130,246,.35),transparent 55%); pointer-events:none; }
-.profile-posts .post-titlebar { background:linear-gradient(140deg,rgba(59,130,246,.35),rgba(30,58,138,.25)); border-bottom:1px solid rgba(59,130,246,.35); padding:8px 12px; display:flex; justify-content:space-between; align-items:center; }
-.profile-posts .post-title { font-weight:600; font-size:.9rem; color:#e2e8f0; line-height:1.2; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:160px; }
-.profile-posts .post-body { padding:8px 12px; display:flex; flex-direction:column; justify-content:space-between; }
-.profile-posts .post-content { font-size:.75rem; line-height:1.4; color:#94a3b8; max-height:120px; overflow:hidden; }
-.profile-posts .post-info small { color:#64748b; font-size:.65rem; }
-.profile-posts .post-toolbar-buttons button, .profile-posts .post-toolbar-buttons a.maximize { width:16px; height:16px; border-radius:4px; border:1px solid rgba(255,255,255,.15); background:linear-gradient(#334155,#1e293b); display:grid; place-items:center; }
-.profile-posts .post-toolbar-buttons button:hover, .profile-posts .post-toolbar-buttons a.maximize:hover { filter:brightness(1.15); transform:translateY(-2px); }
-.profile-posts .post-toolbar-buttons svg rect, .profile-posts .post-toolbar-buttons svg polygon { fill:#fff; }
+.profile-posts .posts-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: center;
+}
+
+.profile-posts .post-card {
+  flex: 1 1 clamp(260px, 34%, 380px);
+  max-width: 400px;
+  min-width: 240px;
+  height: 230px;
+  position: relative;
+  background: linear-gradient(145deg, #1e293b 0%, #0f172a 60%, #0b1120 100%);
+  border: 1px solid rgba(168, 85, 247, .25);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-posts .post-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(168, 85, 247, .35), transparent 55%);
+  pointer-events: none;
+}
+
+.profile-posts .post-titlebar {
+  background: linear-gradient(140deg, rgba(168, 85, 247, .35), rgba(126, 34, 206, .25));
+  border-bottom: 1px solid rgba(168, 85, 247, .35);
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-posts .post-title {
+  font-weight: 600;
+  font-size: .9rem;
+  color: #e2e8f0;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
+}
+
+.profile-posts .post-body {
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.profile-posts .post-content {
+  font-size: .75rem;
+  line-height: 1.4;
+  color: #94a3b8;
+  max-height: 120px;
+  overflow: hidden;
+}
+
+.profile-posts .post-info small {
+  color: #64748b;
+  font-size: .65rem;
+}
+
+.profile-posts .post-toolbar-buttons button,
+.profile-posts .post-toolbar-buttons a.maximize {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, .15);
+  background: linear-gradient(#334155, #1e293b);
+  display: grid;
+  place-items: center;
+}
+
+.profile-posts .post-toolbar-buttons button:hover,
+.profile-posts .post-toolbar-buttons a.maximize:hover {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+.profile-posts .post-toolbar-buttons svg rect,
+.profile-posts .post-toolbar-buttons svg polygon {
+  fill: #fff;
+}
 
 /* Ensure toolbar buttons are laid out horizontally */
-.profile-posts .post-toolbar-buttons { display:flex; flex-direction:row; gap:6px; align-items:center; }
+.profile-posts .post-toolbar-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+}
 
-@media (max-width:860px){
-  .profile-posts .post-card { flex:1 1 100%; max-width:560px; }
+@media (max-width:860px) {
+  .profile-posts .post-card {
+    flex: 1 1 100%;
+    max-width: 560px;
+  }
 }
 
 /* Responsive Design */
