@@ -1,5 +1,73 @@
 /* Combined Help & Privacy Page Styles */
 
+/* Toggle switch styling */
+.panel-toggle {
+    display: none;
+}
+
+.toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 2rem;
+}
+
+.toggle-label {
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border: 2px solid var(--lang-border, #e0e0e0);
+    background: var(--lang-bg-card, #ffffff);
+    color: var(--lang-text-secondary, #666);
+}
+
+.toggle-label:hover {
+    background: var(--lang-bg-elevated, #f8f9fa);
+    color: var(--lang-text-primary, #1a1a1a);
+    border-color: var(--lang-accent, #a855f7);
+}
+
+/* Show help panel by default */
+#help-panel {
+    display: block;
+}
+
+#privacy-panel {
+    display: none;
+}
+
+/* When privacy is checked, hide help and show privacy */
+#toggle-privacy:checked~.content-wrapper #help-panel {
+    display: none;
+}
+
+#toggle-privacy:checked~.content-wrapper #privacy-panel {
+    display: block;
+}
+
+/* Active state for toggle buttons */
+#toggle-privacy:not(:checked)~.content-wrapper .toggle-container .toggle-help {
+    background: var(--lang-accent, #a855f7);
+    color: white;
+    border-color: var(--lang-accent, #a855f7);
+}
+
+#toggle-privacy:checked~.content-wrapper .toggle-container .toggle-privacy {
+    background: var(--lang-accent, #a855f7);
+    color: white;
+    border-color: var(--lang-accent, #a855f7);
+}
+
+.content-wrapper {
+    width: 100%;
+}
+
 .help-container,
 .privacy-container {
     max-width: 900px;
@@ -70,7 +138,7 @@
 .help-section h2,
 .privacy-section h2 {
     font-size: 1.8rem;
-    color: var(--lang-accent, #007bff);
+    color: var(--lang-accent, #a855f7);
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
@@ -112,7 +180,7 @@
 .help-card h4,
 .privacy-card h4 {
     font-size: 1.1rem;
-    color: var(--lang-accent, #007bff);
+    color: var(--lang-accent, #a855f7);
     margin-bottom: 0.5rem;
     font-weight: 600;
 }
@@ -150,7 +218,7 @@
 .help-note,
 .privacy-note {
     background: var(--lang-bg-elevated, #f8f9fa);
-    border-left: 4px solid var(--lang-accent, #007bff);
+    border-left: 4px solid var(--lang-accent, #a855f7);
     padding: 1rem;
     border-radius: 4px;
     margin-top: 1rem;
@@ -168,13 +236,13 @@
 }
 
 .contact-card {
-    background: linear-gradient(135deg, var(--lang-accent-light, #e3f2fd) 0%, var(--lang-bg-card, #ffffff) 100%);
-    border-color: var(--lang-accent, #007bff);
+    background: linear-gradient(135deg, var(--lang-accent-light, #f3e8ff) 0%, var(--lang-bg-card, #ffffff) 100%);
+    border-color: var(--lang-accent, #a855f7);
 }
 
 .last-updated {
     background: var(--lang-bg-elevated, #f8f9fa);
-    border-left: 4px solid var(--lang-accent, #007bff);
+    border-left: 4px solid var(--lang-accent, #a855f7);
     text-align: center;
 }
 

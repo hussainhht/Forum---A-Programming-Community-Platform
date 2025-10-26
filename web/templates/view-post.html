@@ -1,153 +1,138 @@
 {{define "mainBlock"}}
-    <link rel="stylesheet" href="/web/static/css/view-post.css" />
-    
-    <!-- Notification Popup Styles -->
-    <style>
-        .notification-popup {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 16px 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 9999;
-            animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-out 4.5s forwards;
-            max-width: 400px;
-            font-family: monospace;
-            border: 2px solid;
-        }
-        
-        .notification-popup.success {
-            background: #1a3a1a;
-            color: #4ade80;
-            border-color: #22c55e;
-        }
-        
-        .notification-popup.error {
-            background: #3a1a1a;
-            color: #f87171;
-            border-color: #ef4444;
-        }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: translateX(400px);
-            }
-        }
-    </style>
-    
-    <!-- Notification Popup Container -->
-    {{if .ErrorMsg}}
-    <div class="notification-popup error">
-        {{.ErrorMsg}}
-    </div>
-    {{else if .SuccessMsg}}
-    <div class="notification-popup success">
-        {{.SuccessMsg}}
-    </div>
-    {{end}}
-    
-    <div class="container vp-container">
-            <!-- Post Card -->
-            <div class="card vp-post">
-                <div class="titlebar">
-                    <button class="minimize"><svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2"/></svg></button>
-                    <button class="maximize"><svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8"/></svg></button>
-                    <button class="close"><svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9"/></svg></button>
-                </div>
-                <div class="vp-post-body">
-                    <h1 class="vp-title">{{.Post.Title}}</h1>
-                    <div class="vp-content" id="post-content">
-                        {{ range .Post.Content }}
-                            {{ if eq .Type "code" }}
-                                <pre class="code-string">{{ .Content }}</pre>
-                            {{ else if eq .Type "link" }}
-                                {{ if .Link }}
-                                    <div class="link-string">
-                                        <a href="{{.Link.URL}}" target="_blank" rel="noopener noreferrer">{{.Link.Text}}</a>
-                                        <small class="link-url">({{.Link.URL}})</small>
-                                    </div>
-                                {{ else }}
-                                    <div class="text-string">{{ .Content }}</div>
-                                {{ end }}
-                            {{ else }}
-                                <div class="text-string">{{ .Content }}</div>
-                            {{ end }}
-                        {{ end }}
-                    </div>
-                    <small class="vp-meta">By: {{.Post.Username}} | {{.Post.CreatedAt.Format "Jan 2, 2006"}}</small>
+<link rel="stylesheet" href="/web/static/css/view-post.css" />
 
-                    <div class="vp-likes">
-                        {{if .IsLoggedIn}}
-                        <form action="/post-reaction" method="POST" class="vp-like-form">
-                            <input type="hidden" name="post_id" value="{{.Post.ID}}" />
-                            <button class="vp-btn vp-like {{if .Post.UserLiked}}active{{end}}" type="submit" name="reaction_type" value="like">👍 {{if .Post.UserLiked}}Unlike{{else}}Like{{end}}</button>
-                            <button class="vp-btn vp-dislike {{if .Post.UserDisliked}}active{{end}}" type="submit" name="reaction_type" value="dislike">👎 {{if .Post.UserDisliked}}Unlike{{else}}Dislike{{end}}</button>
+<!-- Notification Popup Container -->
+{{if .ErrorMsg}}
+<div class="notification-popup error">
+    {{.ErrorMsg}}
+</div>
+{{else if .SuccessMsg}}
+<div class="notification-popup success">
+    {{.SuccessMsg}}
+</div>
+{{end}}
+
+<div class="container vp-container">
+    <!-- Post Card -->
+    <div class="card vp-post">
+        <div class="titlebar">
+            <button class="minimize"><svg viewBox="0 0 10 10"><rect x="1" y="4"
+                        width="8" height="2" /></svg></button>
+            <button class="maximize"><svg viewBox="0 0 10 10"><rect x="1" y="1"
+                        width="8" height="8" /></svg></button>
+            <button class="close"><svg viewBox="0 0 10 10"><polygon
+                        points="1,1 9,9 9,1 1,9" /></svg></button>
+        </div>
+        <div class="vp-post-body">
+            <h1 class="vp-title">{{.Post.Title}}</h1>
+            <div class="vp-content" id="post-content">
+                {{ range .Post.Content }}
+                {{ if eq .Type "code" }}
+                <pre class="code-string">{{ .Content }}</pre>
+                {{ else if eq .Type "link" }}
+                {{ if .Link }}
+                <div class="link-string">
+                    <a href="{{.Link.URL}}" target="_blank"
+                        rel="noopener noreferrer">{{.Link.Text}}</a>
+                    <small class="link-url">({{.Link.URL}})</small>
+                </div>
+                {{ else }}
+                <div class="text-string">{{ .Content }}</div>
+                {{ end }}
+                {{ else }}
+                <div class="text-string">{{ .Content }}</div>
+                {{ end }}
+                {{ end }}
+            </div>
+            <small class="vp-meta">By: {{.Post.Username}} |
+                {{.Post.CreatedAt.Format "Jan 2, 2006"}}</small>
+
+            <div class="vp-likes">
+                {{if .IsLoggedIn}}
+                <form action="/post-reaction" method="POST"
+                    class="vp-like-form">
+                    <input type="hidden" name="post_id" value="{{.Post.ID}}" />
+                    <button
+                        class="vp-btn vp-like {{if .Post.UserLiked}}active{{end}}"
+                        type="submit" name="reaction_type" value="like">👍 {{if
+                        .Post.UserLiked}}Unlike{{else}}Like{{end}}</button>
+                    <button
+                        class="vp-btn vp-dislike {{if .Post.UserDisliked}}active{{end}}"
+                        type="submit" name="reaction_type" value="dislike">👎
+                        {{if
+                        .Post.UserDisliked}}Unlike{{else}}Dislike{{end}}</button>
+                </form>
+                {{end}}
+                <span class="vp-like-count">{{.Post.LikeCount}} like{{if ne
+                    .Post.LikeCount 1}}s{{end}}</span>
+                <span class="vp-dislike-count">{{.Post.DislikeCount}}
+                    dislike{{if ne .Post.DislikeCount 1}}s{{end}}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments Card -->
+    <div class="card vp-comments">
+        <div class="titlebar">
+            <button class="minimize"><svg viewBox="0 0 10 10"><rect x="1" y="4"
+                        width="8" height="2" /></svg></button>
+            <button class="maximize"><svg viewBox="0 0 10 10"><rect x="1" y="1"
+                        width="8" height="8" /></svg></button>
+            <button class="close"><svg viewBox="0 0 10 10"><polygon
+                        points="1,1 9,9 9,1 1,9" /></svg></button>
+        </div>
+        <div class="vp-comments-body">
+            <h3 class="vp-comments-title">Comments</h3>
+            <div class="vp-comment-list">
+                {{if .Post.Comments}}
+                {{range .Post.Comments}}
+                <div class="vp-comment">
+                    <div class="vp-comment-head">
+                        <strong class="vp-comment-user">{{.Username}}</strong>
+                        <small class="vp-comment-date">({{.CreatedAt.Format
+                            "Jan 2, 15:04"}})</small>
+                    </div>
+                    <div class="vp-comment-text">{{.Content}}</div>
+                    <div class="vp-comment-reactions">
+                        {{if $.IsLoggedIn}}
+                        <form action="/comment-reaction" method="POST"
+                            class="vp-comment-reaction-form">
+                            <input type="hidden" name="comment_id"
+                                value="{{.ID}}" />
+                            <input type="hidden" name="post_id"
+                                value="{{$.Post.ID}}" />
+                            <button
+                                class="vp-btn-small vp-like {{if .UserLiked}}active{{end}}"
+                                type="submit" name="reaction_type"
+                                value="like">👍</button>
+                            <button
+                                class="vp-btn-small vp-dislike {{if .UserDisliked}}active{{end}}"
+                                type="submit" name="reaction_type"
+                                value="dislike">👎</button>
                         </form>
                         {{end}}
-                        <span class="vp-like-count">{{.Post.LikeCount}} like{{if ne .Post.LikeCount 1}}s{{end}}</span>
-                        <span class="vp-dislike-count">{{.Post.DislikeCount}} dislike{{if ne .Post.DislikeCount 1}}s{{end}}</span>
+                        <span class="vp-reaction-count">{{.LikeCount}} like{{if
+                            ne .LikeCount 1}}s{{end}}</span>
+                        <span class="vp-reaction-count">{{.DislikeCount}}
+                            dislike{{if ne .DislikeCount 1}}s{{end}}</span>
                     </div>
                 </div>
+                {{end}}
+                {{else}}
+                <div class="vp-empty">No comments yet.</div>
+                {{end}}
             </div>
 
-            <!-- Comments Card -->
-            <div class="card vp-comments">
-                <div class="titlebar">
-                    <button class="minimize"><svg viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2"/></svg></button>
-                    <button class="maximize"><svg viewBox="0 0 10 10"><rect x="1" y="1" width="8" height="8"/></svg></button>
-                    <button class="close"><svg viewBox="0 0 10 10"><polygon points="1,1 9,9 9,1 1,9"/></svg></button>
-                </div>
-                <div class="vp-comments-body">
-                    <h3 class="vp-comments-title">Comments</h3>
-                    <div class="vp-comment-list">
-                        {{if .Post.Comments}}
-                            {{range .Post.Comments}}
-                                <div class="vp-comment">
-                                    <div class="vp-comment-head">
-                                        <strong class="vp-comment-user">{{.Username}}</strong>
-                                        <small class="vp-comment-date">({{.CreatedAt.Format "Jan 2, 15:04"}})</small>
-                                    </div>
-                                    <div class="vp-comment-text">{{.Content}}</div>
-                                    <div class="vp-comment-reactions">
-                                        {{if $.IsLoggedIn}}
-                                        <form action="/comment-reaction" method="POST" class="vp-comment-reaction-form">
-                                            <input type="hidden" name="comment_id" value="{{.ID}}" />
-                                            <input type="hidden" name="post_id" value="{{$.Post.ID}}" />
-                                            <button class="vp-btn-small vp-like {{if .UserLiked}}active{{end}}" type="submit" name="reaction_type" value="like">👍</button>
-                                            <button class="vp-btn-small vp-dislike {{if .UserDisliked}}active{{end}}" type="submit" name="reaction_type" value="dislike">👎</button>
-                                        </form>
-                                        {{end}}
-                                        <span class="vp-reaction-count">{{.LikeCount}} like{{if ne .LikeCount 1}}s{{end}}</span>
-                                        <span class="vp-reaction-count">{{.DislikeCount}} dislike{{if ne .DislikeCount 1}}s{{end}}</span>
-                                    </div>
-                                </div>
-                            {{end}}
-                        {{else}}
-                            <div class="vp-empty">No comments yet.</div>
-                        {{end}}
-                    </div>
-
-                    {{if .IsLoggedIn}}
-                    <form action="/create-comment" method="POST" class="vp-comment-form">
-                        <input type="hidden" name="post_id" value="{{.Post.ID}}" />
-                        <textarea name="content" placeholder="Add a comment..." required></textarea>
-                        <button class="vp-btn" type="submit">Comment</button>
-                    </form>
-                    {{end}}
-                </div>
-            </div>
+            {{if .IsLoggedIn}}
+            <form action="/create-comment" method="POST"
+                class="vp-comment-form">
+                <input type="hidden" name="post_id" value="{{.Post.ID}}" />
+                <textarea name="content" placeholder="Add a comment..."
+                    required></textarea>
+                <button class="vp-btn" type="submit">Comment</button>
+            </form>
+            {{end}}
+        </div>
     </div>
+</div>
 {{end}}

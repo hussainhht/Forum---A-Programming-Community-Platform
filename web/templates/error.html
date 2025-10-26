@@ -1,151 +1,59 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>{{.Code}} — {{.Title}}</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
-            rel="stylesheet">
-        <style>
-    :root{
-      --bg:#07090b; --card:#0f1318; --fg:#e6eef8; --muted:#8f9fb0;
-      --accent:#61a0ff; --warn:#ffcc66; --err:#ff7a90; --glass: rgba(255,255,255,.03);
-      --radius:14px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      display:grid;
-      place-items:center;
-      font-family:"JetBrains Mono",ui-monospace,monospace;
-      background:
-        radial-gradient(800px 400px at 10% 0%, #071423 0%, rgba(7,9,11,1) 25%),
-        var(--bg);
-      color:var(--fg);
-      padding:20px;
-    }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{.Code}} — {{.Title}}</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/err.css">
+  </head>
+  <body>
+    <main class="card" role="alert" aria-live="polite">
+      <div class="row">
+        <span class="badge">Forum</span>
+        <span class="badge">{{.Code}}</span>
+        <span class="badge">{{.Title}}</span>
+      </div>
 
-    .card{
-      width:min(960px,96%);
-      background:linear-gradient(180deg,var(--glass),transparent);
-      border:1px solid rgba(255,255,255,0.04);
-      border-radius:var(--radius);
-      padding:26px;
-      box-shadow:0 10px 30px rgba(0,0,0,.5);
-    }
+      <h1>{{.Message}}</h1>
+      <p class="lead">{{.Subtitle}}</p>
 
-    .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-    .badge{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:13px}
-    h1{margin:8px 0 6px;font-size:24px}
-    p.lead{margin:0;color:var(--muted)}
+      <section class="term" aria-label="terminal">
+        <div class="prompt" aria-hidden="false">
+          <div class="host">visitor@forum</div>
+          <div class="path">:~/</div>
+          <div class="dollar">$</div>
+          <div class="typewrap" aria-live="polite">
+            <!-- server injects CLIHint directly; CSS reveals it -->
+            <span class="type">{{.CLIHint}}</span>
+          </div>
+        </div>
 
-    /* terminal area */
-    .term{
-      margin-top:18px;
-      background:#071419;border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03);
-      font-size:15px;line-height:1.5;color:var(--fg);
-    }
-    .prompt{
-      display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;
-    }
-    .host{color:var(--accent)}
-    .path{color:#8ee3b1}
-    .dollar{opacity:.9}
-    .typewrap{flex:1;min-width:220px;overflow:hidden}
+        <!-- controls are normal links or a GET form (no JS) -->
+        <div class="controls" role="navigation"
+          aria-label="quick links">
+          <a class="btn" href="/">← Home</a>
+          <a class="btn" href="/posts">Discover</a>
+          <a class="btn" href="/login">Login</a>
+        </div>
 
-    /* CSS-only typewriter: we render the full text in data-text attr and reveal via steps animation */
-    .type{
-      display:inline-block;
-      white-space:pre;
-      overflow:hidden;
-      border-right:2px solid rgba(255,255,255,0.12);
-      padding-right:2px;
-      /* animate max-width from 0 to large (ch unit) */
-      width:0ch;
-      max-width:100%;
-      animation: typing 3.2s steps(60, end) 1 forwards, blink 1s step-end infinite;
-    }
-    @keyframes typing {
-      from { width: 0ch; }
-      to   { width: 60ch; } /* reveal up to 60 chars — safe for most hints */
-    }
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
+        <form class="search" method="get" action="/posts" role="search"
+          aria-label="search posts">
+          <input type="search" name="q"
+            placeholder="Search posts… (press Enter)"
+            aria-label="Search posts" value="{{.Query}}">
+          <input type="hidden" name="fromError" value="1">
+          <input type="submit" value="Search">
+        </form>
 
-    .controls{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
-    .btn{
-      display:inline-block;padding:9px 12px;border-radius:10px;text-decoration:none;
-      border:1px solid rgba(255,255,255,0.04);
-      background:transparent;color:var(--fg);
-      font-size:14px;
-    }
-    .btn:hover{transform:translateY(-2px);}
+        <div class="meta">
+          Request ID: <strong>{{.RequestID}}</strong> • Path:
+          <code>{{.Path}}</code> • Method: {{.Method}}
+        </div>
+      </section>
 
-    /* search form styled no JS */
-    form.search{margin-top:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    input[type="search"]{
-      flex:1;min-width:160px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);
-      background:transparent;color:var(--fg);
-    }
-    input[type="submit"]{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--fg)}
-    .meta{margin-top:12px;color:var(--muted);font-size:13px}
-
-    /* small screens */
-    @media (max-width:520px){
-      h1{font-size:20px}
-      .card{padding:18px}
-      .type{animation-duration:4s}
-    }
-  </style>
-    </head>
-    <body>
-        <main class="card" role="alert" aria-live="polite">
-            <div class="row">
-                <span class="badge">Forum</span>
-                <span class="badge">{{.Code}}</span>
-                <span class="badge">{{.Title}}</span>
-            </div>
-
-            <h1>{{.Message}}</h1>
-            <p class="lead">{{.Subtitle}}</p>
-
-            <section class="term" aria-label="terminal">
-                <div class="prompt" aria-hidden="false">
-                    <div class="host">visitor@forum</div>
-                    <div class="path">:~/</div>
-                    <div class="dollar">$</div>
-                    <div class="typewrap" aria-live="polite">
-                        <!-- server injects CLIHint directly; CSS reveals it -->
-                        <span class="type">{{.CLIHint}}</span>
-                    </div>
-                </div>
-
-                <!-- controls are normal links or a GET form (no JS) -->
-                <div class="controls" role="navigation"
-                    aria-label="quick links">
-                    <a class="btn" href="/">← Home</a>
-                    <a class="btn" href="/posts">Discover</a>
-                    <a class="btn" href="/login">Login</a>
-                </div>
-
-                <form class="search" method="get" action="/posts" role="search"
-                    aria-label="search posts">
-                    <input type="search" name="q"
-                        placeholder="Search posts… (press Enter)"
-                        aria-label="Search posts" value="{{.Query}}">
-                    <input type="hidden" name="fromError" value="1">
-                    <input type="submit" value="Search">
-                </form>
-
-                <div class="meta">
-                    Request ID: <strong>{{.RequestID}}</strong> • Path:
-                    <code>{{.Path}}</code> • Method: {{.Method}}
-                </div>
-            </section>
-
-        </main>
-    </body>
+    </main>
+  </body>
 </html>
