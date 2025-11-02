@@ -118,11 +118,11 @@ type Cell struct {
 // CategoryPageData is a unified view model for all category pages
 type CategoryPageData struct {
 	PageData
-	Slug        string
-	DisplayName string
-	SourceURL   string
-	Posts       []Post
-	CountPosts  int
+	Slug        string   // category slug from URL
+	DisplayName string   // user-friendly category name
+	SourceURL   string   // URL to the original category source
+	Posts       []Post   // list of posts in this category
+	CountPosts  int      // total number of posts in this category
 	Theme       *CategoryTheme // dynamic color theme injected into template
 }
 

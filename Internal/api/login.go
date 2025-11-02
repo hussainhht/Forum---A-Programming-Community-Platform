@@ -14,7 +14,7 @@ func (server *Server) Get_LoginHandler(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("session_id")
 	if err == nil && server.Service.IsValidSession(cookie.Value) {
 		// User is already logged in
-		server.Service.LogoutUser(cookie.Value)
+		// server.Service.LogoutUser(cookie.Value)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}

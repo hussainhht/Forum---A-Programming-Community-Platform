@@ -19,18 +19,21 @@ body {
 #root-body {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     height: 100vh;
     background-color: var(--background-color);
     color: white;
     padding: 0;
     margin: 0;
+    gap: 0;
 }
 
 main {
+    flex: 1;
     width: 100%;
     height: 100%;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 * {
@@ -48,6 +51,7 @@ main {
 /*  */
 
 #sidebar {
+    flex-shrink: 0;
     width: fit-content;
     height: 100%;
     z-index: 10;
@@ -57,6 +61,7 @@ main {
     align-items: flex-start;
     justify-content: space-between;
     position: static;
+    transition: width 0.3s ease, transform 0.3s ease;
 }
 
 #sidebar-sections-container {
@@ -80,12 +85,42 @@ main {
     cursor: pointer;
 }
 
-#sidebar-toggle:checked~#sidebar-sections-container :is(.sidebar-button-text, #sidebar-categories-section, #sidebar-help-button, #sidebar-privacy-button, #sidebar-terms-button) {
+/* Default state: sidebar is closed (collapsed) */
+#sidebar-sections-container :is(.sidebar-button-text, #sidebar-categories-section, #sidebar-help-button, #sidebar-privacy-button, #sidebar-terms-button) {
     display: none;
 }
 
-#sidebar-toggle:checked~#sidebar-profile-section {
+/* Show profile section but hide text in collapsed state */
+#sidebar-profile-section {
+    display: flex;
+}
+
+/* Hide login/register button text and username when collapsed */
+#sidebar-profile-section .sidebar-button-text {
     display: none;
+}
+
+#sidebar-profile-username-text {
+    display: none;
+}
+
+/* When checked: sidebar is open (expanded) */
+#sidebar-toggle:checked~#sidebar-sections-container :is(.sidebar-button-text, #sidebar-categories-section, #sidebar-help-button, #sidebar-privacy-button, #sidebar-terms-button) {
+    display: unset;
+}
+
+/* Show profile section (including login/register) when expanded */
+#sidebar-toggle:checked~#sidebar-profile-section {
+    display: flex;
+}
+
+/* Show button text and username when expanded */
+#sidebar-toggle:checked~#sidebar-profile-section .sidebar-button-text {
+    display: unset;
+}
+
+#sidebar-toggle:checked~#sidebar-profile-section #sidebar-profile-username-text {
+    display: block;
 }
 
 .sidebar-container {
@@ -135,6 +170,8 @@ main {
     gap: 16px;
     border-radius: 8px;
     user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .sidebar-button:hover {
@@ -273,4 +310,116 @@ main {
 #sidebar-profile-username-text a:active {
     transform: translateY(0);
     box-shadow: 0 2px 6px rgba(192, 66, 255, 0.3);
+}
+
+/* Responsive Design for Mobile and Tablets */
+@media (max-width: 768px) {
+    #root-body {
+        flex-direction: row;
+    }
+
+    #sidebar {
+        position: static;
+        width: fit-content;
+        min-width: fit-content;
+        flex-shrink: 0;
+    }
+
+    .sidebar-container {
+        width: fit-content;
+    }
+
+    main {
+        flex: 1;
+        width: auto;
+        overflow-x: hidden;
+    }
+
+    #main-container {
+        padding: 15px 10px;
+        max-width: 100%;
+    }
+
+    .sidebar-button {
+        padding: 10px 8px;
+        font-size: 13px;
+        gap: 12px;
+    }
+
+    .sidebar-button-icon {
+        height: 22px;
+        min-width: 22px;
+    }
+
+    .sidebar-section-container {
+        padding: 6px;
+    }
+
+    /* Make profile section more compact on mobile */
+    #sidebar-profile-img {
+        max-width: 48px;
+    }
+
+    #sidebar-profile-username-text {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
+
+    #sidebar-profile-username-text a {
+        padding: 4px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-container {
+        padding: 10px 8px;
+    }
+
+    .sidebar-button {
+        padding: 8px 6px;
+        gap: 10px;
+    }
+
+    .sidebar-button-icon {
+        height: 20px;
+        min-width: 20px;
+    }
+
+    .sidebar-section-container {
+        padding: 4px;
+    }
+
+    #sidebar-profile-img {
+        max-width: 40px;
+    }
+
+    #sidebar-profile-username-text {
+        font-size: 0.75rem;
+        padding: 4px 6px;
+    }
+
+    #sidebar-profile-username-text a {
+        padding: 3px 8px;
+        font-size: 0.75rem;
+    }
+
+    /* Adjust sidebar button text when expanded on small screens */
+    #sidebar-toggle:checked ~ #sidebar-sections-container .sidebar-button-text {
+        font-size: 12px;
+    }
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    #sidebar {
+        position: static;
+    }
+
+    main {
+        margin-left: 0;
+    }
+
+    .sidebar-button {
+        font-size: 13px;
+    }
 }
