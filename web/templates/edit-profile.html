@@ -53,7 +53,7 @@
         <div class="edit-section">
             <h2>Change Password</h2>
             <form method="POST" action="/edit-profile/password"
-                class="edit-form" onsubmit="return validatePassword()">
+                class="edit-form" >
                 <div class="form-group">
                     <label for="current_password">Current Password</label>
                     <input type="password" id="current_password"
@@ -96,7 +96,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
 function previewPhoto(event) {
     const file = event.target.files[0];
     if (file) {
@@ -133,5 +133,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
 });
-</script>
+</script> -->
 {{end}}
