@@ -1,6 +1,6 @@
-# Forum Application
+# Forum - A Programming Community Platform
 
-A web-based forum application built with Go, featuring user authentication, post creation, commenting, and reaction systems. Users can create posts across different programming language categories, interact through comments, and express their opinions with likes and dislikes.
+A modern, feature-rich forum application built with Go, designed for programmers to share knowledge, discuss topics, and collaborate on various programming languages and technologies.
 
 ## 📋 Table of Contents
 
@@ -9,389 +9,444 @@ A web-based forum application built with Go, featuring user authentication, post
 - [Project Structure](#project-structure)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Usage](#usage)
+- [Running the Application](#running-the-application)
+- [Docker Deployment](#docker-deployment)
 - [Database Schema](#database-schema)
-- [API Routes](#api-routes)
-- [Security](#security)
-- [Known Issues & TODO](#known-issues--todo)
+- [API Endpoints](#api-endpoints)
+- [Usage Guide](#usage-guide)
 - [Contributing](#contributing)
 
 ## ✨ Features
 
-### Current Features
-- **User Authentication**
-  - User registration with email, username, and password
-  - Secure login system with bcrypt password hashing
-  - Session-based authentication using cookies
-  - Single active session per user
-  - Logout functionality
+### Core Features
 
-- **Post Management**
-  - Create posts with title and content
-  - View all posts on the home page
-  - View individual post details
-  - Filter posts by programming language categories
-  - Syntax-highlighted code display (using Chroma)
+- **User Authentication**: Secure registration, login, and session management
+- **Post Management**: Create, view, and interact with posts
+- **Category System**: Organize posts by programming languages (Go, JavaScript, Rust, Ruby, Python, MATLAB, Brainfuck, Java)
+- **Comment System**: Engage in discussions with nested comments
+- **Reaction System**: Like/dislike posts and comments
+- **User Profiles**: Customizable profiles with photo uploads
+- **Code Playground**: Write and preview code with syntax highlighting
+- **Discovery Feed**: Browse all posts across categories
+- **Responsive Design**: Mobile-friendly interface
 
-- **Categories**
-  - Pre-defined programming language categories:
-    - Golang, JavaScript, Rust, Ruby, Python, Java
-  - Filter posts by category
-  - View category-specific pages
+### Advanced Features
 
-- **Comments**
-  - Add comments to posts
-  - View all comments on a post
-  - User attribution for comments
-
-- **Reactions System**
-  - Like/dislike posts
-  - Like/dislike comments
-  - Reaction counts displayed
-  - Toggle reactions (cannot like and dislike simultaneously)
-
-- **User Profiles**
-  - View user profile pages
-  - Display user information
-  - Profile pictures support
-
-### Guest Features
-- Browse all posts and comments
-- View user profiles
-- Read content without authentication
+- **Session-based Authentication**: Secure cookie-based sessions
+- **Syntax Highlighting**: Using Chroma for beautiful code display
+- **Profile Customization**: Update password and profile pictures
+- **Category Filtering**: View posts by specific programming language
+- **Interactive Code Editor**: Built-in playground for testing code snippets
+- **Privacy & Help Pages**: Comprehensive documentation
 
 ## 🛠 Tech Stack
 
-- **Backend**: Go 1.23.1
-- **Database**: SQLite3
-- **Authentication**: bcrypt password hashing, UUID-based sessions
-- **Syntax Highlighting**: Chroma v2.20.0
-- **Template Engine**: Go html/template
-- **Frontend**: HTML, CSS, JavaScript
+### Backend
+
+- **Language**: Go 1.23.1
+- **Database**: SQLite3 with foreign key constraints
+- **Router**: Standard `net/http` package with Go 1.22+ routing enhancements
+
+### Frontend
+
+- **Templates**: HTML templates with Go's `html/template`
+- **Styling**: Custom CSS with category-specific themes
+- **Assets**: Static file serving for images, icons, and styles
 
 ### Dependencies
+
 ```go
-require (
-    github.com/alecthomas/chroma/v2 v2.20.0
-    github.com/google/uuid v1.6.0
-    github.com/mattn/go-sqlite3 v1.14.32
-    golang.org/x/crypto v0.41.0
-)
+- github.com/mattn/go-sqlite3 v1.14.32       // SQLite driver
+- github.com/google/uuid v1.6.0              // UUID generation for sessions
+- golang.org/x/crypto v0.41.0                // Password hashing
+- github.com/alecthomas/chroma/v2 v2.20.0    // Syntax highlighting
+- github.com/dlclark/regexp2 v1.11.5         // Regular expressions (indirect)
 ```
 
 ## 📁 Project Structure
 
 ```
 forum/
-├── main.go                 # Application entry point
-├── go.mod                  # Go module dependencies
-├── forum.db               # SQLite database (generated)
-├── AUDIT_REPORT.md        # Project audit and assessment
+├── main.go                      # Application entry point
+├── go.mod                       # Go module dependencies
+├── go.sum                       # Dependency checksums
+├── Dockerfile                   # Docker configuration
+├── README.md                    # This file
 │
-├── database/
-│   ├── db.go              # Database initialization
-│   └── db.sql             # Database schema
+├── database/                    # Database layer
+│   ├── db.go                   # Database initialization
+│   ├── db.sql                  # Schema definitions
+│   └── profile-img/            # User profile images storage
+│       └── README.md
 │
-├── Internal/
-│   ├── api/               # HTTP handlers
-│   │   ├── server.go      # Server setup and routing
-│   │   ├── login.go       # Login handler
-│   │   ├── register.go    # Registration handler
-│   │   ├── logout.go      # Logout handler
-│   │   ├── createPost.go  # Post creation handler
-│   │   ├── viewPost.go    # Post viewing handler
-│   │   ├── discover_posts.go  # Posts discovery
-│   │   ├── postInteractions.go  # Post reactions
-│   │   ├── commentInteractions.go  # Comment reactions
-│   │   ├── profile.go     # User profile handler
-│   │   ├── categoryhand.go  # Category filtering
-│   │   └── root.go        # Root/home handler
+├── Internal/                    # Application core (private)
+│   ├── api/                    # HTTP handlers & routing
+│   │   ├── server.go           # Server initialization & routes
+│   │   ├── root.go             # Home page handler
+│   │   ├── register.go         # User registration
+│   │   ├── login.go            # User login
+│   │   ├── logout.go           # User logout
+│   │   ├── profile.go          # User profile view
+│   │   ├── editProfile.go      # Profile editing
+│   │   ├── createPost.go       # Post creation
+│   │   ├── viewPost.go         # Single post view
+│   │   ├── discover_posts.go   # All posts feed
+│   │   ├── categoryhand.go     # Category filtering
+│   │   ├── postInteractions.go # Post reactions
+│   │   ├── commentInteractions.go # Comment reactions
+│   │   ├── playground.go       # Code playground
+│   │   └── help.go             # Help & privacy pages
 │   │
-│   ├── model/
-│   │   └── models.go      # Data models
+│   ├── model/                  # Data structures
+│   │   └── models.go           # User, Post, Comment, Category models
 │   │
-│   ├── query/             # Database queries
-│   │   ├── user.go        # User queries
-│   │   ├── post.go        # Post queries
-│   │   ├── comment.go     # Comment queries
-│   │   ├── session.go     # Session queries
-│   │   └── categories.go  # Category queries
+│   ├── query/                  # Database queries
+│   │   ├── user.go             # User operations
+│   │   ├── post.go             # Post operations
+│   │   ├── comment.go          # Comment operations
+│   │   ├── session.go          # Session management
+│   │   └── categories.go       # Category operations
 │   │
-│   └── service/           # Business logic
-│       ├── service.go     # Service initialization
-│       ├── Authentication.go  # Auth service
-│       ├── user.go        # User service
-│       ├── post.go        # Post service
-│       ├── comment.go     # Comment service
-│       ├── session.go     # Session service
-│       ├── categories.go  # Category service
-│       ├── profile.go     # Profile service
-│       ├── error.go       # Error handling
-│       └── golang.go      # Language-specific features
+│   └── service/                # Business logic
+│       ├── service.go          # Service initialization
+│       ├── Authentication.go   # Auth logic
+│       ├── user.go             # User service
+│       ├── post.go             # Post service
+│       ├── comment.go          # Comment service
+│       ├── profile.go          # Profile service
+│       ├── session.go          # Session service
+│       ├── categories.go       # Category service
+│       ├── playground.go       # Code execution service
+│       ├── golang.go           # Go-specific features
+│       └── error.go            # Error handling
 │
-└── web/
-    ├── static/
-    │   ├── css/           # Stylesheets
-    │   ├── icons/         # Icon assets
-    │   ├── img/           # Images
-    │   └── login-img/     # Login page images
+└── web/                        # Frontend assets
+    ├── static/                 # Static files
+    │   ├── css/               # Stylesheets
+    │   │   ├── styles.css     # Global styles
+    │   │   ├── layout.css     # Layout components
+    │   │   ├── home.css       # Home page styles
+    │   │   ├── login.css      # Login/register styles
+    │   │   ├── profile.css    # Profile styles
+    │   │   ├── edit-profile.css
+    │   │   ├── discover.css   # Feed styles
+    │   │   ├── view-post.css  # Post view styles
+    │   │   ├── editor.css     # Code editor styles
+    │   │   ├── category-base.css
+    │   │   ├── coding.css     # Playground styles
+    │   │   ├── help-privacy.css
+    │   │   ├── root.css
+    │   │   └── err.css        # Error page styles
+    │   │
+    │   ├── icons/             # UI icons
+    │   │   └── categories/    # Category-specific icons
+    │   │
+    │   ├── img/               # General images
+    │   └── login-img/         # Login page images
     │
-    └── templates/         # HTML templates
-        ├── root.html      # Home page
-        ├── login.html     # Login page
-        ├── register.html  # Registration page
-        ├── create-post.html  # Post creation
-        ├── view-post.html    # Post detail view
-        ├── profile.html   # User profile
-        ├── category.html  # Category view
-        ├── DiscoverPosts.html  # Posts discovery
-        └── error.html     # Error page
+    └── templates/             # HTML templates
+        ├── root.html          # Home page
+        ├── login.html         # Login/register page
+        ├── profile.html       # User profile
+        ├── edit-profile.html  # Profile editor
+        ├── create-post.html   # Post creation form
+        ├── view-post.html     # Single post view
+        ├── DiscoverPosts.html # All posts feed
+        ├── category.html      # Category-filtered posts
+        ├── startcoding.html   # Code playground
+        ├── help-privacy.html  # Help & privacy
+        └── error.html         # Error pages
 ```
 
-## 📦 Prerequisites
+## 📋 Prerequisites
 
-- Go 1.23.1 or higher
-- SQLite3
-- Git (for cloning the repository)
+- **Go**: Version 1.23.1 or higher
+- **GCC**: Required for SQLite CGO compilation
+- **Docker** (optional): For containerized deployment
+
+### Platform-Specific Requirements
+
+#### Windows
+
+- Install [MinGW-w64](https://www.mingw-w64.org/) or [TDM-GCC](https://jmeubank.github.io/tdm-gcc/)
+- Add GCC to your PATH
+
+#### Linux
+
+```bash
+sudo apt-get install gcc
+sudo apt-get install sqlite3
+```
+
+#### macOS
+
+```bash
+xcode-select --install
+brew install sqlite3
+```
 
 ## 🚀 Installation
 
-1. **Clone the repository** (if using version control):
-   ```bash
-   git clone <repository-url>
-   cd forum
-   ```
+1. **Clone the repository**
 
-2. **Install dependencies**:
-   ```bash
-   go mod download
-   ```
+```bash
+git clone https://github.com/yourusername/forum.git
+cd forum
+```
 
-3. **Initialize the database**:
-   The database will be automatically created when you first run the application. The schema is defined in `database/db.sql`.
+2. **Install dependencies**
 
-4. **Run the application**:
-   ```bash
-   go run .
-   ```
+```bash
+go mod download
+```
 
-5. **Access the application**:
-   Open your browser and navigate to:
-   ```
-   http://localhost:7777
-   ```
+3. **Initialize the database**
 
-## 💻 Usage
+```bash
+# The database will be automatically initialized on first run
+# Or manually create it:
+sqlite3 forum.db < database/db.sql
+```
 
-### Registration
-1. Navigate to `/register`
-2. Fill in your username, email, and password
-3. Click "Register" to create your account
+4. **Verify installation**
 
-### Login
-1. Navigate to `/login`
-2. Enter your email and password
-3. Click "Login" to access your account
+```bash
+go build -o forum.exe
+```
 
-### Creating a Post
-1. Log in to your account
-2. Navigate to `/create-post`
-3. Enter a title and content
-4. Select one or more categories
-5. Click "Create Post"
+## 🏃 Running the Application
 
-### Interacting with Posts
-- **View posts**: Click on any post from the home page
-- **Add comments**: Scroll to the comment section on a post page
-- **React**: Click the like or dislike buttons on posts and comments
+### Development Mode
 
-### Filtering
-- Use the category filter on the home page to view posts from specific programming languages
+**Windows (PowerShell)**
+
+```powershell
+go run main.go
+```
+
+**Linux/macOS**
+
+```bash
+go run main.go
+```
+
+The server will start on `http://localhost:7777`
+
+### Production Build
+
+**Windows**
+
+```powershell
+go build -o forum.exe
+./forum.exe
+```
+
+**Linux/macOS**
+
+```bash
+go build -o forum
+./forum
+```
+
+## 🐳 Docker Deployment
+
+### Build the Docker image
+
+```bash
+docker build -t forum-app .
+```
+
+### Run the container
+
+```bash
+docker run -p 7777:7777 -v $(pwd)/database:/root/database forum-app
+```
+
+### Using Docker Compose (create `docker-compose.yml`)
+
+```yaml
+version: "3.8"
+services:
+  forum:
+    build: .
+    ports:
+      - "7777:7777"
+    volumes:
+      - ./database:/root/database
+    restart: unless-stopped
+```
+
+Run with:
+
+```bash
+docker-compose up -d
+```
 
 ## 🗄 Database Schema
 
-### Users Table
+### Tables
+
+#### `users`
+
+- `id`: Primary key (auto-increment)
+- `photo`: Profile image filename (default: 'default.png')
+- `username`: Unique username
+- `email`: Unique email address
+- `password`: Bcrypt hashed password
+
+#### `posts`
+
+- `id`: Primary key
+- `user_id`: Foreign key to users
+- `title`: Post title
+- `content`: Post content (supports markdown/code)
+- `created_at`: Timestamp
+
+#### `comments`
+
+- `id`: Primary key
+- `user_id`: Foreign key to users
+- `post_id`: Foreign key to posts
+- `content`: Comment text
+
+#### `categories`
+
+- `id`: Primary key
+- `name`: Category name (unique)
+- Predefined: golang, javascript, rust, ruby, python, matlab, brainfuck, java
+
+#### `post_categories`
+
+- Many-to-many relationship between posts and categories
+- `post_id`, `category_id`: Composite primary key
+
+#### `post_reactions`
+
+- `user_id`, `post_id`: Composite primary key
+- `reaction_type`: 'like' or 'dislike'
+
+#### `comments_reactions`
+
+- `user_id`, `comment_id`: Composite primary key
+- `reaction_type`: 'like' or 'dislike'
+
+#### `sessions`
+
+- `id`: Primary key
+- `user_id`: Foreign key to users
+- `session_id`: UUID for session identification
+- `expires_at`: Session expiration timestamp
+
+## 🔌 API Endpoints
+
+### Authentication
+
+- `GET /register` - Display registration form
+- `POST /register` - Create new user account
+- `GET /login` - Display login form
+- `POST /login` - Authenticate user
+- `GET /logout` - End user session
+
+### Posts
+
+- `GET /` - Home page
+- `GET /posts` - Discover all posts
+- `GET /post/{id}` - View specific post
+- `GET /create-post` - Display post creation form
+- `POST /create-post` - Submit new post
+- `POST /post-reaction` - Like/dislike a post
+
+### Comments
+
+- `POST /create-comment` - Add comment to post
+- `POST /comment-reaction` - Like/dislike a comment
+
+### Categories
+
+- `GET /category/{slug}` - View posts in category (e.g., `/category/golang`)
+
+### User Profile
+
+- `GET /profile` - View user profile (query param: `?username=xyz`)
+- `GET /edit-profile` - Display profile editor
+- `POST /edit-profile/password` - Update password
+- `POST /edit-profile/photo` - Upload new profile picture
+
+### Playground
+
+- `GET /playground` - Code playground interface
+- `POST /playground/preview` - Preview code execution
+- `POST /download` - Download code file
+
+### Static Pages
+
+- `GET /help` - Help & documentation
+- `GET /privacy-terms` - Privacy policy & terms
+
+### Assets
+
+- `/web/*` - Static files (CSS, JS, images)
+- `/profile-img/*` - User profile images
+- `/assets/profile.css` - Dynamic profile CSS
+- `/assets/edit-profile.css` - Dynamic edit profile CSS
+
+## 📖 Usage Guide
+
+### For Users
+
+1. **Registration**
+
+   - Navigate to `/register`
+   - Provide username, email, and password
+   - Upload a profile picture (optional)
+
+2. **Creating Posts**
+
+   - Login to your account
+   - Click "Create Post"
+   - Add title and content (supports code blocks)
+   - Select relevant categories
+   - Submit your post
+
+3. **Engaging with Content**
+
+   - Like/dislike posts and comments
+   - Add comments to posts
+   - Browse by category
+   - View user profiles
+
+4. **Code Playground**
+   - Navigate to `/playground`
+   - Write code with syntax highlighting
+   - Preview execution results
+   - Download your code
+
+### For Developers
+
+#### Adding New Categories
+
+Edit `database/db.sql`:
+
 ```sql
-users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    photo TEXT DEFAULT 'default.png',
-    username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL
-)
+INSERT OR IGNORE INTO categories (name)
+VALUES ('new-category');
 ```
 
-### Posts Table
-```sql
-posts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    title TEXT NOT NULL,
-    content TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-)
+#### Custom Handlers
+
+Add to `Internal/api/server.go`:
+
+```go
+router.HandleFunc("GET /your-route", server.YourHandler)
 ```
 
-### Comments Table
-```sql
-comments (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    post_id INTEGER NOT NULL,
-    content TEXT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
-)
-```
+#### Database Queries
 
-### Categories Table
-```sql
-categories (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE
-)
-```
+Add functions to respective files in `Internal/query/`
 
-### Post Categories (Many-to-Many)
-```sql
-post_categories (
-    post_id INTEGER NOT NULL,
-    category_id INTEGER NOT NULL,
-    PRIMARY KEY (post_id, category_id),
-    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
-    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
-)
-```
+#### Business Logic
 
-### Reactions Tables
-```sql
-post_reactions (
-    user_id INTEGER NOT NULL,
-    post_id INTEGER NOT NULL,
-    reaction_type TEXT CHECK(reaction_type IN ('like','dislike')),
-    PRIMARY KEY (user_id, post_id)
-)
-
-comments_reactions (
-    user_id INTEGER NOT NULL,
-    comment_id INTEGER NOT NULL,
-    reaction_type TEXT CHECK(reaction_type IN ('like','dislike')),
-    PRIMARY KEY (user_id, comment_id)
-)
-```
-
-### Sessions Table
-```sql
-sessions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    session_id TEXT NOT NULL UNIQUE,
-    expires_at DATETIME NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-)
-```
-
-## 🔗 API Routes
-
-| Method | Route | Description | Auth Required |
-|--------|-------|-------------|---------------|
-| GET | `/` | Home page with all posts | No |
-| GET | `/register` | Registration page | No |
-| POST | `/register` | Create new user account | No |
-| GET | `/login` | Login page | No |
-| POST | `/login` | Authenticate user | No |
-| GET | `/logout` | Logout user | Yes |
-| GET | `/create-post` | Post creation page | Yes |
-| POST | `/create-post` | Submit new post | Yes |
-| GET | `/post/{id}` | View specific post | No |
-| POST | `/create-comment` | Add comment to post | Yes |
-| POST | `/post-reaction` | Like/dislike post | Yes |
-| POST | `/comment-reaction` | Like/dislike comment | Yes |
-| GET | `/profile/{username}` | View user profile | No |
-| GET | `/category/{name}` | Filter posts by category | No |
-
-## 🔒 Security
-
-### Current Security Measures
-- **Password Hashing**: Passwords are hashed using bcrypt
-- **Session Management**: UUID-based session tokens
-- **SQL Injection Prevention**: Prepared statements with parameterized queries
-- **Template Escaping**: Automatic HTML escaping via Go's `html/template`
-- **Cookie Security**: HttpOnly flag set, SameSite=Lax policy
-- **Foreign Keys**: Enforced in SQLite for data integrity
-
-### Security Improvements Needed
-⚠️ **High Priority**:
-- [ ] Add CSRF protection tokens
-- [ ] Enforce session expiration checks
-- [ ] Add `Secure` flag to cookies (HTTPS)
-- [ ] Implement rate limiting for login attempts
-
-⚠️ **Medium Priority**:
-- [ ] Add input sanitization for user content
-- [ ] Implement content security policy (CSP)
-- [ ] Add brute force protection
-- [ ] Session cleanup for expired sessions
-
-## 🐛 Known Issues & TODO
-
-### High Priority
-- [ ] **CSRF Protection**: No CSRF tokens implemented
-- [ ] **Session Expiration**: `expires_at` field exists but not enforced
-- [ ] **Cookie Security**: Missing `Secure` flag for production
-- [ ] **Comment Reaction Toggle**: Update logic needs refinement
-- [ ] **Error Handling**: Inconsistent error page usage
-
-### Medium Priority
-- [ ] **Post Filtering**: Missing "my posts" and "my liked posts" filters
-- [ ] **Pagination**: No pagination for posts list
-- [ ] **Edit/Delete**: No post/comment editing or deletion
-- [ ] **Validation**: Improve inline error messages
-- [ ] **Dislike Counts**: Not displayed in UI
-
-### Low Priority
-- [ ] **Docker**: No Dockerfile or docker-compose
-- [ ] **Testing**: No unit or integration tests
-- [ ] **Documentation**: API documentation needed
-- [ ] **Logging**: Enhanced logging system
-- [ ] **Performance**: Add caching layer
-- [ ] **Markdown Support**: Rich text formatting for posts
-
-## 📊 Project Status
-
-**Completion**: ~41% (based on audit report)
-
-### What's Working ✅
-- Core authentication flow
-- Post creation and viewing
-- Category filtering
-- Comment system
-- Basic reaction system
-- Session management
-
-### What Needs Work ⚠️
-- Security enhancements (CSRF, session validation)
-- Additional filtering options
-- Pagination
-- Edit/delete functionality
-- Deployment artifacts
-- Testing suite
-- Comprehensive documentation
-
-## 🧪 Testing
-
-Currently, no automated tests are implemented. To test manually:
-
-```bash
-# Run the application
-go run .
-
-# In another terminal, check database
-sqlite3 forum.db ".schema"
-sqlite3 forum.db "SELECT COUNT(*) FROM users;"
-sqlite3 forum.db "SELECT COUNT(*) FROM posts;"
-```
+Implement in `Internal/service/`
 
 ## 🤝 Contributing
 
@@ -401,47 +456,53 @@ sqlite3 forum.db "SELECT COUNT(*) FROM posts;"
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 Quick Commands
+### Code Style
 
-```bash
-# Run the application
-go run .
+- Follow Go conventions and best practices
+- Run `go fmt` before committing
+- Add comments for exported functions
+- Write tests for new features
 
-# Run tests (when implemented)
-go test ./...
+## 📝 License
 
-# Build binary
-go build -o forum.exe
-
-# Check database schema
-sqlite3 forum.db ".schema"
-
-# View all tables
-sqlite3 forum.db ".tables"
-
-# Query users
-sqlite3 forum.db "SELECT * FROM users;"
-
-# Query posts with user info
-sqlite3 forum.db "SELECT p.*, u.username FROM posts p JOIN users u ON p.user_id = u.id;"
-```
-
-## 📄 License
-
-This project is currently unlicensed. Please add an appropriate license file for your use case.
+This project is created for educational purposes.
 
 ## 👥 Authors
 
-- Your Name/Team - Initial work
+**Team GITEA**
 
-## 🙏 Acknowledgments
+- Batool Sayed (@basayed)
+- HUSSAIN ALI (@hussainali7)
+- Shaikh Alkaabi (@shaikaabi)
+- Bader Alafoo (@balafoo)
 
-- Chroma library for syntax highlighting
-- Go community for excellent standard library
-- SQLite for a reliable embedded database
+## 🐛 Known Issues
+
+- Session cleanup needs to be implemented for expired sessions
+- Profile image validation could be more strict
+- Consider adding pagination for large post lists
+
+## 🔮 Future Enhancements
+
+- [ ] Real-time notifications
+- [ ] Direct messaging between users
+- [ ] Post editing functionality
+- [ ] Advanced search with filters
+- [ ] User reputation system
+- [ ] Post bookmarking
+- [ ] Email verification
+- [ ] OAuth integration (GitHub, Google)
+- [ ] API rate limiting
+- [ ] Admin dashboard
+- [ ] Post tags in addition to categories
+- [ ] Markdown editor with preview
+- [ ] Image uploads in posts
+- [ ] User following system
+
+## 📞 Support
+
+For issues and questions, please open an issue in the GitHub repository.
 
 ---
 
-**Note**: This is an educational/development project. Before deploying to production, please address all security concerns listed in the "Known Issues & TODO" section.
-
-For a detailed audit report, see [AUDIT_REPORT.md](AUDIT_REPORT.md).
+**Made with ❤️ using Go**
