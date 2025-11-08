@@ -19,6 +19,10 @@
   /* Blur strength */
 }
 
+* {
+  box-sizing: border-box;
+}
+
 /* ===================== NOTIFICATION POPUP ===================== */
 .notification-popup {
   position: fixed;
@@ -773,6 +777,7 @@ body {
       transform: translateY(-100px);
       opacity: 0;
     }
+
     to {
       transform: translateY(0);
       opacity: 1;

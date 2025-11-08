@@ -137,7 +137,6 @@ func (server *Server) Start() error {
 	// Reactions
 	router.HandleFunc("POST /post-reaction", server.Post_ReactionHandler)
 	router.HandleFunc("POST /comment-reaction", server.CommentReactionHandler)
-
 	router.HandleFunc("/playground", server.Get_PlaygroundHandler)
 	router.HandleFunc("/playground/preview", server.Post_PlaygroundPreviewHandler)
 	router.HandleFunc("/download", server.Post_DownloadHandler)
