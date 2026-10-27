@@ -1,0 +1,425 @@
+:root {
+    --primary-color: #c042ff;
+    --secondary-color: #2e0043;
+    --border-color: #c042ff40;
+    --background-color: #140a1a;
+    --quaternary-color: #15001f;
+    --text-color: white;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--background-color);
+    min-height: 100vh;
+    height: 100vh;
+    margin: 0;
+    color: var(--text-color);
+}
+
+#root-body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 100vh;
+    background-color: var(--background-color);
+    color: white;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#main-container {
+    width: 100%;
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+/*  */
+/* Sidebar */
+/*  */
+
+#sidebar {
+    flex-shrink: 0;
+    width: fit-content;
+    height: 100%;
+    z-index: 10;
+    /* border-right: solid 2px var(--border-color); */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: static;
+    transition: width 0.3s ease, transform 0.3s ease;
+}
+
+#sidebar-sections-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: visible;
+    scrollbar-width: none;
+}
+
+.sidebar-toggle-container {
+    padding-bottom: 36px;
+}
+
+.sidebar-toggle-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Default state: sidebar is closed (collapsed) */
+#sidebar-sections-container :is(.sidebar-button-text, #sidebar-categories-section, #sidebar-help-button, #sidebar-privacy-button, #sidebar-terms-button) {
+    display: none;
+}
+
+/* Show profile section but hide text in collapsed state */
+#sidebar-profile-section {
+    display: flex;
+}
+
+/* Hide login/register button text and username when collapsed */
+#sidebar-profile-section .sidebar-button-text {
+    display: none;
+}
+
+#sidebar-profile-username-text {
+    display: none;
+}
+
+/* When checked: sidebar is open (expanded) */
+#sidebar-toggle:checked~#sidebar-sections-container :is(.sidebar-button-text, #sidebar-categories-section, #sidebar-help-button, #sidebar-privacy-button, #sidebar-terms-button) {
+    display: unset;
+}
+
+/* Show profile section (including login/register) when expanded */
+#sidebar-toggle:checked~#sidebar-profile-section {
+    display: flex;
+}
+
+/* Show button text and username when expanded */
+#sidebar-toggle:checked~#sidebar-profile-section .sidebar-button-text {
+    display: unset;
+}
+
+#sidebar-toggle:checked~#sidebar-profile-section #sidebar-profile-username-text {
+    display: block;
+}
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 100%;
+    width: fit-content;
+}
+
+.sidebar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    border-top: solid 1px var(--border-color);
+    background-color: var(--background-color);
+}
+
+.sidebar-section-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 12px 0px;
+    padding: 8px;
+}
+
+.sidebar-button {
+    width: 100%;
+    padding-left: 12px;
+    text-align: left;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 0px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    border-radius: 8px;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.sidebar-button:active {
+    padding: 7px;
+    border: solid 1px var(--primary-color);
+    animation: sidebar-button-animation 0.1s ease-in-out forwards;
+}
+
+@keyframes sidebar-button-animation {
+    from {
+        background-color: var(--primary-color);
+    }
+
+    to {
+
+        background-color: var(--quaternary-color);
+    }
+}
+
+.sidebar-button-icon {
+    aspect-ratio: 1/1;
+    height: 24px;
+    filter: brightness(0) invert(1);
+}
+
+#sidebar-toggle-button {
+    width: fit-content;
+}
+
+#sidebar-header-section {
+    background-color: var(--background-color);
+    border: none;
+    height: fit-content;
+    position: sticky;
+    top: 0;
+    z-index: 11;
+}
+
+#sidebar-main-section {
+    border: none;
+}
+
+/* categories */
+
+.sidebar-categories-container {
+    display: flex;
+}
+
+#sidebar-hidden-categories {
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#sidebar-categories-toggle:checked~#sidebar-hidden-categories {
+    display: unset;
+}
+
+#sidebar-categories-toggle:checked~#sidebar-categories-toggle-button>#sidebar-categories-arrow-img {
+    transform: rotate(180deg);
+}
+
+/* footer */
+
+#sidebar-footer-section {
+    border-bottom: solid 1px var(--secondary-color);
+}
+
+/* profile */
+
+#sidebar-profile-section {
+    border: none;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    bottom: 0px;
+}
+
+#sidebar-profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-profile-img-container {
+    width: 50%;
+    aspect-ratio: 1/1;
+    margin: 0 auto;
+}
+
+#sidebar-profile-img {
+    aspect-ratio: 1/1;
+    width: 100%;
+    max-width: 128px;
+    border: 1px solid rgba(192, 66, 255, 0.6);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(192, 66, 255, 0.3);
+}
+
+#sidebar-profile-username-text {
+    padding: 8px 12px;
+    display: block;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+#sidebar-profile-username-text a {
+    color: #ffffff;
+    text-decoration: none;
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(192, 66, 255, 0.25), rgba(192, 66, 255, 0.1));
+    border: 1px solid rgba(192, 66, 255, 0.4);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(192, 66, 255, 0.2);
+}
+
+#sidebar-profile-username-text a:hover {
+    background: linear-gradient(135deg, rgba(192, 66, 255, 0.4), rgba(192, 66, 255, 0.2));
+    border-color: rgba(192, 66, 255, 0.6);
+    box-shadow: 0 4px 12px rgba(192, 66, 255, 0.35);
+    transform: translateY(-2px);
+}
+
+#sidebar-profile-username-text a:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(192, 66, 255, 0.3);
+}
+
+/* Responsive Design for Mobile and Tablets */
+@media (max-width: 768px) {
+    #root-body {
+        flex-direction: row;
+    }
+
+    #sidebar {
+        position: static;
+        width: fit-content;
+        min-width: fit-content;
+        flex-shrink: 0;
+    }
+
+    .sidebar-container {
+        width: fit-content;
+    }
+
+    main {
+        flex: 1;
+        width: auto;
+        overflow-x: hidden;
+    }
+
+    #main-container {
+        padding: 15px 10px;
+        max-width: 100%;
+    }
+
+    .sidebar-button {
+        padding: 10px 8px;
+        font-size: 13px;
+        gap: 12px;
+    }
+
+    .sidebar-button-icon {
+        height: 22px;
+        min-width: 22px;
+    }
+
+    .sidebar-section-container {
+        padding: 6px;
+    }
+
+    /* Make profile section more compact on mobile */
+    #sidebar-profile-img {
+        max-width: 48px;
+    }
+
+    #sidebar-profile-username-text {
+        font-size: 0.8rem;
+        padding: 6px 8px;
+    }
+
+    #sidebar-profile-username-text a {
+        padding: 4px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-container {
+        padding: 10px 8px;
+    }
+
+    .sidebar-button {
+        padding: 8px 6px;
+        gap: 10px;
+    }
+
+    .sidebar-button-icon {
+        height: 20px;
+        min-width: 20px;
+    }
+
+    .sidebar-section-container {
+        padding: 4px;
+    }
+
+    #sidebar-profile-img {
+        max-width: 40px;
+    }
+
+    #sidebar-profile-username-text {
+        font-size: 0.75rem;
+        padding: 4px 6px;
+    }
+
+    #sidebar-profile-username-text a {
+        padding: 3px 8px;
+        font-size: 0.75rem;
+    }
+
+    /* Adjust sidebar button text when expanded on small screens */
+    #sidebar-toggle:checked ~ #sidebar-sections-container .sidebar-button-text {
+        font-size: 12px;
+    }
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    #sidebar {
+        position: static;
+    }
+
+    main {
+        margin-left: 0;
+    }
+
+    .sidebar-button {
+        font-size: 13px;
+    }
+}
