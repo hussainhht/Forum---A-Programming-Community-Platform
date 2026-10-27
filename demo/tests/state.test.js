@@ -73,6 +73,16 @@ test('registration, profile edits, and logout persist without passwords', () => 
   store.logout(); assert.equal(createStore(storage).currentUser(), undefined);
 });
 
+test('local profile photos are bounded, non-executable, and persisted per profile', () => {
+  const storage = memory(), store = createStore(storage);
+  assert.throws(() => store.setPhoto('data:image/jpeg;base64,YQ=='));
+  store.login(); store.setPhoto('data:image/jpeg;base64,YQ==');
+  assert.equal(createStore(storage).currentUser().photo, 'data:image/jpeg;base64,YQ==');
+  assert.throws(() => store.setPhoto('data:image/svg+xml,<svg onload=alert(1)>'));
+  assert.throws(() => store.setPhoto('data:image/jpeg;base64,' + 'A'.repeat(50000)));
+  assert.ok(validateState(store.state));
+});
+
 test('validation blocks empty content, invalid categories, and guest writes', () => {
   const store = createStore(memory());
   assert.throws(() => store.createPost({ title: 'Valid title', content: 'Some useful content', categories: ['golang'] }));

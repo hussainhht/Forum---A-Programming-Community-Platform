@@ -1,64 +1,26 @@
-# Verification · Forum interactive demo
+# Original-interface verification
 
-Validated locally on **2026-10-28** using Node **22.19.0**, npm **10.9.3**, Vite **8.3.5**, and Playwright **1.64.1** with Chromium. The connected Browser surface was unavailable, so the checked-in Playwright suite supplied the browser walkthrough and screenshots.
+The custom demo design has been replaced. The browser now renders the original application templates from `web/templates/` and original CSS from `web/static/css/`, instead of a separate visual implementation.
 
-## Automated checks
+## Checks
 
-| Check | Result |
-| --- | --- |
-| Production build | Passed; Vite produces `demo/dist/` with the repository base path |
-| Node state/content tests | 12 passed |
-| Chromium browser scenarios | 10 passed |
-| Application console errors/warnings | None observed during the browser walkthrough |
-| Asset responses and backend requests | No failed asset responses; no fetch/XHR API calls in the route walkthrough |
-| Dependencies | npm install audit: zero vulnerabilities; production audit: zero vulnerabilities |
-
-The test runner can print Node's inherited `NO_COLOR` / `FORCE_COLOR` environment warning. This is a terminal test-runner warning, not an application/browser warning.
-
-## User-facing behavior checked
-
-1. Home loads with 18 users, 40 posts, and 100 comments. No seed duplication on refresh.
-2. Sidebar links work. Window-card minimize, hide, open, and restore controls work.
-3. All eight category routes show the correct theme, relevant posts, and category navigation.
-4. Search operates on post titles/content. Multi-category filters use a union. Popular/comment sorting uses current reaction/comment data.
-5. Pagination preserves search/filter/sort state. Reset filters and meaningful empty states work.
-6. Individual post routes show authors, dates, code blocks, reactions, and technical comments.
-7. Post and comment reactions update immediately, switch mutually exclusively, toggle off, and survive refresh.
-8. Guest gates, Continue as Demo User, fictional registration, duplicate-username errors, identity switching, login, logout, and restored identity work.
-9. Posts validate required categories and content, preview code, publish into the feed immediately, and remain reachable after refresh.
-10. Comments publish, retain code formatting, and survive refresh.
-11. Profile edits, interests, and avatar colors persist. Profile and author links work.
-12. Playground highlights safely, resets/clears, and downloads a Unicode Python file with the correct extension. The actual downloaded bytes were checked for UTF-8 BOM and CRLF. Unit tests additionally verify LF normalization and safe filenames.
-13. Malicious HTML is shown literally in posts and the playground without creating executable elements.
-14. Reset cancellation preserves edits. Confirmed reset restores the original counts, logs out, and leaves an unrelated localStorage key intact.
-15. Corrupt stored JSON recovers to seed with a notice. Quota failures retain an in-memory app and show a persistent warning.
-16. Direct hash routes, reload, back/forward history, invalid post/profile/category IDs, Help, Privacy, and 404 routes work under `/Forum---A-Programming-Community-Platform/`.
-17. Widths **1440, 820, 390, and 320 px** were checked for horizontal page overflow across Home, Discover, post, Playground, category, and login pages. Desktop/tablet headings were checked for sidebar overlap. Mobile drawer links and Escape/focus restoration work.
-18. With network access disabled after the initial page/assets load, search, post navigation, comments, and reactions continue using browser data. Those edits remain after network is restored and the page reloads.
+- Production build succeeds using Node/Vite only. No Go or SQLite process is started.
+- 16 Node tests cover data relationships, storage, reactions, profile edits, bounded photos, escaping, downloads, routing, the Go-template interpreter, all real templates, and original home structure.
+- 10 Chromium scenarios cover the original screens and controls: home/sidebar; all eight category themes; Discover filters/search/sort/pagination/history; post/comments/reactions; block editing/publishing; animated login/registration/profile tabs/photo upload; playground bytes; storage/reset recovery; responsive widths; and local interactions with backend API requests blocked.
+- The original home is explicitly checked for centered 48px heading, collapsed sidebar, four featured/four latest cards, and 360x300 card dimensions at desktop width. The removed custom header, statistics strip, tile grid, and callout are explicitly checked to be absent.
+- Category feature grids and floating keyword art are retained and checked.
+- Browser errors, console warnings, and failed HTTP asset responses fail the walkthrough.
+- Responsive checks cover widths 1440, 820, 390, and 320 px; additional phone checks cover Create Post, Profile, Settings, and Help.
+- Development server returns HTTP 200 for the entry point, application module, imported original template module, and original assets.
 
 ## Visual review
 
-Full-page screenshots were reviewed for desktop home, tablet/mobile home, Go category, post creation, profile, and playground. The original dark monochrome icons received a light CSS treatment; the copied Python SVG's viewBox was corrected. The original files were not edited.
+Screenshots of the original home, Go category, Discover page, animated login, block editor, profile, post/comments, Code Playground, and mobile home were reviewed. Representative current captures replace the former screenshots in `verification/`. All captures can be regenerated with `npm run test:e2e` under ignored `test-results/`.
 
-Representative captured views are retained under [verification/](verification/):
+## Preservation and deployment
 
-- [Desktop home](verification/home-desktop.png)
-- [Mobile home](verification/home-mobile.png)
-- [Go category](verification/category-go.png)
-- [Code Playground](verification/playground.png)
+All changes are confined to `demo/`. The original `web/`, `Internal/`, `database/`, `main.go`, Go modules, Dockerfile, and root README are unchanged. Work remains on `live-demo`; `main` is unchanged. Obsolete demo pages/components, custom stylesheet, duplicated asset copies, and previous screenshots have been removed.
 
-All screenshots/failure traces can be regenerated by `npm run test:e2e`; generated results are ignored by Git.
+The original Pages workflow remains in place and its environment already permits `live-demo`. This replacement has not been committed or pushed automatically. The public website keeps the previously deployed version until the owner pushes these changes.
 
-## Original-project preservation
-
-The original working tree was clean before starting. The starting branch was `livedemo`; the requested `live-demo` branch did not exist and was created from that current branch.
-
-`main`, `livedemo`, and `live-demo` all initially pointed to `de4bf31f3c707fd86e3aaf2d037e78f1b42b37c8`. No commits or pushes were performed. `git diff -- Internal database web main.go go.mod go.sum Dockerfile README.md` is empty. The only additions are `demo/` and `.github/workflows/deploy-demo.yml`.
-
-Backend code was checked for unchanged content; it was not rebuilt or started, and no production database/session behavior was exercised. The static build and tests require no Go or SQLite process.
-
-## Deployment boundary
-
-The workflow is prepared to install frontend dependencies, test, build, upload only `demo/dist`, and deploy from `live-demo` with official Pages actions and scoped permissions. Repository owner settings and the actual hosted deployment cannot be verified before the owner enables GitHub Pages and pushes the branch. **No hosted deployment was performed.**
-
-Browser verification used Chromium. Safari and Firefox were not exercised. Authentication remains simulated, data remains local, uploaded photos/password changes are omitted, and the playground does not run code. The demo has no offline service worker: the site itself must load from hosting before its browser-only interactions are available.
+Browser verification uses Chromium. Firefox/Safari and the Go backend were not exercised. Authentication remains simulated and the playground previews/downloads code without executing it. The app has no offline service worker: hosting must deliver the initial site/assets before browser-only interactions can work.

@@ -1,67 +1,46 @@
-# Files added
+# Current demo files
 
-All changes are additions on `live-demo`. No pre-existing repository file was modified.
+The previous custom visual implementation has been removed. The original `web/templates/` and `web/static/css/` files are now the interface source. Those original files are unchanged.
 
-This inventory excludes ignored dependencies, build output, and generated test results.
+Removed: the former `src/pages/`, `src/components/`, `src/styles/`, duplicated `public/assets/`, and previous screenshots. The current screenshots show the original interface.
 
-**57 files added.**
+Kept: local seed data, persistence, hash routing, safe content utilities, and the existing Pages workflow.
 
-- [.github/workflows/deploy-demo.yml](../.github/workflows/deploy-demo.yml)
+Generated original assets under `public/web/` and `public/profile-img/`, dependencies, builds, and test output are ignored by Git.
+
+## Current files
+
 - [demo/.gitignore](.gitignore)
 - [demo/FILES.md](FILES.md)
+- [demo/README.md](README.md)
+- [demo/VERIFICATION.md](VERIFICATION.md)
 - [demo/index.html](index.html)
 - [demo/package-lock.json](package-lock.json)
 - [demo/package.json](package.json)
 - [demo/playwright.config.js](playwright.config.js)
-- [demo/public/assets/icons/add_post.svg](public/assets/icons/add_post.svg)
-- [demo/public/assets/icons/arrow_down.svg](public/assets/icons/arrow_down.svg)
-- [demo/public/assets/icons/categories/brainfuck.svg](public/assets/icons/categories/brainfuck.svg)
-- [demo/public/assets/icons/categories/golang.svg](public/assets/icons/categories/golang.svg)
-- [demo/public/assets/icons/categories/java.svg](public/assets/icons/categories/java.svg)
-- [demo/public/assets/icons/categories/javascript.svg](public/assets/icons/categories/javascript.svg)
-- [demo/public/assets/icons/categories/matlab.svg](public/assets/icons/categories/matlab.svg)
-- [demo/public/assets/icons/categories/python.svg](public/assets/icons/categories/python.svg)
-- [demo/public/assets/icons/categories/ruby.svg](public/assets/icons/categories/ruby.svg)
-- [demo/public/assets/icons/categories/rust.svg](public/assets/icons/categories/rust.svg)
-- [demo/public/assets/icons/code.svg](public/assets/icons/code.svg)
-- [demo/public/assets/icons/help.svg](public/assets/icons/help.svg)
-- [demo/public/assets/icons/home.svg](public/assets/icons/home.svg)
-- [demo/public/assets/icons/info.svg](public/assets/icons/info.svg)
-- [demo/public/assets/icons/login.svg](public/assets/icons/login.svg)
-- [demo/public/assets/icons/logout.svg](public/assets/icons/logout.svg)
-- [demo/public/assets/icons/menu.svg](public/assets/icons/menu.svg)
-- [demo/public/assets/icons/read_more.svg](public/assets/icons/read_more.svg)
-- [demo/public/assets/icons/register.svg](public/assets/icons/register.svg)
-- [demo/public/assets/icons/settings.svg](public/assets/icons/settings.svg)
-- [demo/public/assets/img/bg-tech.png](public/assets/img/bg-tech.png)
-- [demo/public/assets/img/logos1.png](public/assets/img/logos1.png)
-- [demo/README.md](README.md)
-- [demo/src/components/shell.js](src/components/shell.js)
-- [demo/src/components/ui.js](src/components/ui.js)
+- [demo/scripts/sync-original.mjs](scripts/sync-original.mjs)
 - [demo/src/data/categories.js](src/data/categories.js)
 - [demo/src/data/discussions.json](src/data/discussions.json)
 - [demo/src/data/seed.js](src/data/seed.js)
 - [demo/src/main.js](src/main.js)
-- [demo/src/pages/account.js](src/pages/account.js)
-- [demo/src/pages/feed.js](src/pages/feed.js)
-- [demo/src/pages/info.js](src/pages/info.js)
-- [demo/src/pages/playground.js](src/pages/playground.js)
-- [demo/src/pages/post.js](src/pages/post.js)
+- [demo/src/original/adapt.js](src/original/adapt.js)
+- [demo/src/original/adapter.css](src/original/adapter.css)
+- [demo/src/original/model.js](src/original/model.js)
+- [demo/src/original/sources.js](src/original/sources.js)
+- [demo/src/original/template.js](src/original/template.js)
 - [demo/src/router.js](src/router.js)
 - [demo/src/services/feed.js](src/services/feed.js)
 - [demo/src/services/storage.js](src/services/storage.js)
-- [demo/src/styles/demo.css](src/styles/demo.css)
-- [demo/src/styles/original/category-base.css](src/styles/original/category-base.css)
-- [demo/src/styles/original/home.css](src/styles/original/home.css)
-- [demo/src/styles/original/root.css](src/styles/original/root.css)
 - [demo/src/utils/content.js](src/utils/content.js)
 - [demo/tests/browser/demo.spec.js](tests/browser/demo.spec.js)
 - [demo/tests/state.test.js](tests/state.test.js)
+- [demo/tests/templates.test.js](tests/templates.test.js)
 - [demo/verification/category-go.png](verification/category-go.png)
+- [demo/verification/create-post.png](verification/create-post.png)
+- [demo/verification/discover.png](verification/discover.png)
 - [demo/verification/home-desktop.png](verification/home-desktop.png)
 - [demo/verification/home-mobile.png](verification/home-mobile.png)
+- [demo/verification/login.png](verification/login.png)
 - [demo/verification/playground.png](verification/playground.png)
-- [demo/VERIFICATION.md](VERIFICATION.md)
+- [demo/verification/profile.png](verification/profile.png)
 - [demo/vite.config.js](vite.config.js)
-
-Original Go source, `database/`, `web/`, `Dockerfile`, Go modules, and root `README.md` remain unchanged. `main` and `livedemo` remain at their original commit.

@@ -19,7 +19,8 @@ export function validateState(state) {
     && Object.entries(value).every(([key, reaction]) => users.has(key) && ['like', 'dislike'].includes(reaction));
   return (state.currentUserId === null || users.has(state.currentUserId))
     && state.users.every(user => text(user.username, 30) && /^[a-zA-Z0-9_]{3,30}$/.test(user.username) && text(user.displayName, 60)
-      && text(user.bio, 500) && validCategories(user.interests) && avatarColors.includes(user.avatar) && date(user.createdAt))
+      && text(user.bio, 500) && validCategories(user.interests) && avatarColors.includes(user.avatar) && date(user.createdAt)
+      && (user.photo === undefined || text(user.photo, 50000) && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(user.photo)))
     && new Set(state.users.map(user => user.username.toLowerCase())).size === state.users.length
     && state.posts.every(post => users.has(post.authorId) && text(post.title, 160) && post.title.trim().length >= 5
       && text(post.content, 30000) && post.content.trim().length >= 10 && validCategories(post.categories) && post.categories.length > 0 && date(post.createdAt) && reactions(post.reactions))
@@ -71,6 +72,11 @@ export function createStore(storage, onStatus = () => {}) {
       return user;
     },
     logout() { state.currentUserId = null; save(); },
+    setPhoto(photo) {
+      const user = requireUser();
+      if (!text(photo, 50000) || !/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(photo)) throw new Error('Choose a valid, small profile photo.');
+      user.photo = photo; save();
+    },
     register({ username, displayName }) {
       username = username.trim(); displayName = displayName.trim();
       if (!/^[a-zA-Z0-9_]{3,30}$/.test(username)) throw new Error('Use 3–30 letters, numbers, or underscores for your username.');
